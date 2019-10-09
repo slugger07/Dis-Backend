@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sgsits.cse.dis.administration.model.Event;
-import sgsits.cse.dis.administration.serviceImpl.CalenderServicesImpl;
+import sgsits.cse.dis.administration.service.CalendarServices;
 
 @RestController
 @RequestMapping(path = "/calendar")
 public class CalendarController {
 	
-	@Autowired CalenderServicesImpl calenderServices;
+	@Autowired CalendarServices calenderServices;
 	
 	@GetMapping(path="/getAllEvents", produces = "application/json")
     public List<Event> getEmployees()
@@ -22,18 +22,4 @@ public class CalendarController {
         return calenderServices.getAllEvents();
     }
      
-	/*
-	 * @PostMapping(path= "/", consumes = "application/json", produces =
-	 * "application/json") public ResponseEntity<Object> addEmployee(@RequestBody
-	 * Employee employee) { Integer id =
-	 * employeeDao.getAllEmployees().getEmployeeList().size() + 1;
-	 * employee.setId(id);
-	 * 
-	 * employeeDao.addEmployee(employee);
-	 * 
-	 * URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-	 * .path("/{id}") .buildAndExpand(employee.getId()) .toUri();
-	 * 
-	 * return ResponseEntity.created(location).build(); }
-	 */
 }
