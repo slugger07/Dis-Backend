@@ -33,7 +33,7 @@ public class EventParticipantsStaff {
 		private Long eventId;
 		
 		@Column(name = "participant_id", nullable = false)
-		private Long participantId;
+		private String participantId;
 
 		public long getId() {
 			return id;
@@ -83,13 +83,15 @@ public class EventParticipantsStaff {
 			this.eventId = eventId;
 		}
 
-		public Long getParticipantId() {
+		public String getParticipantId() {
 			return participantId;
 		}
 
-		public void setParticipantId(Long participantId) {
+		public void setParticipantId(String participantId) {
 			this.participantId = participantId;
 		}
+
+
 		
 		
 }

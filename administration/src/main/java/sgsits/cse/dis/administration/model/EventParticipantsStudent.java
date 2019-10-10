@@ -1,7 +1,5 @@
 package sgsits.cse.dis.administration.model;
 
-import java.time.Year;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,13 +38,15 @@ public class EventParticipantsStudent {
 	private String course;
 	
 	@Column(name = "Admission_year", nullable = false)
-	private Year admissionYear;
+	private int admissionYear;
 
-	public Year getAdmissionYear() {
+
+
+	public int getAdmissionYear() {
 		return admissionYear;
 	}
 
-	public void setAdmissionYear(Year admissionYear) {
+	public void setAdmissionYear(int admissionYear) {
 		this.admissionYear = admissionYear;
 	}
 
