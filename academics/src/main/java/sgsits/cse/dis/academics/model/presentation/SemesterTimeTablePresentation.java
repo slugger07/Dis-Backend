@@ -1,7 +1,6 @@
 package sgsits.cse.dis.academics.model.presentation;
 
 import java.sql.Time;
-import java.util.Date;
 
 public class SemesterTimeTablePresentation {
 	
