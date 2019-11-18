@@ -1,7 +1,5 @@
 package sgsits.cse.dis.user.jwt;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import io.jsonwebtoken.Jwts;
 
 public class JwtResolver {
