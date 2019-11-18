@@ -21,9 +21,9 @@ public class LibraryThesisRecords {
 	public String year;
 	
 	@Column(name = "submitted_by")
-	public String submittedby;
+	public String submittedBy;
 	
-	@Column(name = "submitted_by")
+	@Column(name = "guided_by")
 	public String guidedBy;
 
 	@Column(name = "cd_status")
@@ -61,11 +61,11 @@ public class LibraryThesisRecords {
 	}
 
 	public String getSubmittedby() {
-		return submittedby;
+		return submittedBy;
 	}
 
-	public void setSubmittedby(String submittedby) {
-		this.submittedby = submittedby;
+	public void setSubmittedby(String submittedBy) {
+		this.submittedBy = submittedBy;
 	}
 
 	public String getGuidedBy() {
