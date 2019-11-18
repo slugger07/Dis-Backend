@@ -1,7 +1,9 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
+import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.service.LibraryServices;
 
 @Component
@@ -39,6 +42,22 @@ public class LibraryServicesImpl implements LibraryServices {
 			return true;
 		else 
 			return false;
+	}
+	
+	@Override
+	public List<LibraryBookRecordsResponse> getAllBooks(){
+		List<LibraryBookRecords> libraryBookRecords; 
+		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
+		LibraryBookRecordsResponse temp=new LibraryBookRecordsResponse();
+		libraryBookRecords = libraryBookRecordsRepository.findAll();
+		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
+			temp.setAuthorName(libraryBookRecord.getAuthorName());
+			temp.setEdition(libraryBookRecord.getEdition());
+			temp.setStatus(libraryBookRecord.getStatus());
+			temp.setTitle(libraryBookRecord.getTitle());
+			libraryBookRecordsResponses.add(temp);
+		}
+		return libraryBookRecordsResponses;
 	}
 }
 

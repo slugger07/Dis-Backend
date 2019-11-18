@@ -30,13 +30,13 @@ public class LibraryIssueHistroy {
 	private String actualReturnDate;
 	
 	@Column(name = "penalty")
-	private long penalty;
+	private Long penalty;
 	
 	@Column(name = "book_id")
-	private long bookId;
+	private Long bookId;
 	
 	@Column(name = "thesis_id")
-	private long thesisId;
+	private Long thesisId;
 
 	public long getIssueId() {
 		return issueId;
@@ -78,30 +78,31 @@ public class LibraryIssueHistroy {
 		this.actualReturnDate = actualReturnDate;
 	}
 
-	public long getPenalty() {
+	public Long getPenalty() {
 		return penalty;
 	}
 
-	public void setPenalty(long penalty) {
+	public void setPenalty(Long penalty) {
 		this.penalty = penalty;
 	}
 
-	public long getBookId() {
+	public Long getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(long bookId) {
+	public void setBookId(Long bookId) {
 		this.bookId = bookId;
 	}
 
-	public long getThesisId() {
+	public Long getThesisId() {
 		return thesisId;
 	}
 
-	public void setThesisId(long thesisId) {
+	public void setThesisId(Long thesisId) {
 		this.thesisId = thesisId;
 	}
-	
+
+
 	
 	
 }
