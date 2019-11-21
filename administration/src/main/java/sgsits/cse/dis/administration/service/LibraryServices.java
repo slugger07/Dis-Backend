@@ -11,6 +11,6 @@ import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 public interface LibraryServices {
 	boolean addBook(AddBookForm addBookForm);
 	List<LibraryBookRecordsResponse> getAllBooks();
-	//List<LibraryBookRecords> getBookByTitle();
-	//List<LibraryBookRecords> getBookByAuthorName();
+	List<LibraryBookRecordsResponse> getBookByTitle(String title);
+	List<LibraryBookRecordsResponse> getBookByAuthorName(String authorName);
  }
