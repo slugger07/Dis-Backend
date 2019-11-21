@@ -23,7 +23,7 @@ public class AddBookForm {
 	
 	private String purchaseDate;
 	
-	@NotBlank
+	@NotBlank(message = "Title cannot be empty.")
 	private String title;
 
 	private String remarks;
