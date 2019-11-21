@@ -9,6 +9,8 @@ public class LibraryBookRecordsResponse {
 	private String title;
 	
 	private String status;
+	
+	private String subjectCategory;
 
 	public String getAuthorName() {
 		return authorName;
@@ -41,6 +43,16 @@ public class LibraryBookRecordsResponse {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getSubjectCategory() {
+		return subjectCategory;
+	}
+
+	public void setSubjectCategory(String subjectCategory) {
+		this.subjectCategory = subjectCategory;
+	}
+	
+	
 	
 	
 	

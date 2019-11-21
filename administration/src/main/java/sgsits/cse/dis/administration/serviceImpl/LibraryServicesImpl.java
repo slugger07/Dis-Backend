@@ -1,5 +1,6 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +16,10 @@ import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.service.LibraryServices;
 
 @Component
-public class LibraryServicesImpl implements LibraryServices {
+public class LibraryServicesImpl implements LibraryServices,Serializable {
+	
+
+	private static final long serialVersionUID = 1L;
 	
 	@Autowired
 	LibraryBookRecordsRepository libraryBookRecordsRepository;
@@ -48,16 +52,56 @@ public class LibraryServicesImpl implements LibraryServices {
 	public List<LibraryBookRecordsResponse> getAllBooks(){
 		List<LibraryBookRecords> libraryBookRecords; 
 		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
-		LibraryBookRecordsResponse temp=new LibraryBookRecordsResponse();
+		LibraryBookRecordsResponse temp;
 		libraryBookRecords = libraryBookRecordsRepository.findAll();
 		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
+			temp=new LibraryBookRecordsResponse();
 			temp.setAuthorName(libraryBookRecord.getAuthorName());
 			temp.setEdition(libraryBookRecord.getEdition());
 			temp.setStatus(libraryBookRecord.getStatus());
 			temp.setTitle(libraryBookRecord.getTitle());
+			temp.setSubjectCategory(libraryBookRecord.getSubjectCategory());
 			libraryBookRecordsResponses.add(temp);
 		}
 		return libraryBookRecordsResponses;
 	}
+	
+	@Override
+	public List<LibraryBookRecordsResponse> getBookByTitle(String title){
+		List<LibraryBookRecords> libraryBookRecords; 
+		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
+		LibraryBookRecordsResponse temp;
+		libraryBookRecords = libraryBookRecordsRepository.findByTitleContainingIgnoreCase(title);
+		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
+			temp=new LibraryBookRecordsResponse();
+			temp.setAuthorName(libraryBookRecord.getAuthorName());
+			temp.setEdition(libraryBookRecord.getEdition());
+			temp.setStatus(libraryBookRecord.getStatus());
+			temp.setTitle(libraryBookRecord.getTitle());
+			temp.setSubjectCategory(libraryBookRecord.getSubjectCategory());
+			libraryBookRecordsResponses.add(temp);
+		}
+		return libraryBookRecordsResponses;	
+	}
+
+	@Override
+	public List<LibraryBookRecordsResponse> getBookByAuthorName(String authorName){
+		List<LibraryBookRecords> libraryBookRecords; 
+		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
+		LibraryBookRecordsResponse temp;
+		libraryBookRecords = libraryBookRecordsRepository.findByAuthorNameContainingIgnoreCase(authorName);
+		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
+			temp=new LibraryBookRecordsResponse();
+			temp.setAuthorName(libraryBookRecord.getAuthorName());
+			temp.setEdition(libraryBookRecord.getEdition());
+			temp.setStatus(libraryBookRecord.getStatus());
+			temp.setTitle(libraryBookRecord.getTitle());
+			temp.setSubjectCategory(libraryBookRecord.getSubjectCategory());
+			libraryBookRecordsResponses.add(temp);
+		}
+		return libraryBookRecordsResponses;	
+	}
+	
+	
 }
 
