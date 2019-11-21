@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "library_Books_records")
+@Table(name = "library_Book_records")
 
 public class LibraryBookRecords {
 	
@@ -36,10 +36,10 @@ public class LibraryBookRecords {
 	private String publisherAndPlace;
 	
 	@Column(name = "no_of_pages")
-	private long noOfPages;
+	private Long noOfPages;
 	
 	@Column(name = "price")
-	private long price;
+	private Long price;
 	
 	@Column(name = "purchase_date")
 	private String purchaseDate;
@@ -112,19 +112,19 @@ public class LibraryBookRecords {
 		this.publisherAndPlace = publisherAndPlace;
 	}
 
-	public long getNoOfPages() {
+	public Long getNoOfPages() {
 		return noOfPages;
 	}
 
-	public void setNoOfPages(long noOfPages) {
+	public void setNoOfPages(Long noOfPages) {
 		this.noOfPages = noOfPages;
 	}
 
-	public long getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(long price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 
@@ -168,5 +168,6 @@ public class LibraryBookRecords {
 		this.remarks = remarks;
 	}
 
+	
 	
 }
