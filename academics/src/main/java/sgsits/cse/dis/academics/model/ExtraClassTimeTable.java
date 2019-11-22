@@ -47,10 +47,10 @@ public class ExtraClassTimeTable {
 	@Column(name = "subject_code", nullable = false)
 	private String subjectCode;
 
-	@Column(name = "from", nullable = false)
+	@Column(name = "from_time", nullable = false)
 	private Time from;
 
-	@Column(name = "to", nullable = false)
+	@Column(name = "to_time", nullable = false)
 	private Time to;
 	
 	@Column(name = "day", nullable = false)
@@ -80,7 +80,7 @@ public class ExtraClassTimeTable {
 	@Column(name = "batch")
 	private String batch;
 
-	@Column(name = "location", nullable = false)
+	@Column(name = "location")
 	private String location;
 
 	public long getId() {
