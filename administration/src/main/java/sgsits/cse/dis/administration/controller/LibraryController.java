@@ -1,14 +1,11 @@
 package sgsits.cse.dis.administration.controller;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.exception.BookDoesNotExistException;
+import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.response.ResponseMessage;
@@ -33,6 +31,9 @@ public class LibraryController {
 	
 	@Autowired
 	LibraryServices libraryServices;
+	
+	@Autowired
+	AcademicsClient academicsClient;
 	
 	@ApiOperation(value="Add a book", response = ResponseEntity.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
@@ -70,9 +71,10 @@ public class LibraryController {
 		return libraryBookRecordsResponses;
 	}
 	
-	@ExceptionHandler
-	public String handleBookNotFoundController(BookDoesNotExistException exception) {
-		return exception.getMessage();
+	@ApiOperation(value="Get subject categry acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_SUBJECT_CATEGORY_LIST, produces = "application/json")
+	public List<String> getSubjectCatergoryAcronymList(){
+		return academicsClient.getAllSubjectAcronym();
 	}
 	
 }
