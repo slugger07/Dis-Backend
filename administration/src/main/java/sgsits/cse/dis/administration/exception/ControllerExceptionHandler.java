@@ -1,4 +1,4 @@
-package sgsits.cse.dis.administration.exceptionHandler;
+package sgsits.cse.dis.administration.exception;
 
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
