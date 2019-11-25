@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sgsits.cse.dis.administration.exception.BookDoesNotExistException;
 
 @RestControllerAdvice
-public class LibraryExceptionHandler {
+public class ControllerExceptionHandler {
 
 	@ExceptionHandler
-	public String handleBookNotFoundController(BookDoesNotExistException exception) {
+	public String handleException(BookDoesNotExistException exception) {
 		return exception.getMessage();
 	}
 }
