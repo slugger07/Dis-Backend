@@ -25,7 +25,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	LibraryBookRecordsRepository libraryBookRecordsRepository;
 	
 	@Override
-	public boolean addBook(AddBookForm addBookForm) {
+	public String addBook(AddBookForm addBookForm) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		LibraryBookRecords libraryBookRecord = new LibraryBookRecords();
 		libraryBookRecord.setAuthorName(addBookForm.getAuthorName());
@@ -40,12 +40,14 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 		libraryBookRecord.setSubjectCategory(addBookForm.getSubjectCategory());
 		libraryBookRecord.setTitle(addBookForm.getTitle());
 		libraryBookRecord.setYearOfPublication(addBookForm.getYearOfPublication());
+		long newCount = libraryBookRecordsRepository.findBySubjectCategory(addBookForm.getSubjectCategory()).size() + 1;
+		libraryBookRecord.setSubjectBookNo(newCount);
 		
 		LibraryBookRecords test = libraryBookRecordsRepository.save(libraryBookRecord);
 		if (test!=null) 
-			return true;
+			return addBookForm.getSubjectCategory()+"-"+newCount;
 		else 
-			return false;
+			return null;
 	}
 	
 	@Override
