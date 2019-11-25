@@ -9,7 +9,7 @@ import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 
 @Component
 public interface LibraryServices {
-	boolean addBook(AddBookForm addBookForm);
+	String addBook(AddBookForm addBookForm);
 	List<LibraryBookRecordsResponse> getAllBooks();
 	List<LibraryBookRecordsResponse> getBookByTitle(String title);
 	List<LibraryBookRecordsResponse> getBookByAuthorName(String authorName);

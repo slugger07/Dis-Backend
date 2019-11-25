@@ -12,4 +12,6 @@ public interface LibraryBookRecordsRepository extends JpaRepository<LibraryBookR
 
 	List<LibraryBookRecords> findByAuthorNameContainingIgnoreCase(String authorName);
 
+	List<LibraryBookRecords> findBySubjectCategory(String subjectCategory);
+
 }

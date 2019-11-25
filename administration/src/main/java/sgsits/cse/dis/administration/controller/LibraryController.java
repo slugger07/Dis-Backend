@@ -38,9 +38,9 @@ public class LibraryController {
 	@ApiOperation(value="Add a book", response = ResponseEntity.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
 	public ResponseEntity<?> addBook(@RequestBody AddBookForm addBookForm) {
-		boolean test = libraryServices.addBook(addBookForm);
-		if(test==true)
-			return new ResponseEntity<>(new ResponseMessage(" Records updated successfully!"),HttpStatus.OK);
+		String test = libraryServices.addBook(addBookForm);
+		if(!test.isEmpty())
+			return new ResponseEntity<>(new ResponseMessage(" Book updated successfully. Please note book's id "+test),HttpStatus.OK);
 		else
 			return new ResponseEntity<>(new ResponseMessage("No records updated"),HttpStatus.OK);
 	}

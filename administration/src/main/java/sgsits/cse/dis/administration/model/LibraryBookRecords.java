@@ -55,6 +55,9 @@ public class LibraryBookRecords {
 	
 	@Column(name = "remarks")
 	private String remarks;
+	
+	@Column(name="subject_book_no", nullable = false)
+	private long subjectBookNo;
 
 	public long getBookId() {
 		return bookId;
@@ -167,7 +170,14 @@ public class LibraryBookRecords {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	
+	public long getSubjectBookNo() {
+		return subjectBookNo;
+	}
 
+	public void setSubjectBookNo(long subjectBookNo) {
+		this.subjectBookNo = subjectBookNo;
+	}
 	
 	
 }
