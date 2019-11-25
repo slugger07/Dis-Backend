@@ -6,7 +6,7 @@ public class AddBookForm {
 	
 	private String isbn;
 	
-	@NotBlank
+	@NotBlank(message = "Subject Category cannot be empty.")
 	private String subjectCategory;
 	
 	private String authorName;
