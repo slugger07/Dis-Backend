@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
@@ -69,11 +70,13 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	}
 	
 	@Override
-	public List<LibraryBookRecordsResponse> getBookByTitle(String title){
+	public List<LibraryBookRecordsResponse> getBookByTitle(String title) throws EventDoesNotExistException{
 		List<LibraryBookRecords> libraryBookRecords; 
 		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
 		LibraryBookRecordsResponse temp;
 		libraryBookRecords = libraryBookRecordsRepository.findByTitleContainingIgnoreCase(title);
+		if(libraryBookRecords.isEmpty())
+			throw new EventDoesNotExistException("Book with Title ["+title+"] doesn't exist.");
 		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
 			temp=new LibraryBookRecordsResponse();
 			temp.setAuthorName(libraryBookRecord.getAuthorName());
@@ -87,11 +90,13 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	}
 
 	@Override
-	public List<LibraryBookRecordsResponse> getBookByAuthorName(String authorName){
+	public List<LibraryBookRecordsResponse> getBookByAuthorName(String authorName) throws EventDoesNotExistException{
 		List<LibraryBookRecords> libraryBookRecords; 
 		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
 		LibraryBookRecordsResponse temp;
 		libraryBookRecords = libraryBookRecordsRepository.findByAuthorNameContainingIgnoreCase(authorName);
+		if(libraryBookRecords.isEmpty())
+			throw new EventDoesNotExistException("Book with author name ["+authorName+"] doesn't exist.");
 		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
 			temp=new LibraryBookRecordsResponse();
 			temp.setAuthorName(libraryBookRecord.getAuthorName());
