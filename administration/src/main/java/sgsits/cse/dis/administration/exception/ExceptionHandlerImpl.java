@@ -16,7 +16,7 @@ public class ExceptionHandlerImpl {
 
 	@ExceptionHandler({EventDoesNotExistException.class})
 	@ResponseBody
-	public ExceptionResponseJSON handleNotExistException(HttpServletRequest request,EventDoesNotExistException exception) {
+	public ExceptionResponseJSON EventDoesNotExistException(HttpServletRequest request,EventDoesNotExistException exception) {
 		return new ExceptionResponseJSON(request.getRequestURL().toString(), exception.getMessage(),HttpStatus.NOT_FOUND,HttpStatus.valueOf("NOT_FOUND"));
 	}
 	
