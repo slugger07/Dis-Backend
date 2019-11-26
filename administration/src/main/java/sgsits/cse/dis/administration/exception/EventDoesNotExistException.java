@@ -1,10 +1,25 @@
 package sgsits.cse.dis.administration.exception;
 
 public class EventDoesNotExistException extends Exception {
-	public EventDoesNotExistException() {	
-	}
+
+		private static final long serialVersionUID = 1L;
 	
-	public EventDoesNotExistException(String message) {
-		super(message);
-	}
+		private String message;
+		
+		public EventDoesNotExistException() {
+		}
+		
+		public EventDoesNotExistException(String message) {
+			this.message=message;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
+			this.message = message;
+		}
+		
+		
 }

@@ -1,5 +1,6 @@
 package sgsits.cse.dis.administration.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.administration.constants.RestAPI;
-import sgsits.cse.dis.administration.exception.BookDoesNotExistException;
+import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
@@ -42,7 +43,7 @@ public class LibraryController {
 		if(!test.isEmpty())
 			return new ResponseEntity<>(new ResponseMessage(" Book updated successfully. Please note book's id "+test),HttpStatus.OK);
 		else
-			return new ResponseEntity<>(new ResponseMessage("No records updated"),HttpStatus.OK);
+			return new ResponseEntity<>(new ResponseMessage("No records updated"),HttpStatus.CONFLICT);
 	}
 	
 	@ApiOperation(value="Get all books", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
@@ -53,21 +54,28 @@ public class LibraryController {
 	
 	@ApiOperation(value="Get books by title", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_BOOK_BY_TITLE, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getBookByTitle(@PathVariable("title") String title) throws BookDoesNotExistException{
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = libraryServices.getBookByTitle(title);
-		if(libraryBookRecordsResponses.isEmpty()) {
-			throw new BookDoesNotExistException("Book with Title: \""+title+"\" doesn't exist.");
+	public List<LibraryBookRecordsResponse> getBookByTitle(@PathVariable("title") String title) throws EventDoesNotExistException{
+		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
+		try {
+			libraryBookRecordsResponses = libraryServices.getBookByTitle(title);
+		} catch (EventDoesNotExistException e) {
+			e.printStackTrace();
+			throw new EventDoesNotExistException("Book with Title ["+title+"] doesn't exist.");
 		}
 		return libraryBookRecordsResponses;
 	}
 	
 	@ApiOperation(value="Get book by author name", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_BOOK_BY_AUTHOR_NAME, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getBookByAuthorName(@PathVariable("authorName") String authorName) throws BookDoesNotExistException{
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = libraryServices.getBookByAuthorName(authorName);
-		if(libraryBookRecordsResponses.isEmpty()) {
-			throw new BookDoesNotExistException("Book with author name \""+authorName+"\" doesn't exist.");
+	public List<LibraryBookRecordsResponse> getBookByAuthorName(@PathVariable("authorName") String authorName) throws EventDoesNotExistException{
+		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
+		try {
+			libraryBookRecordsResponses = libraryServices.getBookByAuthorName(authorName);
+		} catch (EventDoesNotExistException e) {
+			e.printStackTrace();
+			throw new EventDoesNotExistException("Book with author name ["+authorName+"] doesn't exist.");
 		}
+				
 		return libraryBookRecordsResponses;
 	}
 	
