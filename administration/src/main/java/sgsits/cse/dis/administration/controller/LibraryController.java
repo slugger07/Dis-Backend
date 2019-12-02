@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.administration.constants.RestAPI;
+import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.request.AddBookForm;
+import sgsits.cse.dis.administration.response.AddBookResponse;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
-import sgsits.cse.dis.administration.response.ResponseMessage;
 import sgsits.cse.dis.administration.service.LibraryServices;
 
 @CrossOrigin(origins = "*")
@@ -38,12 +38,15 @@ public class LibraryController {
 	
 	@ApiOperation(value="Add a book", response = ResponseEntity.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
-	public ResponseEntity<?> addBook(@RequestBody AddBookForm addBookForm) {
-		String test = libraryServices.addBook(addBookForm);
-		if(!test.isEmpty())
-			return new ResponseEntity<>(new ResponseMessage(" Book updated successfully. Please note book's id "+test),HttpStatus.OK);
-		else
-			return new ResponseEntity<>(new ResponseMessage("No records updated"),HttpStatus.CONFLICT);
+	public AddBookResponse addBook(@RequestBody AddBookForm addBookForm) throws ConflictException {
+		String bookId;
+		try{
+			bookId=libraryServices.addBook(addBookForm);
+		}catch(ConflictException e){
+			e.printStackTrace();
+			throw new ConflictException("No records updated. This due to conflict in information on client side.");
+		}
+			return new AddBookResponse(" Book updated successfully. Please note book's id ",bookId);
 	}
 	
 	@ApiOperation(value="Get all books", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")

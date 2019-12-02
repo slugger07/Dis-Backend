@@ -6,9 +6,6 @@ public class EventDoesNotExistException extends Exception {
 	
 		private String message;
 		
-		public EventDoesNotExistException() {
-		}
-		
 		public EventDoesNotExistException(String message) {
 			this.message=message;
 		}
@@ -16,10 +13,5 @@ public class EventDoesNotExistException extends Exception {
 		public String getMessage() {
 			return message;
 		}
-
-		public void setMessage(String message) {
-			this.message = message;
-		}
-		
 		
 }
