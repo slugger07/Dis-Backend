@@ -9,8 +9,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
+import sgsits.cse.dis.administration.model.LibraryBookCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.repo.LibraryBookCountRepository;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
@@ -25,8 +28,11 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	@Autowired
 	LibraryBookRecordsRepository libraryBookRecordsRepository;
 	
+	@Autowired
+	LibraryBookCountRepository libraryBookCountRepository;
+	
 	@Override
-	public String addBook(AddBookForm addBookForm) {
+	public String addBook(AddBookForm addBookForm) throws ConflictException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		LibraryBookRecords libraryBookRecord = new LibraryBookRecords();
 		libraryBookRecord.setAuthorName(addBookForm.getAuthorName());
@@ -41,14 +47,12 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 		libraryBookRecord.setSubjectCategory(addBookForm.getSubjectCategory());
 		libraryBookRecord.setTitle(addBookForm.getTitle());
 		libraryBookRecord.setYearOfPublication(addBookForm.getYearOfPublication());
-		long newCount = libraryBookRecordsRepository.findBySubjectCategory(addBookForm.getSubjectCategory()).size() + 1;
-		libraryBookRecord.setSubjectBookNo(newCount);
-		
+		String bookId = generateBookId(addBookForm.getSubjectCategory());
+		libraryBookRecord.setBookId(bookId);
 		LibraryBookRecords test = libraryBookRecordsRepository.save(libraryBookRecord);
-		if (test!=null) 
-			return addBookForm.getSubjectCategory()+"-"+newCount;
-		else 
-			return null;
+		if (test.equals(null)) 
+			throw new ConflictException("No records updated. This due to conflict in information on client side.");
+		return bookId;
 	}
 	
 	@Override
@@ -107,6 +111,25 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 			libraryBookRecordsResponses.add(temp);
 		}
 		return libraryBookRecordsResponses;	
+	}
+	
+	//Helper function to generate
+	private String generateBookId(String subjectCategory) {
+		LibraryBookCount libraryBookCount = new LibraryBookCount(subjectCategory);	
+		if(libraryBookCountRepository.findBySubjectCategory(subjectCategory).isEmpty()){
+			libraryBookCount.setCount(1l);
+			libraryBookCount.setSubjectCategory(subjectCategory);
+			libraryBookCountRepository.save(libraryBookCount);	
+
+		}
+		else {
+			libraryBookCountRepository.updateCount(subjectCategory);
+			libraryBookCount = libraryBookCountRepository.findBySubjectCategory(subjectCategory).get(0);
+			libraryBookCount.setCount(libraryBookCount.getCount()+1);
+				
+		}
+	
+	return libraryBookCount.getSubjectCategory()+"-"+libraryBookCount.getCount();
 	}
 	
 	
