@@ -8,5 +8,7 @@ public class RestAPI {
 	public static final String GET_ALL_BOOKS ="/getAllBooks";
 	public static final String GET_BOOK_BY_TITLE = "/getBookByTitle/{title}";
 	public static final String GET_BOOK_BY_AUTHOR_NAME = "/getBookByAuthorName/{authorName}";
-	public static final String GET_SUBJECT_CATEGORY_LIST = "/getSubjectCatergoryAcronymList"; 
+	public static final String GET_SUBJECT_CATEGORY_LIST = "/getSubjectCatergoryAcronymList";
+	public static final String UPDATE_BOOK = "/updateBook/{bookId}";
+	public static final String DELETE_BOOK = "/deleteBook/{bookId}"; 
 }

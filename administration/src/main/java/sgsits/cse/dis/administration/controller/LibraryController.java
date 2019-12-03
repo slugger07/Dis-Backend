@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +39,7 @@ public class LibraryController {
 	@Autowired
 	AcademicsClient academicsClient;
 	
-	@ApiOperation(value="Add a book", response = ResponseEntity.class, httpMethod = "POST", produces = "application/json")
+	@ApiOperation(value="Add a book", response = AddBookResponse.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
 	public AddBookResponse addBook(@RequestBody AddBookForm addBookForm) throws ConflictException {
 		String bookId;
@@ -46,7 +49,7 @@ public class LibraryController {
 			e.printStackTrace();
 			throw new ConflictException("No records updated. This due to conflict in information on client side.");
 		}
-			return new AddBookResponse(" Book updated successfully. Please note book's id ",bookId);
+			return new AddBookResponse(" Book added successfully. Please note book's id ",bookId);
 	}
 	
 	@ApiOperation(value="Get all books", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
@@ -68,6 +71,7 @@ public class LibraryController {
 		return libraryBookRecordsResponses;
 	}
 	
+	
 	@ApiOperation(value="Get book by author name", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_BOOK_BY_AUTHOR_NAME, produces = "application/json")
 	public List<LibraryBookRecordsResponse> getBookByAuthorName(@PathVariable("authorName") String authorName) throws EventDoesNotExistException{
@@ -86,6 +90,32 @@ public class LibraryController {
 	@GetMapping(path=RestAPI.GET_SUBJECT_CATEGORY_LIST, produces = "application/json")
 	public List<String> getSubjectCatergoryAcronymList(){
 		return academicsClient.getAllSubjectAcronym();
+	}
+	
+	@ApiOperation(value="Update a book", response = AddBookResponse.class, httpMethod = "PUT", produces = "application/json")
+	@PutMapping(path=RestAPI.UPDATE_BOOK, produces = "application/json")
+	public AddBookResponse updateBook(@PathVariable("bookId") String bookId,@RequestBody AddBookForm addBookForm) throws ConflictException{
+
+		try{
+			libraryServices.updateBook(addBookForm,bookId);
+		}catch(ConflictException e){
+			e.printStackTrace();
+			throw new ConflictException("No records updated. This due to conflict in information on client side.");
+		}
+			return new AddBookResponse(" Book updated successfully. Please note book's id ",bookId);
+	}
+	
+	@ApiOperation(value="delete a book", response = AddBookResponse.class, httpMethod = "POST", produces = "application/json")
+	@DeleteMapping(path=RestAPI.DELETE_BOOK, produces = "application/json")
+	public ResponseEntity<String> deleteBook(@PathVariable("bookId") String bookId) throws EventDoesNotExistException{
+
+		try{
+			libraryServices.deleteBook(bookId);
+		}catch(EventDoesNotExistException e){
+			e.printStackTrace();
+			throw new EventDoesNotExistException("Unable to delete book "+bookId+".");
+		}
+			return new ResponseEntity<String>(new String("Book ["+bookId+"] deleted successfully. "),HttpStatus.OK);
 	}
 	
 }
