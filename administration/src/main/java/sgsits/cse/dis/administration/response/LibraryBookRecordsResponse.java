@@ -51,9 +51,7 @@ public class LibraryBookRecordsResponse {
 	public void setSubjectCategory(String subjectCategory) {
 		this.subjectCategory = subjectCategory;
 	}
-	
-	
-	
+
 	
 	
 }
