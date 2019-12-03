@@ -16,10 +16,15 @@ public class ExceptionHandlerImpl {
 
 	@ExceptionHandler({EventDoesNotExistException.class})
 	@ResponseBody
-	public ExceptionResponseJSON EventDoesNotExistException(HttpServletRequest request,EventDoesNotExistException exception) {
+	public ExceptionResponseJSON eventDoesNotExistException(HttpServletRequest request,EventDoesNotExistException exception) {
 		return new ExceptionResponseJSON(request.getRequestURL().toString(), exception.getMessage(),HttpStatus.NOT_FOUND,HttpStatus.valueOf("NOT_FOUND"));
 	}
 	
+	@ExceptionHandler({ConflictException.class})
+	@ResponseBody
+	public ExceptionResponseJSON conflictEcException(HttpServletRequest request,ConflictException exception) {
+		return new ExceptionResponseJSON(request.getRequestURL().toString(), exception.getMessage(),HttpStatus.CONFLICT,HttpStatus.valueOf("CONFLICT"));
+	}
 	
 }
  

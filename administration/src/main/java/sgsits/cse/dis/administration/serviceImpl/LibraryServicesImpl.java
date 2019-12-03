@@ -113,7 +113,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 		return libraryBookRecordsResponses;	
 	}
 	
-	//Helper function to generate
+	//Helper function to generate book-id
 	private String generateBookId(String subjectCategory) {
 		LibraryBookCount libraryBookCount = new LibraryBookCount(subjectCategory);	
 		if(libraryBookCountRepository.findBySubjectCategory(subjectCategory).isEmpty()){
@@ -130,6 +130,34 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 		}
 	
 	return libraryBookCount.getSubjectCategory()+"-"+libraryBookCount.getCount();
+	}
+
+	@Override
+	public void updateBook(AddBookForm addBookForm,String bookId) throws ConflictException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		LibraryBookRecords libraryBookRecord = new LibraryBookRecords();
+		libraryBookRecord.setAuthorName(addBookForm.getAuthorName());
+		libraryBookRecord.setIsbn(addBookForm.getIsbn());
+		libraryBookRecord.setEdition(addBookForm.getEdition());
+		libraryBookRecord.setEntryDate(simpleDateFormat.format(new Date()));
+		libraryBookRecord.setNoOfPages(addBookForm.getNoOfPages());
+		libraryBookRecord.setPrice(addBookForm.getPrice());
+		libraryBookRecord.setPublisherAndPlace(addBookForm.getPublisherAndPlace());
+		libraryBookRecord.setPurchaseDate(addBookForm.getPurchaseDate());
+		libraryBookRecord.setRemarks(addBookForm.getRemarks());
+		libraryBookRecord.setSubjectCategory(addBookForm.getSubjectCategory());
+		libraryBookRecord.setTitle(addBookForm.getTitle());
+		libraryBookRecord.setYearOfPublication(addBookForm.getYearOfPublication());
+		libraryBookRecord.setBookId(bookId);
+		LibraryBookRecords test = libraryBookRecordsRepository.save(libraryBookRecord);
+		if (test.equals(null)) 
+			throw new ConflictException("No records updated. This due to conflict in information on client side.");
+	}
+
+	@Override
+	public void deleteBook(String bookId) throws EventDoesNotExistException {
+		if( libraryBookRecordsRepository.deleteByBookId(bookId) <= 0)
+				throw new EventDoesNotExistException("Unable to delete book "+bookId+".");
 	}
 	
 	

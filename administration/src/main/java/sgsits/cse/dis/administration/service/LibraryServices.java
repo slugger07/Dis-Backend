@@ -15,4 +15,6 @@ public interface LibraryServices {
 	List<LibraryBookRecordsResponse> getAllBooks();
 	List<LibraryBookRecordsResponse> getBookByTitle(String title) throws EventDoesNotExistException;
 	List<LibraryBookRecordsResponse> getBookByAuthorName(String authorName) throws EventDoesNotExistException;
+	void updateBook(AddBookForm addBookForm, String bookId)throws ConflictException;
+	void deleteBook(String bookId) throws EventDoesNotExistException;
  }
