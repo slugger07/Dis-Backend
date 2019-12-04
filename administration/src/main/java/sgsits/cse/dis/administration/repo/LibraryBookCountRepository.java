@@ -13,7 +13,7 @@ public interface LibraryBookCountRepository extends JpaRepository<LibraryBookCou
 
 	List<LibraryBookCount> findBySubjectCategory(String subjectCategory);
 
-	@Transactional
+	
 	@Modifying
 	@Query(value = "UPDATE library_book_count SET count = count + 1 WHERE subject_category = ?1", nativeQuery = true)
 	void updateCount(String subjectCategory);
