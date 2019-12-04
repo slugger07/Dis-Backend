@@ -11,4 +11,6 @@ public class RestAPI {
 	public static final String GET_SUBJECT_CATEGORY_LIST = "/getSubjectCatergoryAcronymList";
 	public static final String UPDATE_BOOK = "/updateBook/{bookId}";
 	public static final String DELETE_BOOK = "/deleteBook/{bookId}"; 
+	public static final String ADD_THESIS = "/addThesis"; 
+	
 }
