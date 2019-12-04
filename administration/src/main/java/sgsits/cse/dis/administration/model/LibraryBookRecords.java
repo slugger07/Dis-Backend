@@ -2,20 +2,17 @@ package sgsits.cse.dis.administration.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "library_Book_records")
+@Table(name = "library_book_records")
 
 public class LibraryBookRecords {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "book_id", nullable = false, unique = true)
-	private long bookId;
+	private String bookId;
 	
 	@Column(name = "ISBN_no")
 	private String isbn;
@@ -56,11 +53,11 @@ public class LibraryBookRecords {
 	@Column(name = "remarks")
 	private String remarks;
 
-	public long getBookId() {
+	public String getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(long bookId) {
+	public void setBookId(String bookId) {
 		this.bookId = bookId;
 	}
 
@@ -167,7 +164,5 @@ public class LibraryBookRecords {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-
-	
-	
+		
 }

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "library_issue_history")
+@Table(name = "library_thesis_records")
 
 public class LibraryThesisRecords {
 
@@ -43,6 +43,19 @@ public class LibraryThesisRecords {
 	
 	@Column(name = "remarks")
 	private String remarks;
+
+	public LibraryThesisRecords(String year, String submittedBy, String guidedBy, String cdStatus,
+			String course, String entryDate, String title, String remarks) {
+		super();
+		this.year = year;
+		this.submittedBy = submittedBy;
+		this.guidedBy = guidedBy;
+		this.cdStatus = cdStatus;
+		this.course = course;
+		this.entryDate = entryDate;
+		this.title = title;
+		this.remarks = remarks;
+	}
 
 	public long getThesisId() {
 		return thesisId;
