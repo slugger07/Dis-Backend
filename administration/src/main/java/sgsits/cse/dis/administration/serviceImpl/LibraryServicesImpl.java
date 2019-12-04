@@ -13,11 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
+import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.model.LibraryBookCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.repo.LibraryBookCountRepository;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
+import sgsits.cse.dis.administration.repo.LibraryThesisRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
+import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.service.LibraryServices;
 
@@ -32,6 +36,12 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	
 	@Autowired
 	private LibraryBookCountRepository libraryBookCountRepository;
+	
+	@Autowired
+	private LibraryThesisRecordsRepository libraryThesisRecordsRepository;
+	
+	@Autowired
+	AcademicsClient academicsClient;
 	
 	@Transactional
 	@Override
@@ -54,7 +64,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 		libraryBookRecord.setBookId(bookId);
 		LibraryBookRecords test = libraryBookRecordsRepository.save(libraryBookRecord);
 		if (test.equals(null)) 
-			throw new ConflictException("No records updated. This due to conflict in information on client side.");
+			throw new ConflictException("No records updated. This is due to conflict in information on client side.");
 		return bookId;
 	}
 	
@@ -163,6 +173,24 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	public void deleteBook(String bookId) throws EventDoesNotExistException {
 		if( libraryBookRecordsRepository.deleteByBookId(bookId) <= 0)
 				throw new EventDoesNotExistException("Unable to delete book "+bookId+".");
+	}
+
+	@Override
+	public Long addThesis(AddThesisForm addThesisForm) throws ConflictException {
+		
+		LibraryThesisRecords test = libraryThesisRecordsRepository.save(new LibraryThesisRecords(addThesisForm.getYear(),
+									addThesisForm.getSubmittedBy(), 
+									addThesisForm.getGuidedBy(), 
+									addThesisForm.getCdStatus(), 
+									academicsClient.getCourseIdByName(addThesisForm.getCourse()), 
+									new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()), 
+									addThesisForm.getTitle(),  
+									addThesisForm.getRemarks()));
+		
+		if(test.equals(null))
+			throw new ConflictException("No records updated. This is due to conflict in information on client side.");
+					
+		return test.getThesisId();
 	}
 	
 	
