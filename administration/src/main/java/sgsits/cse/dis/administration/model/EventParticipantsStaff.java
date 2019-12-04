@@ -7,15 +7,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 
 @Entity
 @Table(name = "event_participants_staff")
 public class EventParticipantsStaff {
 		
 		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		@GeneratedValue(generator = "UUID")
+		@GenericGenerator(
+				name="UUID",
+				strategy="org.hibernate.id.UUIDGenerator"
+			)
 		@Column(name = "id", nullable = false, unique = true)
-		private long id;
+		private String id;
 		
 		@Column(name = "created_by", nullable = false)
 		private Long createdBy;
@@ -30,16 +36,16 @@ public class EventParticipantsStaff {
 		private String modifiedDate;
 		
 		@Column(name = "event_id", nullable = false)
-		private Long eventId;
+		private String eventId;
 		
 		@Column(name = "participant_id", nullable = false)
 		private String participantId;
 
-		public long getId() {
+		public String getId() {
 			return id;
 		}
 
-		public void setId(long id) {
+		public void setId(String id) {
 			this.id = id;
 		}
 
@@ -75,11 +81,11 @@ public class EventParticipantsStaff {
 			this.modifiedDate = modifiedDate;
 		}
 
-		public Long getEventId() {
+		public String getEventId() {
 			return eventId;
 		}
 
-		public void setEventId(Long eventId) {
+		public void setEventId(String eventId) {
 			this.eventId = eventId;
 		}
 
