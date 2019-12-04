@@ -25,7 +25,7 @@ import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
-import sgsits.cse.dis.administration.service.LibraryServices;
+import sgsits.cse.dis.administration.serviceImpl.LibraryServicesImpl;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -34,17 +34,17 @@ import sgsits.cse.dis.administration.service.LibraryServices;
 public class LibraryController {
 	
 	@Autowired
-	private LibraryServices libraryServices;
+	LibraryServicesImpl libraryServicesImpl;
 	
 	@Autowired
-	private AcademicsClient academicsClient;
+	AcademicsClient academicsClient;
 	
 	@ApiOperation(value="Add a book", response = AddBookResponse.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
 	public AddBookResponse addBook(@RequestBody AddBookForm addBookForm) throws ConflictException {
 		String bookId;
 		try{
-			bookId=libraryServices.addBook(addBookForm);
+			bookId=libraryServicesImpl.addBook(addBookForm);
 		}catch(ConflictException e){
 			e.printStackTrace();
 			throw new ConflictException("No records updated. This due to conflict in information on client side.");
@@ -55,7 +55,7 @@ public class LibraryController {
 	@ApiOperation(value="Get all books", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_ALL_BOOKS, produces = "application/json")
 	public List<LibraryBookRecordsResponse> getAllBooks(){
-		return libraryServices.getAllBooks();	
+		return libraryServicesImpl.getAllBooks();	
 	}
 	
 	@ApiOperation(value="Get books by title", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
@@ -63,7 +63,7 @@ public class LibraryController {
 	public List<LibraryBookRecordsResponse> getBookByTitle(@PathVariable("title") String title) throws EventDoesNotExistException{
 		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
 		try {
-			libraryBookRecordsResponses = libraryServices.getBookByTitle(title);
+			libraryBookRecordsResponses = libraryServicesImpl.getBookByTitle(title);
 		} catch (EventDoesNotExistException e) {
 			e.printStackTrace();
 			throw new EventDoesNotExistException("Book with Title ["+title+"] doesn't exist.");
@@ -77,7 +77,7 @@ public class LibraryController {
 	public List<LibraryBookRecordsResponse> getBookByAuthorName(@PathVariable("authorName") String authorName) throws EventDoesNotExistException{
 		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
 		try {
-			libraryBookRecordsResponses = libraryServices.getBookByAuthorName(authorName);
+			libraryBookRecordsResponses = libraryServicesImpl.getBookByAuthorName(authorName);
 		} catch (EventDoesNotExistException e) {
 			e.printStackTrace();
 			throw new EventDoesNotExistException("Book with author name ["+authorName+"] doesn't exist.");
@@ -97,7 +97,7 @@ public class LibraryController {
 	public AddBookResponse updateBook(@PathVariable("bookId") String bookId,@RequestBody AddBookForm addBookForm) throws ConflictException{
 
 		try{
-			libraryServices.updateBook(addBookForm,bookId);
+			libraryServicesImpl.updateBook(addBookForm,bookId);
 		}catch(ConflictException e){
 			e.printStackTrace();
 			throw new ConflictException("No records updated. This due to conflict in information on client side.");
@@ -110,7 +110,7 @@ public class LibraryController {
 	public ResponseEntity<String> deleteBook(@PathVariable("bookId") String bookId) throws EventDoesNotExistException{
 
 		try{
-			libraryServices.deleteBook(bookId);
+			libraryServicesImpl.deleteBook(bookId);
 		}catch(EventDoesNotExistException e){
 			e.printStackTrace();
 			throw new EventDoesNotExistException("Unable to delete book "+bookId+".");
