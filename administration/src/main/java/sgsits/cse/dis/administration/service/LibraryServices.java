@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.request.AddBookForm;
+import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 
 @Component
@@ -20,4 +21,5 @@ public interface LibraryServices {
 	void deleteBook(String bookId) throws EventDoesNotExistException;
 	
 	//thesis services.
+	Long addThesis(AddThesisForm addThesisForm) throws ConflictException;
  }
