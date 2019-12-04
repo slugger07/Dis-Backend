@@ -34,10 +34,10 @@ import sgsits.cse.dis.administration.service.LibraryServices;
 public class LibraryController {
 	
 	@Autowired
-	LibraryServices libraryServices;
+	private LibraryServices libraryServices;
 	
 	@Autowired
-	AcademicsClient academicsClient;
+	private AcademicsClient academicsClient;
 	
 	@ApiOperation(value="Add a book", response = AddBookResponse.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
