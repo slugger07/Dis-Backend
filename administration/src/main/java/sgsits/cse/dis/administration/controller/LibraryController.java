@@ -23,6 +23,7 @@ import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.request.AddBookForm;
+import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
 import sgsits.cse.dis.administration.response.AddThesisResponse;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
@@ -125,6 +126,15 @@ public class LibraryController {
 	@PostMapping(path=RestAPI.ADD_THESIS, produces= "application/json")
 	public AddThesisResponse addThesis(@RequestBody AddThesisForm addThesisForm) throws ConflictException {
 		
+		Long thesisId; 
+		try {
+			thesisId = libraryServicesImpl.addThesis(addThesisForm);
+		} catch (ConflictException e)
+		{
+			e.printStackTrace();
+			throw new ConflictException("No records updated. This is due to conflict in information on client side.");
+		}
+		    return new AddThesisResponse("Thesis added successfully. Please note Thesis id ", thesisId);
 		
 	}
 	

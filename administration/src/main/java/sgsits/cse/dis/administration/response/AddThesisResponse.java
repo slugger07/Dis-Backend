@@ -2,9 +2,9 @@ package sgsits.cse.dis.administration.response;
 
 public class AddThesisResponse {
 	private String message;
-	private String thesisId;
+	private Long thesisId;
 	
-	public AddThesisResponse(String message, String thesisId) {
+	public AddThesisResponse(String message, Long thesisId) {
 		super();
 		this.message = message;
 		this.thesisId = thesisId;
@@ -15,10 +15,10 @@ public class AddThesisResponse {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getThesisId() {
+	public Long getThesisId() {
 		return thesisId;
 	}
-	public void setThesisId(String thesisId) {
+	public void setThesisId(Long thesisId) {
 		this.thesisId = thesisId;
 	}
 
