@@ -24,6 +24,7 @@ import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
+import sgsits.cse.dis.administration.response.AddThesisResponse;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.serviceImpl.LibraryServicesImpl;
 
@@ -117,5 +118,15 @@ public class LibraryController {
 		}
 			return new ResponseEntity<String>(new String("Book ["+bookId+"] deleted successfully. "),HttpStatus.OK);
 	}
+	
+	
+	//THESIS Services
+	@ApiOperation(value="Add a thesis", response= AddThesisResponse.class, httpMethod = "POST", produces="application/json")
+	@PostMapping(path=RestAPI.ADD_THESIS, produces= "application/json")
+	public AddThesisResponse addThesis(@RequestBody AddThesisForm addThesisForm) throws ConflictException {
+		
+		
+	}
+	
 	
 }

@@ -15,11 +15,11 @@ public class AddBookResponse {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public String getCode() {
+	public String getBookId() {
 		return bookId;
 	}
-	public void setCode(String code) {
-		this.bookId = code;
+	public void setBookId(String bookId) {
+		this.bookId = bookId;
 	}
 	
 	
