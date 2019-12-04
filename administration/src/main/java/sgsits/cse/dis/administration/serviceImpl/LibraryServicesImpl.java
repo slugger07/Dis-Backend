@@ -28,10 +28,10 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	LibraryBookRecordsRepository libraryBookRecordsRepository;
+	private LibraryBookRecordsRepository libraryBookRecordsRepository;
 	
 	@Autowired
-	LibraryBookCountRepository libraryBookCountRepository;
+	private LibraryBookCountRepository libraryBookCountRepository;
 	
 	@Transactional
 	@Override
