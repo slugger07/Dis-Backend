@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
@@ -31,6 +33,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	@Autowired
 	LibraryBookCountRepository libraryBookCountRepository;
 	
+	@Transactional
 	@Override
 	public String addBook(AddBookForm addBookForm) throws ConflictException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -114,6 +117,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	}
 	
 	//Helper function to generate book-id
+
 	private String generateBookId(String subjectCategory) {
 		LibraryBookCount libraryBookCount = new LibraryBookCount(subjectCategory);	
 		if(libraryBookCountRepository.findBySubjectCategory(subjectCategory).isEmpty()){
@@ -154,6 +158,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 			throw new ConflictException("No records updated. This due to conflict in information on client side.");
 	}
 
+	@Transactional
 	@Override
 	public void deleteBook(String bookId) throws EventDoesNotExistException {
 		if( libraryBookRecordsRepository.deleteByBookId(bookId) <= 0)
