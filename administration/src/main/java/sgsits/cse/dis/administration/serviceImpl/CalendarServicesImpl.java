@@ -41,7 +41,7 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event getEvent(Long eventId) {
+	public Event getEvent(String eventId) {
 		Event event = eventRepository.findByEventId(eventId);
 		return event;
 	}

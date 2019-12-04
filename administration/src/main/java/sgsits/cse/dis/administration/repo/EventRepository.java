@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.administration.model.Event;
 
 @Repository("")
-public interface EventRepository extends JpaRepository<Event, Long>{
+public interface EventRepository extends JpaRepository<Event, String>{
 	
-	Event findByEventId(Long eventId);
+	Event findByEventId(String eventId);
 	
 }
