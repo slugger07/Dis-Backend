@@ -11,4 +11,8 @@ import sgsits.cse.dis.academics.model.Scheme;
 public interface SchemeRepository extends JpaRepository<Scheme, Long> 
 {
 	public List<Scheme> findBySessionAndYearAndSemester(String session, String year, String semester);
+
+	@Query(value = "SELECT DISTINCT subject_acronym FROM scheme", nativeQuery = true)
+	public List<String> findDistinctSubjectAcronym();
+
 }

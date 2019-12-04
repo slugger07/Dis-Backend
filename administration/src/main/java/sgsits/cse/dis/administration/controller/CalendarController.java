@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import sgsits.cse.dis.administration.model.Event;
-import sgsits.cse.dis.administration.model.EventParticipantsStaff;
-import sgsits.cse.dis.administration.repo.EventParticipantsStaffRepository;
 import sgsits.cse.dis.administration.service.CalendarServices;
 
+@Api(value = "Library services controller")
 @RestController
 @RequestMapping(path = "/calendar")
 public class CalendarController {
