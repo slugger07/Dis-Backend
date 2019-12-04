@@ -16,7 +16,7 @@ public interface LibraryBookRecordsRepository extends JpaRepository<LibraryBookR
 
 	List<LibraryBookRecords> findBySubjectCategory(String subjectCategory);
 
-	@Transactional
+
 	@Modifying
 	long deleteByBookId(String bookId);
 

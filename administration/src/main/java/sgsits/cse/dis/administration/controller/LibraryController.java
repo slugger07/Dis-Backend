@@ -105,7 +105,7 @@ public class LibraryController {
 			return new AddBookResponse(" Book updated successfully. Please note book's id ",bookId);
 	}
 	
-	@ApiOperation(value="delete a book", response = AddBookResponse.class, httpMethod = "POST", produces = "application/json")
+	@ApiOperation(value="delete a book", response = AddBookResponse.class, httpMethod = "DELETE", produces = "application/json")
 	@DeleteMapping(path=RestAPI.DELETE_BOOK, produces = "application/json")
 	public ResponseEntity<String> deleteBook(@PathVariable("bookId") String bookId) throws EventDoesNotExistException{
 
