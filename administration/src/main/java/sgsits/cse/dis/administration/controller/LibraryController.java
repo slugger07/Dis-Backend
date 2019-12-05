@@ -22,6 +22,7 @@ import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
+import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
@@ -56,36 +57,36 @@ public class LibraryController {
 	
 	@ApiOperation(value="Get all books", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_ALL_BOOKS, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getAllBooks(){
+	public List<LibraryBookRecords> getAllBooks(){
 		return libraryServicesImpl.getAllBooks();	
 	}
 	
 	@ApiOperation(value="Get books by title", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_BOOK_BY_TITLE, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getBookByTitle(@PathVariable("title") String title) throws EventDoesNotExistException{
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
+	public List<LibraryBookRecords> getBookByTitle(@PathVariable("title") String title) throws EventDoesNotExistException{
+		List<LibraryBookRecords> libraryBookRecords = new ArrayList<LibraryBookRecords>();
 		try {
-			libraryBookRecordsResponses = libraryServicesImpl.getBookByTitle(title);
+			libraryBookRecords = libraryServicesImpl.getBookByTitle(title);
 		} catch (EventDoesNotExistException e) {
 			e.printStackTrace();
 			throw new EventDoesNotExistException("Book with Title ["+title+"] doesn't exist.");
 		}
-		return libraryBookRecordsResponses;
+		return libraryBookRecords;
 	}
 	
 	
 	@ApiOperation(value="Get book by author name", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_BOOK_BY_AUTHOR_NAME, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getBookByAuthorName(@PathVariable("authorName") String authorName) throws EventDoesNotExistException{
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
+	public List<LibraryBookRecords> getBookByAuthorName(@PathVariable("authorName") String authorName) throws EventDoesNotExistException{
+		List<LibraryBookRecords> libraryBookRecords = new ArrayList<LibraryBookRecords>();
 		try {
-			libraryBookRecordsResponses = libraryServicesImpl.getBookByAuthorName(authorName);
+			libraryBookRecords = libraryServicesImpl.getBookByAuthorName(authorName);
 		} catch (EventDoesNotExistException e) {
 			e.printStackTrace();
 			throw new EventDoesNotExistException("Book with author name ["+authorName+"] doesn't exist.");
 		}
 				
-		return libraryBookRecordsResponses;
+		return libraryBookRecords;
 	}
 	
 	@ApiOperation(value="Get subject categry acronyms", response = String.class, httpMethod = "GET", produces = "application/json")

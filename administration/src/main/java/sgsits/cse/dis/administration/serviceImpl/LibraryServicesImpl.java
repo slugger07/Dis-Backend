@@ -68,62 +68,29 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 		return bookId;
 	}
 	
-	@Override
-	public List<LibraryBookRecordsResponse> getAllBooks(){
-		List<LibraryBookRecords> libraryBookRecords; 
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
-		LibraryBookRecordsResponse temp;
-		libraryBookRecords = libraryBookRecordsRepository.findAll();
-		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
-			temp=new LibraryBookRecordsResponse();
-			temp.setAuthorName(libraryBookRecord.getAuthorName());
-			temp.setEdition(libraryBookRecord.getEdition());
-			temp.setStatus(libraryBookRecord.getStatus());
-			temp.setTitle(libraryBookRecord.getTitle());
-			temp.setSubjectCategory(libraryBookRecord.getSubjectCategory());
-			libraryBookRecordsResponses.add(temp);
-		}
-		return libraryBookRecordsResponses;
-	}
 	
 	@Override
-	public List<LibraryBookRecordsResponse> getBookByTitle(String title) throws EventDoesNotExistException{
+	public List<LibraryBookRecords> getAllBooks(){
+		return libraryBookRecordsRepository.findAll();
+	}
+	
+	
+	@Override
+	public List<LibraryBookRecords> getBookByTitle(String title) throws EventDoesNotExistException{
 		List<LibraryBookRecords> libraryBookRecords; 
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
-		LibraryBookRecordsResponse temp;
 		libraryBookRecords = libraryBookRecordsRepository.findByTitleContainingIgnoreCase(title);
 		if(libraryBookRecords.isEmpty())
 			throw new EventDoesNotExistException("Book with Title ["+title+"] doesn't exist.");
-		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
-			temp=new LibraryBookRecordsResponse();
-			temp.setAuthorName(libraryBookRecord.getAuthorName());
-			temp.setEdition(libraryBookRecord.getEdition());
-			temp.setStatus(libraryBookRecord.getStatus());
-			temp.setTitle(libraryBookRecord.getTitle());
-			temp.setSubjectCategory(libraryBookRecord.getSubjectCategory());
-			libraryBookRecordsResponses.add(temp);
-		}
-		return libraryBookRecordsResponses;	
+		return libraryBookRecords;	
 	}
 
 	@Override
-	public List<LibraryBookRecordsResponse> getBookByAuthorName(String authorName) throws EventDoesNotExistException{
+	public List<LibraryBookRecords> getBookByAuthorName(String authorName) throws EventDoesNotExistException{
 		List<LibraryBookRecords> libraryBookRecords; 
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
-		LibraryBookRecordsResponse temp;
 		libraryBookRecords = libraryBookRecordsRepository.findByAuthorNameContainingIgnoreCase(authorName);
 		if(libraryBookRecords.isEmpty())
 			throw new EventDoesNotExistException("Book with author name ["+authorName+"] doesn't exist.");
-		for(LibraryBookRecords libraryBookRecord : libraryBookRecords) {
-			temp=new LibraryBookRecordsResponse();
-			temp.setAuthorName(libraryBookRecord.getAuthorName());
-			temp.setEdition(libraryBookRecord.getEdition());
-			temp.setStatus(libraryBookRecord.getStatus());
-			temp.setTitle(libraryBookRecord.getTitle());
-			temp.setSubjectCategory(libraryBookRecord.getSubjectCategory());
-			libraryBookRecordsResponses.add(temp);
-		}
-		return libraryBookRecordsResponses;	
+		return libraryBookRecords;	
 	}
 	
 	//Helper function to generate book-id
