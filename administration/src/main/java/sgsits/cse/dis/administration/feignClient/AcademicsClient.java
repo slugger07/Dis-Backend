@@ -14,4 +14,7 @@ public interface AcademicsClient {
 	
 	@GetMapping(value = "/academicsFeignClientController/getCourseIdByName/{name}")
 	public String getCourseIdByName(@PathVariable("name") String name);
+	
+	@GetMapping(value = "/academicsFeignClientController/getNameByCourseId/{courseId}")
+	public String getNameByCourseId(@PathVariable("courseId") String courseId);
 }

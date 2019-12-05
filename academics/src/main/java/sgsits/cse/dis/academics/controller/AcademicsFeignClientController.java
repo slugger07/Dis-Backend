@@ -33,10 +33,16 @@ public class AcademicsFeignClientController {
 		return schemeServiceImpl.getAllSubjectAcronym();
 	}
 	
-	@ApiOperation(value="Get subject acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get CourseId by Name", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = "/getCourseIdByName/{name}")
 	public String getCourseIdByName(@PathVariable("name") String name){
 		return coursesServiceImpl.getCourseIdByName(name);
+	}
+	
+	@ApiOperation(value="Get Name by CourseId", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = "/getNameByCourseId/{courseId}")
+	public String getNameByCourseId(@PathVariable("courseId") String courseId){
+		return coursesServiceImpl.getNameByCourseId(courseId);
 	}
 	
 }

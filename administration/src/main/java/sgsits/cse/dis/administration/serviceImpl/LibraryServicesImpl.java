@@ -83,6 +83,15 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 			throw new EventDoesNotExistException("Book with Title ["+title+"] doesn't exist.");
 		return libraryBookRecords;	
 	}
+	
+	@Override
+	public List<LibraryBookRecords> getBookByBookId(String bookId) throws EventDoesNotExistException {
+		List<LibraryBookRecords> libraryBookRecords; 
+		libraryBookRecords = libraryBookRecordsRepository.findByBookIdContainingIgnoreCase(bookId);
+		if(libraryBookRecords.isEmpty())
+			throw new EventDoesNotExistException("Book with book id ["+bookId+"] doesn't exist.");
+		return libraryBookRecords;	
+	}
 
 	@Override
 	public List<LibraryBookRecords> getBookByAuthorName(String authorName) throws EventDoesNotExistException{
@@ -114,32 +123,46 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	}
 
 	@Override
-	public void updateBook(AddBookForm addBookForm,String bookId) throws ConflictException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		LibraryBookRecords libraryBookRecord = new LibraryBookRecords();
-		libraryBookRecord.setAuthorName(addBookForm.getAuthorName());
-		libraryBookRecord.setIsbn(addBookForm.getIsbn());
-		libraryBookRecord.setEdition(addBookForm.getEdition());
-		libraryBookRecord.setEntryDate(simpleDateFormat.format(new Date()));
-		libraryBookRecord.setNoOfPages(addBookForm.getNoOfPages());
-		libraryBookRecord.setPrice(addBookForm.getPrice());
-		libraryBookRecord.setPublisherAndPlace(addBookForm.getPublisherAndPlace());
-		libraryBookRecord.setPurchaseDate(addBookForm.getPurchaseDate());
-		libraryBookRecord.setRemarks(addBookForm.getRemarks());
-		libraryBookRecord.setSubjectCategory(addBookForm.getSubjectCategory());
-		libraryBookRecord.setTitle(addBookForm.getTitle());
-		libraryBookRecord.setYearOfPublication(addBookForm.getYearOfPublication());
-		libraryBookRecord.setBookId(bookId);
-		LibraryBookRecords test = libraryBookRecordsRepository.save(libraryBookRecord);
-		if (test.equals(null)) 
-			throw new ConflictException("No records updated. This due to conflict in information on client side.");
+	public void updateBook(AddBookForm addBookForm,String bookId) throws EventDoesNotExistException,ConflictException {
+		
+		if(libraryBookRecordsRepository.existsByBookId(bookId))
+		{
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			LibraryBookRecords libraryBookRecord = new LibraryBookRecords();
+			libraryBookRecord.setAuthorName(addBookForm.getAuthorName());
+			libraryBookRecord.setIsbn(addBookForm.getIsbn());
+			libraryBookRecord.setEdition(addBookForm.getEdition());
+			libraryBookRecord.setEntryDate(simpleDateFormat.format(new Date()));
+			libraryBookRecord.setNoOfPages(addBookForm.getNoOfPages());
+			libraryBookRecord.setPrice(addBookForm.getPrice());
+			libraryBookRecord.setPublisherAndPlace(addBookForm.getPublisherAndPlace());
+			libraryBookRecord.setPurchaseDate(addBookForm.getPurchaseDate());
+			libraryBookRecord.setRemarks(addBookForm.getRemarks());
+			libraryBookRecord.setSubjectCategory(addBookForm.getSubjectCategory());
+			libraryBookRecord.setTitle(addBookForm.getTitle());
+			libraryBookRecord.setYearOfPublication(addBookForm.getYearOfPublication());
+			libraryBookRecord.setBookId(bookId);
+			LibraryBookRecords test = libraryBookRecordsRepository.save(libraryBookRecord);
+			if (test.equals(null)) 
+				throw new ConflictException("Book with book id ["+bookId+"] couldn't be updated.");
+		}
+		else
+			throw new EventDoesNotExistException("Book with thesis id ["+bookId+"] not found.");
+		
 	}
 
 	@Transactional
 	@Override
-	public void deleteBook(String bookId) throws EventDoesNotExistException {
-		if( libraryBookRecordsRepository.deleteByBookId(bookId) <= 0)
-				throw new EventDoesNotExistException("Unable to delete book "+bookId+".");
+	public void deleteBook(String bookId) throws EventDoesNotExistException,ConflictException {
+		if(libraryBookRecordsRepository.existsByBookId(bookId))
+		{
+			if( libraryBookRecordsRepository.deleteByBookId(bookId) <= 0)
+				throw new ConflictException("Unable to delete book with book id: "+bookId+".");
+		}
+		else
+			throw new EventDoesNotExistException("Book with book id: "+bookId+" doesn't exist.");
+			
+		
 	}
 
 	
@@ -151,7 +174,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 									addThesisForm.getSubmittedBy(), 
 									addThesisForm.getGuidedBy(), 
 									addThesisForm.getCdStatus(), 
-									academicsClient.getCourseIdByName(addThesisForm.getCourse()), 
+									addThesisForm.getCourse(), 
 									new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()), 
 									addThesisForm.getTitle(),  
 									addThesisForm.getRemarks()));
@@ -161,6 +184,97 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 					
 		return test.getThesisId();
 	}
+	
+	@Override
+	public List<LibraryThesisRecords> getAllThesis() {
+		return libraryThesisRecordsRepository.findAll();
+	}
+
+	@Override
+	public List<LibraryThesisRecords> getThesisByTitle(String title) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords;
+		libraryThesisRecords = libraryThesisRecordsRepository.findByTitleContainingIgnoreCase(title);
+		if(libraryThesisRecords.isEmpty())
+			throw new EventDoesNotExistException("Thesis with title ["+title+"] doesn't exist.");
+		return libraryThesisRecords;
+	}
+
+
+	@Override
+	public List<LibraryThesisRecords> getThesisBySubmittedBy(String submittedBy) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords;
+		libraryThesisRecords = libraryThesisRecordsRepository.findBySubmittedByContainingIgnoreCase(submittedBy);
+		if(libraryThesisRecords.isEmpty())
+			throw new EventDoesNotExistException("Thesis with submitted by ["+submittedBy+"] doesn't exist.");
+		return libraryThesisRecords;
+	}
+	
+	@Override
+	public List<LibraryThesisRecords> getThesisByGuidedBy(String guidedBy) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords;
+		libraryThesisRecords = libraryThesisRecordsRepository.findByGuidedByContainingIgnoreCase(guidedBy);
+		if(libraryThesisRecords.isEmpty())
+			throw new EventDoesNotExistException("Thesis with guided by ["+guidedBy+"] doesn't exist.");
+		return libraryThesisRecords;
+	}
+
+
+	@Override
+	public List<LibraryThesisRecords> getThesisByThesisId(long thesisId) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords;
+		libraryThesisRecords = libraryThesisRecordsRepository.findByThesisId(thesisId);
+		if(libraryThesisRecords.isEmpty())
+			throw new EventDoesNotExistException("Thesis with thesis id ["+thesisId+"] doesn't exist.");
+		return libraryThesisRecords;
+	}
+
+
+	@Override
+	public List<LibraryThesisRecords> getThesisByCourse(String course) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords;
+		libraryThesisRecords = libraryThesisRecordsRepository.findByCourseContainingIgnoreCase(course);
+		if(libraryThesisRecords.isEmpty())
+			throw new EventDoesNotExistException("Thesis with course ["+course+"] doesn't exist.");
+		return libraryThesisRecords;
+	}
+
+
+	@Override
+	public void updateThesis(AddThesisForm addThesisForm, long thesisId) throws EventDoesNotExistException,ConflictException {		
+		if(libraryThesisRecordsRepository.existsByThesisId(thesisId))
+		{
+			LibraryThesisRecords test = libraryThesisRecordsRepository.save(new LibraryThesisRecords(thesisId,addThesisForm.getYear(),
+					addThesisForm.getSubmittedBy(), 
+					addThesisForm.getGuidedBy(), 
+					addThesisForm.getCdStatus(), 
+					addThesisForm.getCourse(), 
+					new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()), 
+					addThesisForm.getTitle(),  
+					addThesisForm.getRemarks()));
+			
+			if(test.equals(null))
+				throw new ConflictException("Thesis with thesis id ["+thesisId+"] couldn't be updated");
+		
+		}
+		else
+			throw new EventDoesNotExistException("Thesis with thesis id ["+thesisId+"] not found.");
+			
+		
+	}
+
+	@Transactional
+	@Override
+	public void deleteThesis(long thesisId) throws EventDoesNotExistException,ConflictException {
+		if(libraryThesisRecordsRepository.existsByThesisId(thesisId))
+		{
+			if(libraryThesisRecordsRepository.deleteByThesisId(thesisId)<=0)
+				throw new ConflictException("Unable to delete thesis with thesis id: "+thesisId+".");
+		}
+		else
+			throw new EventDoesNotExistException("Thesis with thesis id: "+thesisId+" doesn't exist.");
+	}
+
+
 	
 	
 }

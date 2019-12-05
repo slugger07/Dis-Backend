@@ -44,6 +44,10 @@ public class LibraryThesisRecords {
 	@Column(name = "remarks")
 	private String remarks;
 
+	public LibraryThesisRecords() {
+		super();
+	}
+
 	public LibraryThesisRecords(String year, String submittedBy, String guidedBy, String cdStatus,
 			String course, String entryDate, String title, String remarks) {
 		super();
@@ -57,6 +61,20 @@ public class LibraryThesisRecords {
 		this.remarks = remarks;
 	}
 
+	public LibraryThesisRecords(long thesisId, String year, String submittedBy, String guidedBy, String cdStatus,
+			String course, String entryDate, String title, String remarks) {
+		super();
+		this.thesisId = thesisId;
+		this.year = year;
+		this.submittedBy = submittedBy;
+		this.guidedBy = guidedBy;
+		this.cdStatus = cdStatus;
+		this.course = course;
+		this.entryDate = entryDate;
+		this.title = title;
+		this.remarks = remarks;
+	}
+	
 	public long getThesisId() {
 		return thesisId;
 	}

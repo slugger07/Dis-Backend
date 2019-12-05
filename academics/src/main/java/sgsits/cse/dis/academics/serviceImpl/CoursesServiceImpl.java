@@ -18,4 +18,10 @@ public class CoursesServiceImpl implements CoursesService {
 		return coursesReposiotry.findCourseIdByName(name).getCourseId();
 	}
 
+	@Override
+	public String getNameByCourseId(String courseId) {
+		
+		return coursesReposiotry.findNameByCourseId(courseId).getName();
+	}
+
 }
