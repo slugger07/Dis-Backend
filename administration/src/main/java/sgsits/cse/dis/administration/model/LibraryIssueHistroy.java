@@ -20,7 +20,7 @@ public class LibraryIssueHistroy {
 			strategy="org.hibernate.id.UUIDGenerator"
 		)
 	@Column(name = "issue_id", nullable = false, unique = true)
-	private long issueId;
+	private String issueId;
 	
 	@Column(name = "user_id", nullable = false)
 	private long userId;
@@ -43,11 +43,11 @@ public class LibraryIssueHistroy {
 	@Column(name = "thesis_id")
 	private Long thesisId;
 
-	public long getIssueId() {
+	public String getIssueId() {
 		return issueId;
 	}
 
-	public void setIssueId(long issueId) {
+	public void setIssueId(String issueId) {
 		this.issueId = issueId;
 	}
 
