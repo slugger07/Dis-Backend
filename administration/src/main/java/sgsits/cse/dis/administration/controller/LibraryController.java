@@ -82,7 +82,7 @@ public class LibraryController {
 		return libraryBookRecords;
 	}
 	
-	@ApiOperation(value="Get subject categry acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get subject category acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_SUBJECT_CATEGORY_LIST, produces = "application/json")
 	public List<String> getSubjectCatergoryAcronymList(){
 		return academicsClient.getAllSubjectAcronym();
@@ -174,5 +174,10 @@ public class LibraryController {
 		return new ResponseEntity<String>(new String("Thesis with thesis id: ["+thesisId+"] deleted successfully. "),HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_COURSE_LIST, produces = "application/json")
+	public List<String> getCourseList(){
+		return academicsClient.getCourseList();
+	}
 	
 }

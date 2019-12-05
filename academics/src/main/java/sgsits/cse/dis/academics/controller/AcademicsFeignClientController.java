@@ -45,4 +45,10 @@ public class AcademicsFeignClientController {
 		return coursesServiceImpl.getNameByCourseId(courseId);
 	}
 	
+	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = "/getCourseList")
+	public List<String> getCourseList(){
+		return coursesServiceImpl.getCourseList();
+	}
+	
 }

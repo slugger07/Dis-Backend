@@ -24,6 +24,7 @@ public class RestAPI {
 	public static final String GET_THESIS_BY_THESIS_ID = "/getThesisByThesisId/{thesisId}";
 	public static final String GET_THESIS_BY_COURSE = "/getThesisByCourse/{course}";
 	public static final String UPDATE_THESIS = "/updateThesis/{thesisId}";
-	public static final String DELETE_THESIS = "/deleteThesis/{thesisId}"; 
+	public static final String DELETE_THESIS = "/deleteThesis/{thesisId}";
+	public static final String GET_COURSE_LIST = "/getCourseList"; 
 
 }

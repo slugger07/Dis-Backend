@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import io.swagger.annotations.ApiOperation;
+
 @FeignClient(name = "academics")
 public interface AcademicsClient {
 	
@@ -17,4 +19,7 @@ public interface AcademicsClient {
 	
 	@GetMapping(value = "/academicsFeignClientController/getNameByCourseId/{courseId}")
 	public String getNameByCourseId(@PathVariable("courseId") String courseId);
+	
+	@GetMapping(value = "/academicsFeignClientController/getCourseList")
+	public List<String> getCourseList();
 }
