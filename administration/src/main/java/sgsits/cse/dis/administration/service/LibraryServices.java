@@ -10,7 +10,6 @@ import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
-import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 
 @Component
 public interface LibraryServices {

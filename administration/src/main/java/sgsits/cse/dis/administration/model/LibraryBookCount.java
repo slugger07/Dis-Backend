@@ -3,18 +3,23 @@ package sgsits.cse.dis.administration.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "library_book_count")
 public class LibraryBookCount {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(
+			name="UUID",
+			strategy="org.hibernate.id.UUIDGenerator"
+		)
 	@Column(name = "id", nullable = false, unique = true)
-	private long id;
+	private String id;
 	
 	@Column(name = "subject_category", nullable = false)
 	private String subjectCategory;
@@ -31,11 +36,11 @@ public class LibraryBookCount {
 		this.subjectCategory = subjectCategory;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

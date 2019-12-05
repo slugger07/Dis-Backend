@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.administration.model.LibraryBookCount;
 
 @Repository
-public interface LibraryBookCountRepository extends JpaRepository<LibraryBookCount, Long> {
+public interface LibraryBookCountRepository extends JpaRepository<LibraryBookCount, String> {
 
 	List<LibraryBookCount> findBySubjectCategory(String subjectCategory);
 

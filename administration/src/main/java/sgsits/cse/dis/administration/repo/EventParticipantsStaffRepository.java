@@ -9,7 +9,7 @@ import sgsits.cse.dis.administration.model.EventParticipantsStaff;
 
 
 @Repository("")
-public interface EventParticipantsStaffRepository extends JpaRepository< EventParticipantsStaff, Long> {
+public interface EventParticipantsStaffRepository extends JpaRepository< EventParticipantsStaff, String> {
 
 	List<EventParticipantsStaff> findByParticipantId(String participantId);
 	
