@@ -61,7 +61,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 		libraryBookRecord.setBookId(bookId);
 		LibraryBookRecords test = libraryBookRecordsRepository.save(libraryBookRecord);
 		if (test.equals(null)) 
-			throw new ConflictException("No records updated. This is due to conflict in information on client side.");
+			throw new ConflictException("Book cannot be added. This is due to conflict in information on client side.");
 		return bookId;
 	}
 	
@@ -161,7 +161,6 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 			
 		
 	}
-
 	
 	//Thesis Services
 	@Override

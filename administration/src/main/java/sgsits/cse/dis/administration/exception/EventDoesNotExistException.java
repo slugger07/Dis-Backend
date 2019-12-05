@@ -6,6 +6,10 @@ public class EventDoesNotExistException extends Exception {
 	
 		private String message;
 		
+		public EventDoesNotExistException() {
+			super();
+		}
+
 		public EventDoesNotExistException(String message) {
 			this.message=message;
 		}
