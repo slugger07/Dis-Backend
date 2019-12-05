@@ -22,6 +22,7 @@ import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
+import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;

@@ -175,6 +175,8 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 				throw new EventDoesNotExistException("Unable to delete book "+bookId+".");
 	}
 
+	
+	//Thesis Services
 	@Override
 	public Long addThesis(AddThesisForm addThesisForm) throws ConflictException {
 		
