@@ -2,12 +2,10 @@ package sgsits.cse.dis.administration.serviceImpl;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +20,6 @@ import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
 import sgsits.cse.dis.administration.repo.LibraryThesisRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
-import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.service.LibraryServices;
 
 @Component
