@@ -19,15 +19,13 @@ import sgsits.cse.dis.administration.service.CalendarServices;
 public class CalendarServicesImpl implements CalendarServices {
 
 	@Autowired
-	EventRepository eventRepository;
+	private EventRepository eventRepository;
 
 	@Autowired
-	EventParticipantsStaffRepository eventParticipanstStaffRepository;
+	private EventParticipantsStaffRepository eventParticipanstStaffRepository;
 
 	@Autowired
-	EventParticipantsStudentRepository eventParticipanstStudentRepository;
-
-	List<Event> eventList;
+	private EventParticipantsStudentRepository eventParticipanstStudentRepository;
 
 	@Override
 	public List<Event> getAllEvents() {
