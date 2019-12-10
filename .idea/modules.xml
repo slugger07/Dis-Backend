@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/academics/academics.iml" filepath="$PROJECT_DIR$/academics/academics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/administration/administration (1).iml" filepath="$PROJECT_DIR$/administration/administration (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/administration/target/classes/META-INF/maven/sgsits.cse.dis/administration/administration (2).iml" filepath="$PROJECT_DIR$/administration/target/classes/META-INF/maven/sgsits.cse.dis/administration/administration (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/administration/target/classes/META-INF/maven/sgsits.cse.dis/administration/administration (3).iml" filepath="$PROJECT_DIR$/administration/target/classes/META-INF/maven/sgsits.cse.dis/administration/administration (3).iml" />
+      <module fileurl="file://$PROJECT_DIR$/administration/target/classes/META-INF/maven/sgsits.cse.dis/administration/administration (3) (sgsits.cse.dis).iml" filepath="$PROJECT_DIR$/administration/target/classes/META-INF/maven/sgsits.cse.dis/administration/administration (3) (sgsits.cse.dis).iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server (1).iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/eureka-server (2).iml" filepath="$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/eureka-server (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/eureka-server (3).iml" filepath="$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/eureka-server (3).iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/eureka-server (3) (sgsits.cse.dis).iml" filepath="$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/eureka-server (3) (sgsits.cse.dis).iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway (1).iml" filepath="$PROJECT_DIR$/gateway/gateway (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/gateway (2).iml" filepath="$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/gateway (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/gateway (3).iml" filepath="$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/gateway (3).iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/gateway (3) (sgsits.cse.dis).iml" filepath="$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/gateway (3) (sgsits.cse.dis).iml" />
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/infrastructure (1).iml" filepath="$PROJECT_DIR$/infrastructure/infrastructure (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/infrastructure (2).iml" filepath="$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/infrastructure (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/infrastructure (3).iml" filepath="$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/infrastructure (3).iml" />
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/infrastructure (3) (sgsits.cse.dis).iml" filepath="$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/infrastructure (3) (sgsits.cse.dis).iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user (1).iml" filepath="$PROJECT_DIR$/user/user (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/target/classes/META-INF/maven/sgsits.cse.dis/user/user (2).iml" filepath="$PROJECT_DIR$/user/target/classes/META-INF/maven/sgsits.cse.dis/user/user (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/target/classes/META-INF/maven/sgsits.cse.dis/user/user (3).iml" filepath="$PROJECT_DIR$/user/target/classes/META-INF/maven/sgsits.cse.dis/user/user (3).iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/target/classes/META-INF/maven/sgsits.cse.dis/user/user (3) (sgsits.cse.dis).iml" filepath="$PROJECT_DIR$/user/target/classes/META-INF/maven/sgsits.cse.dis/user/user (3) (sgsits.cse.dis).iml" />
+    </modules>
+  </component>
+</project>

@@ -56,6 +56,7 @@ public class CalendarServicesImpl implements CalendarServices {
 
 	@Override
 	public void deleteEvent(Event event) throws EventDoesNotExistException {
+		
 		if (getEvent(event.getEventId()) == null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 		}
