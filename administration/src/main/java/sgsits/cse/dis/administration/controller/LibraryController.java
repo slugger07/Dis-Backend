@@ -22,6 +22,9 @@ import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
+import sgsits.cse.dis.administration.model.LibraryThesisRecords;
+import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
@@ -36,59 +39,71 @@ import sgsits.cse.dis.administration.serviceImpl.LibraryServicesImpl;
 public class LibraryController {
 	
 	@Autowired
-	LibraryServicesImpl libraryServicesImpl;
+	private LibraryServicesImpl libraryServicesImpl;
 	
 	@Autowired
-	AcademicsClient academicsClient;
+	private AcademicsClient academicsClient;
+	
+	@Autowired
+	
+	//Library Setting service
+	
+	@ApiOperation(value="Get setting", response = LibrarySettings.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_LIBRARY_SETTINGS, produces = "application/json")
+	public List<LibrarySettings> getSettings() {
+		return libraryServicesImpl.getSetting();
+	}
+	
+	@ApiOperation(value="Update setting", response = String.class, httpMethod = "GET", produces = "application/json")
+	@PutMapping(path=RestAPI.UPDATE_LIBRARY_SETTINGS, produces = "application/json")
+	public ResponseEntity<String>updateSettings(@RequestBody LibrarySettings librarySettings) throws EventDoesNotExistException {
+		libraryServicesImpl.updateSettings(librarySettings);
+		return new ResponseEntity<String>(new String("Setings Updated"),HttpStatus.OK);
+		
+	}
+
+	//Books services
 	
 	@ApiOperation(value="Add a book", response = AddBookResponse.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
 	public AddBookResponse addBook(@RequestBody AddBookForm addBookForm) throws ConflictException {
 		String bookId;
-		try{
-			bookId=libraryServicesImpl.addBook(addBookForm);
-		}catch(ConflictException e){
-			e.printStackTrace();
-			throw new ConflictException("No records updated. This due to conflict in information on client side.");
-		}
-			return new AddBookResponse(" Book added successfully. Please note book's id ",bookId);
+		bookId=libraryServicesImpl.addBook(addBookForm);
+		return new AddBookResponse(" Book added successfully. Please note book's id ",bookId);
 	}
 	
 	@ApiOperation(value="Get all books", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_ALL_BOOKS, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getAllBooks(){
+	public List<LibraryBookRecords> getAllBooks(){
 		return libraryServicesImpl.getAllBooks();	
 	}
 	
-	@ApiOperation(value="Get books by title", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get book by title", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_BOOK_BY_TITLE, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getBookByTitle(@PathVariable("title") String title) throws EventDoesNotExistException{
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
-		try {
-			libraryBookRecordsResponses = libraryServicesImpl.getBookByTitle(title);
-		} catch (EventDoesNotExistException e) {
-			e.printStackTrace();
-			throw new EventDoesNotExistException("Book with Title ["+title+"] doesn't exist.");
-		}
-		return libraryBookRecordsResponses;
+	public List<LibraryBookRecords> getBookByTitle(@PathVariable("title") String title) throws EventDoesNotExistException{
+		List<LibraryBookRecords> libraryBookRecords = new ArrayList<LibraryBookRecords>();
+		libraryBookRecords = libraryServicesImpl.getBookByTitle(title);
+		return libraryBookRecords;
+	}
+	
+	@ApiOperation(value="Get book by book id", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_BOOK_BY_BOOK_ID, produces = "application/json")
+	public List<LibraryBookRecords> getBookByBookId(@PathVariable("bookId") String bookId) throws EventDoesNotExistException{
+		List<LibraryBookRecords> libraryBookRecords = new ArrayList<LibraryBookRecords>();
+		libraryBookRecords = libraryServicesImpl.getBookByBookId(bookId);
+		return libraryBookRecords;
 	}
 	
 	
 	@ApiOperation(value="Get book by author name", response = LibraryBookRecordsResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_BOOK_BY_AUTHOR_NAME, produces = "application/json")
-	public List<LibraryBookRecordsResponse> getBookByAuthorName(@PathVariable("authorName") String authorName) throws EventDoesNotExistException{
-		List<LibraryBookRecordsResponse> libraryBookRecordsResponses = new ArrayList<LibraryBookRecordsResponse>();
-		try {
-			libraryBookRecordsResponses = libraryServicesImpl.getBookByAuthorName(authorName);
-		} catch (EventDoesNotExistException e) {
-			e.printStackTrace();
-			throw new EventDoesNotExistException("Book with author name ["+authorName+"] doesn't exist.");
-		}
-				
-		return libraryBookRecordsResponses;
+	public List<LibraryBookRecords> getBookByAuthorName(@PathVariable("authorName") String authorName) throws EventDoesNotExistException{
+		List<LibraryBookRecords> libraryBookRecords = new ArrayList<LibraryBookRecords>();
+		libraryBookRecords = libraryServicesImpl.getBookByAuthorName(authorName);
+		return libraryBookRecords;
 	}
 	
-	@ApiOperation(value="Get subject categry acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get subject category acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_SUBJECT_CATEGORY_LIST, produces = "application/json")
 	public List<String> getSubjectCatergoryAcronymList(){
 		return academicsClient.getAllSubjectAcronym();
@@ -96,28 +111,17 @@ public class LibraryController {
 	
 	@ApiOperation(value="Update a book", response = AddBookResponse.class, httpMethod = "PUT", produces = "application/json")
 	@PutMapping(path=RestAPI.UPDATE_BOOK, produces = "application/json")
-	public AddBookResponse updateBook(@PathVariable("bookId") String bookId,@RequestBody AddBookForm addBookForm) throws ConflictException{
-
-		try{
+	public AddBookResponse updateBook(@PathVariable("bookId") String bookId,@RequestBody AddBookForm addBookForm) throws ConflictException,EventDoesNotExistException{
 			libraryServicesImpl.updateBook(addBookForm,bookId);
-		}catch(ConflictException e){
-			e.printStackTrace();
-			throw new ConflictException("No records updated. This due to conflict in information on client side.");
-		}
-			return new AddBookResponse(" Book updated successfully. Please note book's id ",bookId);
+			return new AddBookResponse("Book updated successfully with book id: ",bookId);
 	}
+	
 	
 	@ApiOperation(value="delete a book", response = AddBookResponse.class, httpMethod = "DELETE", produces = "application/json")
 	@DeleteMapping(path=RestAPI.DELETE_BOOK, produces = "application/json")
-	public ResponseEntity<String> deleteBook(@PathVariable("bookId") String bookId) throws EventDoesNotExistException{
-
-		try{
-			libraryServicesImpl.deleteBook(bookId);
-		}catch(EventDoesNotExistException e){
-			e.printStackTrace();
-			throw new EventDoesNotExistException("Unable to delete book "+bookId+".");
-		}
-			return new ResponseEntity<String>(new String("Book ["+bookId+"] deleted successfully. "),HttpStatus.OK);
+	public ResponseEntity<String> deleteBook(@PathVariable("bookId") String bookId) throws EventDoesNotExistException, ConflictException{
+			libraryServicesImpl.deleteBook(bookId);	
+			return new ResponseEntity<String>(new String("Book with book id:  ["+bookId+"] deleted successfully. "),HttpStatus.OK);
 	}
 	
 	
@@ -125,18 +129,78 @@ public class LibraryController {
 	@ApiOperation(value="Add a thesis", response= AddThesisResponse.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path=RestAPI.ADD_THESIS, produces= "application/json")
 	public AddThesisResponse addThesis(@RequestBody AddThesisForm addThesisForm) throws ConflictException {
-		
 		Long thesisId; 
-		try {
-			thesisId = libraryServicesImpl.addThesis(addThesisForm);
-		} catch (ConflictException e)
-		{
-			e.printStackTrace();
-			throw new ConflictException("No records updated. This is due to conflict in information on client side.");
-		}
-		    return new AddThesisResponse("Thesis added successfully. Please note Thesis id ", thesisId);
-		
+		thesisId = libraryServicesImpl.addThesis(addThesisForm);
+		return new AddThesisResponse("Thesis added successfully. Please note Thesis id ", thesisId);	
 	}
+	
+	@ApiOperation(value="Get all thesis", response = LibraryThesisRecords.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_ALL_THESIS, produces = "application/json")
+	public List<LibraryThesisRecords> getAllThesis() {
+		return libraryServicesImpl.getAllThesis();
+	}
+	
+	@ApiOperation(value="Get thesis by title", response = LibraryThesisRecords.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_THESIS_BY_TITLE, produces = "application/json")
+	public List<LibraryThesisRecords> getThesisByTitle(@PathVariable("title") String title) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords = new ArrayList<LibraryThesisRecords>();
+		libraryThesisRecords = libraryServicesImpl.getThesisByTitle(title);
+		return libraryThesisRecords;
+	}
+	
+	@ApiOperation(value="Get thesis by submitted by", response = LibraryThesisRecords.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_THESIS_BY_SUBMITTED_BY, produces = "application/json")
+	public List<LibraryThesisRecords> getThesisBySubmittedBy(@PathVariable("submittedBy") String submittedBy) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords = new ArrayList<LibraryThesisRecords>();
+		libraryThesisRecords = libraryServicesImpl.getThesisBySubmittedBy(submittedBy);
+		return libraryThesisRecords;
+	}
+	
+	@ApiOperation(value="Get thesis by guided by", response = LibraryThesisRecords.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_THESIS_BY_GUIDED_BY, produces = "application/json")
+	public List<LibraryThesisRecords> getThesisByGuidedBy(@PathVariable("guidedBy") String guidedBy) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords = new ArrayList<LibraryThesisRecords>();
+		libraryThesisRecords = libraryServicesImpl.getThesisByGuidedBy(guidedBy);
+		return libraryThesisRecords;
+	}
+	
+	@ApiOperation(value="Get thesis by thesis id", response = LibraryThesisRecords.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_THESIS_BY_THESIS_ID, produces = "application/json")
+	public List<LibraryThesisRecords> getThesisByThesisId(@PathVariable("thesisId") long thesisId) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords = new ArrayList<LibraryThesisRecords>();
+		libraryThesisRecords = libraryServicesImpl.getThesisByThesisId(thesisId);
+		return libraryThesisRecords;
+	}
+	
+	@ApiOperation(value="Get thesis by course", response = LibraryThesisRecords.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_THESIS_BY_COURSE, produces = "application/json")
+	public List<LibraryThesisRecords> getThesisByCourse(@PathVariable("course") String course) throws EventDoesNotExistException {
+		List<LibraryThesisRecords> libraryThesisRecords = new ArrayList<LibraryThesisRecords>();
+		libraryThesisRecords = libraryServicesImpl.getThesisByCourse(course);
+		return libraryThesisRecords;
+	}
+	
+	@ApiOperation(value="Update a thesis", response = AddBookResponse.class, httpMethod = "PUT", produces = "application/json")
+	@PutMapping(path=RestAPI.UPDATE_THESIS, produces = "application/json")
+	public AddThesisResponse updateThesis(@PathVariable("thesisId") long thesisId,@RequestBody AddThesisForm addThesisForm) throws EventDoesNotExistException,ConflictException{
+		libraryServicesImpl.updateThesis(addThesisForm,thesisId);
+		return new AddThesisResponse("Thesis updated successfully with thesis id: ",thesisId);
+	}
+	
+
+	@ApiOperation(value="delete a thesis", response = AddBookResponse.class, httpMethod = "DELETE", produces = "application/json")
+	@DeleteMapping(path=RestAPI.DELETE_THESIS, produces = "application/json")
+	public ResponseEntity<String> deleteThesis(@PathVariable("thesisId") long thesisId) throws EventDoesNotExistException,ConflictException{
+		libraryServicesImpl.deleteThesis(thesisId);
+		return new ResponseEntity<String>(new String("Thesis with thesis id: ["+thesisId+"] deleted successfully. "),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_COURSE_LIST, produces = "application/json")
+	public ResponseEntity<List<String>> getCourseList(){
+		return new ResponseEntity<List<String>>(academicsClient.getCourseList(),HttpStatus.OK);
+	}
+	
 	
 	
 }

@@ -4,21 +4,26 @@ package sgsits.cse.dis.administration.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "library_issue_history")
-public class LibraryIssueHistroy {
+public class LibraryIssueHistory {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(
+			name="UUID",
+			strategy="org.hibernate.id.UUIDGenerator"
+		)
 	@Column(name = "issue_id", nullable = false, unique = true)
-	private long issueId;
+	private String issueId;
 	
-	@Column(name = "user_id", nullable = false)
-	private long userId;
+	@Column(name = "username", nullable = false)
+	private String userName;
 	
 	@Column(name = "issue_date", nullable = false)
 	private String issueDate;
@@ -26,32 +31,35 @@ public class LibraryIssueHistroy {
 	@Column(name = "expected_return_date", nullable = false)
 	private String expectedReturnDate;
 	
-	@Column(name = "actual_return_date")
+	@Column(name = "actual_return_date", nullable = false)
 	private String actualReturnDate;
 	
-	@Column(name = "penalty")
-	private Long penalty;
+	@Column(name = "title")
+	private String title;
 	
 	@Column(name = "book_id")
 	private Long bookId;
 	
 	@Column(name = "thesis_id")
 	private Long thesisId;
+	
+	@Column(name = "penalty")
+	private Long penalty;
 
-	public long getIssueId() {
+	public String getIssueId() {
 		return issueId;
 	}
 
-	public void setIssueId(long issueId) {
+	public void setIssueId(String issueId) {
 		this.issueId = issueId;
 	}
 
-	public long getUserId() {
-		return userId;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getIssueDate() {
@@ -70,20 +78,12 @@ public class LibraryIssueHistroy {
 		this.expectedReturnDate = expectedReturnDate;
 	}
 
-	public String getActualReturnDate() {
-		return actualReturnDate;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setActualReturnDate(String actualReturnDate) {
-		this.actualReturnDate = actualReturnDate;
-	}
-
-	public Long getPenalty() {
-		return penalty;
-	}
-
-	public void setPenalty(Long penalty) {
-		this.penalty = penalty;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Long getBookId() {
@@ -102,7 +102,22 @@ public class LibraryIssueHistroy {
 		this.thesisId = thesisId;
 	}
 
+	public String getActualReturnDate() {
+		return actualReturnDate;
+	}
 
+	public void setActualReturnDate(String actualReturnDate) {
+		this.actualReturnDate = actualReturnDate;
+	}
+
+	public Long getPenalty() {
+		return penalty;
+	}
+
+	public void setPenalty(Long penalty) {
+		this.penalty = penalty;
+	}
+	
 	
 	
 }

@@ -6,6 +6,9 @@ public class ConflictException extends Exception{
 		
 		private String message;
 		
+		public ConflictException() {
+			super();
+		}
 
 		public ConflictException(String message) {
 			super();

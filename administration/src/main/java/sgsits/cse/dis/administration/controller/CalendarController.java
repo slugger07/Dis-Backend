@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.model.Event;
 import sgsits.cse.dis.administration.serviceImpl.CalendarServicesImpl;
@@ -22,11 +23,12 @@ import sgsits.cse.dis.administration.serviceImpl.CalendarServicesImpl;
 public class CalendarController {
 
 	@Autowired
-	CalendarServicesImpl calenderServiceImpl;
+	private CalendarServicesImpl calenderServiceImpl;
 		
 
-	List<Event> eventList;
+	private List<Event> eventList;
 
+	@ApiOperation(value="Get all the events", response= Event.class, httpMethod = "GET", produces="application/json")
 	@GetMapping(path = "/getAllEvents", produces = "application/json")
 	@ResponseBody
 	public List<Event> getAllEvents(){
@@ -34,6 +36,7 @@ public class CalendarController {
 		return eventList;
 	}
 
+	@ApiOperation(value="Get staff events", response= Event.class, httpMethod = "GET", produces="application/json")
 	@GetMapping(path = "/getStaffEvents", produces = "application/json")
 	@ResponseBody
 	public List<Event> getStaffEvents(@RequestParam String id) {
@@ -42,6 +45,7 @@ public class CalendarController {
 		return eventList;
 	}
 
+	@ApiOperation(value="Get student events", response= Event.class, httpMethod = "GET", produces="application/json")
 	@GetMapping(path = "/getStudentEvents", produces = "application/json")
 	@ResponseBody
 	public List<Event> getStudentEvents(@RequestParam String id) {
@@ -50,17 +54,21 @@ public class CalendarController {
 		return eventList;
 	}
 	
+	
+	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/addEvent", produces = "application/json")
 	public void addEvent(@RequestBody Event event) {
 		calenderServiceImpl.addEvent(event);
 	}
 	
+	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "GET", produces="application/json")
 	@GetMapping(path = "/deleteEvent", produces = "application/json")
 	public void deleteEvent(@RequestParam  String id) throws EventDoesNotExistException {
 		Event to_be_deleted = calenderServiceImpl.getEvent(id);
 		calenderServiceImpl.deleteEvent(to_be_deleted);
 	}
 	
+	@ApiOperation(value="Update an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/updateEvent", produces = "application/json")
 	public void updateEvent(@RequestBody Event event) throws EventDoesNotExistException {
 		calenderServiceImpl.updateEvent(event);
