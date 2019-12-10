@@ -24,6 +24,7 @@ import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
@@ -38,10 +39,30 @@ import sgsits.cse.dis.administration.serviceImpl.LibraryServicesImpl;
 public class LibraryController {
 	
 	@Autowired
-	LibraryServicesImpl libraryServicesImpl;
+	private LibraryServicesImpl libraryServicesImpl;
 	
 	@Autowired
-	AcademicsClient academicsClient;
+	private AcademicsClient academicsClient;
+	
+	@Autowired
+	
+	//Library Setting service
+	
+	@ApiOperation(value="Get setting", response = LibrarySettings.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_LIBRARY_SETTINGS, produces = "application/json")
+	public List<LibrarySettings> getSettings() {
+		return libraryServicesImpl.getSetting();
+	}
+	
+	@ApiOperation(value="Update setting", response = String.class, httpMethod = "GET", produces = "application/json")
+	@PutMapping(path=RestAPI.UPDATE_LIBRARY_SETTINGS, produces = "application/json")
+	public ResponseEntity<String>updateSettings(@RequestBody LibrarySettings librarySettings) throws EventDoesNotExistException {
+		libraryServicesImpl.updateSettings(librarySettings);
+		return new ResponseEntity<String>(new String("Setings Updated"),HttpStatus.OK);
+		
+	}
+
+	//Books services
 	
 	@ApiOperation(value="Add a book", response = AddBookResponse.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_BOOK, produces = "application/json")
@@ -176,8 +197,10 @@ public class LibraryController {
 	
 	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_COURSE_LIST, produces = "application/json")
-	public List<String> getCourseList(){
-		return academicsClient.getCourseList();
+	public ResponseEntity<List<String>> getCourseList(){
+		return new ResponseEntity<List<String>>(academicsClient.getCourseList(),HttpStatus.OK);
 	}
+	
+	
 	
 }

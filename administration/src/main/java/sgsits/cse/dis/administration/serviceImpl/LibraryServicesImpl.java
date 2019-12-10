@@ -11,12 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
-import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.model.LibraryBookCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.repo.LibraryBookCountRepository;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
+import sgsits.cse.dis.administration.repo.LibrarySettingsRepository;
 import sgsits.cse.dis.administration.repo.LibraryThesisRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
@@ -38,7 +39,7 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 	private LibraryThesisRecordsRepository libraryThesisRecordsRepository;
 	
 	@Autowired
-	AcademicsClient academicsClient;
+	private LibrarySettingsRepository librarySettingsRepository;
 	
 	@Transactional
 	@Override
@@ -270,8 +271,19 @@ public class LibraryServicesImpl implements LibraryServices,Serializable {
 			throw new EventDoesNotExistException("Thesis with thesis id: "+thesisId+" doesn't exist.");
 	}
 
+	@Override
+	public List<LibrarySettings> getSetting() {
+		return librarySettingsRepository.findAll();
 
+	}
 	
+	@Transactional
+	@Override
+	public void updateSettings(LibrarySettings librarySettings) throws EventDoesNotExistException{
+		if(librarySettingsRepository.save(librarySettings).equals(null)) {
+			throw new EventDoesNotExistException("Couldn't update the settings");
+		}
+	}
 	
 }
 

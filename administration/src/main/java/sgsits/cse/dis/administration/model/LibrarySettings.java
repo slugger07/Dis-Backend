@@ -60,6 +60,6 @@ public class LibrarySettings {
 	public void setPenaltyPerDay(long penaltyPerDay) {
 		this.penaltyPerDay = penaltyPerDay;
 	}
-	
+
 	
 }

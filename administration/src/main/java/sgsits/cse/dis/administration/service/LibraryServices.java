@@ -8,11 +8,16 @@ import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 
 @Component
 public interface LibraryServices {
+	//setting service
+	List<LibrarySettings> getSetting();
+	void updateSettings(LibrarySettings librarySettings) throws EventDoesNotExistException;
+	
 	//book services
 	String addBook(AddBookForm addBookForm) throws ConflictException;
 	List<LibraryBookRecords> getAllBooks();
@@ -32,4 +37,5 @@ public interface LibraryServices {
 	List<LibraryThesisRecords> getThesisByCourse(String course) throws EventDoesNotExistException;
 	void updateThesis(AddThesisForm addThesisForm, long thesisId)throws EventDoesNotExistException,ConflictException;
 	void deleteThesis(long thesisId) throws EventDoesNotExistException,ConflictException;
+	
 }
