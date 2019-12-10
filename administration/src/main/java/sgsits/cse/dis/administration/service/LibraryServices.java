@@ -2,8 +2,6 @@ package sgsits.cse.dis.administration.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
@@ -12,7 +10,7 @@ import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 
-@Component
+
 public interface LibraryServices {
 	//setting service
 	List<LibrarySettings> getSetting();
@@ -38,4 +36,6 @@ public interface LibraryServices {
 	void updateThesis(AddThesisForm addThesisForm, long thesisId)throws EventDoesNotExistException,ConflictException;
 	void deleteThesis(long thesisId) throws EventDoesNotExistException,ConflictException;
 	
+	//Issue service
+	void issue() throws EventDoesNotExistException,ConflictException;
 }

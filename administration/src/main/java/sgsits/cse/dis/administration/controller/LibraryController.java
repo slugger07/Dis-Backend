@@ -22,6 +22,7 @@ import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
+import sgsits.cse.dis.administration.feignClient.UserClient;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.model.LibrarySettings;
@@ -45,6 +46,7 @@ public class LibraryController {
 	private AcademicsClient academicsClient;
 	
 	@Autowired
+	private UserClient userClient;
 	
 	//Library Setting service
 	
@@ -201,6 +203,10 @@ public class LibraryController {
 		return new ResponseEntity<List<String>>(academicsClient.getCourseList(),HttpStatus.OK);
 	}
 	
-	
+	@ApiOperation(value="Issue book", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.ISSUE_BOOK, produces = "application/json")
+	public boolean issue(@PathVariable String username){
+		return userClient.existsByUsername(username);
+	}
 	
 }
