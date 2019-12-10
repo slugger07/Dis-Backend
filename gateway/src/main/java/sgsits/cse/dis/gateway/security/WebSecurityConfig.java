@@ -2,6 +2,7 @@ package sgsits.cse.dis.gateway.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,7 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import sgsits.cse.dis.gateway.security.jwt.JwtAuthEntryPoint;
 import sgsits.cse.dis.gateway.security.jwt.JwtAuthTokenFilter;
-import sgsits.cse.dis.gateway.service.UserDetailsServiceImpl;
+import sgsits.cse.dis.gateway.serviceImpl.UserDetailSecurityServiceImpl;
+import sgsits.cse.dis.gateway.serviceImpl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +27,7 @@ import sgsits.cse.dis.gateway.service.UserDetailsServiceImpl;
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    UserDetailSecurityServiceImpl userDetailsService;
 
     @Autowired
     private JwtAuthEntryPoint unauthorizedHandler;
