@@ -2,6 +2,7 @@ package sgsits.cse.dis.administration.serviceImpl;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.Date;
 import java.util.List;
 
@@ -11,17 +12,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
+import sgsits.cse.dis.administration.feignClient.UserClient;
 import sgsits.cse.dis.administration.model.LibraryBookCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.model.LibraryCurrentIssues;
 import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.repo.LibraryBookCountRepository;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
+import sgsits.cse.dis.administration.repo.LibraryCurrentIssuesRepository;
 import sgsits.cse.dis.administration.repo.LibrarySettingsRepository;
 import sgsits.cse.dis.administration.repo.LibraryThesisRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
+import sgsits.cse.dis.administration.request.IssueForm;
 import sgsits.cse.dis.administration.service.LibraryServices;
+import sgsits.cse.dis.administration.util.CalenderGeneralServices;
 
 @Component
 public class LibraryServicesImpl implements LibraryServices, Serializable {
@@ -39,6 +45,12 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 
 	@Autowired
 	private LibrarySettingsRepository librarySettingsRepository;
+	
+	@Autowired
+	private UserClient userClient;
+	
+	@Autowired 
+	private LibraryCurrentIssuesRepository libraryCurrentIssuesRepository;
 
 	@Transactional
 	@Override
@@ -265,8 +277,68 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 
 	@Transactional
 	@Override
-	public void issue() throws EventDoesNotExistException, ConflictException {
-
+	public String issue(IssueForm issueForm) throws EventDoesNotExistException, ConflictException {
+		String response;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		if(userClient.existsByUsername(issueForm.getUsername())){
+			System.out.println(issueForm.getUsername());
+			if(issueForm.getThesisId() != null) {
+				System.out.println("FLAG 0");
+				response = "Failed to issue Thesis with id "+issueForm.getThesisId()
+				+" to user "+issueForm.getUsername();
+				System.out.println("FLAG 1");
+				LibraryThesisRecords libraryThesisRecords = 
+						libraryThesisRecordsRepository.findByThesisId(issueForm.getThesisId()).get(0);
+				System.out.println("FLAG 2");
+				libraryThesisRecords.setStatus("Issued");
+				libraryThesisRecordsRepository.save(libraryThesisRecords);
+				System.out.println("FLAG 3");
+				LibraryCurrentIssues test = new LibraryCurrentIssues(issueForm.getUsername(),
+						new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()),
+						simpleDateFormat.format(CalenderGeneralServices.addDays(new Date(),
+								Integer.parseInt(String.valueOf(getSetting().get(0).getReturnDeadlineDays())))),
+						libraryThesisRecords.getTitle(),issueForm.getBookId(),issueForm.getThesisId());
+				if(libraryCurrentIssuesRepository.save(test).equals(null)) {
+					throw new ConflictException(response);
+				}
+				else {
+					response = "Thesis id ["+issueForm.getThesisId()+
+								"]\nBook name ["+libraryThesisRecords.getTitle()+
+								"]\nissued to ["+issueForm.getUsername()+"]";
+				}
+			}
+			else{
+				//issue book
+				System.out.println("FLAG 5");
+				response = "Failed to issue book with id "+issueForm.getBookId()
+				+" to user "+issueForm.getUsername();
+				LibraryBookRecords libraryBookRecords = 
+						libraryBookRecordsRepository.findByBookIdContainingIgnoreCase(issueForm.getBookId()).get(0);
+				libraryBookRecords.setStatus("Issued");
+				libraryBookRecordsRepository.save(libraryBookRecords);
+				LibraryCurrentIssues test = new LibraryCurrentIssues(issueForm.getUsername(),
+						simpleDateFormat.format(new Date()),
+						simpleDateFormat.format(CalenderGeneralServices.addDays(new Date(),
+								Integer.parseInt(String.valueOf(getSetting().get(0).getReturnDeadlineDays())))),
+						libraryBookRecords.getTitle(),libraryBookRecords.getBookId(),issueForm.getThesisId());
+				if(libraryCurrentIssuesRepository.save(test).equals(null)) {
+					throw new ConflictException(response);
+				}
+				else {
+					response = "Book id ["+issueForm.getBookId()+
+								"]\nBook name ["+libraryBookRecords.getTitle()+
+								"]\nissued to ["+issueForm.getUsername()+"]";
+				}
+			}
+		}
+		//User not found
+		else {
+			throw new EventDoesNotExistException("username with "+issueForm.getUsername()+" not found.");
+		}
+		return response;
 	}
 
 }
+
+
+

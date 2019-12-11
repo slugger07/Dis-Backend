@@ -9,6 +9,7 @@ import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
+import sgsits.cse.dis.administration.request.IssueForm;
 
 
 public interface LibraryServices {
@@ -37,5 +38,5 @@ public interface LibraryServices {
 	void deleteThesis(long thesisId) throws EventDoesNotExistException,ConflictException;
 	
 	//Issue service
-	void issue() throws EventDoesNotExistException,ConflictException;
+	String issue(IssueForm issueForm) throws EventDoesNotExistException,ConflictException;
 }

@@ -28,6 +28,6 @@ public class RestAPI {
 	public static final String GET_COURSE_LIST = "/getCourseList";
 	public static final String GET_LIBRARY_SETTINGS = "/getLibrarySettings";
 	public static final String UPDATE_LIBRARY_SETTINGS ="/updateLibrarySettings";
-	public static final String ISSUE_BOOK = "/issueBook/{username}"; 
+	public static final String ISSUE = "/issue"; 
 
 }
