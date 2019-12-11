@@ -16,7 +16,6 @@ import sgsits.cse.dis.academics.serviceImpl.CoursesServiceImpl;
 import sgsits.cse.dis.academics.serviceImpl.SchemeServiceImpl;
 
 @Api(value = "Academics Feign Client Controller")
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/academicsFeignClientController")
 public class AcademicsFeignClientController {
