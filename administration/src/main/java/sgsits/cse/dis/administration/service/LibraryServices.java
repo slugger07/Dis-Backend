@@ -4,9 +4,9 @@ import java.util.List;
 
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
-import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.model.LibrarySettings;
+import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.request.IssueForm;
@@ -39,4 +39,5 @@ public interface LibraryServices {
 	
 	//Issue service
 	String issue(IssueForm issueForm) throws EventDoesNotExistException,ConflictException;
+	Long getNoOfIssues(String username);
 }

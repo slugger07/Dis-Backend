@@ -2,7 +2,6 @@ package sgsits.cse.dis.administration.serviceImpl;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.*;
 import java.util.Date;
 import java.util.List;
 
@@ -336,6 +335,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 			throw new EventDoesNotExistException("username with "+issueForm.getUsername()+" not found.");
 		}
 		return response;
+	}
+
+	@Override
+	public Long getNoOfIssues(String username) {
+		return libraryCurrentIssuesRepository.findByUsernameIgnoreCase(username);
 	}
 
 }

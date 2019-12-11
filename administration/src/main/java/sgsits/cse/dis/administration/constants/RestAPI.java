@@ -5,6 +5,15 @@ public class RestAPI {
 	
 	//LIBRARY API's
 	
+	//General
+	public static final String GET_COURSE_LIST = "/getCourseList";
+	public static final String ISSUE = "/issue";
+	public static final String GET_NO_OF_ISSUES = "/getNoOfIssues/{username}";
+	
+	//Settings
+	public static final String GET_LIBRARY_SETTINGS = "/getLibrarySettings";
+	public static final String UPDATE_LIBRARY_SETTINGS ="/updateLibrarySettings";
+	
 	//Books
 	public static final String ADD_BOOK ="/addBook"; 
 	public static final String GET_ALL_BOOKS ="/getAllBooks";
@@ -25,9 +34,6 @@ public class RestAPI {
 	public static final String GET_THESIS_BY_COURSE = "/getThesisByCourse/{course}";
 	public static final String UPDATE_THESIS = "/updateThesis/{thesisId}";
 	public static final String DELETE_THESIS = "/deleteThesis/{thesisId}";
-	public static final String GET_COURSE_LIST = "/getCourseList";
-	public static final String GET_LIBRARY_SETTINGS = "/getLibrarySettings";
-	public static final String UPDATE_LIBRARY_SETTINGS ="/updateLibrarySettings";
-	public static final String ISSUE = "/issue"; 
+ 
 
 }
