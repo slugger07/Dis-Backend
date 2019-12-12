@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
@@ -25,4 +26,8 @@ public interface LibraryThesisRecordsRepository extends JpaRepository<LibraryThe
 	
 	@Modifying
 	long deleteByThesisId(long thesisId);
+
+	@Query(value = "UPDATE library_thesis_records SET status =?1 WHERE thesis_id = ?2", nativeQuery = true)
+	@Modifying
+	void updateStatus(String string, long thesisId);
 }

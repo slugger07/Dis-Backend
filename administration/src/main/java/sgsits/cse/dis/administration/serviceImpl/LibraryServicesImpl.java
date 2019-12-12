@@ -1,6 +1,7 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,16 +16,19 @@ import sgsits.cse.dis.administration.feignClient.UserClient;
 import sgsits.cse.dis.administration.model.LibraryBookCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.model.LibraryCurrentIssues;
+import sgsits.cse.dis.administration.model.LibraryIssueHistory;
 import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.repo.LibraryBookCountRepository;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
 import sgsits.cse.dis.administration.repo.LibraryCurrentIssuesRepository;
+import sgsits.cse.dis.administration.repo.LibraryIssueHistoryRepository;
 import sgsits.cse.dis.administration.repo.LibrarySettingsRepository;
 import sgsits.cse.dis.administration.repo.LibraryThesisRecordsRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.request.IssueForm;
+import sgsits.cse.dis.administration.response.IssuedInformationResponse;
 import sgsits.cse.dis.administration.service.LibraryServices;
 import sgsits.cse.dis.administration.util.CalenderGeneralServices;
 
@@ -50,6 +54,9 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	
 	@Autowired 
 	private LibraryCurrentIssuesRepository libraryCurrentIssuesRepository;
+	
+	@Autowired
+	private LibraryIssueHistoryRepository libraryIssueHistoryRepository;
 
 	@Transactional
 	@Override
@@ -282,16 +289,12 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		if(userClient.existsByUsername(issueForm.getUsername())){
 			System.out.println(issueForm.getUsername());
 			if(issueForm.getThesisId() != null) {
-				System.out.println("FLAG 0");
 				response = "Failed to issue Thesis with id "+issueForm.getThesisId()
-				+" to user "+issueForm.getUsername();
-				System.out.println("FLAG 1");
+				+" to user "+issueForm.getUsername()+" This is because either the thesis is unavailable/issued or thesis id is wrong, please check on your end.";
 				LibraryThesisRecords libraryThesisRecords = 
 						libraryThesisRecordsRepository.findByThesisId(issueForm.getThesisId()).get(0);
-				System.out.println("FLAG 2");
 				libraryThesisRecords.setStatus("Issued");
 				libraryThesisRecordsRepository.save(libraryThesisRecords);
-				System.out.println("FLAG 3");
 				LibraryCurrentIssues test = new LibraryCurrentIssues(issueForm.getUsername(),
 						new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()),
 						simpleDateFormat.format(CalenderGeneralServices.addDays(new Date(),
@@ -308,9 +311,8 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 			}
 			else{
 				//issue book
-				System.out.println("FLAG 5");
 				response = "Failed to issue book with id "+issueForm.getBookId()
-				+" to user "+issueForm.getUsername();
+				+" to user "+issueForm.getUsername()+" This is because either the book is unavailable/issued or book id is wrong, please check on your end.";
 				LibraryBookRecords libraryBookRecords = 
 						libraryBookRecordsRepository.findByBookIdContainingIgnoreCase(issueForm.getBookId()).get(0);
 				libraryBookRecords.setStatus("Issued");
@@ -340,6 +342,112 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	@Override
 	public Long getNoOfIssues(String username) {
 		return libraryCurrentIssuesRepository.findByUsernameIgnoreCase(username);
+	}
+
+	@Transactional
+	@Override
+	public String returnBook(String bookId) throws ParseException {
+		List<LibraryCurrentIssues> libraryCurrentIssues = libraryCurrentIssuesRepository.findByBookId(bookId);
+		//Transfer info to archive.
+		try {
+			LibraryIssueHistory test = new LibraryIssueHistory(libraryCurrentIssues.get(0).getUserName(), libraryCurrentIssues.get(0).getIssueDate(),
+					libraryCurrentIssues.get(0).getExpectedReturnDate(),new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()), 
+					libraryCurrentIssues.get(0).getTitle(),bookId, libraryCurrentIssues.get(0).getThesisId(), 
+					getPenalty(libraryCurrentIssues.get(0).getIssueDate()));
+			libraryIssueHistoryRepository.save(test);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new ParseException("Unable to get penality", 0);
+		}
+		//Change Book status to available.
+		libraryBookRecordsRepository.updateStatus("Available", bookId);
+		//Delete Current Issue
+		if(libraryCurrentIssuesRepository.deleteByBookId(bookId) > 0)
+			return new String("Return Successfull. Please make sure that penality amount(if any) has been collected");
+		return new String("Return UnSuccessfull. Please try again later");
+	}
+
+	@Transactional
+	@Override
+	public String returnThesis(long thesisId) throws ParseException {
+		System.out.println("Flag Start");
+		List<LibraryCurrentIssues> libraryCurrentIssues = libraryCurrentIssuesRepository.findByThesisId(thesisId);
+		System.out.println("Flag 0");
+		//Transfer info to archive.
+		try {
+			LibraryIssueHistory test = new LibraryIssueHistory(libraryCurrentIssues.get(0).getUserName(), libraryCurrentIssues.get(0).getIssueDate(),
+					libraryCurrentIssues.get(0).getExpectedReturnDate(),new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()), 
+					libraryCurrentIssues.get(0).getTitle(),libraryCurrentIssues.get(0).getBookId(), thesisId, 
+					getPenalty(libraryCurrentIssues.get(0).getIssueDate()));
+			libraryIssueHistoryRepository.save(test);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new ParseException("Unable to get penality", 0);
+		}
+		System.out.println("Flag 1");
+		//Change Book status to available.
+		libraryThesisRecordsRepository.updateStatus("Available", thesisId);
+		//Delete Current Issue
+		System.out.println("Flag 2");
+		if(libraryCurrentIssuesRepository.deleteByThesisId(thesisId) > 0)
+			return new String("Return Successfull. Please make sure that penality amount(if any) has been collected");
+		return new String("Return UnSuccessfull. Please try again later");
+	}
+
+	@Override
+	public IssuedInformationResponse getIssuedBookInfo(String bookId) throws EventDoesNotExistException, ParseException{
+		List<LibraryCurrentIssues> libraryCurrentIssues = libraryCurrentIssuesRepository.findByBookId(bookId);
+		if(libraryCurrentIssues.isEmpty()) {
+			throw new EventDoesNotExistException("No current issue history for book with id ["+bookId+"]");
+		}
+		return new IssuedInformationResponse(libraryCurrentIssues.get(0).getUserName(), getPenalty(libraryCurrentIssues.get(0).getIssueDate()));
+	}
+
+	@Override
+	public IssuedInformationResponse getIssuedThesisInfo(long thesisId) throws EventDoesNotExistException, ParseException {
+		List<LibraryCurrentIssues> libraryCurrentIssues = libraryCurrentIssuesRepository.findByThesisId(thesisId);
+		if(libraryCurrentIssues.isEmpty()) {
+			throw new EventDoesNotExistException("No current issue history for thesis with id ["+thesisId+"]");
+		}
+		return new IssuedInformationResponse(libraryCurrentIssues.get(0).getUserName(), getPenalty(libraryCurrentIssues.get(0).getIssueDate()));
+	}
+	
+	//function to calculate penalty
+	long getPenalty(String issueDate) throws ParseException {
+		long penalty = 0l;
+		LibrarySettings librarySettings = getSetting().get(0);
+		long daysIssued = CalenderGeneralServices.getDaysBetweenDates(issueDate,
+				new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()).toString());
+		System.out.println(daysIssued);
+		if(daysIssued > librarySettings.getReturnDeadlineDays()) {
+			daysIssued -=librarySettings.getReturnDeadlineDays();
+			penalty = daysIssued * librarySettings.getPenaltyPerDay() ;
+		}
+		return penalty;
+	}
+
+	@Override
+	public List<LibraryIssueHistory> getPreviousIssuesByUsername(String username) throws EventDoesNotExistException {
+		List<LibraryIssueHistory> test = libraryIssueHistoryRepository.findByUsername(username);
+		if (test.isEmpty())
+			throw new EventDoesNotExistException("["+username+"] have no record of any books/thesis issued to them.");
+		return test;
+	}
+
+	@Override
+	public List<LibraryIssueHistory> getPreviousIssuesByBookId(String bookId) throws EventDoesNotExistException {
+		List<LibraryIssueHistory> test = libraryIssueHistoryRepository.findByBookId(bookId);
+		if (test.isEmpty())
+			throw new EventDoesNotExistException("Book with id ["+bookId+"] has never been issued to any one.");
+		return test;
+	}
+
+	@Override
+	public List<LibraryIssueHistory> getPreviousIssuesByThesisId(Long thesisId) throws EventDoesNotExistException {
+		List<LibraryIssueHistory> test = libraryIssueHistoryRepository.findByThesisId(thesisId);
+		if (test.isEmpty())
+			throw new EventDoesNotExistException("Thesis with id ["+thesisId+"] has never been issued to any one.");
+		return test;
 	}
 
 }

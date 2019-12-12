@@ -1,5 +1,6 @@
 package sgsits.cse.dis.administration.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
+import sgsits.cse.dis.administration.model.LibraryIssueHistory;
 import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
 import sgsits.cse.dis.administration.request.AddBookForm;
@@ -30,6 +32,7 @@ import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.request.IssueForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
 import sgsits.cse.dis.administration.response.AddThesisResponse;
+import sgsits.cse.dis.administration.response.IssuedInformationResponse;
 import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.serviceImpl.LibraryServicesImpl;
 
@@ -212,6 +215,48 @@ public class LibraryController {
 	@GetMapping(path=RestAPI.GET_NO_OF_ISSUES, produces = "application/json")
 	public ResponseEntity<Long> getNoOfIssues(@PathVariable("username") String username){
 		return new ResponseEntity<Long>(libraryServicesImpl.getNoOfIssues(username),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get issued book info", response = IssuedInformationResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_ISSUED_BOOK_INFO, produces = "application/json")
+	public ResponseEntity<IssuedInformationResponse> getIssuedBookInfo(@PathVariable("bookId") String bookId) throws EventDoesNotExistException, ParseException{
+		return new ResponseEntity<IssuedInformationResponse>(libraryServicesImpl.getIssuedBookInfo(bookId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get issued thesis info", response = IssuedInformationResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_ISSUED_THESIS_INFO, produces = "application/json")
+	public ResponseEntity<IssuedInformationResponse> getIssuedThesisInfo(@PathVariable("thesisId") long thesisId) throws EventDoesNotExistException, ParseException{
+		return new ResponseEntity<IssuedInformationResponse>(libraryServicesImpl.getIssuedThesisInfo(thesisId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Return book", response = String.class, httpMethod = "PUT", produces = "application/json")
+	@PutMapping(path=RestAPI.RETURN_BOOK, produces = "application/json")
+	public ResponseEntity<String> returnBook(@PathVariable("bookId") String bookId) throws ParseException{
+		return new ResponseEntity<String>(libraryServicesImpl.returnBook(bookId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Return thesis", response = String.class, httpMethod = "PUT", produces = "application/json")
+	@PutMapping(path=RestAPI.RETURN_THESIS, produces = "application/json")
+	public ResponseEntity<String> returnThesis(@PathVariable("thesisId") long thesisId) throws ParseException{
+		return new ResponseEntity<String>(libraryServicesImpl.returnThesis(thesisId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get previous issues by username", response = LibraryIssueHistory.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_PREVIOUS_ISSUES_BY_USERNAME, produces = "application/json")
+	public ResponseEntity<List<LibraryIssueHistory>> getPreviousIssuesByUsername(@PathVariable("username") String username) throws EventDoesNotExistException{
+		return new ResponseEntity<List<LibraryIssueHistory>>(libraryServicesImpl.getPreviousIssuesByUsername(username),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get previous issues by book id", response = LibraryIssueHistory.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_PREVIOUS_ISSUES_BY_BOOKID, produces = "application/json")
+	public ResponseEntity<List<LibraryIssueHistory>> getPreviousIssuesByBookId(@PathVariable("bookId") String bookId) throws EventDoesNotExistException{
+		return new ResponseEntity<List<LibraryIssueHistory>>(libraryServicesImpl.getPreviousIssuesByBookId(bookId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get previous issues by thesis id", response = LibraryIssueHistory.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_PREVIOUS_ISSUES_BY_THESISID, produces = "application/json")
+	public ResponseEntity<List<LibraryIssueHistory>> getPreviousIssuesByThesisId(@PathVariable("thesisId") long thesisId) throws EventDoesNotExistException{
+		return new ResponseEntity<List<LibraryIssueHistory>>(libraryServicesImpl.getPreviousIssuesByThesisId(thesisId),HttpStatus.OK);
 	}
 	
 }
