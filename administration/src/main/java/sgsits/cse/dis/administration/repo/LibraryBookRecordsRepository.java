@@ -18,7 +18,7 @@ public interface LibraryBookRecordsRepository extends JpaRepository<LibraryBookR
 
 	List<LibraryBookRecords> findBySubjectCategory(String subjectCategory);
 
-	List<LibraryBookRecords> findByBookIdContainingIgnoreCase(String bookId);
+	List<LibraryBookRecords> findByBookIdIgnoreCase(String bookId);
 
 	@Modifying
 	long deleteByBookId(String bookId);

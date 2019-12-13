@@ -100,7 +100,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	@Override
 	public List<LibraryBookRecords> getBookByBookId(String bookId) throws EventDoesNotExistException {
 		List<LibraryBookRecords> libraryBookRecords;
-		libraryBookRecords = libraryBookRecordsRepository.findByBookIdContainingIgnoreCase(bookId);
+		libraryBookRecords = libraryBookRecordsRepository.findByBookIdIgnoreCase(bookId);
 		if (libraryBookRecords.isEmpty())
 			throw new EventDoesNotExistException("Book with book id [" + bookId + "] doesn't exist.");
 		return libraryBookRecords;
@@ -314,7 +314,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 				response = "Failed to issue book with id "+issueForm.getBookId()
 				+" to user "+issueForm.getUsername()+" This is because either the book is unavailable/issued or book id is wrong, please check on your end.";
 				LibraryBookRecords libraryBookRecords = 
-						libraryBookRecordsRepository.findByBookIdContainingIgnoreCase(issueForm.getBookId()).get(0);
+						libraryBookRecordsRepository.findByBookIdIgnoreCase(issueForm.getBookId()).get(0);
 				libraryBookRecords.setStatus("Issued");
 				libraryBookRecordsRepository.save(libraryBookRecords);
 				LibraryCurrentIssues test = new LibraryCurrentIssues(issueForm.getUsername(),
