@@ -11,13 +11,13 @@ import sgsits.cse.dis.gateway.message.request.SignUpForm;
 @FeignClient(name = "user")
 public interface UserClient {
 
-    @RequestMapping(value = "/findUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/userFeignClientController/findUser", method = RequestMethod.POST)
     public boolean findUser(@RequestBody SignUpForm signup);
 
-    @RequestMapping(value = "/findUserIype", method = RequestMethod.POST)
+    @RequestMapping(value = "/userFeignClientController/findUserIype", method = RequestMethod.POST)
     public String findUserType(@RequestBody SignUpForm signup);
 
-    @RequestMapping(value = "/updateEmailAndUserId", method = RequestMethod.GET)
+    @RequestMapping(value = "/userFeignClientController/updateEmailAndUserId", method = RequestMethod.GET)
     public boolean updateEmailAndUserId(@RequestParam("mobileNo") long mobileNo);
 }
 

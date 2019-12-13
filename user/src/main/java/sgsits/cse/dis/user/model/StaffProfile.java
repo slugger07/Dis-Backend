@@ -28,7 +28,7 @@ public class StaffProfile {
 	private Long modifiedBy;
 
 	@Column(name = "modified_date")
-	private Date modifiedDate;
+	private String modifiedDate;
 	
 	@Column(name = "user_id")
 	private Long userId;
@@ -119,11 +119,11 @@ public class StaffProfile {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Date getModifiedDate() {
+	public String getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
+	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 

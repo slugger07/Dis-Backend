@@ -4,15 +4,12 @@ package sgsits.cse.dis.user.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
+import sgsits.cse.dis.gateway.message.request.SignUpForm;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
 @Api(value = "User Feign Client Controller")
@@ -28,4 +25,26 @@ public class UserFeignClientController {
 	public boolean existsByUsername(@PathVariable("username") String username) throws NotFoundException {
 		return userServicesImpl.existsByUsername(username);
 	}
+
+    @ApiOperation(value = "Find User", response = Boolean.class, httpMethod = "POST", produces = "text/plain")
+    @RequestMapping(value = "/findUser", method = RequestMethod.POST)
+    public boolean findUser(@RequestBody SignUpForm signup)
+    {
+        return userServicesImpl.findUser(signup);
+    }
+
+    @ApiOperation(value = "Find User Type", response = Boolean.class, httpMethod = "POST", produces = "text/plain")
+    @RequestMapping(value = "/findUserIype", method = RequestMethod.POST)
+    public String findUserType(@RequestBody SignUpForm signup)
+    {
+        return userServicesImpl.findUserType(signup);
+    }
+
+    @ApiOperation(value = "Update email and user Id", response = Boolean.class, httpMethod = "GET", produces = "text/plain")
+    @RequestMapping(value = "/updateEmailAndUserId", method = RequestMethod.GET)
+    public boolean updateEmailAndUserId(@RequestParam("mobileNo") long mobileNo)
+    {
+        return userServicesImpl.updateEmailAndUserId(mobileNo);
+    }
+
 }
