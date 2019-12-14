@@ -91,7 +91,7 @@ public class StudentProfile {
 		this.id = id;
 	}
 
-	public Long getCreatedBy() {
+	public Long getCreategdBy() {
 		return createdBy;
 	}
 
