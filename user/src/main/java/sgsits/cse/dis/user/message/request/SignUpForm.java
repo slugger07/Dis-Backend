@@ -14,14 +14,14 @@ public class SignUpForm {
     @Size(max = 60)
     @Email
     private String email;
-
-    @NotBlank
+    
+    @NotNull
     private Date dob;
-
-    @NotBlank
-    @Size(max = 10)
+    
+    @NotNull
+    @Digits(integer = 10, fraction = 0)
     private long mobileNo;
-
+      
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
@@ -38,11 +38,11 @@ public class SignUpForm {
         return password;
     }
 
-    public Date getDob() {
-        return dob;
-    }
+	public Date getDob() {
+		return dob;
+	}
 
-    public long getMobileNo() {
-        return mobileNo;
-    }
+	public long getMobileNo() {
+		return mobileNo;
+	}
 }

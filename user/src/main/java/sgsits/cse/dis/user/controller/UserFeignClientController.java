@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
-import sgsits.cse.dis.gateway.message.request.SignUpForm;
+import sgsits.cse.dis.user.message.request.SignUpForm;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
 @Api(value = "User Feign Client Controller")

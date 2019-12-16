@@ -2,7 +2,7 @@ package sgsits.cse.dis.user.service;
 
 import javassist.NotFoundException;
 import org.springframework.web.bind.annotation.RequestParam;
-import sgsits.cse.dis.gateway.message.request.SignUpForm;
+import sgsits.cse.dis.user.message.request.SignUpForm;
 
 public interface UserServices {
 	boolean existsByUsername(String userName) throws NotFoundException;

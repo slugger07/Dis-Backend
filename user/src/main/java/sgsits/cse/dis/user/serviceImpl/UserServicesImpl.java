@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javassist.NotFoundException;
 import org.springframework.web.bind.annotation.RequestBody;
-import sgsits.cse.dis.gateway.message.request.SignUpForm;
+import sgsits.cse.dis.user.message.request.SignUpForm;
 import sgsits.cse.dis.user.model.StaffProfile;
 import sgsits.cse.dis.user.model.StudentProfile;
 import sgsits.cse.dis.user.model.User;
