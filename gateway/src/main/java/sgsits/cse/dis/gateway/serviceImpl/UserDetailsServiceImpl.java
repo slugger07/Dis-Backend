@@ -124,15 +124,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (userlist.isPresent()) {
             User u = userlist.get();
-            u.setActivationToken(UUID.randomUUID().toString());
-            u.setActivationTokenExpiry(simpleDateFormat.format(DateUtils.addDays(new Date(), 3)));
-            u.setModifiedBy(u.getId());
-            u.setModifiedDate(simpleDateFormat.format(new Date()));
-            userRepository.save(u);
-            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
-            // Email message
-            email.sendSimpleEmail(u.getEmail(), "DIS Account Activation Request", "To activate your account, click the link below:\n" + appUrl + "/dis/activation?token="+ u.getActivationToken());
-            return new ResponseEntity<>(new ResponseMessage("An Account Activation link has been sent to registered email address!"), HttpStatus.OK);
+            if(u.isEnabled()) {
+                return new ResponseEntity<>(new ResponseMessage("Your account is already activated!"), HttpStatus.BAD_REQUEST);
+            }
+            else {
+                u.setActivationToken(UUID.randomUUID().toString());
+                u.setActivationTokenExpiry(simpleDateFormat.format(DateUtils.addDays(new Date(), 3)));
+                u.setModifiedBy(u.getId());
+                u.setModifiedDate(simpleDateFormat.format(new Date()));
+                userRepository.save(u);
+                String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
+                // Email message
+                email.sendSimpleEmail(u.getEmail(), "DIS Account Activation Request", "To activate your account, click the link below:\n" + appUrl + "/dis/activation?token=" + u.getActivationToken());
+                return new ResponseEntity<>(new ResponseMessage("An Account Activation link has been sent to registered email address!"), HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(new ResponseMessage("We didn't find an account for this e-mail address!"), HttpStatus.BAD_REQUEST);
     }

@@ -7,10 +7,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="academics" />
+        <module name="administration" />
         <module name="administration (1)" />
+        <module name="eureka-server" />
         <module name="eureka-server (1)" />
+        <module name="gateway" />
         <module name="gateway (1)" />
+        <module name="infrastructure" />
         <module name="infrastructure (1)" />
+        <module name="user" />
         <module name="user (1)" />
       </profile>
       <profile name="Annotation profile for Unknown" enabled="true">
@@ -36,22 +41,27 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="academics" target="1.8" />
+      <module name="administration" target="1.8" />
       <module name="administration (1)" target="1.8" />
       <module name="administration (2)" target="1.5" />
       <module name="administration (3)" target="1.8" />
       <module name="administration (3) (sgsits.cse.dis)" target="1.8" />
+      <module name="eureka-server" target="1.8" />
       <module name="eureka-server (1)" target="1.8" />
       <module name="eureka-server (2)" target="1.5" />
       <module name="eureka-server (3)" target="1.8" />
       <module name="eureka-server (3) (sgsits.cse.dis)" target="1.8" />
+      <module name="gateway" target="1.8" />
       <module name="gateway (1)" target="1.8" />
       <module name="gateway (2)" target="1.5" />
       <module name="gateway (3)" target="1.8" />
       <module name="gateway (3) (sgsits.cse.dis)" target="1.8" />
+      <module name="infrastructure" target="1.8" />
       <module name="infrastructure (1)" target="1.8" />
       <module name="infrastructure (2)" target="1.5" />
       <module name="infrastructure (3)" target="1.8" />
       <module name="infrastructure (3) (sgsits.cse.dis)" target="1.8" />
+      <module name="user" target="1.8" />
       <module name="user (1)" target="1.8" />
       <module name="user (2)" target="1.5" />
       <module name="user (3)" target="1.8" />
