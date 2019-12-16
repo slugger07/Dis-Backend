@@ -58,8 +58,8 @@ public class LibraryController {
 		return new ResponseEntity<List<LibrarySettings>>(libraryServicesImpl.getSetting(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Update setting", response = String.class, httpMethod = "PUT", produces = "application/json")
-	@PutMapping(path=RestAPI.UPDATE_LIBRARY_SETTINGS, produces = "application/json")
+	@ApiOperation(value="Update setting", response = String.class, httpMethod = "PUT", produces = "text/plain")
+	@PutMapping(path=RestAPI.UPDATE_LIBRARY_SETTINGS, produces = "text/plain")
 	public ResponseEntity<String>updateSettings(@RequestBody LibrarySettings librarySettings) throws EventDoesNotExistException {
 		libraryServicesImpl.updateSettings(librarySettings);
 		return new ResponseEntity<String>(new String("Setings Updated"),HttpStatus.OK);
@@ -121,8 +121,8 @@ public class LibraryController {
 	}
 
 	
-	@ApiOperation(value="delete a book", response = String.class, httpMethod = "DELETE", produces = "application/json")
-	@DeleteMapping(path=RestAPI.DELETE_BOOK, produces = "application/json")
+	@ApiOperation(value="delete a book", response = String.class, httpMethod = "DELETE", produces = "text/plain")
+	@DeleteMapping(path=RestAPI.DELETE_BOOK, produces = "text/plain")
 	public ResponseEntity<String> deleteBook(@PathVariable("bookId") String bookId) throws EventDoesNotExistException, ConflictException{
 			libraryServicesImpl.deleteBook(bookId);	
 			return new ResponseEntity<String>(new String("Book with book id:  ["+bookId+"] deleted successfully. "),HttpStatus.OK);
@@ -192,8 +192,8 @@ public class LibraryController {
 	}
 	
 
-	@ApiOperation(value="delete a thesis", response = String.class, httpMethod = "DELETE", produces = "application/json")
-	@DeleteMapping(path=RestAPI.DELETE_THESIS, produces = "application/json")
+	@ApiOperation(value="delete a thesis", response = String.class, httpMethod = "DELETE", produces = "text/plain")
+	@DeleteMapping(path=RestAPI.DELETE_THESIS, produces = "text/plain")
 	public ResponseEntity<String> deleteThesis(@PathVariable("thesisId") long thesisId) throws EventDoesNotExistException,ConflictException{
 		libraryServicesImpl.deleteThesis(thesisId);
 		return new ResponseEntity<String>(new String("Thesis with thesis id: ["+thesisId+"] deleted successfully. "),HttpStatus.OK);
@@ -205,8 +205,8 @@ public class LibraryController {
 		return new ResponseEntity<List<String>>(academicsClient.getCourseList(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Issue book", response = String.class, httpMethod = "PUT", produces = "application/json")
-	@PutMapping(path=RestAPI.ISSUE, produces = "application/json")
+	@ApiOperation(value="Issue book", response = String.class, httpMethod = "PUT", produces = "text/plain")
+	@PutMapping(path=RestAPI.ISSUE, produces = "text/plain")
 	public ResponseEntity<String> issue(@RequestBody IssueForm issueForm) throws EventDoesNotExistException, ConflictException{
 		return new ResponseEntity<String>(libraryServicesImpl.issue(issueForm),HttpStatus.OK);
 	}
@@ -229,14 +229,14 @@ public class LibraryController {
 		return new ResponseEntity<IssuedInformationResponse>(libraryServicesImpl.getIssuedThesisInfo(thesisId),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Return book", response = String.class, httpMethod = "PUT", produces = "application/json")
-	@PutMapping(path=RestAPI.RETURN_BOOK, produces = "application/json")
+	@ApiOperation(value="Return book", response = String.class, httpMethod = "PUT", produces = "text/plain")
+	@PutMapping(path=RestAPI.RETURN_BOOK, produces = "text/plain")
 	public ResponseEntity<String> returnBook(@PathVariable("bookId") String bookId) throws ParseException{
 		return new ResponseEntity<String>(libraryServicesImpl.returnBook(bookId),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Return thesis", response = String.class, httpMethod = "PUT", produces = "application/json")
-	@PutMapping(path=RestAPI.RETURN_THESIS, produces = "application/json")
+	@ApiOperation(value="Return thesis", response = String.class, httpMethod = "PUT", produces = "text/plain")
+	@PutMapping(path=RestAPI.RETURN_THESIS, produces = "text/plain")
 	public ResponseEntity<String> returnThesis(@PathVariable("thesisId") long thesisId) throws ParseException{
 		return new ResponseEntity<String>(libraryServicesImpl.returnThesis(thesisId),HttpStatus.OK);
 	}

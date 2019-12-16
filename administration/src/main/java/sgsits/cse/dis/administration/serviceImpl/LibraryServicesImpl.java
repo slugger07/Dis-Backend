@@ -305,8 +305,8 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 				}
 				else {
 					response = "Thesis id ["+issueForm.getThesisId()+
-								"]\nBook name ["+libraryThesisRecords.getTitle()+
-								"]\nissued to ["+issueForm.getUsername()+"]";
+								"] Book name ["+libraryThesisRecords.getTitle()+
+								"] Issued to ["+issueForm.getUsername()+"]";
 				}
 			}
 			else{
@@ -327,8 +327,8 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 				}
 				else {
 					response = "Book id ["+issueForm.getBookId()+
-								"]\nBook name ["+libraryBookRecords.getTitle()+
-								"]\nissued to ["+issueForm.getUsername()+"]";
+								"] Book name ["+libraryBookRecords.getTitle()+
+								"] Issued to ["+issueForm.getUsername()+"]";
 				}
 			}
 		}
