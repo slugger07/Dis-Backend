@@ -48,7 +48,7 @@ public class LibraryBookRecords {
 	private String title;
 	
 	@Column(name = "status")
-	private String status="Availabe";
+	private String status="Available";
 	
 	@Column(name = "remarks")
 	private String remarks;
