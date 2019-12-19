@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "student_profile")
 public class StudentProfile {
@@ -17,20 +19,21 @@ public class StudentProfile {
 	@Column(name = "id", nullable = false, unique = true)
 	private long id;
 
+	
 	@Column(name = "created_by", nullable = false)
-	private Long createdBy;
+	private String createdBy;
 
 	@Column(name = "created_date", nullable = false)
 	private String createdDate;
 
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 
 	@Column(name = "modified_date")
 	private String modifiedDate;
 	
 	@Column(name = "user_id")
-	private Long userId;
+	private String userId;
 
 	@Column(name = "enrollment_id", nullable = false, unique = true)
 	private String enrollmentId;
@@ -91,11 +94,11 @@ public class StudentProfile {
 		this.id = id;
 	}
 
-	public Long getCreategdBy() {
+	public String getCreategdBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -107,11 +110,11 @@ public class StudentProfile {
 		this.createdDate = createdDate;
 	}
 
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -123,11 +126,11 @@ public class StudentProfile {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
