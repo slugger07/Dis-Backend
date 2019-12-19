@@ -19,19 +19,19 @@ public class StaffProfile {
 	private long id;
 
 	@Column(name = "created_by")
-	private Long createdBy;
+	private String createdBy;
 
 	@Column(name = "created_date")
 	private Date createdDate;
 
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 
 	@Column(name = "modified_date")
 	private String modifiedDate;
 	
 	@Column(name = "user_id")
-	private Long userId;
+	private String userId;
 	
 	@Column(name = "employee_id", unique = true)
 	private String employeeId;
@@ -95,11 +95,11 @@ public class StaffProfile {
 		this.id = id;
 	}
 
-	public Long getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -111,11 +111,11 @@ public class StaffProfile {
 		this.createdDate = createdDate;
 	}
 
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -127,11 +127,11 @@ public class StaffProfile {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

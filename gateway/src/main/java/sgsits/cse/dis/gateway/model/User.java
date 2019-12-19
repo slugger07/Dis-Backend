@@ -51,7 +51,7 @@ public class User{
 	private String createdDate;
 
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 
 	@Column(name = "modified_date")
 	private String modifiedDate;
@@ -140,11 +140,11 @@ public class User{
 		this.createdDate = createdDate;
 	}
 
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
