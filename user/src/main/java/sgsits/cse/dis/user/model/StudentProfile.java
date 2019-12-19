@@ -48,7 +48,7 @@ public class StudentProfile {
 	private String courseId;
 
 	@Column(name = "mobile_no")
-	private long mobileNo;
+	private Long mobileNo;
 
 	@Column(name = "email")
 	private String email;
@@ -60,7 +60,7 @@ public class StudentProfile {
 	private String fatherName;
 
 	@Column(name = "father_contact")
-	private long fatherContact;
+	private Long fatherContact;
 
 	@Column(name = "father_email")
 	private String fatherEmail;
@@ -69,7 +69,7 @@ public class StudentProfile {
 	private String motherName;
 
 	@Column(name = "mother_contact")
-	private long motherContact;
+	private Long motherContact;
 
 	@Column(name = "mother_email")
 	private String motherEmail;
@@ -91,7 +91,7 @@ public class StudentProfile {
 		this.id = id;
 	}
 
-	public Long getCreatedBy() {
+	public Long getCreategdBy() {
 		return createdBy;
 	}
 
@@ -167,7 +167,7 @@ public class StudentProfile {
 		return mobileNo;
 	}
 
-	public void setMobileNo(long mobileNo) {
+	public void setMobileNo(Long mobileNo) {
 		this.mobileNo = mobileNo;
 	}
 
@@ -199,7 +199,7 @@ public class StudentProfile {
 		return fatherContact;
 	}
 
-	public void setFatherContact(long fatherContact) {
+	public void setFatherContact(Long fatherContact) {
 		this.fatherContact = fatherContact;
 	}
 
@@ -223,7 +223,7 @@ public class StudentProfile {
 		return motherContact;
 	}
 
-	public void setMotherContact(long motherContact) {
+	public void setMotherContact(Long motherContact) {
 		this.motherContact = motherContact;
 	}
 

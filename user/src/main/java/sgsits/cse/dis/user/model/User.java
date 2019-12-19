@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
@@ -28,9 +29,14 @@ import org.hibernate.annotations.NaturalId;
         })
 })
 public class User{
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", nullable = false, unique = true)
+    private String id;
 
 	@Column(name = "created_by")
 	private String createdBy;
@@ -89,11 +95,11 @@ public class User{
         this.mobileNo = mobileNo;
     }
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
