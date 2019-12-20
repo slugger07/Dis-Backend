@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.sun.mail.util.MailConnectException;
+
 import sgsits.cse.dis.gateway.controller.EmailController;
 import sgsits.cse.dis.gateway.feignClient.UserClient;
 import sgsits.cse.dis.gateway.message.request.LoginForm;
@@ -33,6 +36,8 @@ import sgsits.cse.dis.gateway.service.UserPrinciple;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.rmi.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -89,7 +94,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<ResponseMessage> registerUser(SignUpForm signUpRequest, HttpServletRequest request) throws SQLException {
+    public ResponseEntity<ResponseMessage> registerUser(SignUpForm signUpRequest, HttpServletRequest request) throws SQLException, MailConnectException, UnknownHostException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"), HttpStatus.BAD_REQUEST);
@@ -119,7 +124,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<ResponseMessage> preActivation(String recepientemail, HttpServletRequest request) {
+    public ResponseEntity<ResponseMessage> preActivation(String recepientemail, HttpServletRequest request) throws MailConnectException, UnknownHostException {
         Optional<User> userlist = userRepository.findByEmail(recepientemail);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (userlist.isPresent()) {
@@ -171,7 +176,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<ResponseMessage> forgotPassword(String recepientemail, HttpServletRequest request) {
+    public ResponseEntity<ResponseMessage> forgotPassword(String recepientemail, HttpServletRequest request) throws MailConnectException, UnknownHostException {
         Optional<User> userlist = userRepository.findByEmail(recepientemail);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if (userlist.isPresent()) {

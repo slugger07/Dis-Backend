@@ -20,6 +20,8 @@ public class MailConfig {
 
         mailSender.setUsername(Email.DIS_EMAIL);
         mailSender.setPassword(Email.DIS_PASSWORD);
+        
+        System.setProperty("java.net.useSystemProxies", "true");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
