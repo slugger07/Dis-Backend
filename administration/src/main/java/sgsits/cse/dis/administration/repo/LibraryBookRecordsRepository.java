@@ -29,4 +29,7 @@ public interface LibraryBookRecordsRepository extends JpaRepository<LibraryBookR
 	@Modifying
 	void updateStatus(String status, String bookId);
 
+	@Query(value = "SELECT DISTINCT subject_category FROM library_book_records", nativeQuery = true)
+	List<String> getDistinctSubjectCategory();
+
 }

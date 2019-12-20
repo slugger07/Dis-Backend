@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
+import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.feignClient.UserClient;
 import sgsits.cse.dis.administration.model.LibraryBookCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
@@ -57,6 +58,20 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	
 	@Autowired
 	private LibraryIssueHistoryRepository libraryIssueHistoryRepository;
+	
+	@Autowired
+	private AcademicsClient academicsClient;
+	
+	@Override
+	public List<String> getSubjectCatergoryAcronymList() {
+		List<String> subjectAcronym = academicsClient.getAllSubjectAcronym();
+		List<String> other = libraryBookRecordsRepository.getDistinctSubjectCategory();
+		for(String temp : other) {
+			if(subjectAcronym.contains(temp) == false)
+				subjectAcronym.add(temp);
+		}
+		return subjectAcronym;
+	}
 
 	@Transactional
 	@Override
@@ -449,6 +464,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 			throw new EventDoesNotExistException("Thesis with id ["+thesisId+"] has never been issued to any one.");
 		return test;
 	}
+
 
 }
 

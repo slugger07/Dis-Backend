@@ -3,6 +3,8 @@ package sgsits.cse.dis.administration.service;
 import java.text.ParseException;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
@@ -33,6 +35,7 @@ public interface LibraryServices {
 	List<LibraryBookRecords> getBookByAuthorName(String authorName) throws EventDoesNotExistException;
 	void updateBook(AddBookForm addBookForm, String bookId)throws EventDoesNotExistException,ConflictException;
 	void deleteBook(String bookId) throws EventDoesNotExistException,ConflictException;
+	public List<String> getSubjectCatergoryAcronymList();
 	
 	//thesis services.
 	Long addThesis(AddThesisForm addThesisForm) throws ConflictException;

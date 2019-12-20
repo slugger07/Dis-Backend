@@ -33,7 +33,6 @@ import sgsits.cse.dis.administration.request.IssueForm;
 import sgsits.cse.dis.administration.response.AddBookResponse;
 import sgsits.cse.dis.administration.response.AddThesisResponse;
 import sgsits.cse.dis.administration.response.IssuedInformationResponse;
-import sgsits.cse.dis.administration.response.LibraryBookRecordsResponse;
 import sgsits.cse.dis.administration.serviceImpl.LibraryServicesImpl;
 
 @CrossOrigin(origins = "*")
@@ -110,7 +109,8 @@ public class LibraryController {
 	@ApiOperation(value="Get subject category acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_SUBJECT_CATEGORY_LIST, produces = "application/json")
 	public ResponseEntity<List<String>> getSubjectCatergoryAcronymList(){
-		return new ResponseEntity<List<String>>(academicsClient.getAllSubjectAcronym(),HttpStatus.OK);
+		return new ResponseEntity<List<String>>(libraryServicesImpl.getSubjectCatergoryAcronymList(),HttpStatus.OK);
+//		return new ResponseEntity<List<String>>(academicsClient.getAllSubjectAcronym(),HttpStatus.OK);
 	}
 	
 	@ApiOperation(value="Update a book", response = AddBookResponse.class, httpMethod = "PUT", produces = "application/json")
