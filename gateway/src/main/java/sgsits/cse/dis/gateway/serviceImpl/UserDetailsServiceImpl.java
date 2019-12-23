@@ -1,5 +1,17 @@
 package sgsits.cse.dis.gateway.serviceImpl;
 
+import java.rmi.UnknownHostException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,19 +20,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.mail.util.MailConnectException;
 
+import sgsits.cse.dis.gateway.constants.GlobalURI;
 import sgsits.cse.dis.gateway.controller.EmailController;
 import sgsits.cse.dis.gateway.feignClient.UserClient;
 import sgsits.cse.dis.gateway.message.request.LoginForm;
@@ -33,18 +40,6 @@ import sgsits.cse.dis.gateway.repo.UserRepository;
 import sgsits.cse.dis.gateway.security.jwt.JwtProvider;
 import sgsits.cse.dis.gateway.service.UserDetailsService;
 import sgsits.cse.dis.gateway.service.UserPrinciple;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.rmi.UnknownHostException;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -115,7 +110,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             user.setActivationToken(UUID.randomUUID().toString());
             user.setActivationTokenExpiry(simpleDateFormat.format(DateUtils.addDays(new Date(), 3)));
             userRepository.save(user);
-            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
+            String appUrl = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
             // Email message
             email.sendSimpleEmail(user.getEmail(), "DIS Account Activation Request", "To activate your account, click the link below:\n" + appUrl + "/dis/activation?token="+ user.getActivationToken());
             return new ResponseEntity<>(new ResponseMessage("Registration successfull! An email has been sent to your registered email address. Please verify to continue!"), HttpStatus.OK);
@@ -138,7 +133,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 u.setModifiedBy(u.getId());
                 u.setModifiedDate(simpleDateFormat.format(new Date()));
                 userRepository.save(u);
-                String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
+                String appUrl = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
                 // Email message
                 email.sendSimpleEmail(u.getEmail(), "DIS Account Activation Request", "To activate your account, click the link below:\n" + appUrl + "/dis/activation?token=" + u.getActivationToken());
                 return new ResponseEntity<>(new ResponseMessage("An Account Activation link has been sent to registered email address!"), HttpStatus.OK);
@@ -162,15 +157,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 if (userClient.updateEmailAndUserId(user.get().getMobileNo())) {
                     userRepository.save(user.get());
                     modelAndView.addObject("token", token);
-                    modelAndView.setViewName("redirect:http://localhost:4200");
+                    modelAndView.setViewName("redirect:"+GlobalURI.DIS_FRONTEND);
                 }
             } else {
                 modelAndView.addObject("errorMessage", "Oops!  Your account activation link has expired.");
-                modelAndView.setViewName("redirect:http://localhost:4200/activate-account");
+                modelAndView.setViewName("redirect:"+GlobalURI.DIS_FRONTEND+"/activate-account");
             }
         } else { // Token not found in DB
             modelAndView.addObject("errorMessage", "Oops!  This is an invalid account activation link.");
-            modelAndView.setViewName("redirect:http://localhost:4200/activate-account");
+            modelAndView.setViewName("redirect:"+GlobalURI.DIS_FRONTEND+"/activate-account");
         }
         return modelAndView;
     }
@@ -186,7 +181,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             u.setModifiedBy(u.getId());
             u.setModifiedDate(simpleDateFormat.format(new Date()));
             userRepository.save(u);
-            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
+            String appUrl = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
 
             // Email message
             email.sendSimpleEmail(u.getEmail(), "DIS Password Reset Request",
@@ -209,14 +204,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user.isPresent()) { // Token found in DB
             if (simpleDateFormat.parse(user.get().getResetTokenExpiry()).after(new Date())) {
                 modelAndView.addObject("resetToken", token);
-                modelAndView.setViewName("redirect:http://localhost:4200/reset-password");
+                modelAndView.setViewName("redirect:"+GlobalURI.DIS_FRONTEND+"/reset-password");
             } else {
                 modelAndView.addObject("errorMessage", "Oops!  Your password reset link has expired.");
-                modelAndView.setViewName("redirect:http://localhost:4200/forgot-password");
+                modelAndView.setViewName("redirect:"+GlobalURI.DIS_FRONTEND+"/forgot-password");
             }
         } else { // Token not found in DB
             modelAndView.addObject("errorMessage", "Oops!  This is an invalid password reset link.");
-            modelAndView.setViewName("redirect:http://localhost:4200/forgot-password");
+            modelAndView.setViewName("redirect:"+GlobalURI.DIS_FRONTEND+"/forgot-password");
         }
         return modelAndView;
 

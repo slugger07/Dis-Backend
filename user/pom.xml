@@ -12,6 +12,7 @@
 	<groupId>sgsits.cse.dis</groupId>
 	<artifactId>user</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>user</name>
 	<description>User Service of DIS</description>
 
@@ -100,6 +101,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>DIS-user</finalName>
 	</build>
 
 	<repositories>
