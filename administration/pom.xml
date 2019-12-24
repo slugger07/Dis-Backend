@@ -102,7 +102,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>DIS-administrationr</finalName>
+		<finalName>DIS-administration</finalName>
 	</build>
 
 	<repositories>

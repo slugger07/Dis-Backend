@@ -26,7 +26,7 @@ import java.text.ParseException;
 import java.util.Map;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/dis")
 public class AuthRestAPIs {
