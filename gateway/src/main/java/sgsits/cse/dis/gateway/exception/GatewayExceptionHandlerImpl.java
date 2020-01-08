@@ -26,7 +26,7 @@ public class GatewayExceptionHandlerImpl {
 	@ExceptionHandler({AuthenticationException.class})
 	@ResponseBody
 	public ResponseEntity<ResponseMessage> eventNotFoundException() {
-		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Wrong username or password server"), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Wrong username or password."), HttpStatus.NOT_FOUND);
 	}
 
 	
