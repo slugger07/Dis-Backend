@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,6 +21,12 @@ public class GatewayExceptionHandlerImpl {
 	@ResponseBody
 	public ResponseEntity<ResponseMessage> eventDoesNotExistException() {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Cannot connect to stmp server"), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler({AuthenticationException.class})
+	@ResponseBody
+	public ResponseEntity<ResponseMessage> eventNotFoundException() {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Cannot connect to stmp server"), HttpStatus.NOT_FOUND);
 	}
 
 	
