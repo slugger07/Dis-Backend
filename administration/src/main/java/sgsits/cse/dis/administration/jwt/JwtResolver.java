@@ -12,8 +12,8 @@ public class JwtResolver {
 		String username = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 		return username;
 	}
-	
-	public long getIdFromJwtToken(String token){
+
+	public long getIdFromJwtToken(String token) {
 		token = getJwt(token);
 		String id = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId();
 		return Integer.parseInt(id);

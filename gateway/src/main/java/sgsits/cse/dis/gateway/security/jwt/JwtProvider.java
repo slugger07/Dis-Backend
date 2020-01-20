@@ -1,6 +1,7 @@
 package sgsits.cse.dis.gateway.security.jwt;
 
 import io.jsonwebtoken.*;
+import org.springframework.security.core.GrantedAuthority;
 import sgsits.cse.dis.gateway.service.UserPrinciple;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtProvider {
@@ -25,6 +27,10 @@ public class JwtProvider {
     public String generateJwtToken(Authentication authentication) {
 
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+
+        /*final String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));*/
 
         return Jwts.builder()
         		        .setId(userPrincipal.getId())
