@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtProvider {
@@ -25,9 +26,12 @@ public class JwtProvider {
     public String generateJwtToken(Authentication authentication) {
 
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-
+        Claims claims = Jwts.claims();
+        claims.put("scopes", userPrincipal.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
+        claims.put("jti", userPrincipal.getId());
         return Jwts.builder()
         		        .setId(userPrincipal.getId())
+        		        .setClaims(claims)
 		                .setSubject((userPrincipal.getUsername()))
 		                .setAudience(userPrincipal.getUserType())
 		                .setIssuedAt(new Date())
