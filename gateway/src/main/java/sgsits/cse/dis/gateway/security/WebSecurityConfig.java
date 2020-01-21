@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers(Urls.ADD_EVENT).access("hasAuthority('NBA')")
+                .antMatchers(Urls.GET_ALL_EVENTS).access("not(hasAuthority('student'))")
                 .antMatchers("/dis/signin", "/dis/signup", "/preActivation", "/activation", "/forgotPassword" ,"/resetPassword").permitAll()
                 .anyRequest().authenticated()
                 .and()

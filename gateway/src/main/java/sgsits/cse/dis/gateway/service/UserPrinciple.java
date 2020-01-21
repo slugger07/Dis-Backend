@@ -50,7 +50,7 @@ public class UserPrinciple implements UserDetails {
         List<GrantedAuthority> authorities = user.getTasks().stream().map(task ->
                 new SimpleGrantedAuthority(task.getName())
         ).collect(Collectors.toList());
-
+        authorities.add(new SimpleGrantedAuthority(user.getUserType()));
         return new UserPrinciple(
                 user.getId(),              
                 user.getUsername(),
