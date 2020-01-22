@@ -3,11 +3,8 @@ package sgsits.cse.dis.administration.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.CrossOrigin;
-=======
 import org.springframework.security.access.prepost.PreAuthorize;
->>>>>>> e916ec98dbdaff6a6c1c99279fe0e95e52418a64
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
