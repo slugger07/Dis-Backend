@@ -31,7 +31,8 @@ import sgsits.cse.dis.gateway.serviceImpl.UserDetailsServiceImpl;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-		prePostEnabled = true
+		prePostEnabled = true,
+		securedEnabled = true
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -67,7 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/dis/*").permitAll()
+                .antMatchers(Urls.ADD_EVENT).access("hasAuthority('NBA')")
+                .antMatchers(Urls.GET_ALL_EVENTS).access("not(hasAuthority('student'))")
+                .antMatchers("/dis/signin", "/dis/signup", "/preActivation", "/activation", "/forgotPassword" ,"/resetPassword").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

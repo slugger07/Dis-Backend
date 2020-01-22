@@ -7,16 +7,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "task")
 public class Task {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", nullable = false, unique = true)
+    private String id;
 
-    @NaturalId
+    public void setId(String id) {
+		this.id = id;
+	}
+
+	@NaturalId
     @Column(length = 60)
     private String name;
 
@@ -24,14 +34,6 @@ public class Task {
 
     public Task(String name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
