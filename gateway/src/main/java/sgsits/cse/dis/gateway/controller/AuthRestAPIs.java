@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -42,7 +43,9 @@ public class AuthRestAPIs {
 
 	@ApiOperation(value="Sign Up", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
 	@PostMapping("/signup")
-	public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest, HttpServletRequest request) throws SQLException, MailConnectException, UnknownHostException {
+	public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest, HttpServletRequest request,Errors error) throws SQLException, MailConnectException, UnknownHostException {
+//		if (error.hasErrors())
+//			throw 
 		return UserDetails.registerUser(signUpRequest, request);
 	}
 
