@@ -15,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.user.constants.RestAPI;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
+import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
 
 @CrossOrigin(origins = "*")
@@ -26,9 +27,15 @@ public class TaskController {
 	@Autowired
 	TaskServiceImpl taskServiceImpl;
 	
-	@ApiOperation(value="Get setting", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get Tasks list from category id", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_TASKS_FROM_CATEGORY_ID, produces = "application/json")
 	public ResponseEntity<List<CategorySpecificTaskResponse>> getTasksFromCategoryId(@PathVariable("categoryId") String categoryId){
 		return new ResponseEntity<List<CategorySpecificTaskResponse>>(taskServiceImpl.getTasksFromCategoryId(categoryId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="get task category list", response = TaskCategoryResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_TASKS_CATEGORY_LIST, produces = "application/json")
+	public ResponseEntity<List<TaskCategoryResponse>> getTasksCategoryList(){
+		return new ResponseEntity<List<TaskCategoryResponse>>(taskServiceImpl.getTaskCategoryList(),HttpStatus.OK);
 	}
 }

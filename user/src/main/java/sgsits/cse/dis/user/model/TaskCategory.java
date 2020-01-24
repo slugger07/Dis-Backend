@@ -33,11 +33,11 @@ public class TaskCategory {
     @Column(name = "modified_date")
     private String modifiedDate;
     
-    @Column(name = "category", nullable = false)
-    private String category;
+    @Column(name = "category_name", nullable = false)
+    private String categoryName;
 
 	public TaskCategory(String id, String createdBy, String createdDate, String modifiedBy, String modifiedDate,
-			String category) {
+			String categoryName) {
 		super();
 		this.id = id;
 		this.createdBy = createdBy;
@@ -45,7 +45,7 @@ public class TaskCategory {
 		this.createdDate = createdDate;
 		this.modifiedBy = modifiedBy;
 		this.modifiedDate = modifiedDate;
-		this.category = category;
+		this.categoryName = categoryName;
 	}
 
 	public TaskCategory() {
@@ -93,11 +93,19 @@ public class TaskCategory {
 	}
 
 	public String getUserId() {
-		return category;
+		return categoryName;
 	}
 
-	public void setUserId(String category) {
-		this.category = category;
+	public void setUserId(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
     
     
