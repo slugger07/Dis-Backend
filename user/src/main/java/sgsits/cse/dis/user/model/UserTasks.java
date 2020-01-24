@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "user_task")
-public class UserTask {
+@Table(name = "user_tasks")
+public class UserTasks {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -47,7 +47,7 @@ public class UserTask {
     @Column(name = "status")
     private String status;
 
-	public UserTask(String id, String createdBy, String createdDate, String modifiedBy, String modifiedDate,
+	public UserTasks(String id, String createdBy, String createdDate, String modifiedBy, String modifiedDate,
 			String userId, String taskId, String deadline, String description, String status) {
 		super();
 		this.id = id;
@@ -62,7 +62,7 @@ public class UserTask {
 		this.status = status;
 	}
 
-	public UserTask() {
+	public UserTasks() {
 		super();
 	}
 
