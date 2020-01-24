@@ -110,7 +110,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             user.setActivationToken(UUID.randomUUID().toString());
             user.setActivationTokenExpiry(simpleDateFormat.format(DateUtils.addDays(new Date(), 3)));
             userRepository.save(user);
-            String appUrl = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
             // Email message
             email.sendSimpleEmail(user.getEmail(), "DIS Account Activation Request", "To activate your account, click the link below:\n" + appUrl + "/dis/activation?token="+ user.getActivationToken());
             return new ResponseEntity<>(new ResponseMessage("Registration successfull! An email has been sent to your registered email address. Please verify to continue!"), HttpStatus.OK);
@@ -133,7 +133,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 u.setModifiedBy(u.getId());
                 u.setModifiedDate(simpleDateFormat.format(new Date()));
                 userRepository.save(u);
-                String appUrl = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
+                String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
                 // Email message
                 email.sendSimpleEmail(u.getEmail(), "DIS Account Activation Request", "To activate your account, click the link below:\n" + appUrl + "/dis/activation?token=" + u.getActivationToken());
                 return new ResponseEntity<>(new ResponseMessage("An Account Activation link has been sent to registered email address!"), HttpStatus.OK);
@@ -146,6 +146,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public ModelAndView activateAccount(String token) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Optional<User> user = userRepository.findUserByActivationToken(token);
+        System.out.println("user "+ user.isPresent());
         ModelAndView modelAndView = new ModelAndView();
         if (user.isPresent()) { // Token found in DB
             if (simpleDateFormat.parse(user.get().getActivationTokenExpiry()).after(new Date())) {
@@ -181,7 +182,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             u.setModifiedBy(u.getId());
             u.setModifiedDate(simpleDateFormat.format(new Date()));
             userRepository.save(u);
-            String appUrl = request.getScheme() + "://" + request.getLocalAddr() + ":" + request.getLocalPort();
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
 
             // Email message
             email.sendSimpleEmail(u.getEmail(), "DIS Password Reset Request",

@@ -32,6 +32,7 @@ public class CalendarController {
 
 	@ApiOperation(value="Get all the events", response= Event.class, httpMethod = "GET", produces="application/json")
 	@GetMapping(path = "/getAllEvents", produces = "application/json")
+	//@PreAuthorize("hasRole('NBA')")
 	@ResponseBody
 	public List<Event> getAllEvents(){
 		List<Event> eventList = calenderServiceImpl.getAllEvents();
@@ -59,6 +60,7 @@ public class CalendarController {
 	
 	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/addEvent", produces = "application/json")
+	//@PreAuthorize("hasAuthority('NBA')")
 	public void addEvent(@RequestBody Event event) {
 		calenderServiceImpl.addEvent(event);
 	}
