@@ -1,15 +1,15 @@
 package sgsits.cse.dis.user.message.response;
 
-public class TaskCategoryResponse {
+public class CategorySpecificTaskResponse {
 	private String id;
 	private String name;
 	
-	public TaskCategoryResponse(String id, String name) {
+	public CategorySpecificTaskResponse(String id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
-	public TaskCategoryResponse() {
+	public CategorySpecificTaskResponse() {
 		super();
 	}
 	public String getId() {

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
+import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.model.Task;
 import sgsits.cse.dis.user.model.UserTasks;
 import sgsits.cse.dis.user.repo.TaskRepository;
@@ -25,11 +25,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskCategoryResponse> getTasksFromCategoryId(String categoryId) {
+	public List<CategorySpecificTaskResponse> getTasksFromCategoryId(String categoryId) {
 		List<Task> temp = taskRepository.findbyCategoryId(categoryId);
-		List<TaskCategoryResponse> taskCategoryResponses = new ArrayList<TaskCategoryResponse>();
+		List<CategorySpecificTaskResponse> taskCategoryResponses = new ArrayList<CategorySpecificTaskResponse>();
 		for(Task task : temp) {
-			taskCategoryResponses.add(new TaskCategoryResponse(task.getId(),task.getName()));
+			taskCategoryResponses.add(new CategorySpecificTaskResponse(task.getId(),task.getName()));
 		}
 		return taskCategoryResponses;
 	}

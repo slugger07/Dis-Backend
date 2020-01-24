@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
-import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
+import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.model.Task;
 
 @Component
