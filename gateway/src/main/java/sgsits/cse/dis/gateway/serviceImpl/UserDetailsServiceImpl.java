@@ -146,6 +146,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public ModelAndView activateAccount(String token) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Optional<User> user = userRepository.findUserByActivationToken(token);
+        System.out.println("user "+ user.isPresent());
         ModelAndView modelAndView = new ModelAndView();
         if (user.isPresent()) { // Token found in DB
             if (simpleDateFormat.parse(user.get().getActivationTokenExpiry()).after(new Date())) {
