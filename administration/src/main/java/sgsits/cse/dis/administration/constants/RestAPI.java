@@ -25,6 +25,8 @@ public class RestAPI {
 	public static final String DELETE_BOOK = "/deleteBook/{bookId}";
 	public static final String RETURN_BOOK = "/returnBook/{bookId}";
 	public static final String GET_ISSUED_BOOK_INFO ="/getIssuedBookInfo/{bookId}";
+	public static final String ADD_BOOK_CATEGORY = "/addNewBookCategory";
+	public static final String DELETE_CATEGORY = "/deleteBookCategory/{SubjectCategory}";
 	
 	//Thesis
 	public static final String ADD_THESIS = "/addThesis"; 
@@ -43,5 +45,7 @@ public class RestAPI {
 	public static final String GET_PREVIOUS_ISSUES_BY_USERNAME ="/getPreviousIssuesByUsername/{username}";
 	public static final String GET_PREVIOUS_ISSUES_BY_BOOKID ="/getPreviousIssuesByBookId/{bookId}";
 	public static final String GET_PREVIOUS_ISSUES_BY_THESISID ="/getPreviousIssuesByThesisId/{thesisId}";
+	
+	
 
 }

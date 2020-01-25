@@ -25,11 +25,13 @@ public interface LibraryBookRecordsRepository extends JpaRepository<LibraryBookR
 
 	boolean existsByBookId(String bookId);
 	
+	List<LibraryBookRecords> findByBookIdContaining(String subjectCatedgory);
+	
 	@Query(value = "UPDATE library_book_records SET status =?1 WHERE book_id = ?2", nativeQuery = true)
 	@Modifying
 	void updateStatus(String status, String bookId);
 
-	@Query(value = "SELECT DISTINCT subject_category FROM library_book_records", nativeQuery = true)
+	@Query(value = "SELECT DISTINCT subject_category FROM library_book_category_count", nativeQuery = true)
 	List<String> getDistinctSubjectCategory();
 
 }

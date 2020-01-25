@@ -23,10 +23,12 @@ import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
+import sgsits.cse.dis.administration.model.LibraryBookCategoryCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.model.LibraryIssueHistory;
 import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
+import sgsits.cse.dis.administration.repo.LibraryBookCategoryCountRepository;
 import sgsits.cse.dis.administration.request.AddBookForm;
 import sgsits.cse.dis.administration.request.AddThesisForm;
 import sgsits.cse.dis.administration.request.IssueForm;
@@ -43,6 +45,9 @@ public class LibraryController {
 	
 	@Autowired
 	private LibraryServicesImpl libraryServicesImpl;
+	
+	@Autowired
+	LibraryBookCategoryCountRepository libraryBookCategoryCountRepository;
 	
 	@Autowired
 	private AcademicsClient academicsClient;
@@ -126,6 +131,20 @@ public class LibraryController {
 	public ResponseEntity<String> deleteBook(@PathVariable("bookId") String bookId) throws EventDoesNotExistException, ConflictException{
 			libraryServicesImpl.deleteBook(bookId);	
 			return new ResponseEntity<String>(new String("Book with book id:  ["+bookId+"] deleted successfully. "),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="delete a category", response = String.class, httpMethod = "DELETE", produces = "text/plain")
+	@DeleteMapping(path=RestAPI.DELETE_CATEGORY, produces = "text/plain")
+	public ResponseEntity<String> deleteCategory(@PathVariable("SubjectCategory") String subjectCategory) throws EventDoesNotExistException{
+			libraryServicesImpl.deleteSubjectCategory(subjectCategory);	
+			return new ResponseEntity<String>(new String("Category deleted successfully. "),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Add a book category", response = String.class, httpMethod = "POST", produces = "text/plain")
+	@PostMapping(path=RestAPI.ADD_BOOK_CATEGORY, produces = "text/palin")
+	public ResponseEntity<String> addBook(@RequestBody LibraryBookCategoryCount libraryBookCategoryCount) throws ConflictException {
+		libraryServicesImpl.addNewSubjectCategory(libraryBookCategoryCount);
+		return new ResponseEntity<String>(new String(" Category added successfully. Please note book's id "),HttpStatus.OK) ;
 	}
 	
 	

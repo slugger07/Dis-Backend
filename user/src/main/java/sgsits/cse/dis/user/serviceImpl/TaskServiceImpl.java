@@ -19,10 +19,10 @@ import sgsits.cse.dis.user.service.TaskService;
 public class TaskServiceImpl implements TaskService {
 
 	@Autowired
-	TaskRepository taskRepository;
+	private TaskRepository taskRepository;
 	
 	@Autowired
-	TaskCategoryRepository taskCategoryRepository;
+	private TaskCategoryRepository taskCategoryRepository;
 	
 	@Override
 	public boolean assignTask(UserTasks userTask) {

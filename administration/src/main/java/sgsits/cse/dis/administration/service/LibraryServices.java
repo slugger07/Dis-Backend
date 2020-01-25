@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
+import sgsits.cse.dis.administration.model.LibraryBookCategoryCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.model.LibraryIssueHistory;
 import sgsits.cse.dis.administration.model.LibrarySettings;
@@ -35,7 +36,10 @@ public interface LibraryServices {
 	List<LibraryBookRecords> getBookByAuthorName(String authorName) throws EventDoesNotExistException;
 	void updateBook(AddBookForm addBookForm, String bookId)throws EventDoesNotExistException,ConflictException;
 	void deleteBook(String bookId) throws EventDoesNotExistException,ConflictException;
-	public List<String> getSubjectCatergoryAcronymList();
+    List<String> getSubjectCatergoryAcronymList();
+    void addNewSubjectCategory(LibraryBookCategoryCount libraryBookCategoryCount)  throws ConflictException;
+	void deleteSubjectCategory(String subjectCategory) throws EventDoesNotExistException;
+	
 	
 	//thesis services.
 	Long addThesis(AddThesisForm addThesisForm) throws ConflictException;

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.user.constants.RestAPI;
+import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
+import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
 @CrossOrigin(origins = "*")
 @Api(value = "Task controller")
@@ -25,7 +27,10 @@ import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
 public class TaskController {
 	
 	@Autowired
-	TaskServiceImpl taskServiceImpl;
+	private TaskServiceImpl taskServiceImpl;
+	
+	@Autowired
+	private UserServicesImpl userServicesImpl;
 	
 	@ApiOperation(value="Get Tasks list from category id", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_TASKS_FROM_CATEGORY_ID, produces = "application/json")
@@ -37,5 +42,11 @@ public class TaskController {
 	@GetMapping(path=RestAPI.GET_TASKS_CATEGORY_LIST, produces = "application/json")
 	public ResponseEntity<List<TaskCategoryResponse>> getTasksCategoryList(){
 		return new ResponseEntity<List<TaskCategoryResponse>>(taskServiceImpl.getTaskCategoryList(),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="get active staff list", response = ActiveStaffListResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_ACTIVE_STAFF_LIST, produces = "application/json")
+	public ResponseEntity<List<ActiveStaffListResponse>> ActiveStaffListResponse(){
+		return new ResponseEntity<List<ActiveStaffListResponse>>(userServicesImpl.getActiveStaffList(),HttpStatus.OK);
 	}
 }
