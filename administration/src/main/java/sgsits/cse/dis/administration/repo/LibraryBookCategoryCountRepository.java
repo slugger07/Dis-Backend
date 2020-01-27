@@ -14,6 +14,8 @@ import sgsits.cse.dis.administration.model.LibraryBookCategoryCount;
 public interface LibraryBookCategoryCountRepository extends JpaRepository<LibraryBookCategoryCount, String> {
 
 	List<LibraryBookCategoryCount> findBySubjectCategory(String subjectCategory);
+	List<LibraryBookCategoryCount> findBySubjectCategoryContainingIgnoreCase(String subjectCategory);
+	List<LibraryBookCategoryCount> findBySubjectNameContainingIgnoreCase(String subjectName);
 	
 	
 //	@Transactional

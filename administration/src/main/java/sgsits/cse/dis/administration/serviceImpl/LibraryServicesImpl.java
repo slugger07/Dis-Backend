@@ -63,7 +63,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	private AcademicsClient academicsClient;
 	
 	@Override
-	public List<LibraryBookCategoryCount> getSubjectCatergoryAcronymList() {
+	public List<String> getSubjectCatergoryAcronymList() {
 //		List<String> subjectAcronym = academicsClient.getAllSubjectAcronym();
 //		List<String> other = libraryBookRecordsRepository.getDistinctSubjectCategory();
 //		for(String temp : other) {
@@ -71,8 +71,8 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 //				subjectAcronym.add(temp);
 //		}
 //		return subjectAcronym;
-		return libraryBookCategoryCountRepository.findAll();
-//		return libraryBookRecordsRepository.getDistinctSubjectCategory();
+//		return libraryBookCategoryCountRepository.findAll();
+		return libraryBookRecordsRepository.getDistinctSubjectCategory();
 	}
 
 	@Transactional
@@ -488,6 +488,22 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		}
 		else
 			throw new EventDoesNotExistException("Category id ["+subjectCategory+"] doesnt exists.");
+	}
+
+	@Override
+	public List<LibraryBookCategoryCount> getSubjectNameByAcronym(String subjectCategory) throws EventDoesNotExistException {
+		List<LibraryBookCategoryCount> libraryBookCategoryCounts = libraryBookCategoryCountRepository.findBySubjectCategoryContainingIgnoreCase(subjectCategory);
+		if (libraryBookCategoryCounts.isEmpty())
+			throw new EventDoesNotExistException("["+subjectCategory+"] does not exists");
+		return libraryBookCategoryCounts;
+	}
+
+	@Override
+	public List<LibraryBookCategoryCount> getAcronymBySubjectName(String subjectName) throws EventDoesNotExistException {
+		List<LibraryBookCategoryCount> libraryBookCategoryCounts = libraryBookCategoryCountRepository.findBySubjectNameContainingIgnoreCase(subjectName);
+		if (libraryBookCategoryCounts.isEmpty())
+			throw new EventDoesNotExistException("["+subjectName+"] does not exists");
+		return libraryBookCategoryCounts;
 	}
 
 }

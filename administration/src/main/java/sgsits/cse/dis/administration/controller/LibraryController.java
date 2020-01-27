@@ -111,10 +111,10 @@ public class LibraryController {
 		return new ResponseEntity<List<LibraryBookRecords>>(libraryBookRecords,HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Get subject category acronyms", response = LibraryBookCategoryCount.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get subject category acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_SUBJECT_CATEGORY_LIST, produces = "application/json")
-	public ResponseEntity<List<LibraryBookCategoryCount>> getSubjectCatergoryAcronymList(){
-		return new ResponseEntity<List<LibraryBookCategoryCount>>(libraryServicesImpl.getSubjectCatergoryAcronymList(),HttpStatus.OK);
+	public ResponseEntity<List<String>> getSubjectCatergoryAcronymList(){
+		return new ResponseEntity<List<String>>(libraryServicesImpl.getSubjectCatergoryAcronymList(),HttpStatus.OK);
 //		return new ResponseEntity<List<String>>(academicsClient.getAllSubjectAcronym(),HttpStatus.OK);
 	}
 	
@@ -147,6 +147,21 @@ public class LibraryController {
 		return new ResponseEntity<String>(new String(" Category added successfully."),HttpStatus.OK) ;
 	}
 	
+	@ApiOperation(value="Get Acronym by subject name", response = LibraryBookCategoryCount.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_ACRONYM_BY_SUBJECT_NAME, produces = "application/json")
+	public ResponseEntity<List<LibraryBookCategoryCount>> getAcronymBySubjectName(@PathVariable("subjectName") String subjectName) throws EventDoesNotExistException{
+		List<LibraryBookCategoryCount> libraryBookCategoryCounts = new ArrayList<LibraryBookCategoryCount>();
+		libraryBookCategoryCounts=libraryServicesImpl.getAcronymBySubjectName(subjectName);
+		return new ResponseEntity<List<LibraryBookCategoryCount>>(libraryBookCategoryCounts,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get Subject name by acromym", response = LibraryBookCategoryCount.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_SUBJECT_NAME_BY_ACRONYM, produces = "application/json")
+	public ResponseEntity<List<LibraryBookCategoryCount>> getSubjectNameByAcronym(@PathVariable("acronym") String subjectCategory) throws EventDoesNotExistException{
+		List<LibraryBookCategoryCount> libraryBookCategoryCounts = new ArrayList<LibraryBookCategoryCount>();
+		libraryBookCategoryCounts=libraryServicesImpl.getSubjectNameByAcronym(subjectCategory);
+		return new ResponseEntity<List<LibraryBookCategoryCount>>(libraryBookCategoryCounts,HttpStatus.OK);
+	}
 	
 	//THESIS Services
 	@ApiOperation(value="Add a thesis", response= AddThesisResponse.class, httpMethod = "POST", produces="application/json")

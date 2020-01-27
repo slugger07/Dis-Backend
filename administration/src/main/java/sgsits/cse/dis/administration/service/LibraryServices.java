@@ -36,9 +36,11 @@ public interface LibraryServices {
 	List<LibraryBookRecords> getBookByAuthorName(String authorName) throws EventDoesNotExistException;
 	void updateBook(AddBookForm addBookForm, String bookId)throws EventDoesNotExistException,ConflictException;
 	void deleteBook(String bookId) throws EventDoesNotExistException,ConflictException;
-    List<LibraryBookCategoryCount> getSubjectCatergoryAcronymList();
+    List<String> getSubjectCatergoryAcronymList();
     void addNewSubjectCategory(LibraryBookCategoryCount libraryBookCategoryCount)  throws ConflictException;
 	void deleteSubjectCategory(String subjectCategory) throws EventDoesNotExistException;
+	List<LibraryBookCategoryCount> getSubjectNameByAcronym(String subjectCategory) throws EventDoesNotExistException;
+	List<LibraryBookCategoryCount> getAcronymBySubjectName(String subjectName) throws EventDoesNotExistException;
 	
 	
 	//thesis services.
