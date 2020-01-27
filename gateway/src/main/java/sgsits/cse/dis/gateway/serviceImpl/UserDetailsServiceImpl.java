@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.mail.util.MailConnectException;
 
+import javassist.NotFoundException;
 import sgsits.cse.dis.gateway.constants.GlobalURI;
 import sgsits.cse.dis.gateway.controller.EmailController;
 import sgsits.cse.dis.gateway.feignClient.UserClient;
@@ -70,8 +71,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //    }
 
     @Override
-    public ResponseEntity<?> authenticateUser(LoginForm loginRequest){
+    public ResponseEntity<?> authenticateUser(LoginForm loginRequest) throws NotFoundException{
         Optional<User> u = userRepository.findByUsername(loginRequest.getUsername());
+		if(u.empty().equals(Optional.empty()))
+			throw new NotFoundException("username not found");
+		
         if (u.get().isEnabled()) {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));

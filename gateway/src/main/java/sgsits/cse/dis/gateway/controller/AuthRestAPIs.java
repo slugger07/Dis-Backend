@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -37,7 +39,7 @@ public class AuthRestAPIs {
 
 	@ApiOperation(value="Sign in", response= JwtResponse.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/signin", produces = "application/json")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) throws NotFoundException {
 		return UserDetails.authenticateUser(loginRequest);
 	}
 

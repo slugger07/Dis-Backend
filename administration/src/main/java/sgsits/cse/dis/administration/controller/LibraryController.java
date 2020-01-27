@@ -144,7 +144,7 @@ public class LibraryController {
 	@PostMapping(path=RestAPI.ADD_BOOK_CATEGORY, produces = "text/palin")
 	public ResponseEntity<String> addBook(@RequestBody LibraryBookCategoryCount libraryBookCategoryCount) throws ConflictException {
 		libraryServicesImpl.addNewSubjectCategory(libraryBookCategoryCount);
-		return new ResponseEntity<String>(new String(" Category added successfully. Please note book's id "),HttpStatus.OK) ;
+		return new ResponseEntity<String>(new String(" Category added successfully."),HttpStatus.OK) ;
 	}
 	
 	
