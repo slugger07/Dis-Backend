@@ -73,7 +73,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public ResponseEntity<?> authenticateUser(LoginForm loginRequest) throws NotFoundException{
         Optional<User> u = userRepository.findByUsername(loginRequest.getUsername());
-		if(u.empty().equals(Optional.empty()))
+		if(u.isPresent() == false)
 			throw new NotFoundException("username not found");
 		
         if (u.get().isEnabled()) {
