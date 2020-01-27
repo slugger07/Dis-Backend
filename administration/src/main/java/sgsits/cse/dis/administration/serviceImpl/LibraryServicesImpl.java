@@ -63,7 +63,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	private AcademicsClient academicsClient;
 	
 	@Override
-	public List<String> getSubjectCatergoryAcronymList() {
+	public List<LibraryBookCategoryCount> getSubjectCatergoryAcronymList() {
 //		List<String> subjectAcronym = academicsClient.getAllSubjectAcronym();
 //		List<String> other = libraryBookRecordsRepository.getDistinctSubjectCategory();
 //		for(String temp : other) {
@@ -71,7 +71,8 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 //				subjectAcronym.add(temp);
 //		}
 //		return subjectAcronym;
-		return libraryBookRecordsRepository.getDistinctSubjectCategory();
+		return libraryBookCategoryCountRepository.findAll();
+//		return libraryBookRecordsRepository.getDistinctSubjectCategory();
 	}
 
 	@Transactional

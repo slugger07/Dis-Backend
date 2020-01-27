@@ -58,7 +58,7 @@ public class LibraryBookCategoryCount {
 	}
 
 	public void setSubjectCategory(String subjectCategory) {
-		this.subjectCategory = subjectCategory;
+		this.subjectCategory = subjectCategory.toUpperCase();
 	}
 
 	public Long getCount() {

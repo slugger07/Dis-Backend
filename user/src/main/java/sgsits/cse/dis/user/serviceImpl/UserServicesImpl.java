@@ -104,16 +104,16 @@ public class UserServicesImpl implements UserServices{
 
 	@Override
 	public List<ActiveStaffListResponse> getActiveStaffList() {
-		List<User> users = userRepository.findAllByEnabledAndNotUserType(1,"Student");
-		List<ActiveStaffListResponse> activeStaffListResponses = new ArrayList<ActiveStaffListResponse>();
-		List<StaffProfile> staffProfiles = staffRepository.findAll();
-		for(User user : users) {
-			activeStaffListResponses.add(new ActiveStaffListResponse(user.getId(),user.getUsername(),user.getEmail()));
-		}
-		
-		for(StaffProfile staffProfile : staffProfiles) {
-			
-		}
+//		List<User> users = userRepository.findAllByEnabledAndNotUserType(1,"Student");
+//		List<ActiveStaffListResponse> activeStaffListResponses = new ArrayList<ActiveStaffListResponse>();
+//		List<StaffProfile> staffProfiles = staffRepository.findAll();
+//		for(User user : users) {
+//			activeStaffListResponses.add(new ActiveStaffListResponse(user.getId(),user.getUsername(),user.getEmail()));
+//		}
+//		
+//		for(StaffProfile staffProfile : staffProfiles) {
+//			
+//		}
 		return null;
 	}
 }

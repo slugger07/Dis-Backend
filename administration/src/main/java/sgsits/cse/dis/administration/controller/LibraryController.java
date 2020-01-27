@@ -111,10 +111,10 @@ public class LibraryController {
 		return new ResponseEntity<List<LibraryBookRecords>>(libraryBookRecords,HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Get subject category acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get subject category acronyms", response = LibraryBookCategoryCount.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_SUBJECT_CATEGORY_LIST, produces = "application/json")
-	public ResponseEntity<List<String>> getSubjectCatergoryAcronymList(){
-		return new ResponseEntity<List<String>>(libraryServicesImpl.getSubjectCatergoryAcronymList(),HttpStatus.OK);
+	public ResponseEntity<List<LibraryBookCategoryCount>> getSubjectCatergoryAcronymList(){
+		return new ResponseEntity<List<LibraryBookCategoryCount>>(libraryServicesImpl.getSubjectCatergoryAcronymList(),HttpStatus.OK);
 //		return new ResponseEntity<List<String>>(academicsClient.getAllSubjectAcronym(),HttpStatus.OK);
 	}
 	
