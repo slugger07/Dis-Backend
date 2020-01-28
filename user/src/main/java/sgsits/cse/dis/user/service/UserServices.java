@@ -13,5 +13,5 @@ public interface UserServices {
 	boolean findUser(SignUpForm signup);
 	String findUserType(SignUpForm signup);
 	boolean updateEmailAndUserId(@RequestParam("mobileNo") long mobileNo);
-	List<ActiveStaffListResponse> getActiveStaffList();
+	List<ActiveStaffListResponse> getActiveStaffList() throws NotFoundException;
 }

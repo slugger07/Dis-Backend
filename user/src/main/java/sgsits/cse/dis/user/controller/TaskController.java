@@ -2,18 +2,26 @@ package sgsits.cse.dis.user.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
 import sgsits.cse.dis.user.constants.RestAPI;
+import sgsits.cse.dis.user.exception.ConflictException;
+import sgsits.cse.dis.user.jwt.JwtResolver;
+import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
@@ -26,6 +34,8 @@ import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 @RequestMapping(path = "/task")
 public class TaskController {
 	
+	private JwtResolver jwtResolver = new JwtResolver();
+	
 	@Autowired
 	private TaskServiceImpl taskServiceImpl;
 	
@@ -34,7 +44,7 @@ public class TaskController {
 	
 	@ApiOperation(value="Get Tasks list from category id", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_TASKS_FROM_CATEGORY_ID, produces = "application/json")
-	public ResponseEntity<List<CategorySpecificTaskResponse>> getTasksFromCategoryId(@PathVariable("categoryId") String categoryId){
+	public ResponseEntity<List<CategorySpecificTaskResponse>> getTasksFromCategoryId(@PathVariable("categoryId") String categoryId) throws NotFoundException{
 		return new ResponseEntity<List<CategorySpecificTaskResponse>>(taskServiceImpl.getTasksFromCategoryId(categoryId),HttpStatus.OK);
 	}
 	
@@ -46,7 +56,16 @@ public class TaskController {
 	
 	@ApiOperation(value="get active staff list", response = ActiveStaffListResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_ACTIVE_STAFF_LIST, produces = "application/json")
-	public ResponseEntity<List<ActiveStaffListResponse>> ActiveStaffListResponse(){
+	public ResponseEntity<List<ActiveStaffListResponse>> activeStaffListResponse() throws NotFoundException{
 		return new ResponseEntity<List<ActiveStaffListResponse>>(userServicesImpl.getActiveStaffList(),HttpStatus.OK);
 	}
+	
+	@ApiOperation(value="get active staff list", response = String.class, httpMethod = "POST", produces = "text/plain")
+	@PostMapping(path=RestAPI.ASSIGN_TASK, produces = "text/plain")
+	public ResponseEntity<String> assignTask(@RequestBody AssignTaskForm assignTaskForm,HttpServletRequest request) throws ConflictException{
+		return new ResponseEntity<String>(taskServiceImpl.assignTask(assignTaskForm,
+				jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"))),
+				HttpStatus.OK);
+	}
+	
 }

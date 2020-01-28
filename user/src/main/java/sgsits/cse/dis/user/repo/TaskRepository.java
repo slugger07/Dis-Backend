@@ -10,6 +10,8 @@ import sgsits.cse.dis.user.model.Task;
 
 @Component
 public interface TaskRepository extends JpaRepository<Task, String>{
+	
+	String findIdByName(String name);
 
 //	@Query(value = "SELECT id,name FROM task WHERE category = ?1", nativeQuery = true)
 //	List<TaskCategoryResponse> findIdAndNameByCategoryId(String categoryId);

@@ -103,18 +103,19 @@ public class UserServicesImpl implements UserServices{
 	}
 
 	@Override
-	public List<ActiveStaffListResponse> getActiveStaffList() {
-		List<User> users = userRepository.findAllByEnabledAndNotUserType(1,"Student");
+	public List<ActiveStaffListResponse> getActiveStaffList() throws NotFoundException {
+		List<User> users = userRepository.findAllByEnabledAndUserTypeNot(true,"Student");
+		if(users.isEmpty())
+			throw new NotFoundException("Activated staff accounts not found");
 		List<ActiveStaffListResponse> activeStaffListResponses = new ArrayList<ActiveStaffListResponse>();
-		//ActiveStaffListResponse temp = new ActiveStaffListResponse();
-		//List<StaffProfile> staffProfiles = staffRepository.findAll();
 		for(User user : users) {	
 			activeStaffListResponses.add(new ActiveStaffListResponse(user.getId(),
 					staffRepository.findByEmail(user.getEmail()).get().getName(),
 					user.getEmail()));
 		}
 		
-		return null;
+		return activeStaffListResponses;
 	}
+
 }
 

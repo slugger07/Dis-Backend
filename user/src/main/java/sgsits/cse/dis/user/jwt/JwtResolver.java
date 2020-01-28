@@ -13,10 +13,11 @@ public class JwtResolver {
 		return username;
 	}
 	
-	public long getIdFromJwtToken(String token){
+	public String getIdFromJwtToken(String token){
 		token = getJwt(token);
 		String id = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId();
-		return Integer.parseInt(id);
+		//return Integer.parseInt(id);
+		return id;
 	}
 
 	private String getJwt(String authHeader) {

@@ -21,4 +21,5 @@ public interface StaffRepository extends JpaRepository<StaffProfile, Long>{
 	Optional<StaffProfile> findByEmailAndMobileNoAndDob(String email, long mobileNo, Date dob);
 	Optional<StaffProfile> findByMobileNo(Long mobileNo);
 
+
 }

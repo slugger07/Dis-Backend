@@ -41,16 +41,30 @@ public class UserTasks {
     @Column(name = "deadline")
     private String deadline;
     
-    @Column(name = "discription")
+    @Column(name = "description")
     private String description;
     
     @Column(name = "status")
     private String status;
 
-	public UserTasks(String id, String createdBy, String createdDate, String modifiedBy, String modifiedDate,
+//	public UserTasks(String id, String createdBy, String createdDate, String modifiedBy, String modifiedDate,
+//			String userId, String taskId, String deadline, String description, String status) {
+//		super();
+//		this.id = id;
+//		this.createdBy = createdBy;
+//		this.createdDate = createdDate;
+//		this.modifiedBy = modifiedBy;
+//		this.modifiedDate = modifiedDate;
+//		this.userId = userId;
+//		this.taskId = taskId;
+//		this.deadline = deadline;
+//		this.description = description;
+//		this.status = status;
+//	}
+//	
+	public UserTasks( String createdBy, String createdDate, String modifiedBy, String modifiedDate,
 			String userId, String taskId, String deadline, String description, String status) {
 		super();
-		this.id = id;
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
 		this.modifiedBy = modifiedBy;
@@ -61,6 +75,7 @@ public class UserTasks {
 		this.description = description;
 		this.status = status;
 	}
+	
 
 	public UserTasks() {
 		super();

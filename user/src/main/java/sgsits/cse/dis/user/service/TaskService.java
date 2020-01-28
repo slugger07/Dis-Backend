@@ -2,12 +2,16 @@ package sgsits.cse.dis.user.service;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
+
+import javassist.NotFoundException;
+import sgsits.cse.dis.user.exception.ConflictException;
+import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
-import sgsits.cse.dis.user.model.UserTasks;
 
 public interface TaskService {
-	boolean assignTask(UserTasks userTask);
-	List<CategorySpecificTaskResponse> getTasksFromCategoryId(String category);
+	String assignTask(AssignTaskForm assignTaskForm,String userId) throws ConflictException,ConstraintViolationException;
+	List<CategorySpecificTaskResponse> getTasksFromCategoryId(String category) throws NotFoundException;
 	List<TaskCategoryResponse> getTaskCategoryList();
 }
