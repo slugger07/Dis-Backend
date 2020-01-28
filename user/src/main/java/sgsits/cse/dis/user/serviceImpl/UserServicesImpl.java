@@ -1,11 +1,17 @@
 package sgsits.cse.dis.user.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javassist.NotFoundException;
-import org.springframework.web.bind.annotation.RequestBody;
 import sgsits.cse.dis.user.message.request.SignUpForm;
+import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.model.StaffProfile;
 import sgsits.cse.dis.user.model.StudentProfile;
 import sgsits.cse.dis.user.model.User;
@@ -13,10 +19,6 @@ import sgsits.cse.dis.user.repo.StaffRepository;
 import sgsits.cse.dis.user.repo.StudentRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.service.UserServices;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
 
 @Component
 public class UserServicesImpl implements UserServices{
@@ -98,6 +100,21 @@ public class UserServicesImpl implements UserServices{
 			staffRepository.save(staff.get());
 			return true;
 		}
+	}
+
+	@Override
+	public List<ActiveStaffListResponse> getActiveStaffList() {
+		List<User> users = userRepository.findAllByEnabledAndNotUserType(1,"Student");
+		List<ActiveStaffListResponse> activeStaffListResponses = new ArrayList<ActiveStaffListResponse>();
+		//ActiveStaffListResponse temp = new ActiveStaffListResponse();
+		//List<StaffProfile> staffProfiles = staffRepository.findAll();
+		for(User user : users) {	
+			activeStaffListResponses.add(new ActiveStaffListResponse(user.getId(),
+					staffRepository.findByEmail(user.getEmail()).get().getName(),
+					user.getEmail()));
+		}
+		
+		return null;
 	}
 }
 

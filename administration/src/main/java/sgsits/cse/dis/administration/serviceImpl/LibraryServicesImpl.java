@@ -14,13 +14,13 @@ import sgsits.cse.dis.administration.exception.ConflictException;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.feignClient.AcademicsClient;
 import sgsits.cse.dis.administration.feignClient.UserClient;
-import sgsits.cse.dis.administration.model.LibraryBookCount;
+import sgsits.cse.dis.administration.model.LibraryBookCategoryCount;
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
 import sgsits.cse.dis.administration.model.LibraryCurrentIssues;
 import sgsits.cse.dis.administration.model.LibraryIssueHistory;
 import sgsits.cse.dis.administration.model.LibrarySettings;
 import sgsits.cse.dis.administration.model.LibraryThesisRecords;
-import sgsits.cse.dis.administration.repo.LibraryBookCountRepository;
+import sgsits.cse.dis.administration.repo.LibraryBookCategoryCountRepository;
 import sgsits.cse.dis.administration.repo.LibraryBookRecordsRepository;
 import sgsits.cse.dis.administration.repo.LibraryCurrentIssuesRepository;
 import sgsits.cse.dis.administration.repo.LibraryIssueHistoryRepository;
@@ -42,7 +42,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	private LibraryBookRecordsRepository libraryBookRecordsRepository;
 
 	@Autowired
-	private LibraryBookCountRepository libraryBookCountRepository;
+	private LibraryBookCategoryCountRepository libraryBookCategoryCountRepository;
 
 	@Autowired
 	private LibraryThesisRecordsRepository libraryThesisRecordsRepository;
@@ -64,13 +64,15 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	
 	@Override
 	public List<String> getSubjectCatergoryAcronymList() {
-		List<String> subjectAcronym = academicsClient.getAllSubjectAcronym();
-		List<String> other = libraryBookRecordsRepository.getDistinctSubjectCategory();
-		for(String temp : other) {
-			if(subjectAcronym.contains(temp) == false)
-				subjectAcronym.add(temp);
-		}
-		return subjectAcronym;
+//		List<String> subjectAcronym = academicsClient.getAllSubjectAcronym();
+//		List<String> other = libraryBookRecordsRepository.getDistinctSubjectCategory();
+//		for(String temp : other) {
+//			if(subjectAcronym.contains(temp) == false)
+//				subjectAcronym.add(temp);
+//		}
+//		return subjectAcronym;
+//		return libraryBookCategoryCountRepository.findAll();
+		return libraryBookRecordsRepository.getDistinctSubjectCategory();
 	}
 
 	@Transactional
@@ -133,20 +135,20 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	// Helper function to generate book-id
 
 	private String generateBookId(String subjectCategory) {
-		LibraryBookCount libraryBookCount = new LibraryBookCount(subjectCategory);
-		if (libraryBookCountRepository.findBySubjectCategory(subjectCategory).isEmpty()) {
-			libraryBookCount.setCount(1l);
-			libraryBookCount.setSubjectCategory(subjectCategory);
-			libraryBookCountRepository.save(libraryBookCount);
+		LibraryBookCategoryCount libraryBookCategoryCount = new LibraryBookCategoryCount(subjectCategory);
+//		if (libraryBookCountRepository.findBySubjectCategory(subjectCategory).isEmpty()) {
+//			libraryBookCategoryCount.setCount(1l);
+//			libraryBookCategoryCount.setSubjectCategory(subjectCategory);
+//			libraryBookCountRepository.save(libraryBookCategoryCount);
+//
+//		} else {
+			libraryBookCategoryCountRepository.updateCount(subjectCategory);
+			libraryBookCategoryCount = libraryBookCategoryCountRepository.findBySubjectCategory(subjectCategory).get(0);
+			libraryBookCategoryCount.setCount(libraryBookCategoryCount.getCount() + 1);
 
-		} else {
-			libraryBookCountRepository.updateCount(subjectCategory);
-			libraryBookCount = libraryBookCountRepository.findBySubjectCategory(subjectCategory).get(0);
-			libraryBookCount.setCount(libraryBookCount.getCount() + 1);
+//		}
 
-		}
-
-		return libraryBookCount.getSubjectCategory() + "-" + libraryBookCount.getCount();
+		return libraryBookCategoryCount.getSubjectCategory() + "-" + libraryBookCategoryCount.getCount();
 	}
 
 	@Override
@@ -465,6 +467,44 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return test;
 	}
 
+	@Override
+	public void addNewSubjectCategory(LibraryBookCategoryCount libraryBookCategoryCount) throws ConflictException {
+		if(libraryBookCategoryCountRepository.existsBySubjectCategory(libraryBookCategoryCount.getSubjectCategory()))
+			throw new ConflictException("Category id ["+libraryBookCategoryCount.getSubjectCategory()+"] already exists.");
+		else {
+			libraryBookCategoryCount.setCount(Long.valueOf(libraryBookRecordsRepository.
+					findByBookIdContaining(libraryBookCategoryCount.getSubjectCategory()).size()));
+			if(libraryBookCategoryCountRepository.save(libraryBookCategoryCount).equals(null))
+				throw new ConflictException("Category cannot be added. This is due to conflict in information on client side.");	
+		}
+	}
+
+	@Transactional
+	@Override
+	public void deleteSubjectCategory(String subjectCategory) throws EventDoesNotExistException{
+		if(libraryBookCategoryCountRepository.existsBySubjectCategory(subjectCategory)) {
+			if(libraryBookCategoryCountRepository.deleteBySubjectCategory(subjectCategory)<0)
+				throw new EventDoesNotExistException("Category not found. Cannot delete.");
+		}
+		else
+			throw new EventDoesNotExistException("Category id ["+subjectCategory+"] doesnt exists.");
+	}
+
+	@Override
+	public List<LibraryBookCategoryCount> getSubjectNameByAcronym(String subjectCategory) throws EventDoesNotExistException {
+		List<LibraryBookCategoryCount> libraryBookCategoryCounts = libraryBookCategoryCountRepository.findBySubjectCategoryContainingIgnoreCase(subjectCategory);
+		if (libraryBookCategoryCounts.isEmpty())
+			throw new EventDoesNotExistException("["+subjectCategory+"] does not exists");
+		return libraryBookCategoryCounts;
+	}
+
+	@Override
+	public List<LibraryBookCategoryCount> getAcronymBySubjectName(String subjectName) throws EventDoesNotExistException {
+		List<LibraryBookCategoryCount> libraryBookCategoryCounts = libraryBookCategoryCountRepository.findBySubjectNameContainingIgnoreCase(subjectName);
+		if (libraryBookCategoryCounts.isEmpty())
+			throw new EventDoesNotExistException("["+subjectName+"] does not exists");
+		return libraryBookCategoryCounts;
+	}
 
 }
 

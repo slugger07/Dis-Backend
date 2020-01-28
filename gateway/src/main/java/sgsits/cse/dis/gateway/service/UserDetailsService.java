@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.mail.util.MailConnectException;
 
+import javassist.NotFoundException;
 import sgsits.cse.dis.gateway.message.request.LoginForm;
 import sgsits.cse.dis.gateway.message.request.SignUpForm;
 import sgsits.cse.dis.gateway.message.response.ResponseMessage;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 @Component
 public interface UserDetailsService {
-    ResponseEntity<?> authenticateUser(LoginForm loginRequest);
+    ResponseEntity<?> authenticateUser(LoginForm loginRequest) throws NotFoundException;
     ResponseEntity<ResponseMessage> registerUser(SignUpForm signUpRequest, HttpServletRequest request)  throws SQLException, MailConnectException, UnknownHostException;
     ResponseEntity<ResponseMessage> preActivation(String recepientemail, HttpServletRequest request) throws MailConnectException, UnknownHostException;
     ModelAndView activateAccount(String token) throws ParseException;
