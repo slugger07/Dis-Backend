@@ -24,6 +24,7 @@ import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
+import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
@@ -66,6 +67,18 @@ public class TaskController {
 		return new ResponseEntity<String>(taskServiceImpl.assignTask(assignTaskForm,
 				jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"))),
 				HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="search tasks by user id", response = SearchTaskResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.SEARCH_TASK_BY_USER_ID, produces = "application/json")
+	public ResponseEntity<List<SearchTaskResponse>> searchTaskByUserId(@PathVariable("userId") String userId) throws NotFoundException{
+		return new ResponseEntity<List<SearchTaskResponse>>(taskServiceImpl.searchTaskByUserId(userId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="search tasks by task id", response = SearchTaskResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.SEARCH_TASK_BY_TASK_ID, produces = "application/json")
+	public ResponseEntity<List<SearchTaskResponse>> searchTaskByTaskId(@PathVariable("taskId") String taskId) throws NotFoundException{
+		return new ResponseEntity<List<SearchTaskResponse>>(taskServiceImpl.searchTaskByTaskId(taskId),HttpStatus.OK);
 	}
 	
 }

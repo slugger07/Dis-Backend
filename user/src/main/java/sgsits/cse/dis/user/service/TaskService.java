@@ -8,10 +8,13 @@ import javassist.NotFoundException;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
+import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 
 public interface TaskService {
 	String assignTask(AssignTaskForm assignTaskForm,String userId) throws ConflictException,ConstraintViolationException;
 	List<CategorySpecificTaskResponse> getTasksFromCategoryId(String category) throws NotFoundException;
 	List<TaskCategoryResponse> getTaskCategoryList();
+	List<SearchTaskResponse> searchTaskByUserId(String userId) throws NotFoundException;
+	List<SearchTaskResponse> searchTaskByTaskId(String taskId) throws NotFoundException;
 }

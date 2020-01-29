@@ -14,10 +14,12 @@ import javassist.NotFoundException;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
+import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 import sgsits.cse.dis.user.model.Task;
 import sgsits.cse.dis.user.model.TaskCategory;
 import sgsits.cse.dis.user.model.UserTasks;
+import sgsits.cse.dis.user.repo.StaffRepository;
 import sgsits.cse.dis.user.repo.TaskCategoryRepository;
 import sgsits.cse.dis.user.repo.TaskRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
@@ -38,6 +40,9 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private StaffRepository staffRepository;
 	
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
@@ -73,6 +78,28 @@ public class TaskServiceImpl implements TaskService {
 			taskCategoryResponses.add(new TaskCategoryResponse(task.getId(),task.getCategoryName()));
 		}
 		return taskCategoryResponses;
+	}
+
+	@Override
+	public List<SearchTaskResponse> searchTaskByUserId(String userId) throws NotFoundException{
+		List<UserTasks> userTasks = userTaskRepository.findByUserId(userId);
+		List<SearchTaskResponse> searchTaskResponses = new ArrayList<SearchTaskResponse>();
+		for(UserTasks temp : userTasks)
+			searchTaskResponses.add(new SearchTaskResponse(temp.getUserId(), staffRepository.findNameByUserId(userId).getName(), 
+					temp.getTaskId(), taskRepository.findNameById(temp.getTaskId()).getName(), 
+					temp.getDeadline(), temp.getDescription(), temp.getStatus()));
+		return searchTaskResponses;
+	}
+
+	@Override
+	public List<SearchTaskResponse> searchTaskByTaskId(String taskId) throws NotFoundException {
+		List<UserTasks> userTasks = userTaskRepository.findByTaskId(taskId);
+		List<SearchTaskResponse> searchTaskResponses = new ArrayList<SearchTaskResponse>();
+		for(UserTasks temp : userTasks)
+			searchTaskResponses.add(new SearchTaskResponse(temp.getUserId(), staffRepository.findNameByUserId(temp.getUserId()).getName(), 
+					temp.getTaskId(), taskRepository.findNameById(taskId).getName(), 
+					temp.getDeadline(), temp.getDescription(), temp.getStatus()));
+		return searchTaskResponses;
 	}
 	
 
