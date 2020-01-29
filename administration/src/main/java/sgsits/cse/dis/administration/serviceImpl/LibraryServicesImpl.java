@@ -142,7 +142,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 //			libraryBookCountRepository.save(libraryBookCategoryCount);
 //
 //		} else {
-			libraryBookCategoryCountRepository.updateCount(subjectCategory);
+//			libraryBookCategoryCountRepository.updateCount(subjectCategory);
 			libraryBookCategoryCount = libraryBookCategoryCountRepository.findBySubjectCategory(subjectCategory).get(0);
 			libraryBookCategoryCount.setCount(libraryBookCategoryCount.getCount() + 1);
 

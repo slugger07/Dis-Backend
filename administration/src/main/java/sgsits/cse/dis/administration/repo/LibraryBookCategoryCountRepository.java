@@ -21,9 +21,9 @@ public interface LibraryBookCategoryCountRepository extends JpaRepository<Librar
 //	@Transactional
 //	long removeById(String id);
 	
-	@Modifying
-	@Query(value = "UPDATE library_book_category_count SET count = count + 1 WHERE subject_category = ?1", nativeQuery = true)
-	void updateCount(String subjectCategory);
+//	@Modifying
+//	@Query(value = "UPDATE library_book_category_count SET count = count + 1 WHERE subject_category = ?1", nativeQuery = true)
+//	void updateCount(String subjectCategory);
 
 
 	boolean existsBySubjectCategory(String subjectCategory);
