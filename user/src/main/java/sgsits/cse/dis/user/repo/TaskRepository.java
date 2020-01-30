@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.model.Task;
 
-@Component
+@Repository("taskRepository")
 public interface TaskRepository extends JpaRepository<Task, String>{
 	
 	Task findIdByName(String name);

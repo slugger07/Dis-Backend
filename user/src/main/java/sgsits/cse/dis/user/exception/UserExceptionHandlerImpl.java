@@ -1,13 +1,9 @@
 package sgsits.cse.dis.user.exception;
 
-
-
-
-import java.sql.SQLIntegrityConstraintViolationException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javassist.NotFoundException;
+import sgsits.cse.dis.user.message.response.ResponseMessage;
 
 
 
@@ -23,14 +20,20 @@ public class UserExceptionHandlerImpl {
 
 	@ExceptionHandler({NotFoundException.class})
 	@ResponseBody
-	public ResponseEntity<String> eventDoesNotExistException(HttpServletRequest request,NotFoundException exception) {
-		return new ResponseEntity<String>(exception.getMessage(),HttpStatus.NOT_FOUND);
+	public ResponseEntity<ResponseMessage> eventDoesNotExistException(HttpServletRequest request,Exception e) {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.NOT_FOUND);
 	}
 	
-	@ExceptionHandler({ConstraintViolationException.class})
+	@ExceptionHandler({ConstraintViolationException.class,DataIntegrityViolationException.class})
 	@ResponseBody
-	public ResponseEntity<String> integrityConstraintViolationExistException(HttpServletRequest request) {
-		return new ResponseEntity<String>("This user is already assigned to same task.",HttpStatus.NOT_FOUND);
+	public ResponseEntity<ResponseMessage> integrityConstraintViolationExistException(HttpServletRequest request,Exception e) {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler({ConflictException.class})
+	@ResponseBody
+	public ResponseEntity<ResponseMessage> conflictException(HttpServletRequest request,Exception e) {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.BAD_REQUEST);
 	}
 
 }

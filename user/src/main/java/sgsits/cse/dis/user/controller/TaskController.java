@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,6 +80,13 @@ public class TaskController {
 	@GetMapping(path=RestAPI.SEARCH_TASK_BY_TASK_ID, produces = "application/json")
 	public ResponseEntity<List<SearchTaskResponse>> searchTaskByTaskId(@PathVariable("taskId") String taskId) throws NotFoundException{
 		return new ResponseEntity<List<SearchTaskResponse>>(taskServiceImpl.searchTaskByTaskId(taskId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="delete a task", response = String.class, httpMethod = "DELETE", produces = "text/plain")
+	@DeleteMapping(path=RestAPI.DELETE_TASK, produces = "text/plain")
+	public ResponseEntity<String> deleteTask(@PathVariable("userId") String userId , @PathVariable("taskId") String taskId) throws ConflictException{
+		taskServiceImpl.deleteTask(userId, taskId);	
+		return new ResponseEntity<String>(new String("Tasks deleted successfully. "),HttpStatus.OK);
 	}
 	
 }

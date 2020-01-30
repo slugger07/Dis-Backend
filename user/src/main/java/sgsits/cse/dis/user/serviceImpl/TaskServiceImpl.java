@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import javassist.NotFoundException;
@@ -47,14 +50,18 @@ public class TaskServiceImpl implements TaskService {
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
 	@Override
-	public String assignTask(AssignTaskForm assignTaskForm,String userId) throws ConflictException,ConstraintViolationException {
-		UserTasks test = userTaskRepository.save(new UserTasks(userId, simpleDateFormat.format(new Date()), null, null, 
+	public String assignTask(AssignTaskForm assignTaskForm,String assignedByUserId) throws ConflictException,DataIntegrityViolationException {
+		try{UserTasks test = userTaskRepository.save(new UserTasks(assignedByUserId, simpleDateFormat.format(new Date()), null, null, 
 				assignTaskForm.getUserId(),
 				assignTaskForm.getTaskId(), 
 				assignTaskForm.getDeadline(), assignTaskForm.getDescription(), assignTaskForm.getStatus()));
+				if(test.equals(null))
+					throw new ConflictException("Unable to assign task.");
+		}
+		catch (Exception e) {
+			throw new DataIntegrityViolationException("This user is already assigned to same task.");
+		}
 
-		if(test.equals(null))
-			throw new ConflictException("Unable to assign task.");
 		return "Task assigned successfully";
 	}
 
@@ -100,6 +107,14 @@ public class TaskServiceImpl implements TaskService {
 					temp.getTaskId(), taskRepository.findNameById(taskId).getName(), 
 					temp.getDeadline(), temp.getDescription(), temp.getStatus()));
 		return searchTaskResponses;
+	}
+
+	@Transactional
+	@Override
+	public void deleteTask(String userId, String taskId) throws ConflictException {
+		if(userTaskRepository.deleteByUserIdAndTaskId(userId,taskId)<=0)
+			throw new ConflictException("Cannot Delete selected task");
+		
 	}
 	
 

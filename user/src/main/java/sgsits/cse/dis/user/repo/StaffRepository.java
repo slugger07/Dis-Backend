@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.user.model.StaffProfile;
 
 @Repository("staffRepository")
-public interface StaffRepository extends JpaRepository<StaffProfile, Long>{
+public interface StaffRepository extends JpaRepository<StaffProfile, String>{
 	Optional<StaffProfile> findByEmail(String email);
 	Optional<StaffProfile> findByEmployeeId(String employeeId);
 	Optional<StaffProfile> findByUserId(Long userId);
