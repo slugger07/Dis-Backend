@@ -48,7 +48,7 @@ public class StaffController {
 		return new ResponseEntity<List<FacultyData>>(staffServiceImpl.getFacultyData(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "add new member", response = ResponseMessage.class, httpMethod = "POST", produces = "text/plain")
+	@ApiOperation(value = "add new member", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(value = RestAPI.ADD_NEW_MEMBER, produces = "application/json")
 	public ResponseEntity<ResponseMessage> addNewStaff(@RequestBody AddNewUser addNewUser,HttpServletRequest request) throws ConflictException {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(staffServiceImpl.addNewMember(addNewUser, jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),HttpStatus.OK);
