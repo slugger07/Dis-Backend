@@ -9,7 +9,7 @@ public class RestAPI {
 	public static final String ASSIGN_TASK = "/assignTask";
 	public static final String SEARCH_TASK_BY_USER_ID = "/searchTaskByUserId/{userId}";
 	public static final String SEARCH_TASK_BY_TASK_ID = "/searchTaskByTaskId/{taskId}";
-	public static final String DELETE_TASK ="/deleteTask/{userId}/{taskId}";
+	public static final String DELETE_TASK ="/deleteTask/{id}";
 	
 	//Staff profile data
 	public static final String GET_FACULTY_DATA ="/getFacultyData";

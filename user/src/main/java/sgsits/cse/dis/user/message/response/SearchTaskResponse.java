@@ -2,6 +2,7 @@ package sgsits.cse.dis.user.message.response;
 
 
 public class SearchTaskResponse {
+	private String id;
 	private String userId;
 	private String userName;
 	private String taskId;
@@ -15,9 +16,10 @@ public class SearchTaskResponse {
 		super();
 	}
 
-	public SearchTaskResponse(String userId, String userName, String taskId, String taskName, String deadline,
+	public SearchTaskResponse(String id,String userId, String userName, String taskId, String taskName, String deadline,
 			String description, String status,String createdDate) {
 		super();
+		this.id=id;
 		this.userId = userId;
 		this.userName = userName;
 		this.taskId = taskId;
@@ -29,9 +31,10 @@ public class SearchTaskResponse {
 	}
 
 	
-	public SearchTaskResponse(String userId, String userName, String taskId, String taskName, Object deadline,
+	public SearchTaskResponse(String id,String userId, String userName, String taskId, String taskName, Object deadline,
 			Object description, Object status,String createdDate) {
 		super();
+		this.id=id;
 		this.userId = userId;
 		this.userName = userName;
 		this.taskId = taskId;
@@ -51,6 +54,16 @@ public class SearchTaskResponse {
 			this.status=null;
 		else
 			this.status = String.valueOf(status);
+	}
+	
+	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getUserId() {

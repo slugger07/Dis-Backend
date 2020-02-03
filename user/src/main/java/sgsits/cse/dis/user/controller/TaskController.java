@@ -85,10 +85,10 @@ public class TaskController {
 	}
 	
 	@ApiOperation(value="delete a task", response = String.class, httpMethod = "DELETE", produces = "text/plain")
-	@DeleteMapping(path=RestAPI.DELETE_TASK, produces = "text/plain")
-	public ResponseEntity<String> deleteTask(@PathVariable("userId") String userId , @PathVariable("taskId") String taskId) throws ConflictException{
-		taskServiceImpl.deleteTask(userId, taskId);	
-		return new ResponseEntity<String>(new String("Tasks deleted successfully. "),HttpStatus.OK);
+	@DeleteMapping(path=RestAPI.DELETE_TASK, produces = "application/json")
+	public ResponseEntity<ResponseMessage> deleteTask(@PathVariable("id") String id ) throws ConflictException{
+		taskServiceImpl.deleteTask(id);	
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Tasks deleted successfully. "),HttpStatus.OK);
 	}
 	
 //	@ApiOperation(value="Get all assign task info", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")

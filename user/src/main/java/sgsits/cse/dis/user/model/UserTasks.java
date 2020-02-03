@@ -61,7 +61,7 @@ public class UserTasks {
 //		this.description = description;
 //		this.status = status;
 //	}
-//	
+	
 	public UserTasks( String createdBy, String createdDate, String modifiedBy, String modifiedDate,
 			String userId, String taskId, String deadline, String description, String status) {
 		super();

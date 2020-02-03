@@ -92,7 +92,7 @@ public class TaskServiceImpl implements TaskService {
 		List<UserTasks> userTasks = userTaskRepository.findByUserId(userId);
 		List<SearchTaskResponse> searchTaskResponses = new ArrayList<SearchTaskResponse>();
 		for(UserTasks temp : userTasks)
-			searchTaskResponses.add(new SearchTaskResponse(temp.getUserId(), staffRepository.findNameByUserId(userId).getName(), 
+			searchTaskResponses.add(new SearchTaskResponse(temp.getId(),temp.getUserId(), staffRepository.findNameByUserId(userId).getName(), 
 					temp.getTaskId(), taskRepository.findNameById(temp.getTaskId()).getName(), 
 					temp.getDeadline(), temp.getDescription(), temp.getStatus(),temp.getCreatedDate()));
 		return searchTaskResponses;
@@ -103,7 +103,7 @@ public class TaskServiceImpl implements TaskService {
 		List<UserTasks> userTasks = userTaskRepository.findByTaskId(taskId);
 		List<SearchTaskResponse> searchTaskResponses = new ArrayList<SearchTaskResponse>();
 		for(UserTasks temp : userTasks)
-			searchTaskResponses.add(new SearchTaskResponse(temp.getUserId(), staffRepository.findNameByUserId(temp.getUserId()).getName(), 
+			searchTaskResponses.add(new SearchTaskResponse(temp.getId(),temp.getUserId(), staffRepository.findNameByUserId(temp.getUserId()).getName(), 
 					temp.getTaskId(), taskRepository.findNameById(taskId).getName(), 
 					temp.getDeadline(), temp.getDescription(), temp.getStatus(),temp.getCreatedDate()));
 		return searchTaskResponses;
@@ -111,8 +111,8 @@ public class TaskServiceImpl implements TaskService {
 
 	@Transactional
 	@Override
-	public void deleteTask(String userId, String taskId) throws ConflictException {
-		if(userTaskRepository.deleteByUserIdAndTaskId(userId,taskId)<=0)
+	public void deleteTask(String id) throws ConflictException {
+		if(userTaskRepository.deleteTaskById(id)<=0)
 			throw new ConflictException("Cannot Delete selected task");
 		
 	}
@@ -130,7 +130,7 @@ public class TaskServiceImpl implements TaskService {
 		List<Object[]> infos = userTaskRepository.findAssignTaskInfo();
 		List<SearchTaskResponse> assignTasksInfo = new ArrayList<SearchTaskResponse>();
 		for(Object[] info : infos) {
-			assignTasksInfo.add(new SearchTaskResponse(String.valueOf(info[0]), String.valueOf(info[1]), String.valueOf(info[2]),
+			assignTasksInfo.add(new SearchTaskResponse(String.valueOf(info[8]),String.valueOf(info[0]), String.valueOf(info[1]), String.valueOf(info[2]),
 					String.valueOf(info[3]), info[4], info[5], info[6], String.valueOf(info[7])));
 		}
 		return assignTasksInfo;
