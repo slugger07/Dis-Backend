@@ -25,6 +25,7 @@ import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
+import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
@@ -62,11 +63,11 @@ public class TaskController {
 		return new ResponseEntity<List<ActiveStaffListResponse>>(userServicesImpl.getActiveStaffList(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="get active staff list", response = String.class, httpMethod = "POST", produces = "text/plain")
-	@PostMapping(path=RestAPI.ASSIGN_TASK, produces = "text/plain")
-	public ResponseEntity<String> assignTask(@RequestBody AssignTaskForm assignTaskForm,HttpServletRequest request) throws ConflictException{
-		return new ResponseEntity<String>(taskServiceImpl.assignTask(assignTaskForm,
-				jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"))),
+	@ApiOperation(value="get active staff list", response = ResponseMessage.class, httpMethod = "POST", produces = "text/plain")
+	@PostMapping(path=RestAPI.ASSIGN_TASK, produces = "application/json")
+	public ResponseEntity<ResponseMessage> assignTask(@RequestBody AssignTaskForm assignTaskForm,HttpServletRequest request) throws ConflictException{
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(taskServiceImpl.assignTask(assignTaskForm,
+				jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),
 				HttpStatus.OK);
 	}
 	
