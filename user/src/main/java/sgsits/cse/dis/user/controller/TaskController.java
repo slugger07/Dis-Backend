@@ -28,6 +28,7 @@ import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
+import sgsits.cse.dis.user.service.TaskService;
 import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
@@ -40,7 +41,7 @@ public class TaskController {
 	private JwtResolver jwtResolver = new JwtResolver();
 	
 	@Autowired
-	private TaskServiceImpl taskServiceImpl;
+	private TaskService taskServiceImpl;
 	
 	@Autowired
 	private UserServicesImpl userServicesImpl;
@@ -88,6 +89,18 @@ public class TaskController {
 	public ResponseEntity<String> deleteTask(@PathVariable("userId") String userId , @PathVariable("taskId") String taskId) throws ConflictException{
 		taskServiceImpl.deleteTask(userId, taskId);	
 		return new ResponseEntity<String>(new String("Tasks deleted successfully. "),HttpStatus.OK);
+	}
+	
+//	@ApiOperation(value="Get all assign task info", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
+//	@GetMapping(path=RestAPI.GET_ASSIGN_TASKS_INFO, produces = "application/json")
+//	public ResponseEntity<List<Object[]>> getAssignTasksInfo() throws NotFoundException{
+//		return new ResponseEntity<List<Object[]>>(taskServiceImpl.getAssignTasksInfo(),HttpStatus.OK);
+//	}
+	
+	@ApiOperation(value="Get all assign task info", response = SearchTaskResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path=RestAPI.GET_ASSIGN_TASKS_INFO, produces = "application/json")
+	public ResponseEntity<List<SearchTaskResponse>> getAssignTasksInfo() throws NotFoundException{
+		return new ResponseEntity<List<SearchTaskResponse>>(taskServiceImpl.getAssignTasksInfo(),HttpStatus.OK);
 	}
 	
 }

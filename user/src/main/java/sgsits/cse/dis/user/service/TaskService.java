@@ -19,4 +19,6 @@ public interface TaskService {
 	List<SearchTaskResponse> searchTaskByUserId(String userId) throws NotFoundException;
 	List<SearchTaskResponse> searchTaskByTaskId(String taskId) throws NotFoundException;
 	void deleteTask(String userId,String taskId) throws ConflictException;
+	//List<Object[]> getAssignTasksInfo();
+	List<SearchTaskResponse> getAssignTasksInfo();
 }

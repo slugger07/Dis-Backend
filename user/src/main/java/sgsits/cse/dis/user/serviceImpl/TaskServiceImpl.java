@@ -94,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
 		for(UserTasks temp : userTasks)
 			searchTaskResponses.add(new SearchTaskResponse(temp.getUserId(), staffRepository.findNameByUserId(userId).getName(), 
 					temp.getTaskId(), taskRepository.findNameById(temp.getTaskId()).getName(), 
-					temp.getDeadline(), temp.getDescription(), temp.getStatus()));
+					temp.getDeadline(), temp.getDescription(), temp.getStatus(),temp.getCreatedDate()));
 		return searchTaskResponses;
 	}
 
@@ -105,7 +105,7 @@ public class TaskServiceImpl implements TaskService {
 		for(UserTasks temp : userTasks)
 			searchTaskResponses.add(new SearchTaskResponse(temp.getUserId(), staffRepository.findNameByUserId(temp.getUserId()).getName(), 
 					temp.getTaskId(), taskRepository.findNameById(taskId).getName(), 
-					temp.getDeadline(), temp.getDescription(), temp.getStatus()));
+					temp.getDeadline(), temp.getDescription(), temp.getStatus(),temp.getCreatedDate()));
 		return searchTaskResponses;
 	}
 
@@ -115,6 +115,25 @@ public class TaskServiceImpl implements TaskService {
 		if(userTaskRepository.deleteByUserIdAndTaskId(userId,taskId)<=0)
 			throw new ConflictException("Cannot Delete selected task");
 		
+	}
+
+//	@Override
+//	public List<Object[]> getAssignTasksInfo() {
+//		List<Object[]> assignTaskInfo = userTaskRepository.findAssignTaskInfo();
+//		for(int i=0;i<assignTaskInfo.size();i++)
+//			System.out.println(assignTaskInfo.get(i)[1].toString());
+//		return assignTaskInfo;
+//	}
+	
+	@Override
+	public List<SearchTaskResponse> getAssignTasksInfo() {
+		List<Object[]> infos = userTaskRepository.findAssignTaskInfo();
+		List<SearchTaskResponse> assignTasksInfo = new ArrayList<SearchTaskResponse>();
+		for(Object[] info : infos) {
+			assignTasksInfo.add(new SearchTaskResponse(String.valueOf(info[0]), String.valueOf(info[1]), String.valueOf(info[2]),
+					String.valueOf(info[3]), String.valueOf(info[4]), String.valueOf(info[5]), String.valueOf(info[6]), String.valueOf(info[7])));
+		}
+		return assignTasksInfo;
 	}
 	
 

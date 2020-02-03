@@ -16,4 +16,5 @@ public class RestAPI {
 	public static final String GET_STAFF_DATA ="/getStaffData";
 	public static final String ADD_NEW_MEMBER ="/addNewMember";
 	public static final String GET_STAFF_WITH_NAME = "/getStaffWithName/{name}";
+	public static final String GET_ASSIGN_TASKS_INFO = "/getAssignTasksInfo";
 }

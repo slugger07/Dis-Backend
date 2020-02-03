@@ -2,20 +2,21 @@ package sgsits.cse.dis.user.message.response;
 
 
 public class SearchTaskResponse {
-	public String userId;
-	public String userName;
-	public String taskId;
-	public String taskName;
-	public String deadline;
-	public String description;
-	public String status;
+	private String userId;
+	private String userName;
+	private String taskId;
+	private String taskName;
+	private String deadline;
+	private String description;
+	private String status;
+	private String createdDate;
 		
 	public SearchTaskResponse() {
 		super();
 	}
 
 	public SearchTaskResponse(String userId, String userName, String taskId, String taskName, String deadline,
-			String description, String status) {
+			String description, String status,String createdDate) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -24,7 +25,15 @@ public class SearchTaskResponse {
 		this.deadline = deadline;
 		this.description = description;
 		this.status = status;
+		this.createdDate = createdDate;
+		if(deadline.equals("null"))
+			this.deadline=null;
+		if(description.equals("null"))
+			this.description=null;
+		if(status.equals("null"))
+			this.status=null;
 	}
+
 
 	public String getUserId() {
 		return userId;
@@ -82,5 +91,12 @@ public class SearchTaskResponse {
 		this.status = status;
 	}
 
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
 		
 }
