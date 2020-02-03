@@ -60,4 +60,15 @@ public class StaffServiceImpl implements StaffService {
 		}
 		return "Member added successfully";
 	}
+
+	@Override
+	public List<FacultyData> getStaffWithName(String name) {
+		List<StaffProfile> staffProfiles = staffRepository.findByNameContainingIgnoreCase(name);
+		List<FacultyData> facultyData = new ArrayList<FacultyData>();
+		for (StaffProfile faculty : staffProfiles) {
+			facultyData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
+					null, faculty.getCurrentDesignation(), faculty.getEmail(), faculty.getMobileNo(), faculty.getAlternateMobileNo()));
+		}
+		return facultyData;
+	}
 }

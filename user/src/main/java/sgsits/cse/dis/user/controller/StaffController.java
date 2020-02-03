@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,4 +54,11 @@ public class StaffController {
 	public ResponseEntity<ResponseMessage> addNewStaff(@RequestBody AddNewUser addNewUser,HttpServletRequest request) throws ConflictException {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(staffServiceImpl.addNewMember(addNewUser, jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "Find Staff with name", response = FacultyData.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = RestAPI.GET_STAFF_WITH_NAME, produces = "application/json")
+	public ResponseEntity<List<FacultyData>> getStaffWithName(@PathVariable("name") String name) {
+		return new ResponseEntity<List<FacultyData>>(staffServiceImpl.getStaffWithName(name),HttpStatus.OK);
+	}
+	
 }

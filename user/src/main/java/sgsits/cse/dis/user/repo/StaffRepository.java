@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.model.StaffProfile;
 
 @Repository("staffRepository")
@@ -21,6 +22,7 @@ public interface StaffRepository extends JpaRepository<StaffProfile, String>{
 	Optional<StaffProfile> findByEmailAndMobileNoAndDob(String email, long mobileNo, Date dob);
 	Optional<StaffProfile> findByMobileNo(Long mobileNo);
 	StaffProfile findNameByUserId(String userId);
+	List<StaffProfile> findByNameContainingIgnoreCase(String name);
 
 
 }
