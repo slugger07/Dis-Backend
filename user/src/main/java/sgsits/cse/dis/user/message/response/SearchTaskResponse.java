@@ -26,14 +26,32 @@ public class SearchTaskResponse {
 		this.description = description;
 		this.status = status;
 		this.createdDate = createdDate;
-		if(deadline.equals("null"))
-			this.deadline=null;
-		if(description.equals("null"))
-			this.description=null;
-		if(status.equals("null"))
-			this.status=null;
 	}
 
+	
+	public SearchTaskResponse(String userId, String userName, String taskId, String taskName, Object deadline,
+			Object description, Object status,String createdDate) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.taskId = taskId;
+		this.taskName = taskName;
+		this.createdDate = createdDate;
+		if(String.valueOf(deadline).equals("null"))
+			this.deadline=null;
+		else
+			this.deadline = String.valueOf(deadline);
+		
+		if(String.valueOf(description).equals("null"))
+			this.description=null;
+		else
+			this.description = String.valueOf(description);
+			
+		if(String.valueOf(status).equals("null"))
+			this.status=null;
+		else
+			this.status = String.valueOf(status);
+	}
 
 	public String getUserId() {
 		return userId;

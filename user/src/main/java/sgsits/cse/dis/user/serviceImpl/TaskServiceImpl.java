@@ -131,7 +131,7 @@ public class TaskServiceImpl implements TaskService {
 		List<SearchTaskResponse> assignTasksInfo = new ArrayList<SearchTaskResponse>();
 		for(Object[] info : infos) {
 			assignTasksInfo.add(new SearchTaskResponse(String.valueOf(info[0]), String.valueOf(info[1]), String.valueOf(info[2]),
-					String.valueOf(info[3]), String.valueOf(info[4]), String.valueOf(info[5]), String.valueOf(info[6]), String.valueOf(info[7])));
+					String.valueOf(info[3]), info[4], info[5], info[6], String.valueOf(info[7])));
 		}
 		return assignTasksInfo;
 	}
