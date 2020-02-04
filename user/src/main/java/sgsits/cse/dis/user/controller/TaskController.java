@@ -111,4 +111,6 @@ public class TaskController {
 		taskServiceImpl.updateStatus(status, id);
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Setings Updated"),HttpStatus.OK);
 	}	
+	
+
 }

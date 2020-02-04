@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
 import sgsits.cse.dis.user.constants.RestAPI;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.message.request.AddNewUser;
+import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.service.StaffService;
@@ -60,5 +62,9 @@ public class StaffController {
 	public ResponseEntity<List<FacultyData>> getStaffWithName(@PathVariable("name") String name) {
 		return new ResponseEntity<List<FacultyData>>(staffServiceImpl.getStaffWithName(name),HttpStatus.OK);
 	}
-	
+	@ApiOperation(value="get active staff list", response = ResponseMessage.class, httpMethod = "GET", produces = "text/plain")
+	@GetMapping(path=RestAPI.GET_MY_USER_ID, produces = "application/json")
+	public ResponseEntity<ResponseMessage> getMyUserId(HttpServletRequest request) throws NotFoundException{
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"))),HttpStatus.OK);
+	}
 }
