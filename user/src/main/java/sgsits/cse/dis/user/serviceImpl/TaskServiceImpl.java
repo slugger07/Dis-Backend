@@ -135,6 +135,13 @@ public class TaskServiceImpl implements TaskService {
 		}
 		return assignTasksInfo;
 	}
+
+	@Transactional
+	@Override
+	public void updateStatus(String status, String id) {
+		userTaskRepository.updateStatusById(status,id);
+		
+	}	
 	
 
 }

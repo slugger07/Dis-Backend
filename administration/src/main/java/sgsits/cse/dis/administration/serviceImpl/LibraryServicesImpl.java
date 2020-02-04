@@ -389,7 +389,7 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	public String returnThesis(long thesisId) throws ParseException {
 		System.out.println("Flag Start");
 		List<LibraryCurrentIssues> libraryCurrentIssues = libraryCurrentIssuesRepository.findByThesisId(thesisId);
-		System.out.println("Flag 0");
+		//System.out.println("Flag 0");
 		//Transfer info to archive.
 		try {
 			LibraryIssueHistory test = new LibraryIssueHistory(libraryCurrentIssues.get(0).getUserName(), libraryCurrentIssues.get(0).getIssueDate(),
@@ -401,11 +401,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 			e.printStackTrace();
 			throw new ParseException("Unable to get penality", 0);
 		}
-		System.out.println("Flag 1");
+		//System.out.println("Flag 1");
 		//Change Book status to available.
 		libraryThesisRecordsRepository.updateStatus("Available", thesisId);
 		//Delete Current Issue
-		System.out.println("Flag 2");
+		//System.out.println("Flag 2");
 		if(libraryCurrentIssuesRepository.deleteByThesisId(thesisId) > 0)
 			return new String("Return Successfull. Please make sure that penality amount(if any) has been collected");
 		return new String("Return UnSuccessfull. Please try again later");

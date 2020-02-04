@@ -31,4 +31,8 @@ public interface UserTaskRepository extends JpaRepository<UserTasks , String> {
 			+ " user_tasks.user_id=staff_basic_profile.user_id;",nativeQuery = true)
 	List<Object[]> findAssignTaskInfo();
 
+	@Query(value = "UPDATE user_tasks SET status =?1 WHERE id = ?2", nativeQuery = true)
+	@Modifying
+	void updateStatusById(String status, String id);
+
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,7 @@ import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
+import sgsits.cse.dis.user.repo.UserTaskRepository;
 import sgsits.cse.dis.user.service.TaskService;
 import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
@@ -103,4 +105,10 @@ public class TaskController {
 		return new ResponseEntity<List<SearchTaskResponse>>(taskServiceImpl.getAssignTasksInfo(),HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="Update task status", response = ResponseMessage.class, httpMethod = "PUT", produces = "text/plain")
+	@PutMapping(path=RestAPI.UPDATE_TASK_STATUS, produces = "application/json")
+	public ResponseEntity<ResponseMessage> updateTaskStatus(@PathVariable("status") String status,@PathVariable("id")String id ){
+		taskServiceImpl.updateStatus(status, id);
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Setings Updated"),HttpStatus.OK);
+	}	
 }

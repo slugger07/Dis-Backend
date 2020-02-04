@@ -21,4 +21,6 @@ public interface TaskService {
 	void deleteTask(String id) throws ConflictException;
 	//List<Object[]> getAssignTasksInfo();
 	List<SearchTaskResponse> getAssignTasksInfo();
+	void updateStatus(String status,String id);
+	
 }
