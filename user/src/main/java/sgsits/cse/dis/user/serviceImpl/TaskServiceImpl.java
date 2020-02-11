@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
@@ -116,14 +114,6 @@ public class TaskServiceImpl implements TaskService {
 			throw new ConflictException("Cannot Delete selected task");
 		
 	}
-
-//	@Override
-//	public List<Object[]> getAssignTasksInfo() {
-//		List<Object[]> assignTaskInfo = userTaskRepository.findAssignTaskInfo();
-//		for(int i=0;i<assignTaskInfo.size();i++)
-//			System.out.println(assignTaskInfo.get(i)[1].toString());
-//		return assignTaskInfo;
-//	}
 	
 	@Override
 	public List<SearchTaskResponse> getAssignTasksInfo() {

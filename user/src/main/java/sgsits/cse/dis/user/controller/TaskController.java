@@ -29,9 +29,7 @@ import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
-import sgsits.cse.dis.user.repo.UserTaskRepository;
 import sgsits.cse.dis.user.service.TaskService;
-import sgsits.cse.dis.user.serviceImpl.TaskServiceImpl;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
 @CrossOrigin(origins = "*")

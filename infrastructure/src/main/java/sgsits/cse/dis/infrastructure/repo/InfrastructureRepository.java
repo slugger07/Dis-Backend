@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
 
 @Repository("infrastructureRepository")
-public interface InfrastructureRepository extends JpaRepository<Infrastructure, Long> {
+public interface InfrastructureRepository extends JpaRepository<Infrastructure, String> {
 	List<Infrastructure> findByName(String name);
 	List<Infrastructure> findByInchargeOrAssociateInchargeOrStaff(long id1, long id2, long id3);
+	List<Infrastructure> findByTypeOrType(String type1, String Type2);
+	List<Infrastructure> findByType(String type);
 }

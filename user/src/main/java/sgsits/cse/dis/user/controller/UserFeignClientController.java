@@ -1,13 +1,18 @@
 package sgsits.cse.dis.user.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 import sgsits.cse.dis.user.message.request.SignUpForm;
+import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
 @Api(value = "User Feign Client Controller")
@@ -44,5 +49,11 @@ public class UserFeignClientController {
     {
         return userServicesImpl.updateEmailAndUserId(mobileNo);
     }
+    
+	@ApiOperation(value="Get active staff list", response = boolean.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = "/getActiveStaffList")
+	public ResponseEntity<List<ActiveStaffListResponse>> activeStaffListResponse() throws NotFoundException{
+		return new ResponseEntity<List<ActiveStaffListResponse>>(userServicesImpl.getActiveStaffList(),HttpStatus.OK);
+	}
 
 }
