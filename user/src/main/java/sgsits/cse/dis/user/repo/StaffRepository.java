@@ -15,7 +15,7 @@ import sgsits.cse.dis.user.model.StaffProfile;
 public interface StaffRepository extends JpaRepository<StaffProfile, String>{
 	Optional<StaffProfile> findByEmail(String email);
 	Optional<StaffProfile> findByEmployeeId(String employeeId);
-	Optional<StaffProfile> findByUserId(Long userId);
+	Optional<StaffProfile> findByUserId(String userId);
 	//@Query(value="SELECT s.name, s.email from staff_basic_profile s where class = 'I' or class = 'II' order by current_designation", nativeQuery=true)
 	List<StaffProfile> findByClasssOrClasssOrderByCurrentDesignation(String classs1, String classs2);
 	boolean existsByEmailAndMobileNoAndDob(String email, long mobileNo, Date dob);

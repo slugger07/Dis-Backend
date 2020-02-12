@@ -1,10 +1,10 @@
 package sgsits.cse.dis.infrastructure.model;
 
 import java.time.Instant;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -72,6 +72,9 @@ public class Infrastructure {
 	
 	@Column(name = "no_of_almirah")
 	private Integer noofAlmirah;
+	
+	@Column(name = "description")
+	private String description;
 
 	public String getId() {
 		return id;
@@ -185,11 +188,12 @@ public class Infrastructure {
 		this.attendant = attendant;
 	}
 
-	public int getNoofTables() {
+	public Integer getNoofTables() {
 		return noofTables;
 	}
-
-	public void setNoofTables(int noofTables) {
+	
+	
+	public void setNoofTables(Integer noofTables) {
 		this.noofTables = noofTables;
 	}
 
@@ -217,6 +221,15 @@ public class Infrastructure {
 		this.noofAlmirah = noofAlmirah;
 	}
 
+	public String getDescription() {
+		return description;
+	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+		
 
 }

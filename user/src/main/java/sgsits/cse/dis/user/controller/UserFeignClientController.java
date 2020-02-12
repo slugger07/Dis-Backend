@@ -11,8 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
+import sgsits.cse.dis.user.constants.RestAPI;
 import sgsits.cse.dis.user.message.request.SignUpForm;
 import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
+import sgsits.cse.dis.user.message.response.FacultyData;
+import sgsits.cse.dis.user.model.StaffProfile;
+import sgsits.cse.dis.user.repo.StaffRepository;
+import sgsits.cse.dis.user.service.StaffService;
+import sgsits.cse.dis.user.service.UserServices;
+import sgsits.cse.dis.user.serviceImpl.StaffServiceImpl;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
 @Api(value = "User Feign Client Controller")
@@ -21,7 +28,13 @@ import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 public class UserFeignClientController {
 
 	@Autowired
-	private UserServicesImpl userServicesImpl;
+	private UserServices userServicesImpl;
+	
+	@Autowired
+	private StaffService staffService;
+	
+	@Autowired
+	private StaffRepository staffRepository;
 	
 	@ApiOperation(value="Verify username", response = boolean.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = "/existsByUsername/{username}")
@@ -54,6 +67,24 @@ public class UserFeignClientController {
 	@GetMapping(value = "/getActiveStaffList")
 	public ResponseEntity<List<ActiveStaffListResponse>> activeStaffListResponse() throws NotFoundException{
 		return new ResponseEntity<List<ActiveStaffListResponse>>(userServicesImpl.getActiveStaffList(),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Staff name list", response = FacultyData.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = "/getStaffNameList", produces = "application/json")
+	public ResponseEntity<List<FacultyData>> getStaffData() {
+		return new ResponseEntity<List<FacultyData>>(staffService.getStaffData(),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Faculty name list", response = FacultyData.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = "/getFacultyNameList", produces = "application/json")
+	public ResponseEntity<List<FacultyData>> getFacultyData() {
+		return new ResponseEntity<List<FacultyData>>(staffService.getFacultyData(),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "get user name by id", response = String.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = "/getUserNameById/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<String> getUserNameById(@PathVariable String userId){
+		return  new ResponseEntity<String>(staffRepository.findByUserId(userId).get().getName(),HttpStatus.OK);
 	}
 
 }
