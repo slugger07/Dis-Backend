@@ -1,5 +1,6 @@
 package sgsits.cse.dis.infrastructure.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -14,8 +15,10 @@ import org.springframework.stereotype.Service;
 import javassist.NotFoundException;
 import sgsits.cse.dis.infrastructure.exception.ConflictException;
 import sgsits.cse.dis.infrastructure.feignClient.UserClient;
+import sgsits.cse.dis.infrastructure.model.FacultyRoomAssociation;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
 import sgsits.cse.dis.infrastructure.model.InfrastructureLocation;
+import sgsits.cse.dis.infrastructure.repo.FacultyRoomAssociationRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureLocationRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureTypeRepository;
@@ -34,6 +37,9 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 	
 	@Autowired
 	private InfrastructureLocationRepository infrastructureLocationRepository;
+	
+	@Autowired
+	private FacultyRoomAssociationRepository facultyRoomAssociationRepository;
 	
 	@Autowired
 	private UserClient userClient;
@@ -79,8 +85,34 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 	
 	@Override
 	public List<RoomAssociationData> getRooms() {
-		// TODO Auto-generated method stub
-		return null;
+//		List<Infrastructure> facultyRoom = infrastructureRepository.findByType("Faculty Room");
+//			
+//			List<RoomAssociationData> associationDatas;
+//			facultyRoom.stream()
+//			.map(room ->  new RoomAssociationData(room.getId(), room.getName(), room.getArea(),
+//													room.getLocation())).
+//			.forEach(room -> room.setAssociatedTo(associatedTo));
+		
+		List<Infrastructure> infra = infrastructureRepository.findByType("Faculty Room");
+		List<RoomAssociationData> roomAssociatedData = new ArrayList<>();
+		for (Infrastructure inf : infra) {
+			RoomAssociationData rad = new RoomAssociationData();
+			rad.setId(inf.getId());
+			rad.setArea(inf.getArea());
+			rad.setLocation(inf.getLocation());
+			rad.setName(inf.getName());
+			List<FacultyRoomAssociation> facultyRoomId = facultyRoomAssociationRepository.findByRoomId(inf.getName());
+			int number = facultyRoomId.size();
+			String facultyAssociated[] = new String[number];
+			int i=0;
+			for(FacultyRoomAssociation fra: facultyRoomId) {
+				facultyAssociated[i] = userClient.getUserNameById(fra.getFacultyId());
+				i++;
+			}
+			rad.setAssociatedTo(facultyAssociated);
+			roomAssociatedData.add(rad);
+		}
+		return roomAssociatedData;
 	}
 	
 	@Override
@@ -128,11 +160,11 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 	}
 	
 	@Override
-	public Infrastructure findInfrastructureByName(String name) throws NotFoundException {
-		Optional<Infrastructure> temp = infrastructureRepository.findByNameContainingIgnoreCase(name);
-		if(!temp.isPresent())
+	public List<Infrastructure> findInfrastructureByName(String name) throws NotFoundException {
+		List<Infrastructure> temp = infrastructureRepository.findByNameContainingIgnoreCase(name);
+		if(temp.isEmpty())
 			throw new NotFoundException("Not infrastructure with name ["+name+"] found.");
-		return temp.get();
+		return temp;
 		
 	}
 	

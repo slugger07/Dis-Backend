@@ -1,21 +1,34 @@
 package sgsits.cse.dis.infrastructure.response;
 
 public class RoomAssociationData {
-	private Long id;
+	private String id;
 	private String name;
 	private String area;
 	private String location;
-	private String[] AssociatedTo;
+	private String[] associatedTo;
+	
+	public RoomAssociationData() {
+		super();
+	}
+
+	public RoomAssociationData(String id, String name, String area, String location) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.area = area;
+		this.location = location;
+	}
+
 	public String[] getAssociatedTo() {
-		return AssociatedTo;
+		return associatedTo;
 	}
 	public void setAssociatedTo(String[] associatedTo) {
-		AssociatedTo = associatedTo;
+		this.associatedTo = associatedTo;
 	}
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

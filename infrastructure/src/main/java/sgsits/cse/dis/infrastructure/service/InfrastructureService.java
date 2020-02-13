@@ -17,5 +17,5 @@ public interface InfrastructureService {
 	String addNewInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException;
 	void deleteInfrastructure(String id) throws ConflictException;
 	String updateInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException;
-	Infrastructure findInfrastructureByName(String name) throws NotFoundException;
+	List<Infrastructure> findInfrastructureByName(String name) throws NotFoundException;
 }

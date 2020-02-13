@@ -20,5 +20,5 @@ public interface InfrastructureRepository extends JpaRepository<Infrastructure, 
 	
 	@Modifying
 	long deleteInfrastructureById(String id);
-	Optional<Infrastructure> findByNameContainingIgnoreCase(String name);
+	List<Infrastructure> findByNameContainingIgnoreCase(String name);
 }

@@ -24,13 +24,13 @@ public class FacultyRoomAssociation {
 	private String id;
 
 	@Column(name = "created_by", nullable = false)
-	private Long createdBy;
+	private String createdBy;
 	
 	@Column(name = "created_date", nullable = false)
 	private Instant createdDate;
 
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 
 	@Column(name = "modified_date")
 	private Instant modifiedDate;
@@ -52,11 +52,11 @@ public class FacultyRoomAssociation {
 		this.id = id;
 	}
 
-	public Long getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -68,11 +68,11 @@ public class FacultyRoomAssociation {
 		this.createdDate = createdDate;
 	}
 
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 

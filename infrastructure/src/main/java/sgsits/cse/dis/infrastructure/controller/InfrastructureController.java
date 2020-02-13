@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import sgsits.cse.dis.infrastructure.jwt.JwtResolver;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
 import sgsits.cse.dis.infrastructure.response.ResponseMessage;
+import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
 import sgsits.cse.dis.infrastructure.service.InfrastructureService;
 
 @CrossOrigin(origins = "*")
@@ -91,7 +93,7 @@ public class InfrastructureController {
 
 	@ApiOperation(value="Get Infrastructure type list", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_NEW_INFRASTRUCTURE, produces = "application/json")
-	public ResponseEntity<ResponseMessage> addNewInfrastructure(@RequestBody Infrastructure infrastructure,HttpServletRequest request) throws ConflictException{
+	public ResponseEntity<ResponseMessage> addNewInfrastructure(@RequestBody @Valid Infrastructure infrastructure,HttpServletRequest request) throws ConflictException{
 		return new ResponseEntity<ResponseMessage>( new ResponseMessage(infrastructureService.addNewInfrastructure(infrastructure,
 									jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),HttpStatus.OK);
 	}
@@ -112,8 +114,13 @@ public class InfrastructureController {
 	
 	@ApiOperation(value = "find Infrastructure by name", response = Infrastructure.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = RestAPI.GET_INFRASTRUCTURE_BY_NAME,produces="application/json")
-	public ResponseEntity<Infrastructure> findByName(@PathVariable String name) throws NotFoundException {
-		return new ResponseEntity<Infrastructure>(infrastructureService.findInfrastructureByName(name),HttpStatus.OK);
+	public ResponseEntity<List<Infrastructure>> findByName(@PathVariable String name) throws NotFoundException {
+		return new ResponseEntity<List<Infrastructure>>(infrastructureService.findInfrastructureByName(name),HttpStatus.OK);
 	}
-
+	
+	@ApiOperation(value = "Get faculty rooms", response = RoomAssociationData.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = RestAPI.GET_FACULTY_ROOMS)
+	public List<RoomAssociationData> getRoomsAndAssociation(){
+		return infrastructureService.getRooms();
+	}
 }

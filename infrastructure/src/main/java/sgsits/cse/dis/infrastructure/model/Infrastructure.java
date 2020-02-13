@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -34,12 +36,14 @@ public class Infrastructure {
 	@Column(name = "modified_date")
 	private Instant modifiedDate;
 	
+	@NotBlank(message = "Name cannot be null/empty")
 	@Column(name = "name")
 	private String name;
 	
 	@Column(name = "name_acronym")
 	private String nameAcronym;
 	
+	@NotBlank(message = "Type cannot be null/empty")
 	@Column(name = "type")
 	private String type;
 	
