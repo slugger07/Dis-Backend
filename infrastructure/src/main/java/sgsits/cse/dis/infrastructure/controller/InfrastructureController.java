@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,21 @@ import sgsits.cse.dis.infrastructure.response.ResponseMessage;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
 import sgsits.cse.dis.infrastructure.service.InfrastructureService;
 
+/**
+ * <h1>InfrastructureController</h1> class.
+ * <p>This controller exposes infrastructure services as REST end points at default path <b>/infrastucture</b>.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 27-JAN-2020.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 @CrossOrigin(origins = "*")
 @Api(value = "Infrastructure resource controller")
 @RestController

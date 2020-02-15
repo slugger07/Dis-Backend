@@ -18,6 +18,12 @@ import com.sun.mail.util.MailConnectException;
 import javassist.NotFoundException;
 import sgsits.cse.dis.gateway.message.response.ResponseMessage;
 
+/**
+ * <h1>GatewayExceptionHandler</h1> class.
+ * This class is exception handler containing handler for different exceptions.
+ * @author Arjit Mishra
+ * @since 2-DEC-2019
+ */
 @RestControllerAdvice
 public class GatewayExceptionHandlerImpl {
 

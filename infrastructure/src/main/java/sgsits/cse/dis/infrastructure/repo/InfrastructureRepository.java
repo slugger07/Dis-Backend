@@ -10,7 +10,12 @@ import org.springframework.stereotype.Repository;
 
 
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
-
+/**
+ * <h1>InfrastructureRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Arjit Mishra
+ * @since 25-JAN-2020
+ */
 @Repository("infrastructureRepository")
 public interface InfrastructureRepository extends JpaRepository<Infrastructure, String> {
 	List<Infrastructure> findByName(String name);

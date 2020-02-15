@@ -7,7 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.model.User;
-
+/**
+ * <h1>UserRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Devyani Garg,Arjit Mishra
+ * @since 8-DEC-2018
+ */
 @Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUsername(String username);

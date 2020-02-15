@@ -8,6 +8,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>LibraryBookCategoryCount</b> class.</h1>
+ * <p>This class is model for table <b>library_book_category_counts</b> to act as DAO.
+ * This table contains data related to count of books category wise to generate Book-Id.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ */
+
 @Entity
 @Table(name = "library_book_category_count")
 public class LibraryBookCategoryCount {

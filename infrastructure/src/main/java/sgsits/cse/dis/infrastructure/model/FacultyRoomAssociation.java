@@ -10,6 +10,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>FacultyRoomAssociation</b> class.</h1>
+ * <p>This class is model for table <b>faculty_room_rassociation</b> to act as DAO.
+ * This table contains relation between userId and roomId to show which faculty is assigned to which room.
+ * @author Arjit Mishra,Devyani garg.
+ * @version 1.0.
+ * @since 25-JAN-2020.
+ */
 @Entity
 @Table(name = "faculty_room_association")
 public class FacultyRoomAssociation {

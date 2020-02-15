@@ -9,7 +9,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import sgsits.cse.dis.administration.model.LibraryBookCategoryCount;
-
+/**
+ * <h1>LibraryBookCategoryCountRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Arjit Mishra
+ * @since 2-DEC-2019
+ */
 @Repository
 public interface LibraryBookCategoryCountRepository extends JpaRepository<LibraryBookCategoryCount, String> {
 

@@ -8,6 +8,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>TaskCategory</b> class.</h1>
+ * <p>This class is model for table <b>task_category</b> to act as DAO.
+ * this table contains list of categories in which tasks are divided.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 4-JAN-2020.
+ */
 @Entity
 @Table(name = "task_category")
 public class TaskCategory {

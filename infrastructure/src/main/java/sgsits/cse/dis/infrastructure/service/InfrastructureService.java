@@ -7,7 +7,22 @@ import sgsits.cse.dis.infrastructure.exception.ConflictException;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
-
+/**
+ * <h1><b>InfrasturctureService</b> interface.</h1>
+ * <p>This interface lists all the Infrasturcutre services which can be implemented by class extending it.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 public interface InfrastructureService {
 	List<String> getListOfInfrastructureLocations();
 	List<String> getInfrastructureTypeList();

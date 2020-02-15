@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javassist.NotFoundException;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
-
-
+/**
+ * <h1>UserExceptionHandler</h1> class.
+ * This class is exception handler containing handler for different exceptions.
+ * @author Arjit Mishra
+ * @since 2-DEC-2019
+ */
 
 @RestControllerAdvice
 public class UserExceptionHandlerImpl {

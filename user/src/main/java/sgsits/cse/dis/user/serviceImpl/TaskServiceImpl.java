@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javassist.NotFoundException;
 import sgsits.cse.dis.user.exception.ConflictException;
@@ -26,7 +27,22 @@ import sgsits.cse.dis.user.repo.TaskRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.repo.UserTaskRepository;
 import sgsits.cse.dis.user.service.TaskService;
-
+/**
+ * <h1><b>TaskServiceImpl</b> class.</h1>
+ * <p>This class contains implementation of all the library services which are defined in the <b>TaskService</b> interface.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 @Component
 public class TaskServiceImpl implements TaskService {
 

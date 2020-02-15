@@ -33,6 +33,19 @@ import sgsits.cse.dis.administration.response.IssuedInformationResponse;
 import sgsits.cse.dis.administration.service.LibraryServices;
 import sgsits.cse.dis.administration.util.CalenderGeneralServices;
 
+/**
+ * <h1><b>LibraryServiceImpl</b> class.</h1>
+ * <p>This class contains implementation of all the library services which are defined in the <b>LibraryService</b> interface.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @see NotFoundException.
+ */
+
 @Component
 public class LibraryServicesImpl implements LibraryServices, Serializable {
 
@@ -75,6 +88,10 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryBookRecordsRepository.getDistinctSubjectCategory();
 	}
 
+	/** add a new book into the system.
+	 * @param AddBookForm
+	 * @return message
+	 */
 	@Transactional
 	@Override
 	public String addBook(AddBookForm addBookForm) throws ConflictException {
@@ -100,11 +117,20 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return bookId;
 	}
 
+	/**
+	 * List all book present in the system.
+	 * @return LibraryBookRecords List
+	 */
 	@Override
 	public List<LibraryBookRecords> getAllBooks() {
 		return libraryBookRecordsRepository.findAll();
 	}
 
+	/**
+	 * List all book by given "title" present in the system.
+	 * @param title
+	 * @return LibraryBookRecords List
+	 */
 	@Override
 	public List<LibraryBookRecords> getBookByTitle(String title) throws EventDoesNotExistException {
 		List<LibraryBookRecords> libraryBookRecords;
@@ -114,6 +140,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryBookRecords;
 	}
 
+	/**
+	 * List all book by given "bookId" present in the system.
+	 * @param bookId
+	 * @return LibraryBookRecords List
+	 */
 	@Override
 	public List<LibraryBookRecords> getBookByBookId(String bookId) throws EventDoesNotExistException {
 		List<LibraryBookRecords> libraryBookRecords;
@@ -123,6 +154,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryBookRecords;
 	}
 
+	/**
+	 * List all book by given "authorName" present in the system.
+	 * @param authorName
+	 * @return LibraryBookRecords List
+	 */
 	@Override
 	public List<LibraryBookRecords> getBookByAuthorName(String authorName) throws EventDoesNotExistException {
 		List<LibraryBookRecords> libraryBookRecords;
@@ -132,25 +168,23 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryBookRecords;
 	}
 
-	// Helper function to generate book-id
-
+	/**
+	 *  Helper function to generate book-id
+	 * @param subjectCategory 
+	 * @return bookId
+	 */
 	private String generateBookId(String subjectCategory) {
 		LibraryBookCategoryCount libraryBookCategoryCount = new LibraryBookCategoryCount(subjectCategory);
-//		if (libraryBookCountRepository.findBySubjectCategory(subjectCategory).isEmpty()) {
-//			libraryBookCategoryCount.setCount(1l);
-//			libraryBookCategoryCount.setSubjectCategory(subjectCategory);
-//			libraryBookCountRepository.save(libraryBookCategoryCount);
-//
-//		} else {
-//			libraryBookCategoryCountRepository.updateCount(subjectCategory);
 			libraryBookCategoryCount = libraryBookCategoryCountRepository.findBySubjectCategory(subjectCategory).get(0);
 			libraryBookCategoryCount.setCount(libraryBookCategoryCount.getCount() + 1);
-
-//		}
-
 		return libraryBookCategoryCount.getSubjectCategory() + "-" + libraryBookCategoryCount.getCount();
 	}
 
+	/**
+	 * update book currently present in the system.
+	 * @param addBookForm, bookId
+	 * @return LibraryBookRecords List
+	 */
 	@Override
 	public void updateBook(AddBookForm addBookForm, String bookId)
 			throws EventDoesNotExistException, ConflictException {
@@ -179,6 +213,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 
 	}
 
+	/**
+	 * delete a book currently present in the system.
+	 * @param bookId
+	 * @return void
+	 */
 	@Transactional
 	@Override
 	public void deleteBook(String bookId) throws EventDoesNotExistException, ConflictException {
@@ -191,6 +230,12 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 	}
 
 	// Thesis Services
+	
+	/**
+	 * add new thesis in the system.
+	 * @param addThesisForm
+	 * @return thesisId
+	 */
 	@Override
 	public Long addThesis(AddThesisForm addThesisForm) throws ConflictException {
 
@@ -206,11 +251,20 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return test.getThesisId();
 	}
 
+	/**
+	 * Get list of all thesis in the system.
+	 * @return LibraryThesisRecords List
+	 */
 	@Override
 	public List<LibraryThesisRecords> getAllThesis() {
 		return libraryThesisRecordsRepository.findAll();
 	}
 
+	/**
+	 * Get list of all thesis by "title" in the system.
+	 * @param title
+	 * @return LibraryThesisRecords List
+	 */
 	@Override
 	public List<LibraryThesisRecords> getThesisByTitle(String title) throws EventDoesNotExistException {
 		List<LibraryThesisRecords> libraryThesisRecords;
@@ -220,6 +274,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryThesisRecords;
 	}
 
+	/**
+	 * Get list of all thesis by "submittedBy" in the system.
+	 * @param submittedBy
+	 * @return LibraryThesisRecords List
+	 */
 	@Override
 	public List<LibraryThesisRecords> getThesisBySubmittedBy(String submittedBy) throws EventDoesNotExistException {
 		List<LibraryThesisRecords> libraryThesisRecords;
@@ -229,6 +288,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryThesisRecords;
 	}
 
+	/**
+	 * Get list of all thesis by "guidedBy" in the system.
+	 * @param guidedBy
+	 * @return LibraryThesisRecords List
+	 */
 	@Override
 	public List<LibraryThesisRecords> getThesisByGuidedBy(String guidedBy) throws EventDoesNotExistException {
 		List<LibraryThesisRecords> libraryThesisRecords;
@@ -238,6 +302,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryThesisRecords;
 	}
 
+	/**
+	 * Get list of all thesis by "thesisId" in the system.
+	 * @param thesisId
+	 * @return LibraryThesisRecords List
+	 */
 	@Override
 	public List<LibraryThesisRecords> getThesisByThesisId(long thesisId) throws EventDoesNotExistException {
 		List<LibraryThesisRecords> libraryThesisRecords;
@@ -247,6 +316,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryThesisRecords;
 	}
 
+	/**
+	 * Get list of all thesis by "course" in the system.
+	 * @param course
+	 * @return LibraryThesisRecords List
+	 */
 	@Override
 	public List<LibraryThesisRecords> getThesisByCourse(String course) throws EventDoesNotExistException {
 		List<LibraryThesisRecords> libraryThesisRecords;
@@ -256,6 +330,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryThesisRecords;
 	}
 
+	/**
+	 * update a thesis in the system.
+	 * @param addThesisForm, thesisID
+	 * @return void
+	 */
 	@Override
 	public void updateThesis(AddThesisForm addThesisForm, long thesisId)
 			throws EventDoesNotExistException, ConflictException {
@@ -274,6 +353,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 
 	}
 
+	/**
+	 * delete a thesis in the system.
+	 * @param thesisID
+	 * @return void
+	 */
 	@Transactional
 	@Override
 	public void deleteThesis(long thesisId) throws EventDoesNotExistException, ConflictException {
@@ -284,12 +368,21 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 			throw new EventDoesNotExistException("Thesis with thesis id: " + thesisId + " doesn't exist.");
 	}
 
+	/**
+	 * Get library settings.
+	 * @return LibrarySettings List
+	 */
 	@Override
 	public List<LibrarySettings> getSetting() {
 		return librarySettingsRepository.findAll();
 
 	}
 
+	/**
+	 * Update library settings.
+	 * @param librarySettings.
+	 * @return void.
+	 */
 	@Transactional
 	@Override
 	public void updateSettings(LibrarySettings librarySettings) throws EventDoesNotExistException {
@@ -298,6 +391,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		}
 	}
 
+	/**
+	 * Issue a book or thesis.
+	 * @param issueForm
+	 * @return message
+	 */
 	@Transactional
 	@Override
 	public String issue(IssueForm issueForm) throws EventDoesNotExistException, ConflictException {
@@ -356,11 +454,22 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return response;
 	}
 
+
+	/**
+	 * Get no of issues by the "username".
+	 * @param username
+	 * @return noOfIssues
+	 */
 	@Override
 	public Long getNoOfIssues(String username) {
 		return libraryCurrentIssuesRepository.findByUsernameIgnoreCase(username);
 	}
 
+	/**
+	 * Return a book.
+	 * @param bookId.
+	 * @return message.
+	 */
 	@Transactional
 	@Override
 	public String returnBook(String bookId) throws ParseException {
@@ -384,6 +493,12 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return new String("Return UnSuccessfull. Please try again later");
 	}
 
+
+	/**
+	 * Return a thesis.
+	 * @param thesisId.
+	 * @return message.
+	 */
 	@Transactional
 	@Override
 	public String returnThesis(long thesisId) throws ParseException {
@@ -411,6 +526,12 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return new String("Return UnSuccessfull. Please try again later");
 	}
 
+
+	/**
+	 * Get current issued information of a book by the bookId.
+	 * @param bookId.
+	 * @return IssuedInformationResponse.
+	 */
 	@Override
 	public IssuedInformationResponse getIssuedBookInfo(String bookId) throws EventDoesNotExistException, ParseException{
 		List<LibraryCurrentIssues> libraryCurrentIssues = libraryCurrentIssuesRepository.findByBookId(bookId);
@@ -420,6 +541,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return new IssuedInformationResponse(libraryCurrentIssues.get(0).getUserName(), getPenalty(libraryCurrentIssues.get(0).getIssueDate()));
 	}
 
+	/**
+	 * Get current issued information of a thesis by the thesisId.
+	 * @param thesisId.
+	 * @return IssuedInformationResponse.
+	 */
 	@Override
 	public IssuedInformationResponse getIssuedThesisInfo(long thesisId) throws EventDoesNotExistException, ParseException {
 		List<LibraryCurrentIssues> libraryCurrentIssues = libraryCurrentIssuesRepository.findByThesisId(thesisId);
@@ -429,7 +555,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return new IssuedInformationResponse(libraryCurrentIssues.get(0).getUserName(), getPenalty(libraryCurrentIssues.get(0).getIssueDate()));
 	}
 	
-	//function to calculate penalty
+	/**
+	 * Calculate and return penalty.
+	 * @param issueDate.
+	 * @return penalty.
+	 */
 	long getPenalty(String issueDate) throws ParseException {
 		long penalty = 0l;
 		LibrarySettings librarySettings = getSetting().get(0);
@@ -443,6 +573,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return penalty;
 	}
 
+	/**
+	 * Get previous issue history of a particular user by "username".
+	 * @param username.
+	 * @return LibraryIssueHistory List
+	 */
 	@Override
 	public List<LibraryIssueHistory> getPreviousIssuesByUsername(String username) throws EventDoesNotExistException {
 		List<LibraryIssueHistory> test = libraryIssueHistoryRepository.findByUsername(username);
@@ -451,6 +586,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return test;
 	}
 
+	/**
+	 * Get previous issue history of a particular book by "bookId".
+	 * @param bookId.
+	 * @return LibraryIssueHistory List
+	 */
 	@Override
 	public List<LibraryIssueHistory> getPreviousIssuesByBookId(String bookId) throws EventDoesNotExistException {
 		List<LibraryIssueHistory> test = libraryIssueHistoryRepository.findByBookId(bookId);
@@ -459,6 +599,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return test;
 	}
 
+	/**
+	 * Get previous issue history of a particular thesis by "thesisId".
+	 * @param thesisId.
+	 * @return LibraryIssueHistory List
+	 */
 	@Override
 	public List<LibraryIssueHistory> getPreviousIssuesByThesisId(Long thesisId) throws EventDoesNotExistException {
 		List<LibraryIssueHistory> test = libraryIssueHistoryRepository.findByThesisId(thesisId);
@@ -467,6 +612,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return test;
 	}
 
+	/**
+	 * Insert a new "subjectCategory"(acronym) for inserting book and generate bookId.
+	 * @param LibrarybookCategoryCount.
+	 * @return void.
+	 */
 	@Override
 	public void addNewSubjectCategory(LibraryBookCategoryCount libraryBookCategoryCount) throws ConflictException {
 		if(libraryBookCategoryCountRepository.existsBySubjectCategory(libraryBookCategoryCount.getSubjectCategory()))
@@ -479,6 +629,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		}
 	}
 
+	/**
+	 * Delete "subjectCategory"(acronym).
+	 * @param subjectCategory.
+	 * @return void.
+	 */
 	@Transactional
 	@Override
 	public void deleteSubjectCategory(String subjectCategory) throws EventDoesNotExistException{
@@ -490,6 +645,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 			throw new EventDoesNotExistException("Category id ["+subjectCategory+"] doesnt exists.");
 	}
 
+	/**
+	 *Get subjectName by subjectCategory(acronym).
+	 * @param subjectCategory.
+	 * @return LibraryBookCategoryCount List.
+	 */
 	@Override
 	public List<LibraryBookCategoryCount> getSubjectNameByAcronym(String subjectCategory) throws EventDoesNotExistException {
 		List<LibraryBookCategoryCount> libraryBookCategoryCounts = libraryBookCategoryCountRepository.findBySubjectCategoryContainingIgnoreCase(subjectCategory);
@@ -498,6 +658,11 @@ public class LibraryServicesImpl implements LibraryServices, Serializable {
 		return libraryBookCategoryCounts;
 	}
 
+	/**
+	 *Get subjectCategory(acronym) by subjectName.
+	 * @param subjectName.
+	 * @return LibraryBookCategoryCount List.
+	 */
 	@Override
 	public List<LibraryBookCategoryCount> getAcronymBySubjectName(String subjectName) throws EventDoesNotExistException {
 		List<LibraryBookCategoryCount> libraryBookCategoryCounts = libraryBookCategoryCountRepository.findBySubjectNameContainingIgnoreCase(subjectName);
