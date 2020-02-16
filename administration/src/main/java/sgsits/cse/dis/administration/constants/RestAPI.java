@@ -47,6 +47,10 @@ public class RestAPI {
 	public static final String GET_PREVIOUS_ISSUES_BY_USERNAME ="/getPreviousIssuesByUsername/{username}";
 	public static final String GET_PREVIOUS_ISSUES_BY_BOOKID ="/getPreviousIssuesByBookId/{bookId}";
 	public static final String GET_PREVIOUS_ISSUES_BY_THESISID ="/getPreviousIssuesByThesisId/{thesisId}";
+	
+	
+//	RESOURCE REQUEST APIs
+	public static final String ADD_FACULTY_RESOURCE_REQUEST = "/addFacultyResourceRequest";
 
 	
 	
