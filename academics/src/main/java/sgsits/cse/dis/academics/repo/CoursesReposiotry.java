@@ -6,7 +6,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
+/**
+ * <h1>CourseRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Arjit Mishra
+ * @since 2-DEC-2019
+ */
 public interface CoursesReposiotry extends JpaRepository<Courses, Long> {
 
 	Courses findCourseIdByName(String name);

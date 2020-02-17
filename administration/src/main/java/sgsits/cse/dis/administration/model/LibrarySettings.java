@@ -8,6 +8,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>LibrarySettings</b> class.</h1>
+ * <p>This class is model for table <b>library_settings</b> to act as DAO.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ */
 @Entity
 @Table(name = "library_settings")
 public class LibrarySettings {

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,24 @@ import sgsits.cse.dis.administration.response.AddThesisResponse;
 import sgsits.cse.dis.administration.response.IssuedInformationResponse;
 import sgsits.cse.dis.administration.serviceImpl.LibraryServicesImpl;
 
+
+/**
+ * <h1>Library Controller.</h1>
+ * <p>This controller exposes library services as REST end points at default path <b>/library</b>.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/library")
@@ -56,13 +76,13 @@ public class LibraryController {
 	
 	//Library Setting service
 	
-	@ApiOperation(value="Get setting", response = LibrarySettings.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get library setting", response = LibrarySettings.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_LIBRARY_SETTINGS, produces = "application/json")
 	public ResponseEntity<List<LibrarySettings>> getSettings() {
 		return new ResponseEntity<List<LibrarySettings>>(libraryServicesImpl.getSetting(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Update setting", response = String.class, httpMethod = "PUT", produces = "text/plain")
+	@ApiOperation(value="Update library setting", response = String.class, httpMethod = "PUT", produces = "text/plain")
 	@PutMapping(path=RestAPI.UPDATE_LIBRARY_SETTINGS, produces = "text/plain")
 	public ResponseEntity<String>updateSettings(@RequestBody LibrarySettings librarySettings) throws EventDoesNotExistException {
 		libraryServicesImpl.updateSettings(librarySettings);

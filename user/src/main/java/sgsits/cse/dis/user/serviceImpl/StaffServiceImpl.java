@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.message.request.AddNewUser;
@@ -15,6 +16,22 @@ import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.model.StaffProfile;
 import sgsits.cse.dis.user.repo.StaffRepository;
 import sgsits.cse.dis.user.service.StaffService;
+/**
+ * <h1><b>StaffServiceimpl</b> class.</h1>
+ * <p>This class contains implementation of all the library services which are defined in the <b>StaffService</b> interface.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 
 @Component
 public class StaffServiceImpl implements StaffService {

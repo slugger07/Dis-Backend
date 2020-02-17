@@ -1,5 +1,10 @@
 package sgsits.cse.dis.user.message.request;
-
+/**
+ * <h1>AssignTask</h1>class.
+ * This class is pojo form for converting json and mapping into this java object
+ * @author Arjit Mishra
+ * @since 27-JAN-2020
+ */
 public class AssignTaskForm {
 	public String userId;
 	public String taskId;

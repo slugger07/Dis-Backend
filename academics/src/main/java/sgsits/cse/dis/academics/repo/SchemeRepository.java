@@ -6,7 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.academics.model.Scheme;
-
+/**
+ * <h1>SchemeRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Arjit Mishra
+ * @since 2-DEC-2019
+ */
 @Repository("schemeRepository")
 public interface SchemeRepository extends JpaRepository<Scheme, Long> 
 {

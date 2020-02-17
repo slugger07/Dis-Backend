@@ -8,6 +8,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>USerTasks</b> class.</h1>
+ * <p>This class is model for table <b>user_tasks</b> to act as DAO.
+ * This table contains mapping between userId and taskId to store which user is assigned which tasks.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 4-JAN-2020.
+ */
 @Entity
 @Table(name = "user_tasks")
 public class UserTasks {

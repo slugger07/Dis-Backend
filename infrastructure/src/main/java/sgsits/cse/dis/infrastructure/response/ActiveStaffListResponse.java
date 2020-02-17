@@ -1,5 +1,10 @@
 package sgsits.cse.dis.infrastructure.response;
-
+/**
+ * <h1>ActiveStaffListResponse</h1>class.
+ * This class is pojo form for return java object as a response to request over network.
+ * @author Arjit Mishra
+ * @since 27-JAN-2020
+ */
 public class ActiveStaffListResponse {
 	private String id;
 	private String name;

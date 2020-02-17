@@ -10,7 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.model.StaffProfile;
-
+/**
+ * <h1>StaffRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Arjit Mishra
+ * @since 25-JAN-2020
+ */
 @Repository("staffRepository")
 public interface StaffRepository extends JpaRepository<StaffProfile, String>{
 	Optional<StaffProfile> findByEmail(String email);
