@@ -83,7 +83,7 @@ public class InfrastructureController {
 		return new ResponseEntity<List<String>>(infrastructureService.getInfrastructureTypeList(), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get Infrastructure type list", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
+	@ApiOperation(value = "Add new location for infrastructure", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path = RestAPI.ADD_NEW_INFRASTRUCTURE_LOCATION, produces = "application/json")
 	public ResponseEntity<ResponseMessage> addNewInfrastructureLocation(@PathVariable("location") String location)
 			throws ConflictException {
@@ -108,7 +108,7 @@ public class InfrastructureController {
 				HttpStatus.OK);
 	}
 
-	@ApiOperation(value="Get Infrastructure type list", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
+	@ApiOperation(value="Get new infrastructure", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path=RestAPI.ADD_NEW_INFRASTRUCTURE, produces = "application/json")
 	public ResponseEntity<ResponseMessage> addNewInfrastructure(@RequestBody @Valid Infrastructure infrastructure,HttpServletRequest request) throws ConflictException{
 		return new ResponseEntity<ResponseMessage>( new ResponseMessage(infrastructureService.addNewInfrastructure(infrastructure,

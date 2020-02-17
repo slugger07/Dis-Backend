@@ -81,7 +81,7 @@ public class TaskController {
 		return new ResponseEntity<List<ActiveStaffListResponse>>(userServicesImpl.getActiveStaffList(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="get active staff list", response = ResponseMessage.class, httpMethod = "POST", produces = "text/plain")
+	@ApiOperation(value="Assign task", response = ResponseMessage.class, httpMethod = "POST", produces = "text/plain")
 	@PostMapping(path=RestAPI.ASSIGN_TASK, produces = "application/json")
 	public ResponseEntity<ResponseMessage> assignTask(@RequestBody AssignTaskForm assignTaskForm,HttpServletRequest request) throws ConflictException{
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(taskServiceImpl.assignTask(assignTaskForm,
@@ -108,19 +108,13 @@ public class TaskController {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Tasks deleted successfully. "),HttpStatus.OK);
 	}
 	
-//	@ApiOperation(value="Get all assign task info", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
-//	@GetMapping(path=RestAPI.GET_ASSIGN_TASKS_INFO, produces = "application/json")
-//	public ResponseEntity<List<Object[]>> getAssignTasksInfo() throws NotFoundException{
-//		return new ResponseEntity<List<Object[]>>(taskServiceImpl.getAssignTasksInfo(),HttpStatus.OK);
-//	}
-	
-	@ApiOperation(value="Get all assign task info", response = SearchTaskResponse.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get all assigned task info", response = SearchTaskResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_ASSIGN_TASKS_INFO, produces = "application/json")
 	public ResponseEntity<List<SearchTaskResponse>> getAssignTasksInfo() throws NotFoundException{
 		return new ResponseEntity<List<SearchTaskResponse>>(taskServiceImpl.getAssignTasksInfo(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Update task status", response = ResponseMessage.class, httpMethod = "PUT", produces = "text/plain")
+	@ApiOperation(value="Update a task's status", response = ResponseMessage.class, httpMethod = "PUT", produces = "text/plain")
 	@PutMapping(path=RestAPI.UPDATE_TASK_STATUS, produces = "application/json")
 	public ResponseEntity<ResponseMessage> updateTaskStatus(@PathVariable("status") String status,@PathVariable("id")String id ){
 		taskServiceImpl.updateStatus(status, id);
