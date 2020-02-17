@@ -62,7 +62,7 @@ public class Infrastructure {
 	@Column(name = "staff")
 	private String staff;
 	
-	@Column(name = "attendant")
+	@Column(name = "attendent")
 	private String attendant;
 	
 	@Column(name = "no_of_tables")
