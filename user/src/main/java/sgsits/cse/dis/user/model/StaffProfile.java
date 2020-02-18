@@ -286,7 +286,7 @@ public class StaffProfile {
 		this.fatherName = fatherName;
 	}
 
-	public long getMobileNo() {
+	public Long getMobileNo() {
 		return mobileNo;
 	}
 
