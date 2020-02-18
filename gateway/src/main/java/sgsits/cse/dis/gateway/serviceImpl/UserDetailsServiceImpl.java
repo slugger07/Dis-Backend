@@ -113,7 +113,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             user.setUserType(userClient.findUserType(signUpRequest));
             user.setActivationToken(UUID.randomUUID().toString());
             user.setActivationTokenExpiry(simpleDateFormat.format(DateUtils.addDays(new Date(), 3)));
-            userRepository.save(user);
+            //userRepository.save(user);
+            userClient.updateUserIdByEmail(userRepository.save(user).getId(), signUpRequest.getEmail());
             String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort();
             // Email message
             email.sendSimpleEmail(user.getEmail(), "DIS Account Activation Request", "To activate your account, click the link below:\n" + appUrl + "/dis/activation?token="+ user.getActivationToken());

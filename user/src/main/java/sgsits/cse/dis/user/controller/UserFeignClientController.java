@@ -94,5 +94,12 @@ public class UserFeignClientController {
 	public ResponseEntity<String> getUserNameById(@PathVariable String userId){
 		return  new ResponseEntity<String>(staffRepository.findByUserId(userId).get().getName(),HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "Update user id with email", response = String.class, httpMethod = "PUT", produces = "application/json")
+	@PutMapping(value = "/updateUserIdWithEmail/{userId}/{email}", produces = "application/jspn")
+	public ResponseEntity<String> updateUserIdByEmail(@PathVariable("userId") String userId,@PathVariable("email") String email){
+		staffRepository.updateUserIdByEmailId(userId, email);
+		return  new ResponseEntity<String>(new String(userId+" assigned to user with email "+email),HttpStatus.OK);
+	}
 
 }

@@ -88,4 +88,10 @@ public class StaffServiceImpl implements StaffService {
 		}
 		return facultyData;
 	}
+
+	@Override
+	public void updateUserIdByEmail(String userId, String email) {
+		staffRepository.updateUserIdByEmailId(userId,email);
+		
+	}
 }

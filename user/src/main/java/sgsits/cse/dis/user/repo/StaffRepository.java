@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 //import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +30,10 @@ public interface StaffRepository extends JpaRepository<StaffProfile, String>{
 	Optional<StaffProfile> findByMobileNo(Long mobileNo);
 	StaffProfile findNameByUserId(String userId);
 	List<StaffProfile> findByNameContainingIgnoreCase(String name);
+	
+	@Query(value = "UPDATE staff_basic_profile SET user_id =?1 WHERE email = ?2", nativeQuery = true)
+	@Modifying
+	void updateUserIdByEmailId(String userId, String email);
 
 
 }
