@@ -1,5 +1,7 @@
 package sgsits.cse.dis.user.message.request;
 
+import java.sql.Date;
+
 public class AddNewUser {
 	private String employeeId;
 	private String name;
@@ -8,7 +10,7 @@ public class AddNewUser {
 	private String type;
 	private String joiningDate;
 	private String email;
-	private String dob;
+	private Date dob;
 	private Long mobileNo;
 	
 	
@@ -54,10 +56,10 @@ public class AddNewUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getDob() {
+	public Date getDob() {
 		return dob;
 	}
-	public void setDob(String dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 	public Long getMobileNo() {

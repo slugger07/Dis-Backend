@@ -61,7 +61,7 @@ public class StaffProfile {
 	private String email;
 	
 	@Column(name = "dob")
-	private String dob;
+	private Date dob;
 	
 	@Column(name = "pan_number")
 	private String panNumber;
@@ -102,7 +102,7 @@ public class StaffProfile {
 
 
 	public StaffProfile(String createdBy, String createdDate,String employeeId,String name, String currentDesignation, String classs,
-			String type, String email, String dob, Long mobileNo, String joiningDate) {
+			String type, String email, Date dob, Long mobileNo, String joiningDate) {
 		super();
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
@@ -222,11 +222,11 @@ public class StaffProfile {
 		this.email = email;
 	}
 
-	public String getDob() {
+	public Date getDob() {
 		return dob;
 	}
 
-	public void setDob(String dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 
