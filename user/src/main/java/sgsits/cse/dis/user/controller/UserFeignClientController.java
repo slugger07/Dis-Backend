@@ -11,6 +11,8 @@ package sgsits.cse.dis.user.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,6 +99,7 @@ public class UserFeignClientController {
 	
 	@ApiOperation(value = "Update user id with email", response = String.class, httpMethod = "PUT", produces = "application/json")
 	@PutMapping(value = "/updateUserIdWithEmail/{userId}/{email}", produces = "application/jspn")
+	@Transactional
 	public ResponseEntity<String> updateUserIdByEmail(@PathVariable("userId") String userId,@PathVariable("email") String email){
 		staffRepository.updateUserIdByEmailId(userId, email);
 		return  new ResponseEntity<String>(new String(userId+" assigned to user with email "+email),HttpStatus.OK);
