@@ -1,6 +1,10 @@
 package sgsits.cse.dis.user.message.response;
-
-
+/**
+ * <h1>SearchTaskResponse</h1>class.
+ * This class is pojo form for return java object as a response to request over network.
+ * @author Arjit Mishra
+ * @since 27-JAN-2020
+ */
 public class SearchTaskResponse {
 	private String id;
 	private String userId;

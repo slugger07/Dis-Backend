@@ -2,6 +2,14 @@ package sgsits.cse.dis.user.message.request;
 
 import java.sql.Date;
 
+
+/**
+ * <h1>AddNewUser</h1>class.
+ * This class is pojo form for converting json and mapping into this java object
+ * @author Arjit Mishra
+ * @since 27-JAN-2020
+ */
+
 public class AddNewUser {
 	private String employeeId;
 	private String name;

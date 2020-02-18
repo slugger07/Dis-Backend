@@ -6,7 +6,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * <h1><b>CalenderGeneralServices</b> class.</h1>
+ * <p>This class contains implementation of all the general purpose calendar related services.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ParseException.
+ * @see ParseException.
+ */
 public class CalenderGeneralServices {
 
 	public static Date addDays(Date date, int days) {

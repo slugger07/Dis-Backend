@@ -9,6 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * <h1><b>Courses</b> class.</h1>
+ * <p>This class is model for table <b>courses</b> to act as DAO.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ */
 @Entity
 @Table(name = "courses")
 public class Courses {

@@ -11,7 +11,21 @@ import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.CategorySpecificTaskResponse;
 import sgsits.cse.dis.user.message.response.SearchTaskResponse;
 import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
-
+/**
+ * <h1><b>TaskService</b> interface.</h1>
+ * <p>This interface lists all the task services which can be implemented by class extending it.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 public interface TaskService {
 	String assignTask(AssignTaskForm assignTaskForm,String assignedByUserId) throws ConflictException,DataIntegrityViolationException;
 	List<CategorySpecificTaskResponse> getTasksFromCategoryId(String category) throws NotFoundException;

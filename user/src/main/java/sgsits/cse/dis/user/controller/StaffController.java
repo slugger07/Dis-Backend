@@ -5,8 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,21 @@ import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.service.StaffService;
 import sgsits.cse.dis.user.serviceImpl.StaffServiceImpl;
 
+/**
+ * <h1>StaffController</h1> class.
+ * <p>This controller exposes staff services as REST end points at default path <b>/staffProfile</b>.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 27-JAN-2020.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 @CrossOrigin(origins = "*")
 @Api(value = "Staff controller")
 @RestController

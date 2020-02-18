@@ -8,7 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.administration.model.LibraryBookRecords;
-
+/**
+ * <h1>BookRecordsRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Arjit Mishra
+ * @since 2-DEC-2019
+ */
 @Repository
 public interface LibraryBookRecordsRepository extends JpaRepository<LibraryBookRecords, Long> {
 	

@@ -7,7 +7,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import sgsits.cse.dis.user.model.UserTasks;
-
+/**
+ * <h1>UserTaskRepository</h1> interface.
+ * this repository contains Jpafunciton to perform crud operation.
+ * @author Arjit Mishra
+ * @since 25-JAN-2020
+ */
 public interface UserTaskRepository extends JpaRepository<UserTasks , String> {
 
 	List<UserTasks> findByUserId(String userId);

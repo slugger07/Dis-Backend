@@ -7,7 +7,21 @@ import org.springframework.dao.DataIntegrityViolationException;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.message.request.AddNewUser;
 import sgsits.cse.dis.user.message.response.FacultyData;
-
+/**
+ * <h1><b>StaffService</b> interface.</h1>
+ * <p>This interface lists all the staff services which can be implemented by class extending it. 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 public interface StaffService {
 	
 	List<FacultyData> getFacultyData();

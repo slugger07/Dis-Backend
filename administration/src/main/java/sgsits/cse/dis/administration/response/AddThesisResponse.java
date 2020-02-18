@@ -1,5 +1,10 @@
 package sgsits.cse.dis.administration.response;
-
+/**
+ * <h1>AddThesisResponse</h1>class.
+ * This class is pojo form for return java object as a response to request over network.
+ * @author Arjit Mishra
+ * @since 27-JAN-2020
+ */
 public class AddThesisResponse {
 	private String message;
 	private Long thesisId;

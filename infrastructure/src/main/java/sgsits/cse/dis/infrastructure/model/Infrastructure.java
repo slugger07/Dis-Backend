@@ -12,6 +12,14 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>Infrastructure</b> class.</h1>
+ * <p>This class is model for table <b>infrastructure</b> to act as DAO.
+ * This table contains details of infrastructure in the department.
+ * @author Arjit Mishra,Devyani Garg.
+ * @version 1.0.
+ * @since 25-JAN-2020.
+ */
 @Entity
 @Table(name = "infrastructure")
 public class Infrastructure {
@@ -62,7 +70,7 @@ public class Infrastructure {
 	@Column(name = "staff")
 	private String staff;
 	
-	@Column(name = "attendant")
+	@Column(name = "attendent")
 	private String attendant;
 	
 	@Column(name = "no_of_tables")

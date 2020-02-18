@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javassist.NotFoundException;
 import sgsits.cse.dis.infrastructure.exception.ConflictException;
@@ -25,7 +26,22 @@ import sgsits.cse.dis.infrastructure.repo.InfrastructureTypeRepository;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
 import sgsits.cse.dis.infrastructure.service.InfrastructureService;
-
+/**
+ * <h1><b>InfrastructureServiceImpl</b> class.</h1>
+ * <p>This class contains implementation of all the library services which are defined in the <b>InfrastructureService</b> interface.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 @Service("infrastructureService")
 public class InfrastructureServiceImpl implements InfrastructureService {
 	

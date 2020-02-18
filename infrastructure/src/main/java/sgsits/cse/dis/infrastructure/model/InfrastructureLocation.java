@@ -8,6 +8,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+
+/**
+ * <h1><b>InfrastructureLocation</b> class.</h1>
+ * <p>This class is model for table <b>infrastructure_location</b> to act as DAO.
+ * This table contains information of all the location for infrastructure.
+ * @author Arjit Mishra,Devyani garg.
+ * @version 1.0.
+ * @since 25-JAN-2020.
+ */
 @Entity
 @Table(name="infrastructure_location")
 public class InfrastructureLocation {

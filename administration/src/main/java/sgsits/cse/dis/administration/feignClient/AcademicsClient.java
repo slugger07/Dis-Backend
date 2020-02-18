@@ -8,6 +8,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import io.swagger.annotations.ApiOperation;
 
+/**
+ * <h1><b>AcademicsClient</b> interface.</h1>
+ * <p>This interface contains reference to controller "academicsFeignClientController" to 
+ * ensure communication with <b>academics</b> microservice.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ */
+
 @FeignClient(name = "academics")
 public interface AcademicsClient {
 	

@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javassist.NotFoundException;
 import sgsits.cse.dis.infrastructure.response.ResponseMessage;
-
+/**
+ * <h1>InfrastructureExceptionHandler</h1> class.
+ * This class is exception handler containing handler for different exceptions.
+ * @author Arjit Mishra
+ * @since 2-DEC-2019
+ */
 
 
 @RestControllerAdvice

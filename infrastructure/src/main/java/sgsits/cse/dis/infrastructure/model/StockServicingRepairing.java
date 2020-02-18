@@ -12,6 +12,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>StockServicingRepairing</b> class.</h1>
+ * <p>This class is model for table <b>stock_servicing_repairing</b> to act as DAO.
+ * This table contains stock's service and repair related details.
+ * @author Arjit Mishra,Devyani garg.
+ * @version 1.0.
+ * @since 25-JAN-2020.
+ */
+
 @Entity
 @Table(name = "stock_servicing_repairing_details")
 public class StockServicingRepairing {

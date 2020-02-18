@@ -3,7 +3,12 @@ package sgsits.cse.dis.user.message.request;
 import java.util.Date;
 
 import javax.validation.constraints.*;
-
+/**
+ * <h1>SignUpFormk</h1>class.
+ * This class is pojo form for converting json and mapping into this java object
+ * @author Devyani garg
+ * @since 8-DEC-2018
+ */
 public class SignUpForm {
 
     @NotBlank
