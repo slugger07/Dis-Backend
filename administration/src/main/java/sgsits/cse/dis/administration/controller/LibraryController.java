@@ -67,7 +67,7 @@ public class LibraryController {
 	private LibraryServicesImpl libraryServicesImpl;
 	
 	@Autowired
-	LibraryBookCategoryCountRepository libraryBookCategoryCountRepository;
+	private LibraryBookCategoryCountRepository libraryBookCategoryCountRepository;
 	
 	@Autowired
 	private AcademicsClient academicsClient;

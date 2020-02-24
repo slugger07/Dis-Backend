@@ -183,5 +183,12 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 		return temp;
 		
 	}
+	@Override
+	public Infrastructure getInfrastructureById(String id) throws NotFoundException {
+		Optional<Infrastructure> infrastructre =infrastructureRepository.findById(id);
+		if(infrastructre.equals(Optional.empty()))
+				throw new NotFoundException("No ifrastructure found by given id ["+id+"]");
+		return infrastructre.get();
+	}
 	
 }

@@ -2,6 +2,8 @@ package sgsits.cse.dis.infrastructure.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import javassist.NotFoundException;
 import sgsits.cse.dis.infrastructure.exception.ConflictException;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
@@ -33,4 +35,5 @@ public interface InfrastructureService {
 	void deleteInfrastructure(String id) throws ConflictException;
 	String updateInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException;
 	List<Infrastructure> findInfrastructureByName(String name) throws NotFoundException;
+	Infrastructure getInfrastructureById(String id) throws NotFoundException;
 }

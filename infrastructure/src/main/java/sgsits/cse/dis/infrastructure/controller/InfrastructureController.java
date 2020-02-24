@@ -136,8 +136,14 @@ public class InfrastructureController {
 	}
 	
 	@ApiOperation(value = "Get faculty rooms", response = RoomAssociationData.class, httpMethod = "GET", produces = "application/json")
-	@GetMapping(value = RestAPI.GET_FACULTY_ROOMS)
+	@GetMapping(value = RestAPI.GET_FACULTY_ROOMS,produces="application/json")
 	public List<RoomAssociationData> getRoomsAndAssociation(){
 		return infrastructureService.getRooms();
+	}
+	
+	@ApiOperation(value = "Get infrastructure by id", response = Infrastructure.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = RestAPI.GET_INFRASTRUCTURE_BY_ID,produces="application/json")
+	public Infrastructure getInfrastructureById(@PathVariable("id") String id) throws NotFoundException{
+		return infrastructureService.getInfrastructureById(id);
 	}
 }
