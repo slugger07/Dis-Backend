@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -93,5 +94,13 @@ public class StaffServiceImpl implements StaffService {
 	public void updateUserIdByEmail(String userId, String email) {
 		staffRepository.updateUserIdByEmailId(userId,email);
 		
+	}
+
+	@Override
+	public String getNameById(String userId) {
+		Optional<StaffProfile> temp = staffRepository.findByUserId(userId);
+		if(temp.isPresent())
+			return temp.get().getName();
+		return "not";
 	}
 }

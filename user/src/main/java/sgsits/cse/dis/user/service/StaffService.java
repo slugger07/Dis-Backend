@@ -29,4 +29,5 @@ public interface StaffService {
 	String addNewMember(AddNewUser addNewUser,String addedBy) throws ConflictException,DataIntegrityViolationException;
 	List<FacultyData> getStaffWithName(String name);
 	void updateUserIdByEmail(String userId,String email);
+	String getNameById(String userId);
 }
