@@ -92,7 +92,7 @@ public class InfrastructureController {
 				new ResponseMessage(infrastructureService.addNewInfrastructureLocation(location)), HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get staff name list", response = String.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value = "Get staff name list", response = FacultyNameListResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = RestAPI.GET_STAFF_NAME_LIST, produces = "application/json")
 	public ResponseEntity<List<FacultyNameListResponse>> getStaffData() {
 		return new ResponseEntity<List<FacultyNameListResponse>>(
@@ -102,7 +102,7 @@ public class InfrastructureController {
 
 	}
 
-	@ApiOperation(value = "Get faculty name list", response = String.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value = "Get faculty name list", response = FacultyNameListResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = RestAPI.GET_FACULTY_NAME_LIST, produces = "application/json")
 	public ResponseEntity<List<FacultyNameListResponse>> getFacultyData() {
 		return new ResponseEntity<List<FacultyNameListResponse>>(
