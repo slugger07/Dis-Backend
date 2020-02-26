@@ -71,8 +71,8 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 	public List<InfrastructureBrief> getInfrastructureByType(String type) {
 		
 		Function<? super Infrastructure, ? extends InfrastructureBrief> infrastructureBriefMapper = temp -> new InfrastructureBrief(temp.getId(), temp.getName(), temp.getArea(), 
-				temp.getNameAcronym(), temp.getLocation(), temp.getIncharge(), temp.getAssociateIncharge(),
-				temp.getStaff(), temp.getAttendant());
+				temp.getNameAcronym(), temp.getLocation(), userClient.getUserNameById(temp.getIncharge()), userClient.getUserNameById(temp.getAssociateIncharge()),
+				userClient.getUserNameById(temp.getStaff()) , temp.getAttendant());
 		
 		return infrastructureRepository.findByType(type).stream()
 			.map(infrastructureBriefMapper)
@@ -180,6 +180,12 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 		List<Infrastructure> temp = infrastructureRepository.findByNameContainingIgnoreCase(name);
 		if(temp.isEmpty())
 			throw new NotFoundException("Not infrastructure with name ["+name+"] found.");
+		temp.stream()
+		.forEach((infra)->{
+			infra.setIncharge(userClient.getUserNameById(infra.getIncharge()));
+			infra.setAssociateIncharge(userClient.getUserNameById(infra.getAssociateIncharge()));
+			infra.setStaff(userClient.getUserNameById(infra.getStaff()));
+		});
 		return temp;
 		
 	}

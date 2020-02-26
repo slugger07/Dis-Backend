@@ -1,5 +1,6 @@
 package sgsits.cse.dis.infrastructure.controller;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,7 +97,10 @@ public class InfrastructureController {
 	@GetMapping(value = RestAPI.GET_STAFF_NAME_LIST, produces = "application/json")
 	public ResponseEntity<List<FacultyNameListResponse>> getStaffData() {
 		return new ResponseEntity<List<FacultyNameListResponse>>(
-				userClient.getStaffNameList().stream().map(faculty -> new FacultyNameListResponse(faculty.getId(),faculty.getName()))
+				userClient.getStaffNameList()
+				.stream()
+				.map(faculty -> new FacultyNameListResponse(faculty.getId(),faculty.getName()))
+				.sorted(Comparator.comparing(FacultyNameListResponse::getName))
 				.collect(Collectors.toList()),
 				HttpStatus.OK);
 
@@ -106,7 +110,10 @@ public class InfrastructureController {
 	@GetMapping(value = RestAPI.GET_FACULTY_NAME_LIST, produces = "application/json")
 	public ResponseEntity<List<FacultyNameListResponse>> getFacultyData() {
 		return new ResponseEntity<List<FacultyNameListResponse>>(
-				userClient.getStaffNameList().stream().map(faculty -> new FacultyNameListResponse(faculty.getId(),faculty.getName()))
+				userClient.getFacultyNameList()
+				.stream()
+				.map(faculty -> new FacultyNameListResponse(faculty.getId(),faculty.getName()))
+				.sorted(Comparator.comparing(FacultyNameListResponse::getName))
 				.collect(Collectors.toList()),
 				HttpStatus.OK);
 	}
