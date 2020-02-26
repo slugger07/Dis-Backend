@@ -7,6 +7,8 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
+
+
 @EnableFeignClients
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -16,4 +18,5 @@ public class GatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
+
 }

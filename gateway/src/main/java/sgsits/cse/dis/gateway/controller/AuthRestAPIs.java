@@ -5,25 +5,31 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.sun.mail.util.MailConnectException;
+
 import sgsits.cse.dis.gateway.message.request.LoginForm;
 import sgsits.cse.dis.gateway.message.request.SignUpForm;
 import sgsits.cse.dis.gateway.message.response.JwtResponse;
 import sgsits.cse.dis.gateway.message.response.ResponseMessage;
 import sgsits.cse.dis.gateway.serviceImpl.UserDetailsServiceImpl;
 
-
+import java.rmi.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Map;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/dis")
 public class AuthRestAPIs {
@@ -33,19 +39,21 @@ public class AuthRestAPIs {
 
 	@ApiOperation(value="Sign in", response= JwtResponse.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/signin", produces = "application/json")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) throws NotFoundException {
 		return UserDetails.authenticateUser(loginRequest);
 	}
 
 	@ApiOperation(value="Sign Up", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
 	@PostMapping("/signup")
-	public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest, HttpServletRequest request) throws SQLException {
+	public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest, HttpServletRequest request,Errors error) throws SQLException, MailConnectException, UnknownHostException {
+//		if (error.hasErrors())
+//			throw 
 		return UserDetails.registerUser(signUpRequest, request);
 	}
 
 	@ApiOperation(value="pre activation", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
 	@RequestMapping(value = "/preActivation", method = RequestMethod.POST)
-	public ResponseEntity<ResponseMessage> preActivation(@RequestParam("email") String recepientemail, HttpServletRequest request) {
+	public ResponseEntity<ResponseMessage> preActivation(@RequestParam("email") String recepientemail, HttpServletRequest request) throws MailConnectException, UnknownHostException {
 		return UserDetails.preActivation(recepientemail, request);
 	}
 
@@ -57,7 +65,7 @@ public class AuthRestAPIs {
 
 	@ApiOperation(value="Forget password", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
 	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-	public ResponseEntity<ResponseMessage> forgotPassword(@RequestParam("email") String recepientemail, HttpServletRequest request) {
+	public ResponseEntity<ResponseMessage> forgotPassword(@RequestParam("email") String recepientemail, HttpServletRequest request) throws MailConnectException, UnknownHostException {
 		return UserDetails.forgotPassword(recepientemail,request);
 	}
 

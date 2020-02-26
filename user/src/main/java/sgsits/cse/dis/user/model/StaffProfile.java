@@ -9,20 +9,34 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * <h1><b>StaffBasicProfile</b> class.</h1>
+ * <p>This class is model for table <b>staff_basic_profile</b> to act as DAO.
+ * This table contains basic profile for newly added member in the DIS and now can successfully signup on the system.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 4-JAN-2020.
+ */
 @Entity
 @Table(name = "staff_basic_profile")
 public class StaffProfile {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
-	private long id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", nullable = false, unique = true)
+    private String id;
 
 	@Column(name = "created_by")
 	private String createdBy;
 
 	@Column(name = "created_date")
-	private Date createdDate;
+	private String createdDate;
 
 	@Column(name = "modified_by")
 	private String modifiedBy;
@@ -82,16 +96,41 @@ public class StaffProfile {
 	private Long alternateMobileNo;
 	
 	@Column(name = "joining_date")
-	private Date joiningDate;
+	private String joiningDate;
 	
 	@Column(name = "area_of_specialization")
 	private String areaOfSpecialization;
+	
+	
 
-	public long getId() {
+	public StaffProfile() {
+		super();
+	}
+
+
+
+	public StaffProfile(String createdBy, String createdDate,String employeeId,String name, String currentDesignation, String classs,
+			String type, String email, Date dob, Long mobileNo, String joiningDate) {
+		super();
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+		this.employeeId = employeeId;
+		this.name = name;
+		this.currentDesignation = currentDesignation;
+		this.classs = classs;
+		this.type = type;
+		this.email = email;
+		this.dob = dob;
+		this.mobileNo = mobileNo;
+		this.joiningDate = joiningDate;
+	}
+
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -103,11 +142,11 @@ public class StaffProfile {
 		this.createdBy = createdBy;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -247,7 +286,7 @@ public class StaffProfile {
 		this.fatherName = fatherName;
 	}
 
-	public long getMobileNo() {
+	public Long getMobileNo() {
 		return mobileNo;
 	}
 
@@ -259,15 +298,15 @@ public class StaffProfile {
 		return alternateMobileNo;
 	}
 
-	public void setAlternateMobileNo(long alternateMobileNo) {
+	public void setAlternateMobileNo(Long alternateMobileNo) {
 		this.alternateMobileNo = alternateMobileNo;
 	}
 
-	public Date getJoiningDate() {
+	public String getJoiningDate() {
 		return joiningDate;
 	}
 
-	public void setJoiningDate(Date joiningDate) {
+	public void setJoiningDate(String joiningDate) {
 		this.joiningDate = joiningDate;
 	}
 

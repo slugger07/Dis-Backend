@@ -6,7 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * <h1><b>LibraryThesisRecords</b> class.</h1>
+ * <p>This class is model for table <b>library_thesis_records</b> to act as DAO.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ */
 @Entity
 @Table(name = "library_thesis_records")
 
@@ -39,7 +45,7 @@ public class LibraryThesisRecords {
 	private String title;
 	
 	@Column(name = "status")
-	private String status="Availabe";
+	private String status="Available";
 	
 	@Column(name = "remarks")
 	private String remarks;

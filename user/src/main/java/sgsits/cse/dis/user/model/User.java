@@ -1,14 +1,10 @@
 package sgsits.cse.dis.user.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,6 +12,14 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
+/**
+ * <h1><b>User</b> class.</h1>
+ * <p>This class is model for table <b>user</b> to act as DAO.
+ * This table contains entry of signed up users.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 4-JAN-2020.
+ */
 @Entity
 @Table(name = "user", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
@@ -83,9 +87,9 @@ public class User{
     private Date resetTokenExpiry;
     
 	@Column(name = "user_type")
-	private String userType;     
+	private String userType;
 
-    public User() {}
+	public User() {}
 
     public User(String username, String email, Date dob, long mobileNo, String password) {
         this.username = username;

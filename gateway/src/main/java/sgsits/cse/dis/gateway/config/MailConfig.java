@@ -1,6 +1,10 @@
 package sgsits.cse.dis.gateway.config;
 
+
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import java.util.Properties;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +24,24 @@ public class MailConfig {
 
         mailSender.setUsername(Email.DIS_EMAIL);
         mailSender.setPassword(Email.DIS_PASSWORD);
+        
+        final String authUser = "cclab21";
+        final String authPassword = "abc123";
+        Authenticator.setDefault(
+           new Authenticator() {
+              @Override
+              public PasswordAuthentication getPasswordAuthentication() {
+                 return new PasswordAuthentication(
+                       authUser, authPassword.toCharArray());
+              }
+           }
+        );
+
+        System.setProperty("http.proxyUser", authUser);
+        System.setProperty("http.proxyPassword", authPassword);
+        System.setProperty("https.proxyHost","10.25.0.4");
+        System.setProperty("https.proxyPort","3128");
+       //System.setProperty("java.net.useSystemProxies", "true");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

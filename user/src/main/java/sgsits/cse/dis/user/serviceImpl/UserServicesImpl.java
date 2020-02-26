@@ -1,11 +1,19 @@
 package sgsits.cse.dis.user.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javassist.NotFoundException;
-import org.springframework.web.bind.annotation.RequestBody;
 import sgsits.cse.dis.user.message.request.SignUpForm;
+import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.model.StaffProfile;
 import sgsits.cse.dis.user.model.StudentProfile;
 import sgsits.cse.dis.user.model.User;
@@ -13,11 +21,22 @@ import sgsits.cse.dis.user.repo.StaffRepository;
 import sgsits.cse.dis.user.repo.StudentRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.service.UserServices;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
-
+/**
+ * <h1><b>UserServicesImpl</b> class.</h1>
+ * <p>This class contains implementation of all the library services which are defined in the <b>UserServices</b> interface.
+ * 
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ * @throws ConflictException.
+ * @throws NotFoundException.
+ * @throws EventDoesNotExistException.
+ * @throws DataIntegrityViolationException
+ * @throws MethodArgumentNotValidException
+ * @see NotFoundException.
+ * @see DataIntegrityViolationException
+ * @see MethodArgumentNotValidException
+ */
 @Component
 public class UserServicesImpl implements UserServices{
 
@@ -99,5 +118,21 @@ public class UserServicesImpl implements UserServices{
 			return true;
 		}
 	}
+
+	@Override
+	public List<ActiveStaffListResponse> getActiveStaffList() throws NotFoundException {
+		List<User> users = userRepository.findAllByEnabledAndUserTypeNot(true,"Student");
+		if(users.isEmpty())
+			throw new NotFoundException("Activated staff accounts not found");
+		List<ActiveStaffListResponse> activeStaffListResponses = new ArrayList<ActiveStaffListResponse>();
+		for(User user : users) {	
+			activeStaffListResponses.add(new ActiveStaffListResponse(user.getId(),
+					staffRepository.findByEmail(user.getEmail()).get().getName(),
+					user.getEmail()));
+		}
+		
+		return activeStaffListResponses;
+	}
+
 }
 

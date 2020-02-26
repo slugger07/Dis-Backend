@@ -8,6 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * <h1><b>Scheme</b> class.</h1>
+ * <p>This class is model for table <b>scheme</b> to act as DAO.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ */
 @Entity
 @Table(name = "scheme")
 public class Scheme {
