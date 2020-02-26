@@ -26,14 +26,58 @@ import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
  * @see MethodArgumentNotValidException
  */
 public interface InfrastructureService {
+	/**
+	 * @return
+	 */
 	List<String> getListOfInfrastructureLocations();
+	/**
+	 * @return
+	 */
 	List<String> getInfrastructureTypeList();
+	/**
+	 * @param type
+	 * @return
+	 */
 	List<InfrastructureBrief> getInfrastructureByType(String type);
+	/**
+	 * @param location
+	 * @return
+	 * @throws ConflictException
+	 */
 	String addNewInfrastructureLocation(String location) throws ConflictException;
+	/**
+	 * @return
+	 */
 	List<RoomAssociationData> getRooms();
+	/**
+	 * @param infrastructure
+	 * @param addedBy
+	 * @return
+	 * @throws ConflictException
+	 */
 	String addNewInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException;
+	/**
+	 * @param id
+	 * @throws ConflictException
+	 */
 	void deleteInfrastructure(String id) throws ConflictException;
+	/**
+	 * @param infrastructure
+	 * @param addedBy
+	 * @return
+	 * @throws ConflictException
+	 */
 	String updateInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException;
+	/**
+	 * @param name
+	 * @return
+	 * @throws NotFoundException
+	 */
 	List<Infrastructure> findInfrastructureByName(String name) throws NotFoundException;
+	/**
+	 * @param id
+	 * @return
+	 * @throws NotFoundException
+	 */
 	Infrastructure getInfrastructureById(String id) throws NotFoundException;
 }

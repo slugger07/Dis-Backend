@@ -37,7 +37,7 @@ import sgsits.cse.dis.user.service.StaffService;
 public class StaffServiceImpl implements StaffService {
 
 	@Autowired
-	StaffRepository staffRepository;
+	private StaffRepository staffRepository;
 	
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	

@@ -29,6 +29,7 @@ import sgsits.cse.dis.infrastructure.exception.ConflictException;
 import sgsits.cse.dis.infrastructure.feignClient.UserClient;
 import sgsits.cse.dis.infrastructure.jwt.JwtResolver;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
+import sgsits.cse.dis.infrastructure.response.FacultyNameListResponse;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
 import sgsits.cse.dis.infrastructure.response.ResponseMessage;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
@@ -93,18 +94,20 @@ public class InfrastructureController {
 
 	@ApiOperation(value = "Get staff name list", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = RestAPI.GET_STAFF_NAME_LIST, produces = "application/json")
-	public ResponseEntity<List<String>> getStaffData() {
-		return new ResponseEntity<List<String>>(
-				userClient.getStaffNameList().stream().map(faculty -> faculty.getName()).collect(Collectors.toList()),
+	public ResponseEntity<List<FacultyNameListResponse>> getStaffData() {
+		return new ResponseEntity<List<FacultyNameListResponse>>(
+				userClient.getStaffNameList().stream().map(faculty -> new FacultyNameListResponse(faculty.getId(),faculty.getName()))
+				.collect(Collectors.toList()),
 				HttpStatus.OK);
 
 	}
 
 	@ApiOperation(value = "Get faculty name list", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = RestAPI.GET_FACULTY_NAME_LIST, produces = "application/json")
-	public ResponseEntity<List<String>> getFacultyData() {
-		return new ResponseEntity<List<String>>(
-				userClient.getFacultyNameList().stream().map(faculty -> faculty.getName()).collect(Collectors.toList()),
+	public ResponseEntity<List<FacultyNameListResponse>> getFacultyData() {
+		return new ResponseEntity<List<FacultyNameListResponse>>(
+				userClient.getStaffNameList().stream().map(faculty -> new FacultyNameListResponse(faculty.getId(),faculty.getName()))
+				.collect(Collectors.toList()),
 				HttpStatus.OK);
 	}
 

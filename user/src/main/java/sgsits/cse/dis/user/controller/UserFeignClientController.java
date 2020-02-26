@@ -104,5 +104,6 @@ public class UserFeignClientController {
 		staffRepository.updateUserIdByEmailId(userId, email);
 		return  new ResponseEntity<String>(new String(userId+" assigned to user with email "+email),HttpStatus.OK);
 	}
+	
 
 }
