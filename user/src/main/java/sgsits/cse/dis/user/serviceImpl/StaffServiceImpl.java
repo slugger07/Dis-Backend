@@ -47,7 +47,7 @@ public class StaffServiceImpl implements StaffService {
 		List<StaffProfile> staffProfiles = staffRepository.findByClasssOrClasssOrderByCurrentDesignation("I", "II");
 		List<FacultyData> facultyData = new ArrayList<FacultyData>();
 		for (StaffProfile faculty : staffProfiles) {
-			facultyData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
+			facultyData.add(new FacultyData(faculty.getUserId(), faculty.getName(), faculty.getNameAcronym(),
 					null, faculty.getCurrentDesignation(), faculty.getEmail(), faculty.getMobileNo(), faculty.getAlternateMobileNo()));
 		}
 		return facultyData;
@@ -58,7 +58,7 @@ public class StaffServiceImpl implements StaffService {
 		List<StaffProfile> staffProfiles = staffRepository.findByClasssOrClasssOrderByCurrentDesignation("III", "IV");
 		List<FacultyData> staffData = new ArrayList<FacultyData>();
 		for (StaffProfile faculty : staffProfiles) {
-			staffData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
+			staffData.add(new FacultyData(faculty.getUserId(), faculty.getName(), faculty.getNameAcronym(),
 					null, faculty.getCurrentDesignation(), faculty.getEmail(), faculty.getMobileNo(), faculty.getAlternateMobileNo()));
 		}
 		return staffData;
@@ -98,9 +98,11 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public String getNameById(String userId) {
-		Optional<StaffProfile> temp = staffRepository.findByUserId(userId);
-		if(temp.isPresent())
-			return temp.get().getName();
-		return "not";
+		if (!userId.equals(null)) {
+			Optional<StaffProfile> temp = staffRepository.findByUserId(userId);
+			if(temp.isPresent())
+				return temp.get().getName();
+		}
+		return "Not Exists";
 	}
 }
