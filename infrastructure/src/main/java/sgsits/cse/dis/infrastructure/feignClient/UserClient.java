@@ -1,11 +1,13 @@
 package sgsits.cse.dis.infrastructure.feignClient;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,9 @@ public interface UserClient {
 	@RequestMapping(value = "/userFeignClientController/getUserNameById/{userId}", method = RequestMethod.GET)
 	String getUserNameById(@PathVariable String userId);
 	
+	@RequestMapping(value = "/userFeignClientController/getUserNameByIdOptional", method = RequestMethod.GET)
+	String getUserNameByIdOptional(@RequestBody Optional<String> userId);
+
 	@RequestMapping(value = "/userFeignClientController/getUserType", method = RequestMethod.GET)
 	String getUserType(String id);
 	

@@ -71,8 +71,9 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 	public List<InfrastructureBrief> getInfrastructureByType(String type) {
 		
 		Function<? super Infrastructure, ? extends InfrastructureBrief> infrastructureBriefMapper = temp -> new InfrastructureBrief(temp.getId(), temp.getName(), temp.getArea(), 
-				temp.getNameAcronym(), temp.getLocation(), userClient.getUserNameById(temp.getIncharge()), userClient.getUserNameById(temp.getAssociateIncharge()),
-				userClient.getUserNameById(temp.getStaff()) , temp.getAttendant());
+				temp.getNameAcronym(), temp.getLocation(), userClient.getUserNameByIdOptional(Optional.ofNullable(temp.getIncharge())), 
+				userClient.getUserNameByIdOptional(Optional.ofNullable(temp.getAssociateIncharge())),
+				userClient.getUserNameByIdOptional(Optional.ofNullable(temp.getStaff())) , temp.getAttendant());
 		
 		return infrastructureRepository.findByType(type).stream()
 			.map(infrastructureBriefMapper)
@@ -182,9 +183,9 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 			throw new NotFoundException("Not infrastructure with name ["+name+"] found.");
 		temp.stream()
 		.forEach((infra)->{
-			infra.setIncharge(userClient.getUserNameById(infra.getIncharge()));
-			infra.setAssociateIncharge(userClient.getUserNameById(infra.getAssociateIncharge()));
-			infra.setStaff(userClient.getUserNameById(infra.getStaff()));
+			infra.setIncharge(userClient.getUserNameByIdOptional(Optional.ofNullable(infra.getIncharge())));
+			infra.setAssociateIncharge(userClient.getUserNameByIdOptional(Optional.ofNullable(infra.getAssociateIncharge())));
+			infra.setStaff(userClient.getUserNameByIdOptional(Optional.ofNullable(infra.getStaff())));
 		});
 		return temp;
 		

@@ -10,6 +10,7 @@ package sgsits.cse.dis.user.controller;
  */
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -95,6 +96,12 @@ public class UserFeignClientController {
 	@RequestMapping(value = "/getUserNameById/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<String> getUserNameById(@PathVariable String userId){
 		return  new ResponseEntity<String>(staffService.getNameById(userId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "get user name by id", response = String.class, httpMethod = "POST", produces = "application/json")
+	@RequestMapping(value = "/getUserNameByIdOptional", method = RequestMethod.POST)
+	public ResponseEntity<String> getUserNameByIdOptinal(@RequestBody Optional<String> userId){
+		return  new ResponseEntity<String>(staffService.getNameByIdOptional(userId),HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Update user id with email", response = String.class, httpMethod = "PUT", produces = "application/json")

@@ -98,11 +98,25 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public String getNameById(String userId) {
-		if (!userId.equals(null)) {
-			Optional<StaffProfile> temp = staffRepository.findByUserId(userId);
+		if (userId.equals(null)) {
+			return "userId is null";
+		}
+		Optional<StaffProfile> temp = staffRepository.findByUserId(userId);
+		if(temp.isPresent())
+			return temp.get().getName();
+		return "Not Found";
+	}
+	
+	@Override
+	public String getNameByIdOptional(Optional<String> userId) {
+		System.out.println("Inside getNameByIdOptional : "+userId.get());	
+		if (!userId.get().equals("null")) {
+			Optional<StaffProfile> temp = staffRepository.findByUserId(userId.get().replace("\"", ""));
 			if(temp.isPresent())
 				return temp.get().getName();
+			return "Not Found";
+			
 		}
-		return "Not Exists";
+		return "userId is null";
 	}
 }
