@@ -29,7 +29,7 @@ public interface UserClient {
 	@RequestMapping(value = "/userFeignClientController/getUserNameById/{userId}", method = RequestMethod.GET)
 	String getUserNameById(@PathVariable String userId);
 	
-	@RequestMapping(value = "/userFeignClientController/getUserNameByIdOptional", method = RequestMethod.GET)
+	@RequestMapping(value = "/userFeignClientController/getUserNameByIdOptional", method = RequestMethod.POST)
 	String getUserNameByIdOptional(@RequestBody Optional<String> userId);
 
 	@RequestMapping(value = "/userFeignClientController/getUserType", method = RequestMethod.GET)
