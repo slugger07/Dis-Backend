@@ -10,17 +10,7 @@ import sgsits.cse.dis.administration.model.FacultyResourceRequest;
 @Repository
 public interface FacultyResourceRequestRepository extends JpaRepository<FacultyResourceRequest, Long>{
 
-//	boolean existsByCreatedByAndResourceCategoryAndDetailsAndStatusNot(long id, String resourceCategory, String details, String status);
-//
-//	boolean existsByCreatedBy(long id);
-//
-//	List<FacultyResourceRequest> findByStatus(String string);
-//
-//	List<FacultyResourceRequest> findByStatusNot(String string);
-//
-//	List<FacultyResourceRequest> findByCreatedByAndStatus(long id, String string);
-//
-//	List<FacultyResourceRequest> findByCreatedByAndStatusNot(long id, String string);
-
-//	FacultyResourceRequest save(FacultyResourceRequest facultyResourceRequest);
+	List<FacultyResourceRequest> getFacultyResourceRequestByStatus(String status);
+	
+	List<FacultyResourceRequest> findByPriorityContainingIgnoreCase(String priority);
 }

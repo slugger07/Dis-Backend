@@ -51,8 +51,8 @@ public class RestAPI {
 	
 //	RESOURCE REQUEST APIs
 	public static final String ADD_FACULTY_RESOURCE_REQUEST = "/addFacultyResourceRequest";
-
-	
+	public static final String SHOW_FACULTY_RESOURCE_REQUEST = "/showFacultyResourceRequest/{status}";
+	public static final String SEARCH_FACULTY_RESOURCE_REQUEST_BY_PRIORITY = "/searchFacultyResourceRequestByPriority/{priority}";
 	
 
 }

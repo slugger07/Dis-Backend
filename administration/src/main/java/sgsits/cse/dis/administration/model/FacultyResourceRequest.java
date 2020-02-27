@@ -56,7 +56,7 @@ public class FacultyResourceRequest {
 	private String deadlineToResolve;
 	
 
-	public FacultyResourceRequest(String createdBy, String createdDate, String resourceCategory, String details, String priority, String deadlineToResolve) {
+	public FacultyResourceRequest(String createdBy, String createdDate, String resourceCategory, String details, String priority, String deadlineToResolve, String status) {
 		super();
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
@@ -64,6 +64,7 @@ public class FacultyResourceRequest {
 		this.details = details;
 		this.priority = priority;
 		this.deadlineToResolve = deadlineToResolve;
+		this.status=status;
 	}
 
 	public FacultyResourceRequest() { }
