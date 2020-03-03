@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,10 +21,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.academics.constants.RestAPI;
 import sgsits.cse.dis.academics.exception.ConflictException;
+import sgsits.cse.dis.academics.feignClient.InfrastuctureClient;
 import sgsits.cse.dis.academics.jwt.JwtResolver;
 import sgsits.cse.dis.academics.model.SemTimeTableSettings;
 import sgsits.cse.dis.academics.response.FacultyNameListResponse;
+import sgsits.cse.dis.academics.response.InfrastructureResponse;
 import sgsits.cse.dis.academics.response.ResponseMessage;
+import sgsits.cse.dis.academics.service.CoursesService;
+import sgsits.cse.dis.academics.service.SchemeServices;
 import sgsits.cse.dis.academics.service.SemTimeTableServices;
 import sgsits.cse.dis.academics.service.TimeTableSettingServices;
 
@@ -49,6 +54,15 @@ public class TimeTableController {
 	
 	@Autowired
 	private SemTimeTableServices semTimeTableServices;
+	
+	@Autowired
+	private CoursesService coursesService;
+	
+	@Autowired
+	private SchemeServices schemeServices;
+	
+	@Autowired
+	private InfrastuctureClient infrastuctureClient;
 
 	@ApiOperation(value = "Get semester time table settings", response = SemTimeTableSettings.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path = RestAPI.GET_SEM_TIME_TABLE_SETTINGS, produces = "application/json")
@@ -70,6 +84,36 @@ public class TimeTableController {
 	@GetMapping(path=RestAPI.GET_FACULTY_NAME_LIST, produces="application/json")
 	public ResponseEntity<List<FacultyNameListResponse>> getFacultyNameList(){
 		return new ResponseEntity<List<FacultyNameListResponse>>(semTimeTableServices.getFacultyNameList(),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get course name by course id",response=String.class,httpMethod = "GET")
+	@GetMapping(path=RestAPI.GET_COURSE_NAME_BY_COURSE_ID, produces="text/plain")
+	public ResponseEntity<String> getCourseNameByCourseId(@PathVariable("courseId") String courseId){
+		return new ResponseEntity<String>(coursesService.getNameByCourseId(courseId),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get course id by  course name",response=String.class,httpMethod = "GET")
+	@GetMapping(path=RestAPI.GET_COURSE_ID_BY_COURSE_NAME, produces="text/plain")
+	public ResponseEntity<String> getCourseIdByCourseName(@PathVariable("courseName") String courseName){
+		return new ResponseEntity<String>(coursesService.getCourseIdByName(courseName),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET")
+	@GetMapping(value = RestAPI.GET_COURSE_LIST,produces = "application/json")
+	public ResponseEntity<List<String>> getCourseList(){
+		return new ResponseEntity<List<String>>( coursesService.getCourseList(),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET")
+	@GetMapping(value = RestAPI.GET_SUBJECT_CODES_LIST_BY_YEAR_AND_SEMESTER,produces = "application/json")
+	public ResponseEntity<List<String>> getSubjectCodesListByYearAndSemster(@PathVariable("year") String year,@PathVariable("sem") String sem){
+		return new ResponseEntity<List<String>>( schemeServices.getSubjectCodesByYearAndSemester(year, sem),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Get Infrastructure by type", response = InfrastructureResponse.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_INFRASTRUCTURE_BY_TYPE, produces = "application/json")
+	public ResponseEntity<List<InfrastructureResponse>> getInfrastructureByType(@PathVariable("type") String type){
+		return new ResponseEntity<List<InfrastructureResponse>>(infrastuctureClient.getInfrastructureByType(type),HttpStatus.OK);
 	}
 
 }

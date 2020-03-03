@@ -1,6 +1,7 @@
 package sgsits.cse.dis.infrastructure.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -24,6 +25,7 @@ import sgsits.cse.dis.infrastructure.repo.InfrastructureLocationRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureTypeRepository;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
+import sgsits.cse.dis.infrastructure.response.InfrastructureResponse;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
 import sgsits.cse.dis.infrastructure.service.InfrastructureService;
 /**
@@ -196,6 +198,14 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 		if(infrastructre.equals(Optional.empty()))
 				throw new NotFoundException("No ifrastructure found by given id ["+id+"]");
 		return infrastructre.get();
+	}
+	@Override
+	public List<InfrastructureResponse> getInfrastructureNameAndIdByType(String type) {
+		
+		return infrastructureRepository.findByType(type).stream()
+			.map(infrastructure -> new InfrastructureResponse(infrastructure.getId(), infrastructure.getName(), infrastructure.getNameAcronym()))
+			.sorted(Comparator.comparing(InfrastructureResponse::getName))
+			.collect(Collectors.toList());
 	}
 	
 }

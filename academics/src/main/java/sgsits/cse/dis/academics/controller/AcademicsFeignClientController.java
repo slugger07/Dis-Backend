@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import sgsits.cse.dis.academics.service.CoursesService;
 import sgsits.cse.dis.academics.serviceImpl.CoursesServiceImpl;
 import sgsits.cse.dis.academics.serviceImpl.SchemeServiceImpl;
 
@@ -31,7 +32,7 @@ public class AcademicsFeignClientController {
 	private SchemeServiceImpl schemeServiceImpl;
 	
 	@Autowired
-	private CoursesServiceImpl coursesServiceImpl;
+	private CoursesService coursesServiceImpl;
 	
 	@ApiOperation(value="Get subject acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = "/getAllSubjectAcronyms")

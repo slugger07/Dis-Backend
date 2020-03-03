@@ -1,7 +1,7 @@
 package sgsits.cse.dis.user.controller;
 
 /**
- * <h1>UserFeignController.</h1>
+ * <h1>UserFeignClientController.</h1>
  * <p>This controller exposes user services as REST end points at default path <b>/userFeignCliemntController</b>.
  * These servies are meant to be consumed only by feignClient in any other microservice.
  * @author Arjit Mishra,Devyani garg.

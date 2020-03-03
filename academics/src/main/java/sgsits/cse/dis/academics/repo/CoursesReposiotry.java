@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
  * @author Arjit Mishra
  * @since 2-DEC-2019
  */
-public interface CoursesReposiotry extends JpaRepository<Courses, Long> {
+public interface CoursesReposiotry extends JpaRepository<Courses, String> {
 
 	Courses findCourseIdByName(String name);
 

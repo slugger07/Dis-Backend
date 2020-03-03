@@ -8,6 +8,7 @@ import javassist.NotFoundException;
 import sgsits.cse.dis.infrastructure.exception.ConflictException;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
+import sgsits.cse.dis.infrastructure.response.InfrastructureResponse;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
 /**
  * <h1><b>InfrasturctureService</b> interface.</h1>
@@ -39,6 +40,11 @@ public interface InfrastructureService {
 	 * @return
 	 */
 	List<InfrastructureBrief> getInfrastructureByType(String type);
+	/**
+	 * @param type
+	 * @return
+	 */
+	List<InfrastructureResponse> getInfrastructureNameAndIdByType(String type);
 	/**
 	 * @param location
 	 * @return
