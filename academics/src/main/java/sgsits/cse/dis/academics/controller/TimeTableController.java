@@ -106,8 +106,8 @@ public class TimeTableController {
 	
 	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET")
 	@GetMapping(value = RestAPI.GET_SUBJECT_CODES_LIST_BY_YEAR_AND_SEMESTER,produces = "application/json")
-	public ResponseEntity<List<String>> getSubjectCodesListByYearAndSemster(@PathVariable("year") String year,@PathVariable("sem") String sem){
-		return new ResponseEntity<List<String>>( schemeServices.getSubjectCodesByYearAndSemester(year, sem),HttpStatus.OK);
+	public ResponseEntity<List<String>> getSubjectCodesListByYearAndSemster(@PathVariable("year") String year,@PathVariable("sem") String sem,@PathVariable("course") String course){
+		return new ResponseEntity<List<String>>( schemeServices.getSubjectCodesByYearAndSemesterAndCourse(year, sem, course),HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Get Infrastructure by type", response = InfrastructureResponse.class, httpMethod = "GET", produces = "application/json")
