@@ -15,16 +15,16 @@ public class Infrastructure {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
-	private long id;
+	private String id;
 	
 	@Column(name = "created_by")
-	private Long createdBy;
+	private String createdBy;
 	
 	@Column(name = "created_date")
 	private Instant createdDate;
 	
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 	
 	@Column(name = "modified_date")
 	private Instant modifiedDate;
@@ -45,16 +45,16 @@ public class Infrastructure {
 	private String location;
 	
 	@Column(name = "incharge")
-	private Long incharge;
+	private String incharge;
 	
 	@Column(name = "associate_incharge")
-	private Long associateIncharge;
+	private String associateIncharge;
 	
 	@Column(name = "staff")
-	private Long staff;
+	private String staff;
 	
 	@Column(name = "attendant")
-	private Long attendant;
+	private String attendant;
 	
 	@Column(name = "no_of_tables")
 	private int noofTables;
@@ -67,20 +67,23 @@ public class Infrastructure {
 	
 	@Column(name = "no_of_almirah")
 	private int noofAlmirah;
+	
+	@Column(name = "description")
+	private String description;
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Long getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -92,11 +95,11 @@ public class Infrastructure {
 		this.createdDate = createdDate;
 	}
 
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -148,35 +151,35 @@ public class Infrastructure {
 		this.location = location;
 	}
 
-	public Long getIncharge() {
+	public String getIncharge() {
 		return incharge;
 	}
 
-	public void setIncharge(Long incharge) {
+	public void setIncharge(String incharge) {
 		this.incharge = incharge;
 	}
 
-	public Long getAssociateIncharge() {
+	public String getAssociateIncharge() {
 		return associateIncharge;
 	}
 
-	public void setAssociateIncharge(Long associateIncharge) {
+	public void setAssociateIncharge(String associateIncharge) {
 		this.associateIncharge = associateIncharge;
 	}
 
-	public Long getStaff() {
+	public String getStaff() {
 		return staff;
 	}
 
-	public void setStaff(Long staff) {
+	public void setStaff(String staff) {
 		this.staff = staff;
 	}
 
-	public Long getAttendant() {
+	public String getAttendant() {
 		return attendant;
 	}
 
-	public void setAttendant(Long attendant) {
+	public void setAttendant(String attendant) {
 		this.attendant = attendant;
 	}
 
@@ -211,5 +214,15 @@ public class Infrastructure {
 	public void setNoofAlmirah(int noofAlmirah) {
 		this.noofAlmirah = noofAlmirah;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 
 }

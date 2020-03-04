@@ -1,4 +1,4 @@
-package sgsits.cse.dis.administration.constants;
+package sgsits.cse.dis.administration.config.constants;
 
 public class RestAPI {
 	

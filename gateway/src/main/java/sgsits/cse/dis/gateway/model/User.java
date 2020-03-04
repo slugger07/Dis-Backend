@@ -19,93 +19,108 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-            "username"
-        }),
-        @UniqueConstraint(columnNames = {
-            "email"
-        }),
-        @UniqueConstraint(columnNames = {
-                "mobile_no"
-        })
+		@UniqueConstraint(columnNames = {
+				"username"
+		}),
+		@UniqueConstraint(columnNames = {
+				"email"
+		}),
+		@UniqueConstraint(columnNames = {
+				"mobile_no"
+		})
 })
 public class User{
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", nullable = false, unique = true)
+    private String id;
 
-	@Column(name = "created_by")
+	@Column(name = "created_by", nullable = false)
 	private String createdBy;
 
-	@Column(name = "created_date")
-	private Date createdDate;
+	@Column(name = "created_date", nullable = false)
+	private String createdDate;
 
 	@Column(name = "modified_by")
 	private String modifiedBy;
 
 	@Column(name = "modified_date")
-	private Date modifiedDate;
-	
-    @NotBlank
-    @Size(min=3, max = 50)
-    @Column(name = "username")
-    private String username;
+	private String modifiedDate;
 
-    @NaturalId
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    @Column(name = "email")
-    private String email;
-    
-    @Column(name = "dob")
-    private Date dob;
-    
-    @Column(name = "mobile_no")
-    private long mobileNo;
+	@NotBlank
+	@Size(min=3, max = 50)
+	@Column(name = "username")
+	private String username;
 
-    @NotBlank
-    @Size(min=6, max = 100)
-    @Column(name = "password")
-    private String password;
+	@NaturalId
+	@NotBlank
+	@Size(max = 50)
+	@Email
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "dob")
+	private Date dob;
+
+	@Column(name = "mobile_no")
+	private long mobileNo;
+
+	@NotBlank
+	@Size(min=6, max = 100)
+	@Column(name = "password")
+	private String password;
 
 	@Column(name = "enabled")
-    private boolean enabled;
-    
+	private boolean enabled;
+
 	@Column(name = "reset_token")
-    private String resetToken;
-    
+	private String resetToken;
+
 	@Column(name = "reset_token_expiry")
-    private Date resetTokenExpiry;
-    
+	private String resetTokenExpiry;
+
+	@Column(name = "activation_token")
+	private String activationToken;
+
+	@Column(name = "activation_token_expiry")
+	private String activationTokenExpiry;
+
+	@Column(name = "last_login")
+	private String lastLogin;
+
 	@Column(name = "user_type")
 	private String userType;
-	
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_tasks", 
-    	joinColumns = @JoinColumn(name = "user_id"), 
-    	inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private Set<Task> tasks = new HashSet<>();
 
-    public User() {}
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_tasks",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "task_id"))
+	private Set<Task> tasks = new HashSet<>();
 
-    public User(String username, String email, Date dob, long mobileNo, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.dob = dob;
-        this.mobileNo = mobileNo;
-    }
+	public User() {}
 
-	public Long getId() {
+	public User(String username, String email, Date dob, long mobileNo, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.dob = dob;
+		this.mobileNo = mobileNo;
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -117,11 +132,11 @@ public class User{
 		this.createdBy = createdBy;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -133,11 +148,11 @@ public class User{
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Date getModifiedDate() {
+	public String getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
+	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 
@@ -197,12 +212,36 @@ public class User{
 		this.resetToken = resetToken;
 	}
 
-	public Date getResetTokenExpiry() {
+	public String getResetTokenExpiry() {
 		return resetTokenExpiry;
 	}
 
-	public void setResetTokenExpiry(Date resetTokenExpiry) {
+	public void setResetTokenExpiry(String resetTokenExpiry) {
 		this.resetTokenExpiry = resetTokenExpiry;
+	}
+
+	public String getLastLogin() {
+		return lastLogin;
+	}
+
+	public String getActivationToken() {
+		return activationToken;
+	}
+
+	public void setActivationToken(String activationToken) {
+		this.activationToken = activationToken;
+	}
+
+	public String getActivationTokenExpiry() {
+		return activationTokenExpiry;
+	}
+
+	public void setActivationTokenExpiry(String activationTokenExpiry) {
+		this.activationTokenExpiry = activationTokenExpiry;
+	}
+
+	public void setLastLogin(String lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 	public String getUserType() {
