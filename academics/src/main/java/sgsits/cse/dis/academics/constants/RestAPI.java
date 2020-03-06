@@ -10,5 +10,6 @@ public class RestAPI {
 	public static final String GET_COURSE_LIST = "/getCourseList";
 	public static final String GET_SUBJECT_CODES_LIST_BY_YEAR_AND_SEMESTER = "getSubjectCodesListByYearAndSemsterAndCourse/{year}/{sem}/{course}";
 	public static final String GET_INFRASTRUCTURE_BY_TYPE = "/getInfrastructureByType/{type}";
+	public static final String ADD_SEMESTER_TIME_TABLE = "/addSemTimeTable";
 
 }

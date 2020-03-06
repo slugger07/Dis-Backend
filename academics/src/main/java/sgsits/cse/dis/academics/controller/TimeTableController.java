@@ -24,12 +24,14 @@ import sgsits.cse.dis.academics.exception.ConflictException;
 import sgsits.cse.dis.academics.feignClient.InfrastuctureClient;
 import sgsits.cse.dis.academics.jwt.JwtResolver;
 import sgsits.cse.dis.academics.model.SemTimeTableSettings;
+import sgsits.cse.dis.academics.request.FacultyTimeTableForm;
 import sgsits.cse.dis.academics.response.FacultyNameListResponse;
 import sgsits.cse.dis.academics.response.InfrastructureResponse;
 import sgsits.cse.dis.academics.response.ResponseMessage;
 import sgsits.cse.dis.academics.service.CoursesService;
 import sgsits.cse.dis.academics.service.SchemeServices;
 import sgsits.cse.dis.academics.service.SemTimeTableServices;
+import sgsits.cse.dis.academics.service.SemesterTimeTableServices;
 import sgsits.cse.dis.academics.service.TimeTableSettingServices;
 
 /**
@@ -51,6 +53,9 @@ public class TimeTableController {
 	
 	@Autowired
 	private TimeTableSettingServices timeTableSettingServices;
+	
+	@Autowired
+	private SemesterTimeTableServices semesterTimeTableServices;
 	
 	@Autowired
 	private SemTimeTableServices semTimeTableServices;
@@ -114,6 +119,14 @@ public class TimeTableController {
 	@GetMapping(path = RestAPI.GET_INFRASTRUCTURE_BY_TYPE, produces = "application/json")
 	public ResponseEntity<List<InfrastructureResponse>> getInfrastructureByType(@PathVariable("type") String type){
 		return new ResponseEntity<List<InfrastructureResponse>>(infrastuctureClient.getInfrastructureByType(type),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Add semester time table", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
+	@PostMapping(path = RestAPI.ADD_SEMESTER_TIME_TABLE, produces = "application/json")
+	public ResponseEntity<ResponseMessage> addSemTimeTable(@RequestBody FacultyTimeTableForm facultyTimeTableForm,HttpServletRequest request) throws ConflictException{
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(semesterTimeTableServices.addTimeTable(facultyTimeTableForm, 
+				jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))) 
+				,HttpStatus.OK);
 	}
 
 }
