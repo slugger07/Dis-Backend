@@ -1,13 +1,17 @@
 package sgsits.cse.dis.academics.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javassist.NotFoundException;
 import sgsits.cse.dis.academics.exception.ConflictException;
 import sgsits.cse.dis.academics.model.FacultyTimetable;
 import sgsits.cse.dis.academics.model.SemTimeTable;
@@ -82,6 +86,40 @@ public class SemesterTimeTableServicesImpl implements SemesterTimeTableServices 
 		return message;
 			
 		
+	}
+
+	@Override
+	public List<String> getSubjectCodesByFacultyIdAndSession(String facultyId, String session) {
+		
+		
+		return facultyTimeTableRepository.findByFacultyId(facultyId).stream()
+				.map(timetable -> timetable.getSemTimeTableId())
+				.distinct()
+				.map(id -> semTimeTableRepository.findByIdAndSession(id, session))
+				.filter(semTimeTableOptional -> semTimeTableOptional.isPresent())
+				.map(semTimeTableOptional -> semTimeTableOptional.get().getSubjectCode())
+				.collect(Collectors.toList());
+			
+		
+	}
+
+	@Override
+	public FacultyTimeTableForm getTimeTableByFacultyIdAndSessionAndSubjectCode(String facultyId, String session,
+			String subjectCode) throws NotFoundException {
+			
+			Optional<SemTimeTable> semTimeTableOptional = semTimeTableRepository.findBySessionAndSubjectCode(session,subjectCode);
+			if(!semTimeTableOptional.isPresent()) {
+				throw new NotFoundException("not found");
+			}
+			
+			List<FacultyTimetable> facultyTimeTableEntries = facultyTimeTableRepository.findByFacultyIdAndSemTimeTableId(facultyId,semTimeTableOptional.get().getId())
+					.stream()
+					.collect(Collectors.toList());
+					
+			return new FacultyTimeTableForm(semTimeTableOptional.get().getSubjectCode(),
+					semTimeTableOptional.get().getLectureType(),semTimeTableOptional.get().getYear(),
+					semTimeTableOptional.get().getSemester(), session, facultyTimeTableEntries);
+			
 	}
 
 }

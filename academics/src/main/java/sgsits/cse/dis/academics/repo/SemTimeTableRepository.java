@@ -11,4 +11,8 @@ import sgsits.cse.dis.academics.model.SemTimeTable;
 public interface SemTimeTableRepository extends JpaRepository<SemTimeTable, String> {
 
 	Optional<SemTimeTable> findBySubjectCodeAndLectureTypeAndSession(String subjectCode, String lectureType, String session);
+
+	Optional<SemTimeTable> findByIdAndSession(String id, String session);
+
+	Optional<SemTimeTable> findBySessionAndSubjectCode(String session, String subjectCode);
 }

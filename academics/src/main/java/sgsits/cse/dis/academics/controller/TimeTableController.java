@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
 import sgsits.cse.dis.academics.constants.RestAPI;
 import sgsits.cse.dis.academics.exception.ConflictException;
 import sgsits.cse.dis.academics.feignClient.InfrastuctureClient;
@@ -127,6 +128,19 @@ public class TimeTableController {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(semesterTimeTableServices.addTimeTable(facultyTimeTableForm, 
 				jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))) 
 				,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get subject code by faculty id and session", response = String.class, httpMethod = "GET")
+	@GetMapping(value = RestAPI.GET_SUBJECT_CODES_BY_FACULTY_ID_AND_SESSION,produces = "application/json")
+	public ResponseEntity<List<String>> getSubjectCodesByFacultyIdAndSession(@PathVariable("facultyId")String facultyId,@PathVariable("session") String session){
+		return new ResponseEntity<List<String>>( semesterTimeTableServices.getSubjectCodesByFacultyIdAndSession(facultyId, session),HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Get time table by Faculty id, session and subject code", response = FacultyTimeTableForm.class, httpMethod = "GET")
+	@GetMapping(value = RestAPI.GET_TIMETABLE_BY_FACULTY_ID_SESSION_AND_SUBJECT_CODE,produces = "application/json")
+	public ResponseEntity<FacultyTimeTableForm> getTimeTableByFacultyIdSessionAndSubjectCode(@PathVariable("facultyId")String facultyId,
+			@PathVariable("session") String session,@PathVariable("subjectCode") String subjectCode) throws NotFoundException{
+		return new ResponseEntity<FacultyTimeTableForm>( semesterTimeTableServices.getTimeTableByFacultyIdAndSessionAndSubjectCode(facultyId, session, subjectCode),HttpStatus.OK);
 	}
 
 }

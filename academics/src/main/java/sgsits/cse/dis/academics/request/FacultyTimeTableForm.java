@@ -45,6 +45,7 @@ public class FacultyTimeTableForm {
 		this.facultyTimeTableEntries = facultyTimeTableEntries;
 	}
 
+
 	public String getSubjectCode() {
 		return subjectCode;
 	}

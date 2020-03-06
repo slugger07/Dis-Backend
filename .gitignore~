@@ -1,5 +1,4 @@
 *.vscode/
 /.metadata/
 /.recommenders/
-*.idea/*
-.idea/*
+.idea

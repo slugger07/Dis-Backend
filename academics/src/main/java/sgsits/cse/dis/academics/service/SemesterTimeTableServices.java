@@ -1,5 +1,8 @@
 package sgsits.cse.dis.academics.service;
 
+import java.util.List;
+
+import javassist.NotFoundException;
 import sgsits.cse.dis.academics.exception.ConflictException;
 import sgsits.cse.dis.academics.request.FacultyTimeTableForm;
 
@@ -16,4 +19,6 @@ import sgsits.cse.dis.academics.request.FacultyTimeTableForm;
 
 public interface SemesterTimeTableServices {
 	String addTimeTable(FacultyTimeTableForm facultyTimeTableForm,String userId) throws ConflictException;
+	List<String> getSubjectCodesByFacultyIdAndSession(String facultyId,String session);
+	FacultyTimeTableForm getTimeTableByFacultyIdAndSessionAndSubjectCode(String facultyId,String session,String subjectCode) throws NotFoundException;
 }
