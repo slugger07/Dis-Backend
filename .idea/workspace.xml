@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43887ee5-a883-4c74-8f8c-09b242fabea7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/constants/RestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/constants/RestAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/controller/TimeTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/controller/TimeTableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/repo/FacultyTimetableRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/repo/FacultyTimetableRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/repo/SemTimeTableRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/repo/SemTimeTableRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/request/FacultyTimeTableForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/request/FacultyTimeTableForm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/service/SemesterTimeTableServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/service/SemesterTimeTableServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/serviceImpl/SemesterTimeTableServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/academics/src/main/java/sgsits/cse/dis/academics/serviceImpl/SemesterTimeTableServicesImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +25,19 @@
     <select />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="arjit" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="ProjectId" id="1Yk1AiKxQURXscwAN1Ra0mnZe6j" />
   <component name="ProjectViewState">
@@ -132,6 +137,7 @@
       <updated>1583471637220</updated>
       <workItem from="1583471647751" duration="264000" />
       <workItem from="1583482501046" duration="1392000" />
+      <workItem from="1583515110716" duration="33000" />
     </task>
     <servers />
   </component>
