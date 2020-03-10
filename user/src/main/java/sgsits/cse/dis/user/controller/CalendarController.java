@@ -53,8 +53,8 @@ public class CalendarController {
 	
 	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/addEvent", produces = "application/json")
-	public void addEvent(@RequestBody Event event) {
-		calenderServiceImpl.addEvent(event);
+	public Event addEvent(@RequestBody Event event) {
+		return calenderServiceImpl.addEvent(event);
 	}
 	
 	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "GET", produces="application/json")
@@ -65,7 +65,7 @@ public class CalendarController {
 	
 	@ApiOperation(value="Update an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/updateEvent", produces = "application/json")
-	public void updateEvent(@RequestBody Event event) throws EventDoesNotExistException {
-		calenderServiceImpl.updateEvent(event);
+	public Event updateEvent(@RequestBody Event event) throws EventDoesNotExistException {
+		return calenderServiceImpl.updateEvent(event);
 	}
 }

@@ -20,12 +20,6 @@ public class CalendarServicesImpl implements CalendarServices {
 	@Autowired
 	private EventRepository eventRepository;
 
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private EventParticipantRepository eventParticipantRepository;
-
 	@Override
 	public List<Event> getAllEvents() {
 		List<Event> eventList = eventRepository.findAll();
@@ -33,8 +27,9 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public void addEvent(Event event) {
+	public Event addEvent(Event event) {
 		eventRepository.save(event);
+		return event;
 	}
 
 	@Override
@@ -44,13 +39,14 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public void updateEvent(Event event) throws EventDoesNotExistException {
+	public Event updateEvent(Event event) throws EventDoesNotExistException {
 		String eventId = event.getEventId();
 		if (getEvent(eventId) == null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 		}
 		eventRepository.deleteById(eventId);
 		eventRepository.save(event);
+		return event;
 	}
 
 	@Override

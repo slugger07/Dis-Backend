@@ -10,8 +10,8 @@ import sgsits.cse.dis.user.model.Event;
 
 @Component
 public interface CalendarServices {
-	void addEvent(Event event);
-	void updateEvent(Event event) throws EventDoesNotExistException;
+	Event addEvent(Event event);
+	Event updateEvent(Event event) throws EventDoesNotExistException;
 	void deleteEvent(String eventId) throws EventDoesNotExistException;
 	Event getEvent(String eventId);
 	List<Event>  getAllEvents();

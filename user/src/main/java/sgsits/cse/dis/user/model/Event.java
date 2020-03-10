@@ -1,7 +1,7 @@
 package sgsits.cse.dis.user.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,16 +23,16 @@ public class Event implements Serializable {
 	private String eventId;
 	
 	@Column(name = "created_by", nullable = false)
-	private Long createdBy;
+	private String createdBy;
 
 	@Column(name = "created_date", nullable = false)
-	private String createdDate;
+	private Date createdDate;
 
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 
 	@Column(name = "modified_date")
-	private String modifiedDate;
+	private Date modifiedDate;
 	
 	
 	@Column(name = "title", nullable = false)
@@ -48,7 +48,7 @@ public class Event implements Serializable {
 	@Column(name = "end_date", nullable = false)
 	private Date endDate;
 	
-	@Column(name = "event_type", nullable = false)
+	@Column(name = "event_type")
 	private String eventType;
 	
 	@Column(name = "event_incharge")
@@ -60,7 +60,7 @@ public class Event implements Serializable {
 
 	public Event() {}
 
-	public Event(String eventId, Long createdBy, String createdDate, Long modifiedBy, String modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants) {
+	public Event(String eventId, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants) {
 		super();
 		this.eventId = eventId;
 		this.createdBy = createdBy;
@@ -76,45 +76,45 @@ public class Event implements Serializable {
 		this.participants = participants;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+
 	public Set<EventParticipant> getParticipants() {
 		return participants;
 	}
 
 	public void setParticipants(Set<EventParticipant> participants) {
 		this.participants = participants;
-	}
-
-	public Long getCreatedBy() {
-		return createdBy;
-
-	}
-
-	public void setCreatedBy(Long createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Long getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(Long modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-
-	public String getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(String modifiedDate) {
-		this.modifiedDate = modifiedDate;
 	}
 
 	public String getEventId() {
