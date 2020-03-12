@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Entity
 @DiscriminatorValue("CLEANLINESS")
 @Table(name="cleanliness_complaints")
-public class CleanlinessComplaint  extends Complaints{
+public class CleanlinessComplaint  extends Complaint{
 	private String location;
 	private int level_of_dust;
 	public String getLocation() {

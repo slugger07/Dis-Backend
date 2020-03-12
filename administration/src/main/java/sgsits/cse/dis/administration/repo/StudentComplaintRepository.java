@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import sgsits.cse.dis.administration.model.StudentComplaints;
+import sgsits.cse.dis.administration.model.StudentComplaint;
 
 //Student Complaint
 
 @Repository("")
-public interface StudentComplaintRepository extends JpaRepository<StudentComplaints, Long> {
-	List<StudentComplaints> findByCreatedBy(long id);
-	List<StudentComplaints> findByStatus(String status);
-	List<StudentComplaints>findByStatusNot(String string);
+public interface StudentComplaintRepository extends JpaRepository<StudentComplaint, String> {
+//	List<StudentComplaint> findByCreatedBy(String id);
+//	List<StudentComplaint> findByStatus(String status);
+	List<StudentComplaint>findByStatusNot(String string);
 }

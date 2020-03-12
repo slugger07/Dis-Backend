@@ -16,21 +16,11 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-            "username"
-        }),
-        @UniqueConstraint(columnNames = {
-            "email"
-        }),
-        @UniqueConstraint(columnNames = {
-                "mobile_no"
-        })
-})
+@Table(name = "user")
 public class User{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
 	@Column(name = "created_by")
 	private String createdBy;
@@ -44,15 +34,9 @@ public class User{
 	@Column(name = "modified_date")
 	private Date modifiedDate;
 	
-    @NotBlank
-    @Size(min=3, max = 50)
     @Column(name = "username")
     private String username;
 
-    @NaturalId
-    @NotBlank
-    @Size(max = 50)
-    @Email
     @Column(name = "email")
     private String email;
     
@@ -62,8 +46,6 @@ public class User{
     @Column(name = "mobile_no")
     private long mobileNo;
 
-    @NotBlank
-    @Size(min=6, max = 100)
     @Column(name = "password")
     private String password;
 
@@ -75,6 +57,15 @@ public class User{
     
 	@Column(name = "reset_token_expiry")
     private Date resetTokenExpiry;
+	
+	@Column(name = "activation_token")
+	private String activationToken;
+	
+	@Column(name = "activation_token_expiry")
+	private Date activationTokenExpiry;
+	
+	@Column(name = "last_login")
+	private Date lastLogin;
     
 	@Column(name = "user_type")
 	private String userType;     
@@ -89,11 +80,11 @@ public class User{
         this.mobileNo = mobileNo;
     }
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -6,39 +6,20 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("TELEPHONE")
-@Table(name = "telephone_complaints")
-public class TelephoneComplaints {
-
-	@Column(name = "location", nullable = false)
-	private String location;
-
-	@Column(name = "extension_no")
-	private String extensionNo;
-
+@Table(name = "engineering_cell_and_central_workshop_complaints")
+@DiscriminatorValue("ECCW")
+public class ECCWComplaint extends Complaint {
+	
 
 	@Column(name = "pdf_id")
 	private String pdfId;
 
 	@Column(name = "form_id")
 	private String formId;
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getExtensionNo() {
-		return extensionNo;
-	}
-
-	public void setExtensionNo(String extensionNo) {
-		this.extensionNo = extensionNo;
-	}
-
+	
+	@Column(name = "location")
+	private String location;
+	
 	public String getPdfId() {
 		return pdfId;
 	}
@@ -54,5 +35,14 @@ public class TelephoneComplaints {
 	public void setFormId(String formId) {
 		this.formId = formId;
 	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	
 }

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @DiscriminatorColumn(name="complaint_type")
 @Table(name="complaints")
-public class Complaints {
+public class Complaint {
 	@Id
 	private String complaint_id;
 	private String created_by;
