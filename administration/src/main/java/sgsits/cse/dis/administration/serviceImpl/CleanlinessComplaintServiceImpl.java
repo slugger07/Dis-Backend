@@ -21,4 +21,13 @@ public class CleanlinessComplaintServiceImpl implements ComplaintService<Cleanli
 		return cleanlinessComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
+	@Override
+	public CleanlinessComplaint addComplaint(CleanlinessComplaint complaintForm, String userId) {
+		if(cleanlinessComplaintRepository.existsByCreatedByAndLocationAndStatusNot(userId, complaintForm.getLocation(), "Resolved")) {
+			
+		}
+		return null;
+	}
+
+
 }

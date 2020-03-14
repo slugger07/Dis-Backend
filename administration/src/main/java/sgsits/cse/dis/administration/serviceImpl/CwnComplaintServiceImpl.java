@@ -20,4 +20,10 @@ public class CwnComplaintServiceImpl implements ComplaintService<CWNComplaint>{
 		return cwnComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
+	@Override
+	public CWNComplaint addComplaint(CWNComplaint complaintForm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

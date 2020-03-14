@@ -2,88 +2,123 @@ package sgsits.cse.dis.administration.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-@DiscriminatorColumn(name="complaint_type")
-@Table(name="complaints")
+@DiscriminatorColumn(name = "complaint_type")
+@Table(name = "complaints")
 public class Complaint {
 	@Id
-	private String complaint_id;
-	private String created_by;
-	private Date created_date;
-	private String modified_by;
-	private Date modified_date;
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name="complaint_id")
+	private String complaintId;
+	
+	@Column(name="created_by")
+	private String createdBy;
+	
+	@Column(name="created_date")
+	private Date createdDate;
+	
+	@Column(name="modified_by")
+	private String modifiedBy;
+	
+	@Column(name="modified_date")
+	private Date modifiedDate;
+	
+	@Column(name="status")
 	private String status;
+	
+	@Column(name="remarks")
 	private String remarks;
-	private Date date_of_resolution;
+	
+	@Column(name="date_of_resolution")
+	private Date dateOfResolution;
+	
+	@Column(name="details")
 	private String details;
-	//private String complaint_type;
-	public String getComplaint_id() {
-		return complaint_id;
+
+	public String getComplaintId() {
+		return complaintId;
 	}
-	public void setComplaint_id(String complaint_id) {
-		this.complaint_id = complaint_id;
+
+	public void setComplaintId(String complaintId) {
+		this.complaintId = complaintId;
 	}
-	public String getCreated_by() {
-		return created_by;
+
+	public String getCreatedBy() {
+		return createdBy;
 	}
-	public void setCreated_by(String created_by) {
-		this.created_by = created_by;
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
-	public Date getCreated_date() {
-		return created_date;
+
+	public Date getCreatedDate() {
+		return createdDate;
 	}
-	public void setCreated_date(Date created_date) {
-		this.created_date = created_date;
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
-	public String getModified_by() {
-		return modified_by;
+
+	public String getModifiedBy() {
+		return modifiedBy;
 	}
-	public void setModified_by(String modified_by) {
-		this.modified_by = modified_by;
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
-	public Date getModified_date() {
-		return modified_date;
+
+	public Date getModifiedDate() {
+		return modifiedDate;
 	}
-	public void setModified_date(Date modified_date) {
-		this.modified_date = modified_date;
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	public String getRemarks() {
 		return remarks;
 	}
+
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public Date getDate_of_resolution() {
-		return date_of_resolution;
+
+	public Date getDateOfResolution() {
+		return dateOfResolution;
 	}
-	public void setDate_of_resolution(Date date_of_resolution) {
-		this.date_of_resolution = date_of_resolution;
+
+	public void setDateOfResolution(Date dateOfResolution) {
+		this.dateOfResolution = dateOfResolution;
 	}
+
 	public String getDetails() {
 		return details;
 	}
+
 	public void setDetails(String details) {
 		this.details = details;
 	}
-//	public String getComplaint_type() {
-//		return complaint_type;
-//	}
-//	public void setComplaint_type(String complaint_type) {
-//		this.complaint_type = complaint_type;
-//	}
+
 	
 }

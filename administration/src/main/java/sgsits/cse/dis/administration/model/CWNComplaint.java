@@ -14,10 +14,10 @@ public class CWNComplaint extends Complaint {
 	private String location;
 	
 	@Column(name="form_id")
-	private String form_id;
+	private String formId;
 	
 	@Column(name="pdf_id")
-	private String pdf_id;
+	private String pdfId;
 
 	public String getLocation() {
 		return location;
@@ -27,21 +27,21 @@ public class CWNComplaint extends Complaint {
 		this.location = location;
 	}
 
-	public String getForm_id() {
-		return form_id;
+	public String getFormId() {
+		return formId;
 	}
 
-	public void setForm_id(String form_id) {
-		this.form_id = form_id;
+	public void setFormId(String formId) {
+		this.formId = formId;
 	}
 
-	public String getPdf_id() {
-		return pdf_id;
+	public String getPdfId() {
+		return pdfId;
 	}
 
-	public void setPdf_id(String pdf_id) {
-		this.pdf_id = pdf_id;
+	public void setPdfId(String pdfId) {
+		this.pdfId = pdfId;
 	}
-	
-	
+
+		
 }

@@ -18,6 +18,12 @@ public class EccwComplaintServiceImpl implements ComplaintService<ECCWComplaint>
 	public List<ECCWComplaint> findAllRemainingComplaints(List<String> location) {
 		return eccwComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
+
+	@Override
+	public ECCWComplaint addComplaint(ECCWComplaint complaintForm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 

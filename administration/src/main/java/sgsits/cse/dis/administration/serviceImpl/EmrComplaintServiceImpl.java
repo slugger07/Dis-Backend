@@ -20,4 +20,10 @@ public class EmrComplaintServiceImpl implements ComplaintService<EMRComplaint>{
 		return emrsComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
+	@Override
+	public EMRComplaint addComplaint(EMRComplaint complaintForm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

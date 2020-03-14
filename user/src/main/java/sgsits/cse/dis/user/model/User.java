@@ -13,13 +13,29 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+            "username"
+        }),
+        @UniqueConstraint(columnNames = {
+            "email"
+        }),
+        @UniqueConstraint(columnNames = {
+                "mobile_no"
+        })
+})
 public class User{
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", nullable = false, unique = true)
     private String id;
 
 	@Column(name = "created_by")
@@ -34,9 +50,15 @@ public class User{
 	@Column(name = "modified_date")
 	private Date modifiedDate;
 	
+    @NotBlank
+    @Size(min=3, max = 50)
     @Column(name = "username")
     private String username;
 
+    @NaturalId
+    @NotBlank
+    @Size(max = 50)
+    @Email
     @Column(name = "email")
     private String email;
     
@@ -46,6 +68,8 @@ public class User{
     @Column(name = "mobile_no")
     private long mobileNo;
 
+    @NotBlank
+    @Size(min=6, max = 100)
     @Column(name = "password")
     private String password;
 
@@ -57,15 +81,6 @@ public class User{
     
 	@Column(name = "reset_token_expiry")
     private Date resetTokenExpiry;
-	
-	@Column(name = "activation_token")
-	private String activationToken;
-	
-	@Column(name = "activation_token_expiry")
-	private Date activationTokenExpiry;
-	
-	@Column(name = "last_login")
-	private Date lastLogin;
     
 	@Column(name = "user_type")
 	private String userType;     

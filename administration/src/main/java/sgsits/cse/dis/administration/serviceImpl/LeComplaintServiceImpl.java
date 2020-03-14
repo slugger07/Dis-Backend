@@ -20,4 +20,10 @@ public class LeComplaintServiceImpl implements ComplaintService<LEComplaint> {
 		return leComplaintRepository.findByLabInAndStatusNot(location, "Resolved");
 	}
 
+	@Override
+	public LEComplaint addComplaint(LEComplaint complaintForm) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

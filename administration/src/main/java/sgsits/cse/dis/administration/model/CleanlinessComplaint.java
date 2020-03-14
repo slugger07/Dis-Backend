@@ -1,5 +1,6 @@
 package sgsits.cse.dis.administration.model;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -8,19 +9,25 @@ import javax.persistence.Table;
 @DiscriminatorValue("CLEANLINESS")
 @Table(name="cleanliness_complaints")
 public class CleanlinessComplaint  extends Complaint{
+	
+	@Column(name="location")
 	private String location;
-	private int level_of_dust;
+	
+	@Column(name="level_of_dust")
+	private int levelOfDust;
+	
 	public String getLocation() {
 		return location;
 	}
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public int getLevel_of_dust() {
-		return level_of_dust;
+	public int getLevelOfDust() {
+		return levelOfDust;
 	}
-	public void setLevel_of_dust(int level_of_dust) {
-		this.level_of_dust = level_of_dust;
+	public void setLevelOfDust(int levelOfDust) {
+		this.levelOfDust = levelOfDust;
 	}
+	
 	
 }
