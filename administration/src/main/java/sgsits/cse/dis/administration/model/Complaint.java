@@ -28,13 +28,13 @@ public class Complaint {
 	private String createdBy;
 	
 	@Column(name="created_date")
-	private Date createdDate;
+	private String createdDate;
 	
 	@Column(name="modified_by")
 	private String modifiedBy;
 	
 	@Column(name="modified_date")
-	private Date modifiedDate;
+	private String modifiedDate;
 	
 	@Column(name="status")
 	private String status;
@@ -43,7 +43,7 @@ public class Complaint {
 	private String remarks;
 	
 	@Column(name="date_of_resolution")
-	private Date dateOfResolution;
+	private String dateOfResolution;
 	
 	@Column(name="details")
 	private String details;
@@ -64,14 +64,6 @@ public class Complaint {
 		this.createdBy = createdBy;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
 	public String getModifiedBy() {
 		return modifiedBy;
 	}
@@ -79,15 +71,7 @@ public class Complaint {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-
+	
 	public String getStatus() {
 		return status;
 	}
@@ -103,15 +87,7 @@ public class Complaint {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-
-	public Date getDateOfResolution() {
-		return dateOfResolution;
-	}
-
-	public void setDateOfResolution(Date dateOfResolution) {
-		this.dateOfResolution = dateOfResolution;
-	}
-
+	
 	public String getDetails() {
 		return details;
 	}
@@ -120,5 +96,28 @@ public class Complaint {
 		this.details = details;
 	}
 
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getDateOfResolution() {
+		return dateOfResolution;
+	}
+
+	public void setDateOfResolution(String dateOfResolution) {
+		this.dateOfResolution = dateOfResolution;
+	}
 	
 }

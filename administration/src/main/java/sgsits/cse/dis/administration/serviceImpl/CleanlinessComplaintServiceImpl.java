@@ -1,5 +1,6 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,15 @@ public class CleanlinessComplaintServiceImpl implements ComplaintService<Cleanli
 
 	@Override
 	public CleanlinessComplaint addComplaint(CleanlinessComplaint complaintForm, String userId) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		if(cleanlinessComplaintRepository.existsByCreatedByAndLocationAndStatusNot(userId, complaintForm.getLocation(), "Resolved")) {
+			CleanlinessComplaint cleanlinessComplaint = new CleanlinessComplaint();
+			cleanlinessComplaint.setDetails(complaintForm.getDetails());
+			cleanlinessComplaint.setLocation(complaintForm.getLocation());
+			cleanlinessComplaint.setLevelOfDust(complaintForm.getLevelOfDust());
 			
+			cleanlinessComplaint.setCreatedBy(userId);
+			cleanlinessComplaint.setCreatedDate(simpleDateFormat);
 		}
 		return null;
 	}
