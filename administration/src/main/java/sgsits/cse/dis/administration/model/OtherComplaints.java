@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @DiscriminatorValue("OTHER")
 @Table(name = "other_complaints")
-public class OtherComplaints {
+public class OtherComplaints extends Complaint {
 
 	@Column(name = "assigned_to")
 	private String assignedTo;

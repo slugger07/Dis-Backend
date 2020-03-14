@@ -20,11 +20,9 @@ public class EccwComplaintServiceImpl implements ComplaintService<ECCWComplaint>
 	}
 
 	@Override
-	public ECCWComplaint addComplaint(ECCWComplaint complaintForm) {
+	public ECCWComplaint addComplaint(ECCWComplaint complaintForm, String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
 
 }

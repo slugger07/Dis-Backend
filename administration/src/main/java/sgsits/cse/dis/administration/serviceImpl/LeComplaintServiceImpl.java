@@ -21,9 +21,9 @@ public class LeComplaintServiceImpl implements ComplaintService<LEComplaint> {
 	}
 
 	@Override
-	public LEComplaint addComplaint(LEComplaint complaintForm) {
+	public LEComplaint addComplaint(LEComplaint complaintForm, String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }

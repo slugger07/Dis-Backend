@@ -1,5 +1,7 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,17 @@ public class CwnComplaintServiceImpl implements ComplaintService<CWNComplaint>{
 	}
 
 	@Override
-	public CWNComplaint addComplaint(CWNComplaint complaintForm) {
-		// TODO Auto-generated method stub
-		return null;
+	public CWNComplaint addComplaint(CWNComplaint complaintForm, String userId) {
+		CWNComplaint cwnComplaint = new CWNComplaint();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		cwnComplaint.setStatus("Not Resolved");
+		cwnComplaint.setCreatedBy(userId);
+		cwnComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
+		cwnComplaint.setLocation(complaintForm.getLocation());
+		cwnComplaint.setFormId(complaintForm.getFormId());
+		cwnComplaint.setPdfId(complaintForm.getPdfId());
+		CWNComplaint test = cwnComplaintRepository.save(cwnComplaint);
+		return test;
 	}
 
 }

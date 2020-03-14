@@ -21,7 +21,7 @@ public class EmrComplaintServiceImpl implements ComplaintService<EMRComplaint>{
 	}
 
 	@Override
-	public EMRComplaint addComplaint(EMRComplaint complaintForm) {
+	public EMRComplaint addComplaint(EMRComplaint complaintForm, String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
