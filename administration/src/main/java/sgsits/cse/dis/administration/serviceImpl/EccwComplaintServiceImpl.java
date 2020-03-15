@@ -1,5 +1,7 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,16 @@ public class EccwComplaintServiceImpl implements ComplaintService<ECCWComplaint>
 
 	@Override
 	public ECCWComplaint addComplaint(ECCWComplaint complaintForm, String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		ECCWComplaint eccwComplaint = new ECCWComplaint();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		eccwComplaint.setStatus("Not Resolved");
+		eccwComplaint.setCreatedBy(userId);
+		eccwComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
+		eccwComplaint.setLocation(complaintForm.getLocation());
+		eccwComplaint.setFormId(complaintForm.getFormId());
+		eccwComplaint.setPdfId(complaintForm.getPdfId());
+		ECCWComplaint test = eccwComplaintRepository.save(eccwComplaint);
+		return test;
 	}
 
 }

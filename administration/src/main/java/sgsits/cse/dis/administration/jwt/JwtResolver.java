@@ -26,4 +26,11 @@ public class JwtResolver {
 		}
 		return null;
 	}
+	
+	public String getUserTypeFromJwtToken(String token) {
+    	return Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody().getAudience();
+    }
 }

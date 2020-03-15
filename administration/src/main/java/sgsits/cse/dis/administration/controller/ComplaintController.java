@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import sgsits.cse.dis.administration.feignClient.GatewayClient;
+import sgsits.cse.dis.administration.constants.ComplaintConstants;
 import sgsits.cse.dis.administration.feignClient.InfrastructureClient;
 import sgsits.cse.dis.administration.jwt.JwtResolver;
 import sgsits.cse.dis.administration.model.CWNComplaint;
@@ -32,6 +32,7 @@ import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
 import sgsits.cse.dis.administration.service.ComplaintService;
 import sgsits.cse.dis.administration.service.FacultyComplaintService;
 import sgsits.cse.dis.administration.service.StudentComplaintService;
+import sgsits.cse.dis.administration.util.UserUtil;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -62,9 +63,9 @@ public class ComplaintController {
 
 	@Autowired
 	private InfrastructureClient infrastructureClient;
-
+	
 	@Autowired
-	private GatewayClient gatewayClient;
+	private UserUtil userUtil;
 
 	JwtResolver jwtResolver = new JwtResolver();
 
@@ -125,17 +126,20 @@ public class ComplaintController {
 	@ApiOperation(value = "Get Remaining Faculty Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = "/getRemainingFacultyComplaints", method = RequestMethod.GET)
 	public List<FacultyComplaint> getRemainingFacultyComplaints(HttpServletRequest request) {
-		String user_type = gatewayClient.getUserType(request);
+		String user_type = userUtil.getuserType(request);
+		LOGGER.info("user type : ",user_type);
 		if (user_type.equals("head")) {
 			return facultyComplaintService.getRemainingFacultyComplaints();
 		}
 		return null;
 	}
+	
+	//user type should also contain user who is assigned by head
 
 	@ApiOperation(value = "Get Remaining Student Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = "/getRemainingStudentComplaints", method = RequestMethod.GET)
 	public List<StudentComplaint> getRemainingStudentComplaints(HttpServletRequest request) {
-		String user_type = gatewayClient.getUserType(request);
+		String user_type = userUtil.getuserType(request);
 		if (user_type.equals("head")) {
 			return studentComplaintService.getRemainingStudentComplaints();
 		}
@@ -162,29 +166,52 @@ public class ComplaintController {
 				"Resolved")) {
 			CleanlinessComplaint test = cleanlinessComplaintService.addComplaint(cleanlinessComplaintForm, id);
 			if (test != null)
-				return new ResponseEntity<>(new ResponseMessage("Your Complaint has been registered successfully!"),
+				return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_SUCCESS),
 						HttpStatus.OK);
 			else
-				return new ResponseEntity<>(new ResponseMessage("Unable to record Complaint, Please try again later!"),
+				return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_BAD_REQUEST),
 						HttpStatus.BAD_REQUEST);
 		} else
-			return new ResponseEntity<>(new ResponseMessage(
-					"Your Complaint is already registered, You will be informed of the action taken on your complaint!"),
-					HttpStatus.BAD_REQUEST);
-	}
-	
-	@ApiOperation(value = "Add CWN Maintenance Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
-	@RequestMapping(value = "/addCWN", method = RequestMethod.POST)
-	public ResponseEntity<?> addCWNComplaint(@RequestBody CWNComplaint cwnComplaints,
-			HttpServletRequest request) {
-		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
-		CWNComplaint test = cwnComplaintService.addComplaint(cwnComplaints, id);
-		if (test != null)
-			return new ResponseEntity<>(new ResponseMessage("Your Complaint has been registered successfully!"),
-					HttpStatus.OK);
-		else
-			return new ResponseEntity<>(new ResponseMessage("Unable to record Complaint, Please try again later!"),
+			return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ALREADY_EXIST),
 					HttpStatus.BAD_REQUEST);
 	}
 
+	@ApiOperation(value = "Add CWN Maintenance Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
+	@RequestMapping(value = "/addCWN", method = RequestMethod.POST)
+	public ResponseEntity<?> addCWNComplaint(@RequestBody CWNComplaint cwnComplaints, HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		CWNComplaint test = cwnComplaintService.addComplaint(cwnComplaints, id);
+		if (test != null)
+			return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_SUCCESS),
+					HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_BAD_REQUEST),
+					HttpStatus.BAD_REQUEST);
+	}
+
+	@ApiOperation(value = "Add Engineering Cell / Central Workshop Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
+	@RequestMapping(value = "/addECCW", method = RequestMethod.POST)
+	public ResponseEntity<?> addECCWComplaint(@RequestBody ECCWComplaint eccwComplaint, HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		ECCWComplaint test = eccwComplaintService.addComplaint(eccwComplaint, id);
+		if (test != null)
+			return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_SUCCESS),
+					HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_BAD_REQUEST),
+					HttpStatus.BAD_REQUEST);
+	}
+
+	@ApiOperation(value = "Add Electrical Maintenance and Repairs Section Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
+	@RequestMapping(value = "/addEMRS", method = RequestMethod.POST)
+	public ResponseEntity<?> addEMRSComplaint(@RequestBody EMRComplaint emrComplaint, HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		EMRComplaint test = emrComplaintService.addComplaint(emrComplaint, id);
+		if (test != null)
+			return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_SUCCESS),
+					HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.ADD_COMPLAINT_BAD_REQUEST),
+					HttpStatus.BAD_REQUEST);
+	}
 }

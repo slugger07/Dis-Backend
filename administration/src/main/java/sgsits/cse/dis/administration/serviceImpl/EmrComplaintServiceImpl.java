@@ -1,5 +1,7 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,16 @@ public class EmrComplaintServiceImpl implements ComplaintService<EMRComplaint>{
 
 	@Override
 	public EMRComplaint addComplaint(EMRComplaint complaintForm, String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		EMRComplaint emrComplaint = new EMRComplaint();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		emrComplaint.setStatus("Not Resolved");
+		emrComplaint.setCreatedBy(userId);
+		emrComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
+		emrComplaint.setLocation(complaintForm.getLocation());
+		emrComplaint.setFormId(complaintForm.getFormId());
+		emrComplaint.setPdfId(complaintForm.getPdfId());
+		EMRComplaint test = emrsComplaintRepository.save(emrComplaint);
+		return test;
 	}
 
 }
