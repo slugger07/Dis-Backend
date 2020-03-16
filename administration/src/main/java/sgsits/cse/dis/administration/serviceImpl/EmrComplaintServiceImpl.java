@@ -26,4 +26,10 @@ public class EmrComplaintServiceImpl implements ComplaintService<EMRComplaint>{
 		return null;
 	}
 
+	@Override
+	public List<EMRComplaint> getMyComplaints(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -11,7 +11,7 @@ import sgsits.cse.dis.administration.model.StudentComplaint;
 
 @Repository("")
 public interface StudentComplaintRepository extends JpaRepository<StudentComplaint, String> {
-//	List<StudentComplaint> findByCreatedBy(String id);
+	List<StudentComplaint> findByCreatedBy(String id);
 //	List<StudentComplaint> findByStatus(String status);
 	List<StudentComplaint>findByStatusNot(String string);
 }

@@ -25,4 +25,10 @@ public class EccwComplaintServiceImpl implements ComplaintService<ECCWComplaint>
 		return null;
 	}
 
+	@Override
+	public List<ECCWComplaint> getMyComplaints(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

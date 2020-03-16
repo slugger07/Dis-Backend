@@ -10,8 +10,8 @@ import sgsits.cse.dis.administration.model.CleanlinessComplaint;
 //Cleanliness Complaint
 
 @Repository("")
-public interface CleanlinessComplaintRepository extends JpaRepository<CleanlinessComplaint, Long> {
-//	List<CleanlinessComplaint> findByCreatedBy(Long id);
+public interface CleanlinessComplaintRepository extends JpaRepository<CleanlinessComplaint, String> {
+	List<CleanlinessComplaint> findByCreatedBy(String id);
 //	List<CleanlinessComplaint> findByLocationAndStatus(String location, String status);
 //	List<CleanlinessComplaint> findByLocation(String loc);
 //	List<CleanlinessComplaint> findByLocationAndStatusNot(String loc, String string);

@@ -46,4 +46,9 @@ public class CleanlinessComplaintServiceImpl implements CleanlinessComplaintServ
 			return false;
 		}
 	}
+
+	@Override
+	public List<CleanlinessComplaint> getMyComplaints(String userId) {
+		return cleanlinessComplaintRepository.findByCreatedBy(userId);
+	}
 }

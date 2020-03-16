@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import sgsits.cse.dis.administration.model.OtherComplaints;
+import sgsits.cse.dis.administration.model.OtherComplaint;
 
 //Other Complaints
 
 @Repository("")
-public interface OtherComplaintRepository extends JpaRepository<OtherComplaints, Long>{
-	List<OtherComplaints> findByCreatedBy(Long id);
-	List<OtherComplaints> findByAssignedToAndStatus(long id, String status);
-	List<OtherComplaints> findByStatus(String status);
-	List<OtherComplaints> findByAssignedTo(Long id);
-	List<OtherComplaints> findByStatusNot(String string);
-	List<OtherComplaints> findByAssignedToAndStatusNot(Long id, String string);
+public interface OtherComplaintRepository extends JpaRepository<OtherComplaint, String>{
+	List<OtherComplaint> findByCreatedBy(String id);
+	List<OtherComplaint> findByAssignedToAndStatus(String id, String status);
+	List<OtherComplaint> findByStatus(String status);
+	List<OtherComplaint> findByAssignedTo(String id);
+	List<OtherComplaint> findByStatusNot(String string);
+	List<OtherComplaint> findByAssignedToAndStatusNot(Long id, String string);
 }

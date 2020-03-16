@@ -36,4 +36,10 @@ public class CwnComplaintServiceImpl implements ComplaintService<CWNComplaint>{
 		return test;
 	}
 
+	@Override
+	public List<CWNComplaint> getMyComplaints(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -18,5 +18,10 @@ public class StudentComplaintServiceImpl implements StudentComplaintService{
 	public List<StudentComplaint> getRemainingStudentComplaints() {
 		return studentComplaintRepository.findByStatusNot("Resolved");
 	}
+
+	@Override
+	public List<StudentComplaint> getMyStudentComplaints(String userId) {
+		return studentComplaintRepository.findByCreatedBy(userId);
+	}
 	
 }

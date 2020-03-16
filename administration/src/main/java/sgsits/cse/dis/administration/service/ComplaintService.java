@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 public interface ComplaintService<C> {
 	List<C> findAllRemainingComplaints(List<String> location);
 	C addComplaint(C complaintForm, String userId);
+	List<C> getMyComplaints(String userId);
 }

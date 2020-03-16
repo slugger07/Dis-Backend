@@ -12,11 +12,16 @@ import sgsits.cse.dis.administration.service.FacultyComplaintService;
 @Service
 public class FacultyServiceImpl implements FacultyComplaintService{
 	@Autowired
-	FacultyComplaintRepository facultyComplaintRepo;
+	FacultyComplaintRepository facultyComplaintRepository;
 
 	@Override
 	public List<FacultyComplaint> getRemainingFacultyComplaints() {
-		return facultyComplaintRepo.findByStatusNot("Resolved");
+		return facultyComplaintRepository.findByStatusNot("Resolved");
+	}
+
+	@Override
+	public List<FacultyComplaint> getMyComplaints(String userId) {
+		return facultyComplaintRepository.findByCreatedBy(userId);
 	}
 	
 	

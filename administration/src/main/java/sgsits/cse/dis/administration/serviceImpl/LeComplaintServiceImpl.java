@@ -25,5 +25,10 @@ public class LeComplaintServiceImpl implements ComplaintService<LEComplaint> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<LEComplaint> getMyComplaints(String userId) {
+		return leComplaintRepository.findByCreatedBy(userId);
+	}
 	
 }

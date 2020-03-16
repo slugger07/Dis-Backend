@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.feignClient.GatewayClient;
 import sgsits.cse.dis.administration.feignClient.InfrastructureClient;
 import sgsits.cse.dis.administration.jwt.JwtResolver;
@@ -26,6 +27,7 @@ import sgsits.cse.dis.administration.model.ECCWComplaint;
 import sgsits.cse.dis.administration.model.EMRComplaint;
 import sgsits.cse.dis.administration.model.FacultyComplaint;
 import sgsits.cse.dis.administration.model.LEComplaint;
+import sgsits.cse.dis.administration.model.OtherComplaint;
 import sgsits.cse.dis.administration.model.StudentComplaint;
 import sgsits.cse.dis.administration.response.ResponseMessage;
 import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
@@ -59,6 +61,9 @@ public class ComplaintController {
 
 	@Autowired
 	private ComplaintService<ECCWComplaint> eccwComplaintService;
+	
+	@Autowired
+	private ComplaintService<OtherComplaint> otherComplaintService;
 
 	@Autowired
 	private InfrastructureClient infrastructureClient;
@@ -69,6 +74,56 @@ public class ComplaintController {
 	JwtResolver jwtResolver = new JwtResolver();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComplaintController.class);
+	
+	// My Complaints
+	
+	@ApiOperation(value = "Get My Cleanliness Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_MY_CLEANLINESS_COMPLAINTS, method = RequestMethod.GET)
+	public List<CleanlinessComplaint> getMyCleanlinessComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return cleanlinessComplaintService.getMyComplaints(id);
+	}
+	
+	@ApiOperation(value = "Get My LE Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_MY_LE_COMPLAINTS, method = RequestMethod.GET)
+	public List<LEComplaint> getMyLEComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return leComplaintService.getMyComplaints(id);
+	}
+	
+
+	@ApiOperation(value = "Get My Other Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_MY_OTHER_COMPLAINTS, method = RequestMethod.GET)
+	public List<OtherComplaint> getMyOtherComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return otherComplaintService.getMyComplaints(id);
+	}
+	
+	@ApiOperation(value = "Get My Faculty Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_MY_FACULTY_COMPLAINTS, method = RequestMethod.GET)
+	public List<FacultyComplaint> getMyFacultyComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		if (user_type.equals("student")) {
+			return facultyComplaintService.getMyComplaints(id);
+		}
+		return null;
+	}
+	
+	// not working yet
+	@ApiOperation(value = "Get My Student Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_MY_STUDENT_COMPLAINTS, method = RequestMethod.GET)
+	public List<StudentComplaint> getMyStudentComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		if (user_type.equals("faculty")) {
+			return studentComplaintService.getMyStudentComplaints(id);
+		}
+		return null;
+	}
+
+
+
 
 	// Remaining Complaints
 
@@ -77,6 +132,7 @@ public class ComplaintController {
 	public List<CleanlinessComplaint> getRemainingCleanlinessComplaints(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
 		List<String> locations = infrastructureClient.findInchargeOf(id);
+		System.out.println(locations);
 		if (locations != null) {
 			return cleanlinessComplaintService.findAllRemainingComplaints(locations);
 		} else {
