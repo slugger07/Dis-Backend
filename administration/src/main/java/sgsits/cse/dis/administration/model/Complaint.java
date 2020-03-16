@@ -45,6 +45,17 @@ public class Complaint {
 	
 	@Column(name="details")
 	private String details;
+	
+	@Column(name="complaint_type")
+	private String complaintType;
+
+	public String getComplaintType() {
+		return complaintType;
+	}
+
+	public void setComplaintType(String complaintType) {
+		this.complaintType = complaintType;
+	}
 
 	public String getComplaintId() {
 		return complaintId;

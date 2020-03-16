@@ -3,15 +3,18 @@ package sgsits.cse.dis.administration.serviceImpl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import sgsits.cse.dis.administration.model.CleanlinessComplaint;
 import sgsits.cse.dis.administration.repo.CleanlinessComplaintRepository;
+import sgsits.cse.dis.administration.request.CleanlinessComplaintForm;
+import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
 
-@Component
+@Service
 public class CleanlinessComplaintServiceImpl implements CleanlinessComplaintService {
 
 	@Autowired
@@ -19,12 +22,11 @@ public class CleanlinessComplaintServiceImpl implements CleanlinessComplaintServ
 
 	@Override
 	public List<CleanlinessComplaint> findAllRemainingComplaints(List<String> location) {
-		System.out.println(location);
 		return cleanlinessComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
 	@Override
-	public CleanlinessComplaint addComplaint(CleanlinessComplaint complaintForm, String userId) {
+	public CleanlinessComplaint addComplaint(CleanlinessComplaintForm complaintForm, String userId) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		CleanlinessComplaint test = null;
 		CleanlinessComplaint cleanlinessComplaint = new CleanlinessComplaint();
@@ -46,4 +48,19 @@ public class CleanlinessComplaintServiceImpl implements CleanlinessComplaintServ
 			return false;
 		}
 	}
+
+	@Override
+	public CleanlinessComplaint editComplaint(EditComplaintForm complaintForm, String userId) {
+		Optional<CleanlinessComplaint> cc = cleanlinessComplaintRepository.findById(complaintForm.getId());
+		if (cc.isPresent()) {
+			cc.get().setModifiedBy(userId);
+			cc.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
+			cc.get().setStatus(complaintForm.getStatus());
+			cc.get().setRemarks(complaintForm.getRemarks());
+			if(complaintForm.getStatus().equals("Resolved")) {
+				cc.get().setDateOfResolution((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
+		}	}
+			CleanlinessComplaint test = cleanlinessComplaintRepository.save(cc.get());
+			return test;
+	}	
 }

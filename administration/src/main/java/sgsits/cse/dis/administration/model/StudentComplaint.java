@@ -10,6 +10,14 @@ import javax.persistence.Table;
 @Table(name = "student_complaints")
 public class StudentComplaint extends Complaint {
 
+	public StudentComplaint(String rollNo, String name, String year, String course) {
+		super();
+		this.rollNo = rollNo;
+		this.name = name;
+		this.year = year;
+		this.course = course;
+	}
+
 	@Column(name = "rollno")
 	private String rollNo;
 

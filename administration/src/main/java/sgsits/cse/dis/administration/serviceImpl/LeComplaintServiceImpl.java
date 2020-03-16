@@ -1,16 +1,21 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sgsits.cse.dis.administration.model.LEComplaint;
 import sgsits.cse.dis.administration.repo.LEComplaintRepository;
-import sgsits.cse.dis.administration.service.ComplaintService;
+import sgsits.cse.dis.administration.request.EditComplaintForm;
+import sgsits.cse.dis.administration.request.LEComplaintForm;
+import sgsits.cse.dis.administration.service.LEComplaintService;
 
 @Service
-public class LeComplaintServiceImpl implements ComplaintService<LEComplaint> {
+public class LeComplaintServiceImpl implements LEComplaintService {
 
 	@Autowired
 	LEComplaintRepository leComplaintRepository;
@@ -21,9 +26,41 @@ public class LeComplaintServiceImpl implements ComplaintService<LEComplaint> {
 	}
 
 	@Override
-	public LEComplaint addComplaint(LEComplaint complaintForm, String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public LEComplaint addComplaint(LEComplaintForm complaintForm, String userId) {
+		LEComplaint leComplaint = new LEComplaint();
+		leComplaint.setCreatedBy(userId);
+		leComplaint.setCreatedDate((new SimpleDateFormat()).format(new Date()));
+		leComplaint.setStatus("Not Assigned");
+		leComplaint.setLab(complaintForm.getLab());
+		leComplaint.setSystemNo(complaintForm.getSystemNo());
+		leComplaint.setDetails(complaintForm.getDetails());
+		LEComplaint test = leComplaintRepository.save(leComplaint);
+		return test;
 	}
-	
+
+	@Override
+	public boolean checkIfComplaintExist(String id, String lab, String systemNo, String status) {
+		if(!leComplaintRepository.existsByCreatedByAndLabAndSystemNoAndStatusNot(id, lab, systemNo, "Resolved")) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public LEComplaint editComplaint(EditComplaintForm editComplaintForm, String userId) {
+		LEComplaint test = null;
+		Optional<LEComplaint> lec = leComplaintRepository.findById(editComplaintForm.getId());
+		if (lec.isPresent()) {
+			lec.get().setModifiedBy(userId);
+			lec.get().setModifiedDate((new SimpleDateFormat()).format(new Date()));
+			lec.get().setStatus(editComplaintForm.getStatus());
+			lec.get().setRemarks(editComplaintForm.getRemarks());
+			if(editComplaintForm.getStatus().equals("Resolved"))
+				lec.get().setDateOfResolution((new SimpleDateFormat()).format(new Date()));
+			test = leComplaintRepository.save(lec.get());
+		}
+		return test;
+	}
 }

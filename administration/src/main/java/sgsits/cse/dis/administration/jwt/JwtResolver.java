@@ -20,7 +20,7 @@ public class JwtResolver {
 		return id;
 	}
 
-	private String getJwt(String authHeader) {
+	public String getJwt(String authHeader) {
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
 			return authHeader.replace("Bearer ", "");
 		}
@@ -28,9 +28,8 @@ public class JwtResolver {
 	}
 	
 	public String getUserTypeFromJwtToken(String token) {
-    	return Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody().getAudience();
+		token = getJwt(token);
+		String type = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getAudience();
+		return type;
     }
 }

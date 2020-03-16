@@ -11,7 +11,15 @@ import sgsits.cse.dis.administration.model.StudentComplaint;
 
 @Repository("")
 public interface StudentComplaintRepository extends JpaRepository<StudentComplaint, String> {
-//	List<StudentComplaint> findByCreatedBy(String id);
-//	List<StudentComplaint> findByStatus(String status);
-	List<StudentComplaint>findByStatusNot(String string);
+	List<StudentComplaint> findByCreatedBy(String id);
+	List<StudentComplaint> findByStatus(String status);
+	List<StudentComplaint>findByStatusNot(String status);
+	long countByStatusNot(String status);
+	long countByCreatedBy(String id);
+	long countByStatus(String status);
+	boolean existsByCreatedByAndRollNoAndNameAndYearAndStatusNot(String id, String studentRollNo,
+			String studentName, String year, String status);
+	boolean existsByCreatedByAndRollNoAndYearAndStatusNot(String id, String studentRollNo, String year,
+			String status);
+	boolean existsByCreatedByAndNameAndYearAndStatusNot(String id, String studentName, String year, String status);
 }

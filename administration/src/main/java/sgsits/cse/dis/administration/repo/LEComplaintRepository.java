@@ -11,11 +11,17 @@ import sgsits.cse.dis.administration.model.LEComplaint;
 
 @Repository("")
 public interface LEComplaintRepository extends JpaRepository<LEComplaint, String> {
-//	List<LEComplaint> findByCreatedBy(Long id);
-//	List<LEComplaint> findByLabAndStatus(String lab, String status);
-//	List<LEComplaint> findByLab(String loc);
-//	List<LEComplaint> findByLabAndStatusNot(String lab, String string);
-//	List<LEComplaint> findByLabInAndStatus(List<String> location, String string);
 	List<LEComplaint> findByLabInAndStatusNot(List<String> location, String string);
-//	List<LEComplaint> findByLabIn(List<String> location);
+	List<LEComplaint> findByCreatedBy(String id);
+	List<LEComplaint> findByLabAndStatus(String lab, String status);
+	List<LEComplaint> findByLab(String loc);
+	List<LEComplaint> findByLabAndStatusNot(String lab, String string);
+	List<LEComplaint> findByLabInAndStatus(List<String> location, String string);
+	List<LEComplaint> findByLabIn(List<String> location);
+	long countByLabAndStatusNot(String loc, String string);
+	long countByCreatedBy(String id);
+	long countByLabAndStatus(String loc, String string);
+	long countByLab(String loc);
+	boolean existsByCreatedByAndLabAndSystemNoAndStatusNot(String id, String lab, String systemNo, String status);
+	
 }

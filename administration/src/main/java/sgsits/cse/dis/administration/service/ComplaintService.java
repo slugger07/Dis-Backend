@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface ComplaintService<C> {
+public interface ComplaintService<C,S> {
 	List<C> findAllRemainingComplaints(List<String> location);
-	C addComplaint(C complaintForm, String userId);
+	C addComplaint(S complaintForm, String userId);
 }
