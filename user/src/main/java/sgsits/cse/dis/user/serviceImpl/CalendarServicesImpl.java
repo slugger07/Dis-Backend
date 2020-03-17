@@ -11,7 +11,6 @@ import sgsits.cse.dis.user.model.Event;
 import sgsits.cse.dis.user.model.EventParticipant;
 import sgsits.cse.dis.user.repo.EventParticipantRepository;
 import sgsits.cse.dis.user.repo.EventRepository;
-import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.service.CalendarServices;
 
 @Service

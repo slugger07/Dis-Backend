@@ -24,11 +24,9 @@ import sgsits.cse.dis.user.constants.RestAPI;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.message.request.AddNewUser;
-import sgsits.cse.dis.user.message.request.AssignTaskForm;
 import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.service.StaffService;
-import sgsits.cse.dis.user.serviceImpl.StaffServiceImpl;
 
 /**
  * <h1>StaffController</h1> class.
@@ -83,5 +81,11 @@ public class StaffController {
 	@GetMapping(path=RestAPI.GET_MY_USER_ID, produces = "application/json")
 	public ResponseEntity<ResponseMessage> getMyUserId(HttpServletRequest request) throws NotFoundException{
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"))),HttpStatus.OK);
+	}
+
+	@ApiOperation(value="get list of all employees", response = ResponseMessage.class, httpMethod = "GET", produces = "text/plain")
+	@GetMapping(path=RestAPI.GET_ALL_USER_ID_AND_NAMES, produces = "application/json")
+	public ResponseEntity<List<Object[]>> getAllUserIdAndNames(HttpServletRequest request) throws NotFoundException{
+		return new ResponseEntity<List<Object[]>>(staffServiceImpl.getAllEmployeeNamesAndUserId(),HttpStatus.OK);
 	}
 }

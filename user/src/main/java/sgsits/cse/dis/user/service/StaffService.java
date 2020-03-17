@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.message.request.AddNewUser;
 import sgsits.cse.dis.user.message.response.FacultyData;
+
 /**
  * <h1><b>StaffService</b> interface.</h1>
  * <p>This interface lists all the staff services which can be implemented by class extending it. 
@@ -29,4 +30,5 @@ public interface StaffService {
 	String addNewMember(AddNewUser addNewUser,String addedBy) throws ConflictException,DataIntegrityViolationException;
 	List<FacultyData> getStaffWithName(String name);
 	void updateUserIdByEmail(String userId,String email);
+	List<Object[]> getAllEmployeeNamesAndUserId();
 }
