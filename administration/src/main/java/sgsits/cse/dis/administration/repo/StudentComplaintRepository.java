@@ -17,6 +17,7 @@ public interface StudentComplaintRepository extends JpaRepository<StudentComplai
 	long countByStatusNot(String status);
 	long countByCreatedBy(String id);
 	long countByStatus(String status);
+	long count();
 	boolean existsByCreatedByAndRollNoAndNameAndYearAndStatusNot(String id, String studentRollNo,
 			String studentName, String year, String status);
 	boolean existsByCreatedByAndRollNoAndYearAndStatusNot(String id, String studentRollNo, String year,

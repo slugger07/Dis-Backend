@@ -20,7 +20,9 @@ public interface CleanlinessComplaintRepository extends JpaRepository<Cleanlines
 	List<CleanlinessComplaint> findByLocationInAndStatusNot(List<String> location, String string);
 	List<CleanlinessComplaint> findByLocationIn(List<String> location);
 	long countByLocationAndStatusNot(String loc, String string);
+	long countByLocationInAndStatusNot(List<String> loc, String string);
+	long countByLocationInAndStatus(List<String> loc, String string);
 	long countByCreatedBy(String id);
 	long countByLocationAndStatus(String loc, String string);
-	long countByLocation(String loc);
+	long countByLocationIn(List<String> loc);
 }

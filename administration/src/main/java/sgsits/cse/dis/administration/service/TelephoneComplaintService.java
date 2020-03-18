@@ -12,4 +12,8 @@ import sgsits.cse.dis.administration.request.TelephoneComplaintForm;
 public interface TelephoneComplaintService {
 	List<TelephoneComplaint> addMultipleComplaint(List<TelephoneComplaintForm> complaintList, String userId);
 	TelephoneComplaint editComplaint(EditComplaintForm complaintForm, String userId);
+	long countByLocationInAndStatusNot(List<String> locations, String status);
+	long countByLocationInAndStatus(List<String> locations, String status);
+	long countByLocationIn(List<String> loctions);
+	
 }

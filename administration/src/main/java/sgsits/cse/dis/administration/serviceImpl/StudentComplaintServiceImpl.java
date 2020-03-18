@@ -60,6 +60,7 @@ public class StudentComplaintServiceImpl implements StudentComplaintService{
 		studentComplaint.setCreatedBy(userId);
 		studentComplaint.setCreatedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 		studentComplaint.setStatus("Not Assigned");
+		studentComplaint.setType("STUDENT");
 		StudentComplaint test = studentComplaintRepository.save(studentComplaint);
 		return test;
 	}
@@ -79,4 +80,30 @@ public class StudentComplaintServiceImpl implements StudentComplaintService{
 		}
 		return test;
 	}
+
+	@Override
+	public long countByStatusNot(String status) {
+		return studentComplaintRepository.countByStatusNot("Resolved");
+	}
+
+	@Override
+	public long countByStatus(String status) {
+		return studentComplaintRepository.countByStatus("Resolved");
+	}
+
+	@Override
+	public long countByCreatedBy(String userId) {
+		return studentComplaintRepository.countByCreatedBy(userId);
+	}
+
+	@Override
+	public long countAll() {
+		return studentComplaintRepository.count();
+	}
+
+	@Override
+	public List<StudentComplaint> findAll() {
+		return studentComplaintRepository.findAll();
+	}
+	
 }

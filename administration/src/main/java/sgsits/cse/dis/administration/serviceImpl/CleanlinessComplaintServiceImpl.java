@@ -1,6 +1,7 @@
 package sgsits.cse.dis.administration.serviceImpl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,7 @@ public class CleanlinessComplaintServiceImpl implements CleanlinessComplaintServ
 		cleanlinessComplaint.setCreatedBy(userId);
 		cleanlinessComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
 		cleanlinessComplaint.setStatus("Not Resolved");
+		cleanlinessComplaint.setType("CLEANLINESS");
 		test = cleanlinessComplaintRepository.save(cleanlinessComplaint);
 		return test;
 	}
@@ -62,5 +64,45 @@ public class CleanlinessComplaintServiceImpl implements CleanlinessComplaintServ
 		}	}
 			CleanlinessComplaint test = cleanlinessComplaintRepository.save(cc.get());
 			return test;
+	}
+
+	@Override
+	public long count() {
+		long count = cleanlinessComplaintRepository.countByLocationAndStatusNot("General Computing Lab", "Resolved");
+		count += cleanlinessComplaintRepository.countByLocationAndStatusNot("SG Lab", "Resolved");
+		return count;
+	}
+
+	@Override
+	public long countIn() {
+		List<String> locations = new ArrayList<>();
+		locations.add("General Computing Lab");
+		locations.add("SG Lab");
+		return cleanlinessComplaintRepository.countByLocationInAndStatusNot(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationInAndStatusNot(List<String> locations, String status) {
+		return cleanlinessComplaintRepository.countByLocationInAndStatusNot(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationInAndStatus(List<String> locations, String status) {
+		return cleanlinessComplaintRepository.countByLocationInAndStatus(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationIn(List<String> loctions) {
+		return cleanlinessComplaintRepository.countByLocationIn(loctions);
+	}
+
+	@Override
+	public long countByCreatedBy(String userId) {
+		return cleanlinessComplaintRepository.countByCreatedBy(userId);
+	}
+
+	@Override
+	public List<CleanlinessComplaint> findByLocationIn(List<String> location) {
+		return cleanlinessComplaintRepository.findByLocationIn(location);
 	}	
 }

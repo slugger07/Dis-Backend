@@ -35,6 +35,7 @@ public class FacultyServiceImpl implements FacultyComplaintService {
 			facultyComplaints.setStatus("Not Assigned");
 			facultyComplaints.setDetails(facultyComplaintForm.getDetails());
 			facultyComplaints.setFacultyName(facultyComplaintForm.getFacultyName());
+			facultyComplaints.setType("FACULTY");
 			test = facultyComplaintRepository.save(facultyComplaints);
 		}
 		return test;
@@ -54,5 +55,30 @@ public class FacultyServiceImpl implements FacultyComplaintService {
 			test = facultyComplaintRepository.save(fc.get());
 		}
 		return test;
+	}
+
+	@Override
+	public long countByStatusNot(String status) {
+		return facultyComplaintRepository.countByStatusNot("Resolved");
+	}
+
+	@Override
+	public long countByStatus(String status) {
+		return facultyComplaintRepository.countByStatus("Resolved");
+	}
+
+	@Override
+	public long countByCreatedBy(String userId) {
+		return facultyComplaintRepository.countByCreatedBy(userId);
+	}
+
+	@Override
+	public long countAll() {
+		return facultyComplaintRepository.count();
+	}
+
+	@Override
+	public List<FacultyComplaint> findAll() {
+		return facultyComplaintRepository.findAll();
 	}
 }

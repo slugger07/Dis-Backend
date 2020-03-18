@@ -16,4 +16,9 @@ public interface StudentComplaintService {
 	boolean existsByCreatedByAndNameAndYearAndStatusNot(String userId, String studentName, String year, String status);
 	StudentComplaint addComplaint(StudentComplaintForm complaintForm, String userId);
 	StudentComplaint editComplaint(EditComplaintForm complaintForm, String userId);
+	long countByStatusNot(String status);
+	long countByStatus(String status);
+	long countByCreatedBy(String userId);
+	long countAll();
+	public List<StudentComplaint> findAll();
 }

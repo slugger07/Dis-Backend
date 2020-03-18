@@ -22,8 +22,10 @@ public interface ECCWComplaintRepository extends JpaRepository<ECCWComplaint, St
 	long countByLocationAndStatusNot(String loc, String string);
 	long countByLocationAndStatus(String loc, String string);
 	long countByLocation(String loc);
-	
+	long countByLocationInAndStatusNot(List<String> loc, String string);
+	long countByLocationInAndStatus(List<String> loc, String string);
 	@Query(value = "select max(form_id) from engineering_cell_and_central_workshop_complaints", nativeQuery = true)
 	long maxOfFormId();
 	boolean existsByLocationAndDetailsAndStatusNot(String location, String details, String status);
+	long countByLocationIn(List<String> loc);
 }

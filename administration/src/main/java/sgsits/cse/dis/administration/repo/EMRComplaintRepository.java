@@ -23,7 +23,9 @@ public interface EMRComplaintRepository extends JpaRepository<EMRComplaint, Stri
 	long countByLocationAndStatus(String loc, String string);
 	long countByLocation(String loc);
 	boolean existsByLocationAndDetailsAndStatusNot(String location, String details, String status);
-	
+	long countByLocationInAndStatusNot(List<String> loc, String string);
+	long countByLocationInAndStatus(List<String> loc, String string);
 	@Query(value = "select max(form_id) from electrical_maintenance_and_repairs_section_complaints", nativeQuery = true)
 	long maxOfFormId();
+	long countByLocationIn(List<String> loc);
 }

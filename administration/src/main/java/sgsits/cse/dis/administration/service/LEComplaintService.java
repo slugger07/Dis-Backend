@@ -14,4 +14,9 @@ public interface LEComplaintService{
 	List<LEComplaint> findAllRemainingComplaints(List<String> location);
 	LEComplaint addComplaint(LEComplaintForm complaintForm, String userId);
 	LEComplaint editComplaint(EditComplaintForm complaintForm, String userId);	
+	long countByLabInAndStatusNot(List<String> locations, String status);
+	long countByLabInAndStatus(List<String> locations, String status);
+	long countByLabIn(List<String> locations);
+	long countByCreatedBy(String userId);
+	List<LEComplaint> findByLabIn(List<String> location);
 }

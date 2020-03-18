@@ -34,6 +34,7 @@ public class LeComplaintServiceImpl implements LEComplaintService {
 		leComplaint.setLab(complaintForm.getLab());
 		leComplaint.setSystemNo(complaintForm.getSystemNo());
 		leComplaint.setDetails(complaintForm.getDetails());
+		leComplaint.setType("LE");
 		LEComplaint test = leComplaintRepository.save(leComplaint);
 		return test;
 	}
@@ -62,5 +63,30 @@ public class LeComplaintServiceImpl implements LEComplaintService {
 			test = leComplaintRepository.save(lec.get());
 		}
 		return test;
+	}
+
+	@Override
+	public long countByLabInAndStatusNot(List<String> locations, String status) {
+		return leComplaintRepository.countByLabInAndStatusNot(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLabInAndStatus(List<String> locations, String status) {
+		return leComplaintRepository.countByLabInAndStatus(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLabIn(List<String> locations) {
+		return leComplaintRepository.countByLabIn(locations);
+	}
+
+	@Override
+	public long countByCreatedBy(String userId) {
+		return leComplaintRepository.countByCreatedBy(userId);
+	}
+
+	@Override
+	public List<LEComplaint> findByLabIn(List<String> location) {
+		return leComplaintRepository.findByLabIn(location);
 	}
 }

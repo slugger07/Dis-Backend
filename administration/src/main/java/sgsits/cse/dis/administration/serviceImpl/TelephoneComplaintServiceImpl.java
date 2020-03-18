@@ -38,6 +38,7 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 				telephoneComplaint.setLocation(complaint.getLocation());
 				telephoneComplaint.setDetails(complaint.getDetails());
 				telephoneComplaint.setExtensionNo(complaint.getExtensionNo());
+				telephoneComplaint.setType("TELEPHONE");
 				telephoneComplaints.add(telephoneComplaint);
 			}
 		}
@@ -62,4 +63,20 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 		}
 		return test;
 	}
+
+	@Override
+	public long countByLocationInAndStatusNot(List<String> locations, String status) {
+		return telephoneComplaintRepository.countByLocationInAndStatusNot(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationInAndStatus(List<String> locations, String status) {
+		return telephoneComplaintRepository.countByLocationInAndStatus(locations, status);
+	}
+
+	@Override
+	public long countByLocationIn(List<String> loctions) {
+		return telephoneComplaintRepository.countByLocationIn(loctions);
+	}
+
 }

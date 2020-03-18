@@ -13,4 +13,7 @@ public interface ECCWComplaintService {
 	List<ECCWComplaint> findAllRemainingComplaints(List<String> location);
 	List<ECCWComplaint> addMultipleComplaint(List<ECCWComplaintForm> eccwComplaint, String userId);
 	ECCWComplaint editComplaint(EditComplaintForm complaintForm, String userId);
+	long countByLocationInAndStatusNot(List<String> locations, String status);
+	long countByLocationInAndStatus(List<String> locations, String status);
+	long countByLocationIn(List<String> loctions);
 }

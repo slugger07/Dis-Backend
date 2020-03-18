@@ -7,7 +7,7 @@ public class EditComplaintForm {
 	private String id;
 	
 	@NotBlank
-	private String complaintType;
+	private String type;
 	
 	@NotBlank
 	private String status;
@@ -22,8 +22,8 @@ public class EditComplaintForm {
 		return id;
 	}
 
-	public String getComplaintType() {
-		return complaintType;
+	public String getType() {
+		return type;
 	}
 
 	public String getStatus() {

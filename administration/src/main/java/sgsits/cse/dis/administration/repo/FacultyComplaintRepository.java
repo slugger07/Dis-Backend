@@ -15,7 +15,8 @@ public interface FacultyComplaintRepository extends JpaRepository<FacultyComplai
 	List<FacultyComplaint> findByStatus(String status);
 	List<FacultyComplaint> findByStatusNot(String string);
 	long countByStatusNot(String string);
-	long countByCreatedBy(long id);
+	long countByCreatedBy(String userId);
 	long countByStatus(String string);
 	boolean existsByCreatedByAndFacultyNameAndStatusNot(String id, String facultyName, String status);
+	long count();
 }

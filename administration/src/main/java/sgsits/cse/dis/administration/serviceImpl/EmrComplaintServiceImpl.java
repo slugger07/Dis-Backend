@@ -43,6 +43,7 @@ public class EmrComplaintServiceImpl implements EMRComplaintService {
 				emrComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
 				emrComplaint.setLocation(complaint.getLocation());
 				emrComplaint.setDetails(complaint.getDetails());
+				emrComplaint.setType("EMR");
 				complaintList.add(emrComplaint);
 			}
 		}
@@ -65,6 +66,21 @@ public class EmrComplaintServiceImpl implements EMRComplaintService {
 			test = emrsComplaintRepository.save(emrs.get());
 		}
 		return test;
+	}
+
+	@Override
+	public long countByLocationInAndStatusNot(List<String> locations, String status) {
+		return emrsComplaintRepository.countByLocationInAndStatusNot(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationInAndStatus(List<String> locations, String status) {
+		return emrsComplaintRepository.countByLocationInAndStatus(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationIn(List<String> loctions) {
+		return emrsComplaintRepository.countByLocationIn(loctions);
 	}
 
 }

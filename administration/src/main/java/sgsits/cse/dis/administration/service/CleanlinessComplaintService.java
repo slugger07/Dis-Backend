@@ -11,4 +11,11 @@ public interface CleanlinessComplaintService{
 	List<CleanlinessComplaint> findAllRemainingComplaints(List<String> location);
 	CleanlinessComplaint addComplaint(CleanlinessComplaintForm complaintForm, String userId);
 	CleanlinessComplaint editComplaint(EditComplaintForm complaintForm, String userId);
+	long count();
+	long countIn();
+	long countByLocationInAndStatusNot(List<String> locations, String status);
+	long countByLocationInAndStatus(List<String> locations, String status);
+	long countByLocationIn(List<String> loctions);
+	long countByCreatedBy(String userId);
+	List<CleanlinessComplaint> findByLocationIn(List<String> location);
 }

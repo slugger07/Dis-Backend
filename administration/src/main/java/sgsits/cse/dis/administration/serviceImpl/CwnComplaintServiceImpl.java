@@ -43,6 +43,7 @@ public class CwnComplaintServiceImpl implements CWNComplaintService {
 				cwnComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
 				cwnComplaint.setLocation(complaint.getLocation());
 				cwnComplaint.setDetails(complaint.getDetails());
+				cwnComplaint.setType("CWN");
 				complaintList.add(cwnComplaint);
 				// count++;
 			}
@@ -70,6 +71,21 @@ public class CwnComplaintServiceImpl implements CWNComplaintService {
 			test = cwnComplaintRepository.save(cwn.get());
 		}
 		return test;
+	}
+
+	@Override
+	public long countByLocationInAndStatusNot(List<String> locations, String status) {
+		return cwnComplaintRepository.countByLocationInAndStatusNot(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationInAndStatus(List<String> locations, String status) {
+		return cwnComplaintRepository.countByLocationInAndStatus(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationIn(List<String> loctions) {
+		return cwnComplaintRepository.countByLocationIn(loctions);
 	}
 
 }

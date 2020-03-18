@@ -42,6 +42,7 @@ public class EccwComplaintServiceImpl implements ECCWComplaintService {
 				eccwComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
 				eccwComplaint.setLocation(complaintForm.getLocation());
 				eccwComplaint.setDetails(complaintForm.getDetails());
+				eccwComplaint.setType("ECCW");
 				eccwComplaintList.add(eccwComplaint);
 			}
 		}
@@ -64,6 +65,21 @@ public class EccwComplaintServiceImpl implements ECCWComplaintService {
 			test = eccwComplaintRepository.save(eccw.get());
 		}
 		return test;
+	}
+
+	@Override
+	public long countByLocationInAndStatusNot(List<String> locations, String status) {
+		return eccwComplaintRepository.countByLocationInAndStatusNot(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationInAndStatus(List<String> locations, String status) {
+		return eccwComplaintRepository.countByLocationInAndStatus(locations, "Resolved");
+	}
+
+	@Override
+	public long countByLocationIn(List<String> loctions) {
+		return eccwComplaintRepository.countByLocationIn(loctions);
 	}
 
 }

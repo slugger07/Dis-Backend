@@ -10,4 +10,9 @@ public interface FacultyComplaintService {
 	public List<FacultyComplaint> getRemainingFacultyComplaints();
 	FacultyComplaint addComplaint(FacultyComplaintForm complaintsList, String userId);
 	FacultyComplaint editComplaint(EditComplaintForm complaintForm, String userId);
+	long countByStatusNot(String status);
+	long countByStatus(String status);
+	long countByCreatedBy(String userId);
+	long countAll();
+	public List<FacultyComplaint> findAll();
 }

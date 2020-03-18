@@ -33,6 +33,7 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 		otherComplaint.setCreatedBy(userId);
 		otherComplaint.setCreatedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 		otherComplaint.setStatus("Not Assigned");
+		otherComplaint.setType("OTHER");
 		OtherComplaint test = otherComplaintRepository.save(otherComplaint);
 		return test;
 	}
@@ -60,6 +61,51 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 			test = otherComplaintRepository.save(other.get());
 		}
 		return test;
+	}
+
+	@Override
+	public long countByStatusNot(String status) {
+		return  otherComplaintRepository.countByStatusNot("Resolved");
+	}
+
+	@Override
+	public long countByAssignedToAndStatusNot(String id, String status) {
+		return otherComplaintRepository.countByAssignedToAndStatusNot(id, status);
+	}
+
+	@Override
+	public long countByAssignedToAndStatus(String id, String status) {
+		return otherComplaintRepository.countByAssignedToAndStatus(id, status);
+	}
+
+	@Override
+	public long countByStatus(String status) {
+		return otherComplaintRepository.countByStatus(status);
+	}
+
+	@Override
+	public long countByAssignedTo(String userId) {
+		return otherComplaintRepository.countByAssignedTo(userId);
+	}
+
+	@Override
+	public long countByCreatedBy(String userId) {
+		return otherComplaintRepository.countByCreatedBy(userId);
+	}
+
+	@Override
+	public long countAll() {
+		return otherComplaintRepository.count();
+	}
+
+	@Override
+	public List<OtherComplaint> findAll() {
+		return otherComplaintRepository.findAll();
+	}
+
+	@Override
+	public List<OtherComplaint> findByAssignedTo(String id) {
+		return otherComplaintRepository.findByAssignedTo(id);
 	}
 
 }

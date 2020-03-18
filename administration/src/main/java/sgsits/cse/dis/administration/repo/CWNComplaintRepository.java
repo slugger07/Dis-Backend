@@ -22,7 +22,9 @@ public interface CWNComplaintRepository extends JpaRepository<CWNComplaint, Stri
 	long countByLocationAndStatus(String loc, String status);
 	long countByLocation(String loc);
 	boolean existsByLocationAndDetailsAndStatusNot(String location, String details, String status);
-	
+	long countByLocationInAndStatusNot(List<String> loc, String string);
+	long countByLocationInAndStatus(List<String> loc, String string);
 	@Query(value = "select max(form_id) from cwn_maintenance_complaints", nativeQuery = true)
 	long maxOfFormId();
+	long countByLocationIn(List<String> loc);
 }

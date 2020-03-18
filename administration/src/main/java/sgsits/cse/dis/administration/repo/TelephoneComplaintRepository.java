@@ -26,4 +26,7 @@ public interface TelephoneComplaintRepository extends JpaRepository<TelephoneCom
 			String status);
 	@Query(value = "select max(form_id) from telephone_complaints", nativeQuery = true)
 	long maxOfFormId();
+	long countByLocationInAndStatusNot(List<String> loc, String string);
+	long countByLocationInAndStatus(List<String> loc, String string);
+	long countByLocationIn(List<String> loc);
 }
