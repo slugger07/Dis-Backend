@@ -94,4 +94,9 @@ public class StaffServiceImpl implements StaffService {
 		staffRepository.updateUserIdByEmailId(userId,email);
 		
 	}
+	
+	@Override
+	public List<Object[]> getAllEmployeeNamesAndUserId() {
+		return staffRepository.findAllUserIdAndUsername();
+	}
 }

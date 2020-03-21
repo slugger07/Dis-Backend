@@ -38,6 +38,8 @@ public class Event implements Serializable {
 	@Column(name = "title", nullable = false)
 	private String title;
 	
+	@Column(name = "location", nullable = false)
+	private String location;
 	
 	@Column(name = "description")
 	private String description;
@@ -74,6 +76,7 @@ public class Event implements Serializable {
 		this.eventType = eventType;
 		this.eventIncharge = eventIncharge;
 		this.participants = participants;
+		this.location = location;
 	}
 
 	public String getCreatedBy() {
@@ -82,6 +85,14 @@ public class Event implements Serializable {
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public Date getCreatedDate() {

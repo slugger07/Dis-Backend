@@ -35,5 +35,7 @@ public interface StaffRepository extends JpaRepository<StaffProfile, String>{
 	@Modifying
 	void updateUserIdByEmailId(String userId, String email);
 
+	@Query(value = "SELECT user.username, staff_basic_profile.name  FROM staff_basic_profile, user where staff_basic_profile.user_id=user.id", nativeQuery = true)
+	List<Object[]> findAllUserIdAndUsername();
 
 }

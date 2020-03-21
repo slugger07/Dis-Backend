@@ -39,11 +39,10 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event updateEvent(Event event) throws EventDoesNotExistException {
-		String eventId = event.getEventId();
-		if (getEvent(eventId) == null) {
+	public Event updateEvent(Event event,String eventId) throws EventDoesNotExistException {
+		if (eventId == null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
-		}
+			}
 		eventRepository.deleteById(eventId);
 		eventRepository.save(event);
 		return event;
@@ -51,11 +50,10 @@ public class CalendarServicesImpl implements CalendarServices {
 
 	@Override
 	public void deleteEvent(String eventId) throws EventDoesNotExistException {
-		Event to_be_deleted = getEvent(eventId);
-		if (to_be_deleted == null) {
+		if (eventId==null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 		}
-		eventRepository.delete(to_be_deleted);
+		eventRepository.deleteById(eventId);
 	}
 
 	@Override

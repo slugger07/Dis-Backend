@@ -1,10 +1,7 @@
 package sgsits.cse.dis.user.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
@@ -57,15 +54,17 @@ public class CalendarController {
 		return calenderServiceImpl.addEvent(event);
 	}
 	
-	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "GET", produces="application/json")
-	@GetMapping(path = "/deleteEvent", produces = "application/json")
-	public void deleteEvent(@RequestParam  String eventId) throws EventDoesNotExistException {
+	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "DELETE", produces="application/json")
+	@DeleteMapping(path = "/deleteEvent", produces="application/json")
+	public void deleteEvent(@RequestParam(value="eventId")  String eventId) throws EventDoesNotExistException {
+		System.out.println(eventId);
 		calenderServiceImpl.deleteEvent(eventId);
 	}
 	
 	@ApiOperation(value="Update an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/updateEvent", produces = "application/json")
-	public Event updateEvent(@RequestBody Event event) throws EventDoesNotExistException {
-		return calenderServiceImpl.updateEvent(event);
+	public Event updateEvent(@RequestParam(value="eventId") String eventId,@RequestBody Event event) throws EventDoesNotExistException {
+		return calenderServiceImpl.updateEvent(event,eventId);
 	}
+	
 }
