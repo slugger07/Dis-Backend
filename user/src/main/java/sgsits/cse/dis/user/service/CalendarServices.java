@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
+import sgsits.cse.dis.user.model.Holiday;
 
 @Component
 public interface CalendarServices {
@@ -16,4 +17,5 @@ public interface CalendarServices {
 	Event getEvent(String eventId);
 	List<Event>  getAllEvents();
 	List<Event> getMyEvents(String participantId);
+	List<Holiday> getPublicHolidays();
 }

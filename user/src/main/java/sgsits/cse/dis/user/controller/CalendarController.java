@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
+import sgsits.cse.dis.user.model.Holiday;
 import sgsits.cse.dis.user.serviceImpl.CalendarServicesImpl;
 
 @CrossOrigin(origins = "*")
@@ -46,7 +47,13 @@ public class CalendarController {
 //		eventList.addAll(calenderServiceImpl.getStudentEvents("all"));
 //		return eventList;
 //	}
-	
+	@ApiOperation(value="Get public holidays", response= Event.class, httpMethod = "GET", produces="application/json")
+	@GetMapping(path = "/getPublicHolidays", produces = "application/json")
+	@ResponseBody
+	public List<Holiday> getPublicHolidays() {
+		List<Holiday> holidayList = calenderServiceImpl.getPublicHolidays();
+		return holidayList;
+	}
 	
 	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/addEvent", produces = "application/json")

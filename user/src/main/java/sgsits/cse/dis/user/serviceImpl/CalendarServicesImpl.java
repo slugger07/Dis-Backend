@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
 import sgsits.cse.dis.user.model.EventParticipant;
+import sgsits.cse.dis.user.model.Holiday;
 import sgsits.cse.dis.user.repo.EventParticipantRepository;
 import sgsits.cse.dis.user.repo.EventRepository;
+import sgsits.cse.dis.user.repo.HolidayRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.service.CalendarServices;
 
@@ -19,6 +21,9 @@ public class CalendarServicesImpl implements CalendarServices {
 
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private HolidayRepository holidayRepository;
 
 	@Override
 	public List<Event> getAllEvents() {
@@ -54,6 +59,12 @@ public class CalendarServicesImpl implements CalendarServices {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 		}
 		eventRepository.deleteById(eventId);
+	}
+	
+	@Override
+	public List<Holiday> getPublicHolidays() {
+		List<Holiday> holiday = holidayRepository.findAll();
+		return holiday;
 	}
 
 	@Override
