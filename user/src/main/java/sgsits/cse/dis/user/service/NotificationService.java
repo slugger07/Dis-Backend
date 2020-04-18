@@ -16,4 +16,13 @@ public interface NotificationService {
      * @return the all notification
      */
     List<Notification> getAllNotification(final User user);
+
+    /**
+     * Send notification notification.
+     *
+     * @param notification the notification
+     * @param participants the participants
+     * @return the notification
+     */
+    Notification sendNotification(final Notification notification, final List<User> participants);
 }
