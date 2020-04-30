@@ -15,9 +15,13 @@ import org.hibernate.annotations.GenericGenerator;
 public class StudentProfile {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
 	@Column(name = "id", nullable = false, unique = true)
-	private long id;
+	private String id;
 	
 	@Column(name = "created_by", nullable = false)
 	private String createdBy;
@@ -85,11 +89,11 @@ public class StudentProfile {
 	@Column(name = "blood_group")
 	private String bloodGroup;
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
