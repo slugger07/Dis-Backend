@@ -18,7 +18,6 @@ public class StudentProfile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
 	private long id;
-
 	
 	@Column(name = "created_by", nullable = false)
 	private String createdBy;

@@ -16,7 +16,7 @@ import sgsits.cse.dis.user.model.StudentProfile;
 public interface StudentRepository extends JpaRepository<StudentProfile, Long>{
 	Optional<StudentProfile> findByEmail(String email);
 	Optional<StudentProfile> findByEnrollmentId(String enrollmentId);
-	Optional<StudentProfile> findByUserId(Long id);
+	Optional<StudentProfile> findByUserId(String id);
 	boolean existsByEnrollmentIdAndMobileNoAndDob(String username, long l, Date dob);
 	Optional<StudentProfile> findByEnrollmentIdAndMobileNoAndDob(String username, long mobileNo, Date dob);
 	Optional<StudentProfile> findByMobileNo(long mobileNo);
