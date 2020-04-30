@@ -43,21 +43,26 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> getAllNotification(final User user) {
-        return notificationParticipantRepository.findAllByUser(user)
+    public void getAllNotification(final User user) {
+         notificationParticipantRepository.findAllByUser(user)
                 .stream()
-                .map(notificationParticipant -> notificationParticipant.getNotification())
-                .collect(Collectors.toList());
+                .map(NotificationParticipant::getNotification)
+                .forEach(this::sendNotification);
     }
 
     @Override
-    @MessageMapping("${dis.notification.notificationEndpoint}")
+    //@MessageMapping("${dis.notification.notificationEndpoint}")
     @SendTo("${dis.notification.notificationBucket}")
-    public Notification sendNotification(Notification notification, List<User> participants) {
+    public Notification sendNotification(Notification notification) {
+        // TODO: 30-04-2020 Check if the annotation actually sends the notification to the websocket
+        return notification;
+    }
+
+    @Override
+    public void createNotification(Notification notification, List<User> participantList) {
         final Notification savedNotification = notificationRepository.save(notification);
-        participants.forEach(participant -> saveParticipant(savedNotification, participant));
-        // TODO: 18-04-2020 Create service to send notification via websocket
-        return null;
+        participantList.forEach(participant -> saveParticipant(savedNotification, participant));
+        sendNotification(savedNotification);
     }
 
     /**
@@ -66,8 +71,7 @@ public class NotificationServiceImpl implements NotificationService {
      * @param notification the notification
      * @param participant  the participant
      */
-    private void saveParticipant(Notification notification, User participant){
-        // TODO: 18-04-2020 Create service to enter notification in database
+    private void saveParticipant(Notification notification, User participant) {
         final NotificationParticipant participation = new NotificationParticipant();
         participation.setNotification(notification);
         participation.setUser(participant);
