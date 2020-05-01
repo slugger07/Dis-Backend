@@ -31,4 +31,5 @@ public interface StaffService {
 	List<FacultyData> getStaffWithName(String name);
 	void updateUserIdByEmail(String userId,String email);
 	List<Object[]> getAllEmployeeNamesAndUserId();
+	List<Object[]> getAllUsernameAndEmail();
 }
