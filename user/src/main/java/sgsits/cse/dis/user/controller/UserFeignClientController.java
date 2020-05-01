@@ -1,8 +1,5 @@
 package sgsits.cse.dis.user.controller;
 
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +43,4 @@ public class UserFeignClientController {
     {
         return userServicesImpl.updateEmailAndUserId(mobileNo);
     }
-
 }

@@ -1,9 +1,8 @@
 package sgsits.cse.dis.user.service;
 
 import sgsits.cse.dis.user.model.Notification;
-import sgsits.cse.dis.user.model.NotificationParticipant;
-import sgsits.cse.dis.user.model.User;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
@@ -13,10 +12,11 @@ public interface NotificationService {
     /**
      * Gets all notification.
      *
-     * @param user the user
+     * @param username the username
      * @return the all notification
+     * @throws EntityNotFoundException the entity not found exception
      */
-    void getAllNotification(final User user);
+    List<Notification> getAllNotification(final String username) throws EntityNotFoundException;
 
     /**
      * Send notification notification.
@@ -24,14 +24,22 @@ public interface NotificationService {
      * @param notification the notification
      * @return the notification
      */
-    Notification sendNotification(final Notification notification);
+    void sendNotificationToAll(final Notification notification);
 
     /**
-     * Create notification notification.
+     * Send to participants notification.
      *
-     * @param notification    the notification
-     * @param participantList the participant list
+     * @param notification the notification
+     * @param usernameList the username list
      * @return the notification
      */
-    void createNotification(final Notification notification, final List<User> participantList);
+    void sendNotificationToParticipants(final Notification notification, final List<String> usernameList);
+
+    /**
+     * Send notification to all except.
+     *
+     * @param notification the notification
+     * @param usernameList the username list
+     */
+    void sendNotificationToAllExcept(final Notification notification, final List<String> usernameList);
 }

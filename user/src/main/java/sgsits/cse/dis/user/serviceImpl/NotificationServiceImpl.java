@@ -1,24 +1,27 @@
 package sgsits.cse.dis.user.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 import sgsits.cse.dis.user.model.Notification;
 import sgsits.cse.dis.user.model.NotificationParticipant;
 import sgsits.cse.dis.user.model.User;
 import sgsits.cse.dis.user.repo.NotificationParticipantRepository;
 import sgsits.cse.dis.user.repo.NotificationRepository;
+import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.service.NotificationService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static sgsits.cse.dis.user.config.WebSocketConfig.notificationEndpoint;
-import static sgsits.cse.dis.user.config.WebSocketConfig.topicName;
 
 /**
  * The type Notification service.
  */
+@Service
 public class NotificationServiceImpl implements NotificationService {
 
     /**
@@ -31,38 +34,96 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationParticipantRepository notificationParticipantRepository;
 
     /**
+     * The User repository.
+     */
+    private final UserRepository userRepository;
+
+    /**
+     * The Template.
+     */
+    private final SimpMessagingTemplate template;
+
+    /**
+     * The constant notificationBucket.
+     */
+    @Value("${dis.notification.notificationBucket}")
+    public static String notificationBucket;
+
+    /**
      * Instantiates a new Notification service.
      *
      * @param notificationRepository            the notification repository
      * @param notificationParticipantRepository the notification participant repository
+     * @param userRepository                    the user repository
+     * @param template                          the template
      */
     @Autowired
-    public NotificationServiceImpl(NotificationRepository notificationRepository, NotificationParticipantRepository notificationParticipantRepository) {
+    public NotificationServiceImpl(NotificationRepository notificationRepository,
+                                   NotificationParticipantRepository notificationParticipantRepository,
+                                   @Qualifier("userServiceRepository") UserRepository userRepository,
+                                   SimpMessagingTemplate template) {
         this.notificationRepository = notificationRepository;
         this.notificationParticipantRepository = notificationParticipantRepository;
+        this.userRepository = userRepository;
+        this.template = template;
     }
 
     @Override
-    public void getAllNotification(final User user) {
-         notificationParticipantRepository.findAllByUser(user)
+    public List<Notification> getAllNotification(final String username) throws EntityNotFoundException {
+        final User user = userRepository.findByUsername(username)
+                .orElseThrow(EntityNotFoundException::new);
+        return notificationParticipantRepository.findAllByUser(user)
                 .stream()
                 .map(NotificationParticipant::getNotification)
-                .forEach(this::sendNotification);
+                .collect(Collectors.toList());
     }
 
     @Override
-    //@MessageMapping("${dis.notification.notificationEndpoint}")
+    public void sendNotificationToAll(Notification notification) {
+        final Notification savedNotification = notificationRepository.save(notification);
+        userRepository.getAllUsers().forEach(user -> saveParticipant(savedNotification, user));
+        sendToAllWebsocket(savedNotification);
+    }
+
+    @Override
+    public void sendNotificationToParticipants(Notification notification, List<String> usernameList) {
+        final Notification savedNotification = notificationRepository.save(notification);
+        final List<User> participants = userRepository.findAllByUsername(usernameList);
+        participants.forEach(participant -> saveParticipant(savedNotification, participant));
+        sendToUserWebsocket(savedNotification, participants);
+    }
+
+    @Override
+    public void sendNotificationToAllExcept(Notification notification, List<String> usernameList) {
+        final Notification savedNotification = notificationRepository.save(notification);
+        final List<User> participants = userRepository.findAllByUsernameNotContaining(usernameList);
+        participants.forEach(participant -> saveParticipant(savedNotification, participant));
+        sendToUserWebsocket(savedNotification, participants);
+    }
+
+    /**
+     * Send to all websocket notification.
+     *
+     * @param notification the notification
+     * @return the notification
+     */
     @SendTo("${dis.notification.notificationBucket}")
-    public Notification sendNotification(Notification notification) {
+    private Notification sendToAllWebsocket(Notification notification) {
         // TODO: 30-04-2020 Check if the annotation actually sends the notification to the websocket
         return notification;
     }
 
-    @Override
-    public void createNotification(Notification notification, List<User> participantList) {
-        final Notification savedNotification = notificationRepository.save(notification);
-        participantList.forEach(participant -> saveParticipant(savedNotification, participant));
-        sendNotification(savedNotification);
+    /**
+     * Send to user websocket notification.
+     *
+     * @param notification    the notification
+     * @param participantList the participant list
+     * @return the notification
+     */
+    private void sendToUserWebsocket(Notification notification, List<User> participantList) {
+        // TODO: 01-05-2020 Write logic to multicast, check if return type will be void or not
+        participantList.forEach(participant -> template.convertAndSendToUser(participant.getUsername(),
+                notificationBucket, notification));
     }
 
     /**
