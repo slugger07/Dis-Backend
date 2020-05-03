@@ -80,8 +80,8 @@
 		</dependency>
 		<!-- For Working with Web sockets -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-websocket</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -126,6 +126,5 @@
 			<url>https://repo.spring.io/milestone</url>
 		</repository>
 	</repositories>
-
 </project>
 

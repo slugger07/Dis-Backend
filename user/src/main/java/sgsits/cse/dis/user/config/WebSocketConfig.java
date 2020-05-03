@@ -3,7 +3,7 @@ package sgsits.cse.dis.user.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
@@ -11,24 +11,24 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
  * The type Web socket config.
  */
 @Configuration
-@EnableWebSocket
+@EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
      * The constant topicName.
      */
     @Value("${dis.notification.topic}")
-    public static String topicName;
+    public String topicName;
     /**
      * The constant applicationPrefix.
      */
     @Value("${dis.notification.appPrefix}")
-    public static String applicationPrefix;
+    public String applicationPrefix;
     /**
      * The constant notificationEndpoint.
      */
     @Value("${dis.notification.notificationEndpoint}")
-    public static String notificationEndpoint;
+    public String notificationEndpoint;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

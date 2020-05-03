@@ -2,6 +2,7 @@ package sgsits.cse.dis.user.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sgsits.cse.dis.user.dto.SendNotificationRequestDto;
 import sgsits.cse.dis.user.model.Notification;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Api(value = "User Notification Controller")
 @RestController
+@Controller
 @RequestMapping(path = "/userNotificationController")
 public class UserNotificationController {
 
