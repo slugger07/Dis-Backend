@@ -201,7 +201,7 @@ public class StudentProfile {
 		this.fatherName = fatherName;
 	}
 
-	public long getFatherContact() {
+	public Long getFatherContact() {
 		return fatherContact;
 	}
 
@@ -225,7 +225,7 @@ public class StudentProfile {
 		this.motherName = motherName;
 	}
 
-	public long getMotherContact() {
+	public Long getMotherContact() {
 		return motherContact;
 	}
 

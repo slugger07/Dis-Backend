@@ -19,4 +19,8 @@ public class RestAPI {
 	public static final String GET_ASSIGN_TASKS_INFO = "/getAssignTasksInfo";
 	public static final String UPDATE_TASK_STATUS = "/updateTaskStatus/{status}/{id}";
 	public static final String GET_MY_USER_ID = "/getMyUserID";
+	
+	//Guide Allotment data
+	public static final String GET_ALL_BATCHES = "/getAllBatches/{session}/{ugOrPg}";
+	public static final String CREATE_BATCH = "/createBatch";
 }
