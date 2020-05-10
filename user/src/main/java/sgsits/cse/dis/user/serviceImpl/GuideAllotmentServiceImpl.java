@@ -1,7 +1,6 @@
 package sgsits.cse.dis.user.serviceImpl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +9,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import sgsits.cse.dis.user.exception.ConflictException;
-import sgsits.cse.dis.user.message.request.AddNewUser;
 import sgsits.cse.dis.user.message.request.CreateBatch;
 import sgsits.cse.dis.user.message.response.BatchData;
 import sgsits.cse.dis.user.model.PgGuideAllotmentGuide;
@@ -52,8 +50,11 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			for(UgGuideAllotmentGuide guide : guides)
 			{
 				List<UgGuideAllotmentStudent> currStudents = ugStudentRepo.findByBatchDetailsId(guide.getId());
+				String guideId = guide.getGuideId();
 				String coGuideId = guide.getCoGuideId();
-				Optional<StaffProfile> currGuide = staffRepo.findById(guide.getGuideId()), currCoGuide = Optional.empty();
+				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
+				if (guideId != null)
+					currGuide = staffRepo.findById(guideId);
 				if (coGuideId != null)
 					currCoGuide = staffRepo.findById(coGuideId);
 				List<String> ids = new ArrayList<String>();
@@ -61,7 +62,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				{
 					ids.add(stud.getStudentId());
 				}
-				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.get(),currCoGuide.orElse(null),session));
+				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session));
 			}
 		}
 		else if(ugOrPg.equals("PG"))
@@ -70,8 +71,11 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			for(PgGuideAllotmentGuide guide : guides)
 			{
 				List<PgGuideAllotmentStudent> currStudents = pgStudentRepo.findByBatchDetailsId(guide.getId());
+				String guideId = guide.getGuideId();
 				String coGuideId = guide.getCoGuideId();
-				Optional<StaffProfile> currGuide = staffRepo.findById(guide.getGuideId()), currCoGuide = Optional.empty();
+				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
+				if (guideId != null)
+					currGuide = staffRepo.findById(guideId);
 				if (coGuideId != null)
 					currCoGuide = staffRepo.findById(coGuideId);
 				List<String> ids = new ArrayList<String>();
@@ -79,7 +83,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				{
 					ids.add(stud.getStudentId());
 				}
-				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.get(),currCoGuide.orElse(null),session));
+				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session));
 			}			
 		}
 		return batches;
@@ -156,4 +160,6 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 		}
 		
 	}
+	
+	
 }
