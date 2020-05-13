@@ -58,7 +58,7 @@ public class AuthRestAPIs {
 	}
 
 	@ApiOperation(value="activation", response= ModelAndView.class, httpMethod = "GET", produces="application/json")
-	@RequestMapping(value = "/activation", method = RequestMethod.GET)
+	@GetMapping(value = "/activation")
 	public ModelAndView activateAccount(@RequestParam("token") String token) throws ParseException {
 		return UserDetails.activateAccount(token);
 	}
@@ -70,7 +70,7 @@ public class AuthRestAPIs {
 	}
 
 	@ApiOperation(value="Reset password", response= ModelAndView.class, httpMethod = "GET", produces="application/json")
-	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+	@GetMapping(value = "/resetPassword")
 	public ModelAndView displayResetPasswordPage(@RequestParam("resetToken") String token) throws ParseException {
 		return UserDetails.displayResetPasswordPage(token);
 	}

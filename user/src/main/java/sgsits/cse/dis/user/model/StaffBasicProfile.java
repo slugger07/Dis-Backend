@@ -11,17 +11,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- * <h1><b>StaffBasicProfile</b> class.</h1>
- * <p>This class is model for table <b>staff_basic_profile</b> to act as DAO.
- * This table contains basic profile for newly added member in the DIS and now can successfully signup on the system.
- * @author Arjit Mishra.
- * @version 1.0.
- * @since 4-JAN-2020.
- */
+
 @Entity
 @Table(name = "staff_basic_profile")
-public class StaffProfile {
+public class StaffBasicProfile {
 	
     @Id
     @GeneratedValue(generator = "UUID")
@@ -103,14 +96,14 @@ public class StaffProfile {
 	
 	
 
-	public StaffProfile() {
+	public StaffBasicProfile() {
 		super();
 	}
 
 
 
-	public StaffProfile(String createdBy, String createdDate,String employeeId,String name, String currentDesignation, String classs,
-			String type, String email, Date dob, Long mobileNo, String joiningDate) {
+	public StaffBasicProfile(String createdBy, String createdDate, String employeeId, String name, String currentDesignation, String classs,
+							 String type, String email, Date dob, Long mobileNo, String joiningDate) {
 		super();
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;

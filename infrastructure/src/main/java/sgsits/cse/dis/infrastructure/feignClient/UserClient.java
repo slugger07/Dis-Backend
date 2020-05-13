@@ -24,10 +24,10 @@ import sgsits.cse.dis.infrastructure.response.FacultyData;
 @FeignClient(name = "user")
 public interface UserClient {
 	
-	@RequestMapping(value = "/userFeignClientController/getUserNameById/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/userFeignClientController/getUserNameById/{userId}")
 	String getUserNameById(@PathVariable String userId);
 	
-	@RequestMapping(value = "/userFeignClientController/getUserType", method = RequestMethod.GET)
+	@RequestMapping(value = "/userFeignClientController/getUserType")
 	String getUserType(String id);
 	
 	@ApiOperation(value = "Staff name list", response = FacultyData.class, httpMethod = "GET", produces = "application/json")

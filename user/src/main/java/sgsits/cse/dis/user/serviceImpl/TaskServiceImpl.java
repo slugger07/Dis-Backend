@@ -21,28 +21,13 @@ import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 import sgsits.cse.dis.user.model.Task;
 import sgsits.cse.dis.user.model.TaskCategory;
 import sgsits.cse.dis.user.model.UserTasks;
-import sgsits.cse.dis.user.repo.StaffRepository;
+import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.repo.TaskCategoryRepository;
 import sgsits.cse.dis.user.repo.TaskRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.repo.UserTaskRepository;
 import sgsits.cse.dis.user.service.TaskService;
-/**
- * <h1><b>TaskServiceImpl</b> class.</h1>
- * <p>This class contains implementation of all the library services which are defined in the <b>TaskService</b> interface.
- * 
- * @author Arjit Mishra.
- * @version 1.0.
- * @since 2-DEC-2019.
- * @throws ConflictException.
- * @throws NotFoundException.
- * @throws EventDoesNotExistException.
- * @throws DataIntegrityViolationException
- * @throws MethodArgumentNotValidException
- * @see NotFoundException.
- * @see DataIntegrityViolationException
- * @see MethodArgumentNotValidException
- */
+
 @Component
 public class TaskServiceImpl implements TaskService {
 
@@ -59,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private StaffRepository staffRepository;
+	private StaffBasicProfileRepository staffBasicProfileRepository;
 	
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
@@ -106,7 +91,7 @@ public class TaskServiceImpl implements TaskService {
 		List<UserTasks> userTasks = userTaskRepository.findByUserId(userId);
 		List<SearchTaskResponse> searchTaskResponses = new ArrayList<SearchTaskResponse>();
 		for(UserTasks temp : userTasks)
-			searchTaskResponses.add(new SearchTaskResponse(temp.getId(),temp.getUserId(), staffRepository.findNameByUserId(userId).getName(), 
+			searchTaskResponses.add(new SearchTaskResponse(temp.getId(),temp.getUserId(), staffBasicProfileRepository.findNameByUserId(userId).getName(),
 					temp.getTaskId(), taskRepository.findNameById(temp.getTaskId()).getName(), 
 					temp.getDeadline(), temp.getDescription(), temp.getStatus(),temp.getCreatedDate()));
 		return searchTaskResponses;
@@ -117,7 +102,7 @@ public class TaskServiceImpl implements TaskService {
 		List<UserTasks> userTasks = userTaskRepository.findByTaskId(taskId);
 		List<SearchTaskResponse> searchTaskResponses = new ArrayList<SearchTaskResponse>();
 		for(UserTasks temp : userTasks)
-			searchTaskResponses.add(new SearchTaskResponse(temp.getId(),temp.getUserId(), staffRepository.findNameByUserId(temp.getUserId()).getName(), 
+			searchTaskResponses.add(new SearchTaskResponse(temp.getId(),temp.getUserId(), staffBasicProfileRepository.findNameByUserId(temp.getUserId()).getName(),
 					temp.getTaskId(), taskRepository.findNameById(taskId).getName(), 
 					temp.getDeadline(), temp.getDescription(), temp.getStatus(),temp.getCreatedDate()));
 		return searchTaskResponses;

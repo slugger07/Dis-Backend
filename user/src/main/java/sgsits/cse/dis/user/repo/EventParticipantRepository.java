@@ -8,7 +8,7 @@ import sgsits.cse.dis.user.model.Event;
 import sgsits.cse.dis.user.model.EventParticipant;
 
 
-@Repository("")
+@Repository
 public interface EventParticipantRepository extends JpaRepository<EventParticipant, String> {
 
 }

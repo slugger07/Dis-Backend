@@ -19,19 +19,19 @@ public class UserWorkExperience {
 	private long id;
 
 	@Column(name = "created_by")
-	private Long createdBy;
+	private String createdBy;
 
 	@Column(name = "created_date")
 	private Date createdDate;
 
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 
 	@Column(name = "modified_date")
 	private Date modifiedDate;
 
 	@Column(name = "user_id")
-	private Long userId;
+	private String userId;
 	
 	@Column(name = "organization_name")
 	private String organizationName;
@@ -46,7 +46,7 @@ public class UserWorkExperience {
 	private Date dateOfLeaving;
 	
 	@Column(name = "payscale")
-	private Long payscale;
+	private Long payScale;
 	
 	@Column(name = "work_country")
 	private String country; 
@@ -65,11 +65,11 @@ public class UserWorkExperience {
 		this.id = id;
 	}
 
-	public Long getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(final String createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -81,11 +81,11 @@ public class UserWorkExperience {
 		this.createdDate = createdDate;
 	}
 
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(final String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
@@ -97,11 +97,11 @@ public class UserWorkExperience {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(final String userId) {
 		this.userId = userId;
 	}
 
@@ -137,12 +137,11 @@ public class UserWorkExperience {
 		this.dateOfLeaving = dateOfLeaving;
 	}
 
-	public Long getPayscale() {
-		return payscale;
+	public Long getPayScale() {
+		return payScale;
 	}
-
-	public void setPayscale(Long payscale) {
-		this.payscale = payscale;
+	public void setPayScale(Long payScale) {
+		this.payScale = payScale;
 	}
 
 	public String getCountry() {

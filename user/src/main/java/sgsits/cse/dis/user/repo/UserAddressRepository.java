@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.model.UserAddress;
 
-@Repository("userAddressRepository")
+@Repository()
 public interface UserAddressRepository extends JpaRepository<UserAddress, Long>{
 	List<UserAddress> findByUserId(Long id);
 	

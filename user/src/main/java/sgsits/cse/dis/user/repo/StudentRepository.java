@@ -6,13 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.user.model.StudentProfile;
-/**
- * <h1>StudentRepository</h1> interface.
- * this repository contains Jpafunciton to perform crud operation.
- * @author Arjit Mishra
- * @since 27-JAN-2020
- */
-@Repository("studentRepository")
+
+@Repository
 public interface StudentRepository extends JpaRepository<StudentProfile, Long>{
 	Optional<StudentProfile> findByEmail(String email);
 	Optional<StudentProfile> findByEnrollmentId(String enrollmentId);

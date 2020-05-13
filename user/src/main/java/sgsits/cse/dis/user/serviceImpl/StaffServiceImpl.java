@@ -5,47 +5,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.message.request.AddNewUser;
 import sgsits.cse.dis.user.message.response.FacultyData;
-import sgsits.cse.dis.user.model.StaffProfile;
-import sgsits.cse.dis.user.repo.StaffRepository;
+import sgsits.cse.dis.user.model.StaffBasicProfile;
+import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.service.StaffService;
-/**
- * <h1><b>StaffServiceimpl</b> class.</h1>
- * <p>This class contains implementation of all the library services which are defined in the <b>StaffService</b> interface.
- * 
- * @author Arjit Mishra.
- * @version 1.0.
- * @since 2-DEC-2019.
- * @throws ConflictException.
- * @throws NotFoundException.
- * @throws EventDoesNotExistException.
- * @throws DataIntegrityViolationException
- * @throws MethodArgumentNotValidException
- * @see NotFoundException.
- * @see DataIntegrityViolationException
- * @see MethodArgumentNotValidException
- */
+
 
 @Component
 public class StaffServiceImpl implements StaffService {
 
-	@Autowired
-	StaffRepository staffRepository;
+	private final StaffBasicProfileRepository staffBasicProfileRepository;
 	
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-	
+
+	public StaffServiceImpl(StaffBasicProfileRepository staffRepo) {
+		this.staffBasicProfileRepository = staffRepo;
+	}
+
 	@Override
 	public List<FacultyData> getFacultyData() {
-		List<StaffProfile> staffProfiles = staffRepository.findByClasssOrClasssOrderByCurrentDesignation("I", "II");
-		List<FacultyData> facultyData = new ArrayList<FacultyData>();
-		for (StaffProfile faculty : staffProfiles) {
+		List<StaffBasicProfile> staffBasicProfiles = staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("I", "II");
+		List<FacultyData> facultyData = new ArrayList<>();
+		for (StaffBasicProfile faculty : staffBasicProfiles) {
 			facultyData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
 					null, faculty.getCurrentDesignation(), faculty.getEmail(), faculty.getMobileNo(), faculty.getAlternateMobileNo()));
 		}
@@ -54,9 +40,9 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public List<FacultyData> getStaffData() {
-		List<StaffProfile> staffProfiles = staffRepository.findByClasssOrClasssOrderByCurrentDesignation("III", "IV");
-		List<FacultyData> staffData = new ArrayList<FacultyData>();
-		for (StaffProfile faculty : staffProfiles) {
+		List<StaffBasicProfile> staffBasicProfiles = staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("III", "IV");
+		List<FacultyData> staffData = new ArrayList<>();
+		for (StaffBasicProfile faculty : staffBasicProfiles) {
 			staffData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
 					null, faculty.getCurrentDesignation(), faculty.getEmail(), faculty.getMobileNo(), faculty.getAlternateMobileNo()));
 		}
@@ -65,7 +51,8 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public String addNewMember(AddNewUser addNewUser,String addedBy) throws ConflictException,DataIntegrityViolationException{
-		try{StaffProfile test = staffRepository.save(new StaffProfile(addedBy, simpleDateFormat.format(new Date()),addNewUser.getEmployeeId(),
+		try{
+			StaffBasicProfile test = staffBasicProfileRepository.save(new StaffBasicProfile(addedBy, simpleDateFormat.format(new Date()),addNewUser.getEmployeeId(),
 				addNewUser.getName(), addNewUser.getCurrentDesignation(), addNewUser.getClasss(), 
 				addNewUser.getType(), addNewUser.getEmail(), addNewUser.getDob(), addNewUser.getMobileNo(),
 				addNewUser.getJoiningDate()));
@@ -80,9 +67,9 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public List<FacultyData> getStaffWithName(String name) {
-		List<StaffProfile> staffProfiles = staffRepository.findByNameContainingIgnoreCase(name);
+		List<StaffBasicProfile> staffBasicProfiles = staffBasicProfileRepository.findByNameContainingIgnoreCase(name);
 		List<FacultyData> facultyData = new ArrayList<FacultyData>();
-		for (StaffProfile faculty : staffProfiles) {
+		for (StaffBasicProfile faculty : staffBasicProfiles) {
 			facultyData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
 					null, faculty.getCurrentDesignation(), faculty.getEmail(), faculty.getMobileNo(), faculty.getAlternateMobileNo()));
 		}
@@ -91,12 +78,12 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public void updateUserIdByEmail(String userId, String email) {
-		staffRepository.updateUserIdByEmailId(userId,email);
+		staffBasicProfileRepository.updateUserIdByEmailId(userId,email);
 		
 	}
 
 	@Override
 	public List<Object[]> getAllEmployeeNamesAndUserId() {
-		return staffRepository.findAllUserIdAndUsername();
+		return staffBasicProfileRepository.findAllUserIdAndUsername();
 	}
 }

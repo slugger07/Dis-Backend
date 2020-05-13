@@ -21,16 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
-import sgsits.cse.dis.user.constants.RestAPI;
 import sgsits.cse.dis.user.message.request.SignUpForm;
 import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 import sgsits.cse.dis.user.message.response.FacultyData;
-import sgsits.cse.dis.user.model.StaffProfile;
-import sgsits.cse.dis.user.repo.StaffRepository;
+import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.service.StaffService;
 import sgsits.cse.dis.user.service.UserServices;
-import sgsits.cse.dis.user.serviceImpl.StaffServiceImpl;
-import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
 @Api(value = "User Feign Client Controller")
 @RestController
@@ -44,7 +40,7 @@ public class UserFeignClientController {
 	private StaffService staffService;
 	
 	@Autowired
-	private StaffRepository staffRepository;
+	private StaffBasicProfileRepository staffBasicProfileRepository;
 	
 	@ApiOperation(value="Verify username", response = boolean.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = "/existsByUsername/{username}")
@@ -67,7 +63,7 @@ public class UserFeignClientController {
     }
 
     @ApiOperation(value = "Update email and user Id", response = Boolean.class, httpMethod = "GET", produces = "text/plain")
-    @RequestMapping(value = "/updateEmailAndUserId", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateEmailAndUserId")
     public boolean updateEmailAndUserId(@RequestParam("mobileNo") long mobileNo)
     {
         return userServicesImpl.updateEmailAndUserId(mobileNo);
@@ -92,16 +88,16 @@ public class UserFeignClientController {
 	}
 	
 	@ApiOperation(value = "get user name by id", response = String.class, httpMethod = "GET", produces = "application/json")
-	@RequestMapping(value = "/getUserNameById/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getUserNameById/{userId}")
 	public ResponseEntity<String> getUserNameById(@PathVariable String userId){
-		return  new ResponseEntity<String>(staffRepository.findByUserId(userId).get().getName(),HttpStatus.OK);
+		return  new ResponseEntity<String>(staffBasicProfileRepository.findByUserId(userId).get().getName(),HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Update user id with email", response = String.class, httpMethod = "PUT", produces = "application/json")
 	@PutMapping(value = "/updateUserIdWithEmail/{userId}/{email}", produces = "application/jspn")
 	@Transactional
 	public ResponseEntity<String> updateUserIdByEmail(@PathVariable("userId") String userId,@PathVariable("email") String email){
-		staffRepository.updateUserIdByEmailId(userId, email);
+		staffBasicProfileRepository.updateUserIdByEmailId(userId, email);
 		return  new ResponseEntity<String>(new String(userId+" assigned to user with email "+email),HttpStatus.OK);
 	}
 

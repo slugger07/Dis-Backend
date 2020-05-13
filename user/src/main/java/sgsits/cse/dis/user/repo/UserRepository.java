@@ -16,7 +16,7 @@ import sgsits.cse.dis.user.model.User;
  * @since 8-DEC-2018
  */
 
-@Repository("userRepository")
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUsername(String username);
     Boolean existsByUsername(String username);

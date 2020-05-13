@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.model.UserResearchWork;
 
-@Repository("userResearchWorkRepository")
+@Repository()
 public interface UserResearchWorkRepository extends JpaRepository<UserResearchWork, Long>{
-	List<UserResearchWork> findByUserId(Long id);
+	List<UserResearchWork> findByUserId(String id);
 }

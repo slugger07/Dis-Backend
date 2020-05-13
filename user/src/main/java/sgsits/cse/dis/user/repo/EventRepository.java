@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.user.model.Event;
 ;import java.util.List;
 
-@Repository("")
+@Repository()
 public interface EventRepository extends JpaRepository<Event, String>{
 	
 	Event findByEventId(String eventId);
