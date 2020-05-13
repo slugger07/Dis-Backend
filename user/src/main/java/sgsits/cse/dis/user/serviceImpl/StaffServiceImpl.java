@@ -21,7 +21,7 @@ public class StaffServiceImpl implements StaffService {
 
 	private final StaffBasicProfileRepository staffBasicProfileRepository;
 	
-	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 	public StaffServiceImpl(StaffBasicProfileRepository staffRepo) {
 		this.staffBasicProfileRepository = staffRepo;
@@ -29,7 +29,8 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public List<FacultyData> getFacultyData() {
-		List<StaffBasicProfile> staffBasicProfiles = staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("I", "II");
+		List<StaffBasicProfile> staffBasicProfiles =
+				staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("I", "II");
 		List<FacultyData> facultyData = new ArrayList<>();
 		for (StaffBasicProfile faculty : staffBasicProfiles) {
 			facultyData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
@@ -40,7 +41,8 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public List<FacultyData> getStaffData() {
-		List<StaffBasicProfile> staffBasicProfiles = staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("III", "IV");
+		List<StaffBasicProfile> staffBasicProfiles =
+				staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("III", "IV");
 		List<FacultyData> staffData = new ArrayList<>();
 		for (StaffBasicProfile faculty : staffBasicProfiles) {
 			staffData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
