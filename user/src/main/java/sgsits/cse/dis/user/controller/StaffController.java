@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import jdk.nashorn.internal.codegen.ObjectCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -73,5 +74,10 @@ public class StaffController {
 	@GetMapping(path=RestAPI.GET_ALL_USER_ID_AND_NAMES, produces = "application/json")
 	public ResponseEntity<List<Object[]>> getAllUserIdAndNames(HttpServletRequest request) throws NotFoundException{
 		return new ResponseEntity<>(staffServiceImpl.getAllEmployeeNamesAndUserId(), HttpStatus.OK);
+	}
+
+	// internal requirement for calender api
+	public List<Object[]> getAllUsernameAndEmails() {
+		return staffServiceImpl.getAllUsernameAndEmail();
 	}
 }

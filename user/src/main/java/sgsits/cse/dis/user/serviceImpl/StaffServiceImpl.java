@@ -86,4 +86,9 @@ public class StaffServiceImpl implements StaffService {
 	public List<Object[]> getAllEmployeeNamesAndUserId() {
 		return staffBasicProfileRepository.findAllUserIdAndUsername();
 	}
+
+	@Override
+	public List<Object[]> getAllUsernameAndEmail() {
+		return staffRepository.findAllUserIdAndEmails();
+	}
 }
