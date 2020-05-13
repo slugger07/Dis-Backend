@@ -23,4 +23,5 @@ public class RestAPI {
 	//Guide Allotment data
 	public static final String GET_ALL_BATCHES = "/getAllBatches/{session}/{ugOrPg}";
 	public static final String CREATE_BATCH = "/createBatch";
+	public static final String UPDATE_BATCH = "/updateBatch";
 }

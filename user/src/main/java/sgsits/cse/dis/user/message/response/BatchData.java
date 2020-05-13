@@ -9,14 +9,16 @@ public class BatchData {
 	
 	private List<StudentProfile> students;
 	private StaffProfile guide,coguide;
-	private String session;
+	private String session,ugOrPg,batchId;
 	
-	public BatchData(List<StudentProfile> students, StaffProfile guide, StaffProfile coguide, String session) {
+	public BatchData(List<StudentProfile> students, StaffProfile guide, StaffProfile coguide, String session,String ugOrPg,String batchId) {
 		super();
 		this.students = students;
 		this.guide = guide;
 		this.coguide = coguide;
 		this.session = session;
+		this.ugOrPg = ugOrPg;
+		this.batchId = batchId;
 	}
 
 	public List<StudentProfile> getStudents() {
@@ -50,6 +52,21 @@ public class BatchData {
 	public void setSession(String session) {
 		this.session = session;
 	}
-	
-	
+
+	public String getUgOrPg() {
+		return ugOrPg;
+	}
+
+	public void setUgOrPg(String ugOrPg) {
+		this.ugOrPg = ugOrPg;
+	}
+
+	public String getBatchId() {
+		return batchId;
+	}
+
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
+		
 }

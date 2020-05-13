@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.message.request.CreateBatch;
@@ -62,7 +63,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				{
 					ids.add(stud.getStudentId());
 				}
-				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session));
+				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
 			}
 		}
 		else if(ugOrPg.equals("PG"))
@@ -83,7 +84,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				{
 					ids.add(stud.getStudentId());
 				}
-				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session));
+				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
 			}			
 		}
 		return batches;
@@ -109,14 +110,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				List<UgGuideAllotmentGuide> batch = ugGuideRepo.findByBatchIdAndSession(batchId, createBatch.getSession());
 				String batchDetailsId = batch.get(0).getId();
 			
-				List<StudentProfile> students = createBatch.getStudents();
-				for(StudentProfile stud : students)
-				{
-					String studentId = stud.getId();
-					UgGuideAllotmentStudent testS = ugStudentRepo.save(new UgGuideAllotmentStudent(studentId, batchDetailsId));
-					if(testS.equals(null))
-						throw new ConflictException("Unable to add student information of batch");
-				}
+				insertStudents(createBatch.getStudents(), createBatch.getUgOrPg(), batchDetailsId);
 			}
 			catch (DataIntegrityViolationException e) {
 				throw new DataIntegrityViolationException("Batch Already Created.");
@@ -140,14 +134,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				List<PgGuideAllotmentGuide> batch = pgGuideRepo.findByBatchIdAndSession(batchId, createBatch.getSession());
 				String batchDetailsId = batch.get(0).getId();
 			
-				List<StudentProfile> students = createBatch.getStudents();
-				for(StudentProfile stud : students)
-				{
-					String studentId = stud.getId();
-					PgGuideAllotmentStudent testS = pgStudentRepo.save(new PgGuideAllotmentStudent(studentId, batchDetailsId));
-					if(testS.equals(null))
-						throw new ConflictException("Unable to add student information of batch");
-				}
+				insertStudents(createBatch.getStudents(), createBatch.getUgOrPg(), batchDetailsId);
 			}
 			catch (DataIntegrityViolationException e) {
 				throw new DataIntegrityViolationException("Batch Already Created.");
@@ -161,5 +148,111 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 		
 	}
 	
+	public void insertStudents(List<StudentProfile> students,String ugOrPg,String batchDetailsId) throws ConflictException
+	{
+		if(ugOrPg.equals("UG"))
+		{
+			for(StudentProfile stud : students)
+			{
+				String studentId = stud.getId();
+				UgGuideAllotmentStudent testS = ugStudentRepo.save(new UgGuideAllotmentStudent(studentId, batchDetailsId));
+				if(testS.equals(null))
+					throw new ConflictException("Unable to add student information of batch");
+			}	
+		}
+		else if(ugOrPg.equals("PG"))
+		{
+			for(StudentProfile stud : students)
+			{
+				String studentId = stud.getId();
+				PgGuideAllotmentStudent testS = pgStudentRepo.save(new PgGuideAllotmentStudent(studentId, batchDetailsId));
+				if(testS.equals(null))
+					throw new ConflictException("Unable to add student information of batch");
+			}
+		}
+	}
 	
+	//can be used to update only students of the batch, guide and co-guide
+	@Transactional
+	@Override
+	public String updateBatch(BatchData updatedBatch) throws ConflictException,DataIntegrityViolationException
+	{
+		if(updatedBatch.getUgOrPg().equals("UG"))
+		{
+			try
+			{
+				String guideId=null;
+				if(updatedBatch.getGuide()!=null)
+					guideId = updatedBatch.getGuide().getId();
+				String coGuideId=null;
+				if(updatedBatch.getCoguide()!=null)
+					coGuideId = updatedBatch.getCoguide().getId();
+				
+				ugGuideRepo.updateGuideBySessionAndBatchId(guideId, updatedBatch.getSession(),updatedBatch.getBatchId());
+				ugGuideRepo.updateCoGuideBySessionAndBatchId(coGuideId, updatedBatch.getSession(),updatedBatch.getBatchId());
+				
+				String batchDetailsId = ugGuideRepo.findByBatchIdAndSession(updatedBatch.getBatchId(), updatedBatch.getSession()).get(0).getId();
+				
+				List<UgGuideAllotmentStudent> oldStudents = ugStudentRepo.findByBatchDetailsId(batchDetailsId);
+				
+				deleteStudentsFromUg(oldStudents);
+				
+				insertStudents(updatedBatch.getStudents(), updatedBatch.getUgOrPg(), batchDetailsId);
+				
+				return "Batch Updated Successfully";				
+			}
+			catch(DataIntegrityViolationException e)
+			{
+				throw new DataIntegrityViolationException("Batch cannot be updated.");				
+			}
+		}
+		else if(updatedBatch.getUgOrPg().equals("PG"))
+		{
+			try
+			{
+				String guideId=null;
+				if(updatedBatch.getGuide()!=null)
+					guideId = updatedBatch.getGuide().getId();
+				String coGuideId=null;
+				if(updatedBatch.getCoguide()!=null)
+					coGuideId = updatedBatch.getCoguide().getId();
+				
+				pgGuideRepo.updateGuideBySessionAndBatchId(guideId, updatedBatch.getSession(),updatedBatch.getBatchId());
+				pgGuideRepo.updateCoGuideBySessionAndBatchId(coGuideId, updatedBatch.getSession(),updatedBatch.getBatchId());
+
+				String batchDetailsId = pgGuideRepo.findByBatchIdAndSession(updatedBatch.getBatchId(), updatedBatch.getSession()).get(0).getId();
+				
+				List<PgGuideAllotmentStudent> oldStudents = pgStudentRepo.findByBatchDetailsId(batchDetailsId);
+				
+				deleteStudentsFromPg(oldStudents);
+				
+				insertStudents(updatedBatch.getStudents(), updatedBatch.getUgOrPg(), batchDetailsId);			
+				
+				return "Batch Updated Successfully";				
+			}
+			catch(DataIntegrityViolationException e)
+			{
+				throw new DataIntegrityViolationException("Batch cannot be updated.");				
+			}			
+		}
+		return "Cannot identify either UG or PG from the request";
+	}
+	
+	@Transactional
+	void deleteStudentsFromUg(List<UgGuideAllotmentStudent> students)
+	{
+		for(UgGuideAllotmentStudent stud : students)
+		{
+			ugStudentRepo.delete(stud);
+		}
+	}
+	
+	@Transactional
+	void deleteStudentsFromPg(List<PgGuideAllotmentStudent> students)
+	{
+		for(PgGuideAllotmentStudent stud : students)
+		{
+			pgStudentRepo.delete(stud);
+		}
+	}
 }

@@ -12,4 +12,5 @@ public interface GuideAllotmentService {
 	
 	List<BatchData> getAllBatches(String session,String ugOrPg);
 	String createBatch(CreateBatch createBatch) throws ConflictException,DataIntegrityViolationException;
+	String updateBatch(BatchData updatedBatch) throws ConflictException,DataIntegrityViolationException;
 }

@@ -127,8 +127,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public void deleteTask(String id) throws ConflictException {
 		if(userTaskRepository.deleteTaskById(id)<=0)
-			throw new ConflictException("Cannot Delete selected task");
-		
+			throw new ConflictException("Cannot Delete selected task");		
 	}
 	
 	@Override
