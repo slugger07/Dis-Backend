@@ -68,7 +68,7 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public List<FacultyData> getStaffWithName(String name) {
 		List<StaffBasicProfile> staffBasicProfiles = staffBasicProfileRepository.findByNameContainingIgnoreCase(name);
-		List<FacultyData> facultyData = new ArrayList<FacultyData>();
+		List<FacultyData> facultyData = new ArrayList<>();
 		for (StaffBasicProfile faculty : staffBasicProfiles) {
 			facultyData.add(new FacultyData(faculty.getId(), faculty.getName(), faculty.getNameAcronym(),
 					null, faculty.getCurrentDesignation(), faculty.getEmail(), faculty.getMobileNo(), faculty.getAlternateMobileNo()));
@@ -89,6 +89,6 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public List<Object[]> getAllUsernameAndEmail() {
-		return staffRepository.findAllUserIdAndEmails();
+		return null;
 	}
 }

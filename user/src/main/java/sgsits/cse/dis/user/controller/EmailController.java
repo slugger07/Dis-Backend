@@ -4,7 +4,7 @@ import com.sun.mail.util.MailConnectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
-import sgsits.cse.dis.user.model.Email;
+import sgsits.cse.dis.user.constants.DisConstants;
 import sgsits.cse.dis.user.service.EmailService;
 
 import java.rmi.UnknownHostException;
@@ -19,7 +19,7 @@ public class EmailController {
     {
         // Create a Simple MailMessage.
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(Email.DIS_EMAIL);
+        message.setFrom(DisConstants.DIS_EMAIL);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
