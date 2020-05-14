@@ -9,8 +9,10 @@ import sgsits.cse.dis.user.model.UserProject;
 import sgsits.cse.dis.user.model.UserQualification;
 import sgsits.cse.dis.user.service.UserProfileService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserProjectService implements UserProfileService {
@@ -34,11 +36,21 @@ public class UserProjectService implements UserProfileService {
         return new ArrayList<>(userProjectDtoList);
     }
 
-    public void addUserProfileElement(final UserProjectDto userProjectDto) {
+    public void addUserProfileElement(final UserProjectDto userProjectDto, final String token) {
 
         final UserProject userProject =
                 userProfileDtoMapper.convertUserProjectDtoIntoModel(userProjectDto);
 
+        if (Objects.isNull(userProject.getId())) {
+
+            userProject.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userProject.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }
+
+        userProject.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userProject.setModifiedDate(new Date(new java.util.Date().getTime()));
+
+        userProject.setUserId(jwtResolver.getIdFromJwtToken(token));
         userProfileRepo.addOrUpdateUserProject(userProject);
     }
 

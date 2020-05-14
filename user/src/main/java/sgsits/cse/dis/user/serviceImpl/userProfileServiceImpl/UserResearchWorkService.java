@@ -9,8 +9,10 @@ import sgsits.cse.dis.user.model.UserResearchWork;
 import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserResearchWorkService implements UserProfileService {
@@ -34,10 +36,20 @@ public class UserResearchWorkService implements UserProfileService {
         return new ArrayList<>(userResearchWorkDtoList);
     }
 
-    public void addUserProfileElement(final UserResearchWorkDto userResearchWorkDto) {
+    public void addUserProfileElement(final UserResearchWorkDto userResearchWorkDto,
+                                      final String token) {
 
         final UserResearchWork userResearchWork =
                 userProfileDtoMapper.convertUserResearchWorkDtoIntoModel(userResearchWorkDto);
+
+        if (Objects.isNull(userResearchWork.getId())) {
+
+            userResearchWork.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userResearchWork.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }
+
+        userResearchWork.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userResearchWork.setModifiedDate(new Date(new java.util.Date().getTime()));
 
         userProfileRepo.addOrUpdateUserResearchWork(userResearchWork);
     }

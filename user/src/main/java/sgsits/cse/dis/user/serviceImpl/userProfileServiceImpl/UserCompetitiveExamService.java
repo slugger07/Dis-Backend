@@ -7,9 +7,12 @@ import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.model.UserCompetitiveExam;
 import sgsits.cse.dis.user.service.UserProfileService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+@SuppressWarnings("ConstantConditions")
 @Service
 public class UserCompetitiveExamService implements UserProfileService {
 
@@ -32,10 +35,20 @@ public class UserCompetitiveExamService implements UserProfileService {
         return new ArrayList<>(userCompetitiveExamDtoList);
     }
 
-    public void addUserProfileElement(final UserCompetitiveExamDto userCompetitiveExamDto) {
+    public void addUserProfileElement(final UserCompetitiveExamDto userCompetitiveExamDto,
+                                      final String token) {
 
         final UserCompetitiveExam userCompetitiveExam =
                 userProfileDtoMapper.convertUserCompetitiveExamDtoIntoModel(userCompetitiveExamDto);
+
+        if (Objects.isNull(userCompetitiveExam.getId())) {
+
+            userCompetitiveExam.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userCompetitiveExam.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }
+
+        userCompetitiveExam.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userCompetitiveExam.setModifiedDate(new Date(new java.util.Date().getTime()));
 
         userProfileRepo.addOrUpdateUserCompetitiveExam(userCompetitiveExam);
     }

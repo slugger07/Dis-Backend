@@ -4,13 +4,13 @@ import org.springframework.stereotype.Service;
 import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserCulturalActivityAchievementDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
-import sgsits.cse.dis.user.dtos.UserProjectDto;
 import sgsits.cse.dis.user.model.UserCulturalActivityAchievement;
-import sgsits.cse.dis.user.model.UserProject;
 import sgsits.cse.dis.user.service.UserProfileService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserCulturalActivityAchievementService implements UserProfileService {
@@ -34,11 +34,22 @@ public class UserCulturalActivityAchievementService implements UserProfileServic
         return new ArrayList<>(userCulturalActivityAchievementDtoList);
     }
 
-    public void addUserProfileElement(final UserCulturalActivityAchievementDto userCulturalActivityAchievementDto) {
+    public void addUserProfileElement(final UserCulturalActivityAchievementDto userCulturalActivityAchievementDto,
+                                      final String token) {
 
         final UserCulturalActivityAchievement userCulturalActivityAchievement =
                 userProfileDtoMapper.convertUserCulturalActivityAchievementDtoIntoModel(userCulturalActivityAchievementDto);
 
+        if (Objects.isNull(userCulturalActivityAchievement.getId())) {
+
+            userCulturalActivityAchievement.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userCulturalActivityAchievement.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }
+
+        userCulturalActivityAchievement.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userCulturalActivityAchievement.setModifiedDate(new Date(new java.util.Date().getTime()));
+
+        userCulturalActivityAchievement.setUserId(jwtResolver.getIdFromJwtToken(token));
         userProfileRepo.addOrUpdateUserCulturalActivityAchievement(userCulturalActivityAchievement);
     }
 

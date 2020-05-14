@@ -6,9 +6,13 @@ import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserTechnicalActivityDto;
 import sgsits.cse.dis.user.model.UserTechnicalActivity;
 import sgsits.cse.dis.user.service.UserProfileService;
+import sgsits.cse.dis.user.utility.GenericBuilder;
 
+import javax.swing.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserTechnicalActivityService implements UserProfileService {
@@ -32,10 +36,20 @@ public class UserTechnicalActivityService implements UserProfileService {
         return new ArrayList<>(userTechnicalActivityDtoList);
     }
 
-    public void addUserProfileElement(final UserTechnicalActivityDto userTechnicalActivityDto) {
+    public void addUserProfileElement(final UserTechnicalActivityDto userTechnicalActivityDto,
+                                      final String token) {
 
         final UserTechnicalActivity userTechnicalActivity =
                 userProfileDtoMapper.convertUserTechnicalActivityDtoIntoModel(userTechnicalActivityDto);
+
+        if (Objects.isNull(userTechnicalActivity.getId())) {
+
+            userTechnicalActivity.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userTechnicalActivity.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }
+
+        userTechnicalActivity.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userTechnicalActivity.setModifiedDate(new Date(new java.util.Date().getTime()));
 
         userProfileRepo.addOrUpdateUserTechnicalActivity(userTechnicalActivity);
     }

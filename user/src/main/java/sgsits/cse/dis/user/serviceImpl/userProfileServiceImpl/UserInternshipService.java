@@ -7,8 +7,10 @@ import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.model.UserInternship;
 import sgsits.cse.dis.user.service.UserProfileService;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserInternshipService implements UserProfileService {
@@ -32,11 +34,21 @@ public class UserInternshipService implements UserProfileService {
         return new ArrayList<>(userInternshipDtoList);
     }
 
-    public void addUserProfileElement(final UserInternshipDto userInternshipDto) {
+    public void addUserProfileElement(final UserInternshipDto userInternshipDto, final String token) {
 
         final UserInternship userInternship =
                 userProfileDtoMapper.convertUserInternshipDtoIntoModel(userInternshipDto);
 
+        if (Objects.isNull(userInternship.getId())) {
+
+            userInternship.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userInternship.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }
+
+        userInternship.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userInternship.setModifiedDate(new Date(new java.util.Date().getTime()));
+
+        userInternship.setUserId(jwtResolver.getIdFromJwtToken(token));
         userProfileRepo.addOrUpdateUserInternship(userInternship);
     }
 
