@@ -1,6 +1,8 @@
 package sgsits.cse.dis.user.serviceImpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +43,8 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 	private StaffRepository staffRepo;
 	@Autowired
 	private StudentRepository studRepo;
+	
+	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
 	@Override
 	public List<BatchData> getAllBatches(String session, String ugOrPg) {
@@ -92,7 +96,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 
 	
 	@Override
-	public String createBatch(CreateBatch createBatch) throws ConflictException,DataIntegrityViolationException{
+	public String createBatch(CreateBatch createBatch,String createdBy) throws ConflictException,DataIntegrityViolationException{
 		
 		if(createBatch.getUgOrPg().equals("UG"))
 		{
@@ -102,7 +106,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			try{
 				//save ugGuideAllotmentGuide
 				UgGuideAllotmentGuide test = ugGuideRepo.save(new UgGuideAllotmentGuide(batchId, createBatch.getGuide().getId(), 
-					createBatch.getCoguide().getId(), createBatch.getSession()));
+					createBatch.getCoguide().getId(), createBatch.getSession(),createdBy,simpleDateFormat.format(new Date())));
 				if(test.equals(null))
 					throw new ConflictException("Unable to create batch.");
 			
@@ -126,7 +130,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			try{
 				//save pgGuideAllotmentGuide
 				PgGuideAllotmentGuide test = pgGuideRepo.save(new PgGuideAllotmentGuide(batchId, createBatch.getGuide().getId(), 
-					createBatch.getCoguide().getId(), createBatch.getSession()));
+					createBatch.getCoguide().getId(), createBatch.getSession(),createdBy,simpleDateFormat.format(new Date())));
 				if(test.equals(null))
 					throw new ConflictException("Unable to create batch.");
 			
@@ -175,7 +179,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 	//can be used to update only students of the batch, guide and co-guide
 	@Transactional
 	@Override
-	public String updateBatch(BatchData updatedBatch) throws ConflictException,DataIntegrityViolationException
+	public String updateBatch(BatchData updatedBatch,String modifiedBy) throws ConflictException,DataIntegrityViolationException
 	{
 		if(updatedBatch.getUgOrPg().equals("UG"))
 		{
@@ -190,6 +194,7 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				
 				ugGuideRepo.updateGuideBySessionAndBatchId(guideId, updatedBatch.getSession(),updatedBatch.getBatchId());
 				ugGuideRepo.updateCoGuideBySessionAndBatchId(coGuideId, updatedBatch.getSession(),updatedBatch.getBatchId());
+				ugGuideRepo.updateModifiedByAndModifiedDateBySessionAndBatchId(modifiedBy, simpleDateFormat.format(new Date()), updatedBatch.getSession(),updatedBatch.getBatchId());
 				
 				String batchDetailsId = ugGuideRepo.findByBatchIdAndSession(updatedBatch.getBatchId(), updatedBatch.getSession()).get(0).getId();
 				
@@ -219,7 +224,8 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 				
 				pgGuideRepo.updateGuideBySessionAndBatchId(guideId, updatedBatch.getSession(),updatedBatch.getBatchId());
 				pgGuideRepo.updateCoGuideBySessionAndBatchId(coGuideId, updatedBatch.getSession(),updatedBatch.getBatchId());
-
+				pgGuideRepo.updateModifiedByAndModifiedDateBySessionAndBatchId(modifiedBy, simpleDateFormat.format(new Date()), updatedBatch.getSession(),updatedBatch.getBatchId());
+				
 				String batchDetailsId = pgGuideRepo.findByBatchIdAndSession(updatedBatch.getBatchId(), updatedBatch.getSession()).get(0).getId();
 				
 				List<PgGuideAllotmentStudent> oldStudents = pgStudentRepo.findByBatchDetailsId(batchDetailsId);

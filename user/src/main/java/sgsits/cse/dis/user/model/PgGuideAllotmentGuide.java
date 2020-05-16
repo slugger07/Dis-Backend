@@ -32,17 +32,31 @@ public class PgGuideAllotmentGuide {
 	
 	@Column(name = "session")
 	private String session;
+	
+	@Column(name = "created_by")
+	private String createdBy;
+
+	@Column(name = "created_date")
+	private String createdDate;
+	
+	@Column(name = "modified_by")
+	private String modifiedBy;
+	
+	@Column(name = "modified_Date")
+	private String modifiedDate;
 
 	public PgGuideAllotmentGuide() {
 		super();
 	}
 
-	public PgGuideAllotmentGuide(String batchId, String guideId, String coGuideId,String session) {
+	public PgGuideAllotmentGuide(String batchId, String guideId, String coGuideId,String session,String createdBy,String createdDate) {
 		super();
 		this.batchId = batchId;
 		this.guideId = guideId;
 		this.coGuideId = coGuideId;
 		this.session = session;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
 	}
 
 	public String getId() {
@@ -83,6 +97,38 @@ public class PgGuideAllotmentGuide {
 
 	public void setSession(String session) {
 		this.session = session;
+	}
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public String getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 	
 }

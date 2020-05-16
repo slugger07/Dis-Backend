@@ -21,7 +21,6 @@ import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.user.constants.RestAPI;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.jwt.JwtResolver;
-import sgsits.cse.dis.user.message.request.AddNewUser;
 import sgsits.cse.dis.user.message.request.CreateBatch;
 import sgsits.cse.dis.user.message.response.BatchData;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
@@ -45,13 +44,13 @@ public class GuideAllotmentController {
 	
 	@ApiOperation(value = "create batch", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(value = RestAPI.CREATE_BATCH, produces = "application/json")
-	public ResponseEntity<ResponseMessage> createBatch(@RequestBody CreateBatch createBatch) throws ConflictException {
-		return new ResponseEntity<ResponseMessage>(new ResponseMessage(guideServiceImpl.createBatch(createBatch)),HttpStatus.OK);
+	public ResponseEntity<ResponseMessage> createBatch(@RequestBody CreateBatch createBatch,HttpServletRequest request) throws ConflictException {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(guideServiceImpl.createBatch(createBatch,jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "update students, guide and co guide", response = ResponseMessage.class, httpMethod = "PUT", produces = "application/json")
 	@PutMapping(value = RestAPI.UPDATE_BATCH, produces = "application/json")
-	public ResponseEntity<ResponseMessage> updateBatch(@RequestBody BatchData updatedBatch) throws ConflictException {
-		return new ResponseEntity<ResponseMessage>(new ResponseMessage(guideServiceImpl.updateBatch(updatedBatch)),HttpStatus.OK);
+	public ResponseEntity<ResponseMessage> updateBatch(@RequestBody BatchData updatedBatch,HttpServletRequest request) throws ConflictException {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(guideServiceImpl.updateBatch(updatedBatch,jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),HttpStatus.OK);
 	}	
 }

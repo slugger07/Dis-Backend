@@ -11,6 +11,6 @@ import sgsits.cse.dis.user.message.response.BatchData;
 public interface GuideAllotmentService {
 	
 	List<BatchData> getAllBatches(String session,String ugOrPg);
-	String createBatch(CreateBatch createBatch) throws ConflictException,DataIntegrityViolationException;
-	String updateBatch(BatchData updatedBatch) throws ConflictException,DataIntegrityViolationException;
+	String createBatch(CreateBatch createBatch,String createdBy) throws ConflictException,DataIntegrityViolationException;
+	String updateBatch(BatchData updatedBatch,String updatedBy) throws ConflictException,DataIntegrityViolationException;
 }
