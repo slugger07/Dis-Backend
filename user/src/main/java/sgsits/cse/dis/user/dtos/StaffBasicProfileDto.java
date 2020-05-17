@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class StaffBasicProfileDto {
 
+    private String userId;
     private String employeeId;
     private String name;
     private String nameAcronym;

@@ -59,17 +59,7 @@ public class UserProfileController {
         return null;
     }
 
-    @ApiOperation(value = "Faculty Data", response = Object.class, httpMethod = "GET", produces = "application/json")
-    @GetMapping(value = "/facultyData")
-    public List<FacultyDataDto> getFacultyData(){
-        return null;
-    }
 
-    @ApiOperation(value = "Staff Data", response = Object.class, httpMethod = "GET", produces = "application/json")
-    @GetMapping(value = "/staffData")
-    public List<FacultyDataDto> getStaffData() {
-        return null;
-    }
 
     @ApiOperation(value = "User Qualification", response = Object.class, httpMethod = "GET", produces = "application/json")
     @GetMapping(value = "/userQualification")
