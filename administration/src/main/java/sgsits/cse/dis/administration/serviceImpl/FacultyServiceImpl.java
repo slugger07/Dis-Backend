@@ -20,8 +20,10 @@ public class FacultyServiceImpl implements FacultyComplaintService{
 	}
 
 	@Override
-	public List<FacultyComplaint> getMyComplaints(String userId) {
-		return facultyComplaintRepository.findByCreatedBy(userId);
+	public List<FacultyComplaint> getMyComplaints(String userType, String userId) {
+		if (userType.contentEquals("student"))
+			return facultyComplaintRepository.findByCreatedBy(userId);
+		return null;
 	}
 	
 	

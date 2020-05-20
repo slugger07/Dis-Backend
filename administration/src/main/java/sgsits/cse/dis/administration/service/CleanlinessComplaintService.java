@@ -1,7 +1,9 @@
 package sgsits.cse.dis.administration.service;
 
+import java.util.List;
+
 import sgsits.cse.dis.administration.model.CleanlinessComplaint;
 
-public interface CleanlinessComplaintService extends ComplaintService<CleanlinessComplaint> {
-	boolean checkIfComplaintExist(String userId, String location, String status);
+public interface CleanlinessComplaintService {
+	List<CleanlinessComplaint> getMyComplaints(String id);
 }

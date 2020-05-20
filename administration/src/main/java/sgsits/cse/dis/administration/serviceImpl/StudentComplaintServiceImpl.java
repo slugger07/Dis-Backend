@@ -14,14 +14,16 @@ public class StudentComplaintServiceImpl implements StudentComplaintService{
 	@Autowired
 	StudentComplaintRepository studentComplaintRepository;
 	
-	@Override
-	public List<StudentComplaint> getRemainingStudentComplaints() {
-		return studentComplaintRepository.findByStatusNot("Resolved");
-	}
+//	@Override
+//	public List<StudentComplaint> getRemainingStudentComplaints() {
+//		return studentComplaintRepository.findByStatusNot("Resolved");
+//	}
 
 	@Override
-	public List<StudentComplaint> getMyStudentComplaints(String userId) {
-		return studentComplaintRepository.findByCreatedBy(userId);
+	public List<StudentComplaint> getMyComplaints(String userType, String userId) {
+		if (userType.contentEquals("faculty"))
+			return studentComplaintRepository.findByCreatedBy(userId);
+		return null;
 	}
 	
 }

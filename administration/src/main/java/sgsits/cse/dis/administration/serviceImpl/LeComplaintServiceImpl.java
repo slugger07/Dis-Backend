@@ -7,28 +7,30 @@ import org.springframework.stereotype.Service;
 
 import sgsits.cse.dis.administration.model.LEComplaint;
 import sgsits.cse.dis.administration.repo.LEComplaintRepository;
-import sgsits.cse.dis.administration.service.ComplaintService;
+import sgsits.cse.dis.administration.service.LEComplaintService;
 
 @Service
-public class LeComplaintServiceImpl implements ComplaintService<LEComplaint> {
+public class LeComplaintServiceImpl implements LEComplaintService{
 
 	@Autowired
 	LEComplaintRepository leComplaintRepository;
 	
 	@Override
-	public List<LEComplaint> findAllRemainingComplaints(List<String> location) {
-		return leComplaintRepository.findByLabInAndStatusNot(location, "Resolved");
-	}
-
-	@Override
-	public LEComplaint addComplaint(LEComplaint complaintForm, String userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<LEComplaint> getMyComplaints(String userId) {
 		return leComplaintRepository.findByCreatedBy(userId);
 	}
 	
+	
+//	@Override
+//	public List<LEComplaint> findAllRemainingComplaints(List<String> location) {
+//		return leComplaintRepository.findByLabInAndStatusNot(location, "Resolved");
+//	}
+//
+//	@Override
+//	public LEComplaint addComplaint(LEComplaint complaintForm, String userId) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+
 }
