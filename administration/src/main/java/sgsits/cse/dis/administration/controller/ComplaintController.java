@@ -5,10 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +14,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.feignClient.GatewayClient;
-import sgsits.cse.dis.administration.feignClient.InfrastructureClient;
 import sgsits.cse.dis.administration.jwt.JwtResolver;
 import sgsits.cse.dis.administration.model.CWNComplaint;
 import sgsits.cse.dis.administration.model.CleanlinessComplaint;
@@ -27,7 +23,7 @@ import sgsits.cse.dis.administration.model.FacultyComplaint;
 import sgsits.cse.dis.administration.model.LEComplaint;
 import sgsits.cse.dis.administration.model.OtherComplaint;
 import sgsits.cse.dis.administration.model.StudentComplaint;
-import sgsits.cse.dis.administration.response.ResponseMessage;
+import sgsits.cse.dis.administration.service.CwnComplaintService;
 import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
 import sgsits.cse.dis.administration.service.ComplaintService;
 import sgsits.cse.dis.administration.service.FacultyComplaintService;
@@ -48,7 +44,7 @@ public class ComplaintController {
 	private LEComplaintService leComplaintService;
 
 	@Autowired
-	private ComplaintService<CWNComplaint> cwnComplaintService;
+	private CwnComplaintService cwnComplaintService;
 
 	@Autowired
 	private ComplaintService<EMRComplaint> emrComplaintService;
@@ -136,6 +132,29 @@ public class ComplaintController {
 		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
 		return otherComplaintService.getResolvedComplaints(userType, id);
 	}
-
+	
+	@ApiOperation(value = "Get Resolved Faculty Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_RESOLVED_FACULTY_COMPLAINTS, method = RequestMethod.GET)
+	public List<FacultyComplaint> getResolvedFacultyComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		return facultyComplaintService.getResolvedComplaints(userType, id);
+	}
+	
+	@ApiOperation(value = "Get Resolved Student Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_RESOLVED_STUDENT_COMPLAINTS, method = RequestMethod.GET)
+	public List<StudentComplaint> getResolvedStudentComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		return studentComplaintService.getResolvedComplaints(userType, id);
+	}
+	
+	@ApiOperation(value = "Get Resolved CWN Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_RESOLVED_CWN_COMPLAINTS, method = RequestMethod.GET)
+	public List<CWNComplaint> getResolvedCWNComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return cwnComplaintService.getResolvedComplaints(id);
+		
+	}
 
 }

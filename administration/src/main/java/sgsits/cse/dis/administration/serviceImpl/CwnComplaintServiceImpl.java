@@ -7,39 +7,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sgsits.cse.dis.administration.feignClient.InfrastructureClient;
 import sgsits.cse.dis.administration.model.CWNComplaint;
 import sgsits.cse.dis.administration.repo.CWNComplaintRepository;
-import sgsits.cse.dis.administration.service.ComplaintService;
+import sgsits.cse.dis.administration.service.CwnComplaintService;
 
 @Service
-public class CwnComplaintServiceImpl implements ComplaintService<CWNComplaint>{
+public class CwnComplaintServiceImpl implements CwnComplaintService {
 
 	@Autowired
 	CWNComplaintRepository cwnComplaintRepository;
 	
-	@Override
-	public List<CWNComplaint> findAllRemainingComplaints(List<String> location) {
-		return cwnComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
-	}
+	@Autowired
+	private InfrastructureClient infrastructureClient;
 
 	@Override
-	public CWNComplaint addComplaint(CWNComplaint complaintForm, String userId) {
-		CWNComplaint cwnComplaint = new CWNComplaint();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		cwnComplaint.setStatus("Not Resolved");
-		cwnComplaint.setCreatedBy(userId);
-		cwnComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
-		cwnComplaint.setLocation(complaintForm.getLocation());
-		cwnComplaint.setFormId(complaintForm.getFormId());
-		cwnComplaint.setPdfId(complaintForm.getPdfId());
-		CWNComplaint test = cwnComplaintRepository.save(cwnComplaint);
-		return test;
-	}
-
-	@Override
-	public List<CWNComplaint> getMyComplaints(String userId) {
-		// TODO Auto-generated method stub
+	public List<CWNComplaint> getResolvedComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return cwnComplaintRepository.findByLocationInAndStatus(location, "Resolved");
 		return null;
 	}
-
+	
 }

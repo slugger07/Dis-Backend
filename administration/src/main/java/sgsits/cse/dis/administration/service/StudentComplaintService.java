@@ -9,4 +9,5 @@ import sgsits.cse.dis.administration.model.StudentComplaint;
 @Service
 public interface StudentComplaintService {
 	public List<StudentComplaint> getMyComplaints(String userType, String id);
+	public List<StudentComplaint> getResolvedComplaints(String userType, String id);
 }
