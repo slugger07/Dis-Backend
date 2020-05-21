@@ -107,7 +107,6 @@ public class ComplaintController {
 		return facultyComplaintService.getMyComplaints(userType, id);
 	}
 	
-	// not working yet
 	@ApiOperation(value = "Get My Student Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = RestAPI.GET_MY_STUDENT_COMPLAINTS, method = RequestMethod.GET)
 	public List<StudentComplaint> getMyStudentComplaints(HttpServletRequest request) {
