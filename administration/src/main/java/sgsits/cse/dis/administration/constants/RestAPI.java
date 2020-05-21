@@ -1,9 +1,7 @@
 package sgsits.cse.dis.administration.constants;
 
 public class RestAPI {
-	
-	
-	//LIBRARY API's
+	//Library APIs
 	public static final String ADD_BOOK ="/addBook"; 
 	public static final String GET_ALL_BOOKS ="/getAllBooks";
 	public static final String GET_BOOK_BY_TITLE = "/getBookByTitle/{title}";
@@ -12,6 +10,17 @@ public class RestAPI {
 	public static final String UPDATE_BOOK = "/updateBook/{bookId}";
 	public static final String DELETE_BOOK = "/deleteBook/{bookId}"; 
 	public static final String ADD_THESIS = "/addThesis"; 
+	
+	//Resolved Complaints
+	public static final String GET_RESOLVED_CLEANLINESS_COMPLAINTS = "/getResolvedCleanlinessComplaints";
+	public static final String GET_RESOLVED_LE_COMPLAINTS = "/getResolvedLEComplaints";
+	public static final String GET_RESOLVED_OTHER_COMPLAINTS = "/getResolvedOtherComplaints";
+	public static final String GET_RESOLVED_FACULTY_COMPLAINTS = "/getResolvedFacultyComplaints";
+	public static final String GET_RESOLVED_STUDENT_COMPLAINTS = "/getResolvedStudentComplaints";
+	public static final String GET_RESOLVED_CWN_COMPLAINTS = "/getResolvedCWNComplaints";
+	public static final String GET_RESOLVED_ECCW_COMPLAINTS = "/getResolvedECCWComplaints";
+	public static final String GET_RESOLVED_EMRS_COMPLAINTS = "/getResolvedEMRSComplaints";
+	public static final String GET_RESOLVED_TELEPHONE_COMPLAINTS = "/getResolvedTelephoneComplaints";
 	
 	//My Complaints
 	public static final String GET_MY_CLEANLINESS_COMPLAINTS = "/getMyCleanlinessComplaints";

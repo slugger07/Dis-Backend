@@ -19,4 +19,5 @@ public interface CleanlinessComplaintRepository extends JpaRepository<Cleanlines
 //	List<CleanlinessComplaint> findByLocationInAndStatus(List<String> location, String string);
 	List<CleanlinessComplaint> findByLocationInAndStatusNot(List<String> location, String string);
 //	List<CleanlinessComplaint> findByLocationIn(List<String> location);
+	List<CleanlinessComplaint> findByLocationInAndStatus(List<String> location, String string);
 }

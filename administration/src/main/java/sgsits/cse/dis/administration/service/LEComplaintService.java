@@ -6,4 +6,5 @@ import sgsits.cse.dis.administration.model.LEComplaint;
 
 public interface LEComplaintService {
 	public List<LEComplaint> getMyComplaints(String id);
+	public List<LEComplaint> getResolvedComplaints(String id);
 }

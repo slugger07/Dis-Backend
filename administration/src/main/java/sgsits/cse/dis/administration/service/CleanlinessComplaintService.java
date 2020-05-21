@@ -6,4 +6,5 @@ import sgsits.cse.dis.administration.model.CleanlinessComplaint;
 
 public interface CleanlinessComplaintService {
 	List<CleanlinessComplaint> getMyComplaints(String id);
+	List<CleanlinessComplaint> getResolvedComplaints(String id);
 }

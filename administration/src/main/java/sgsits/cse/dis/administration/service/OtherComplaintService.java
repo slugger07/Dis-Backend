@@ -6,4 +6,5 @@ import sgsits.cse.dis.administration.model.OtherComplaint;
 
 public interface OtherComplaintService {
 	public List<OtherComplaint> getMyComplaints(String id);
+	public List<OtherComplaint> getResolvedComplaints(String userType, String id);
 }
