@@ -8,7 +8,6 @@
         <option value="$PROJECT_DIR$/user/pom.xml" />
         <option value="$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/gateway/target/classes/META-INF/maven/sgsits.cse.dis/gateway/pom.properties" />
-        <option value="$PROJECT_DIR$/gateway/pom.xml" />
         <option value="$PROJECT_DIR$/academics/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-server/target/classes/META-INF/maven/sgsits.cse.dis/eureka-server/pom.properties" />
@@ -19,6 +18,7 @@
         <option value="$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/pom.xml" />
         <option value="$PROJECT_DIR$/infrastructure/target/classes/META-INF/maven/sgsits.cse.dis/infrastructure/pom.properties" />
         <option value="$PROJECT_DIR$/infrastructure/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway/pom.xml" />
       </list>
     </option>
   </component>

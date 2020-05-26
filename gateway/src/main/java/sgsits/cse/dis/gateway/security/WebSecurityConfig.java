@@ -1,12 +1,9 @@
 package sgsits.cse.dis.gateway.security;
 
-import java.util.Arrays;
-
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,13 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.google.common.collect.ImmutableList;
-
 import sgsits.cse.dis.gateway.security.jwt.JwtAuthEntryPoint;
 import sgsits.cse.dis.gateway.security.jwt.JwtAuthTokenFilter;
 import sgsits.cse.dis.gateway.serviceImpl.UserDetailSecurityServiceImpl;
-import sgsits.cse.dis.gateway.serviceImpl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

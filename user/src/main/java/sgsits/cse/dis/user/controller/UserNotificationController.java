@@ -2,8 +2,13 @@ package sgsits.cse.dis.user.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sgsits.cse.dis.user.dto.MarkAsReadDto;
 import sgsits.cse.dis.user.dto.SendNotificationRequestDto;
 import sgsits.cse.dis.user.model.Notification;
 import sgsits.cse.dis.user.service.NotificationService;
@@ -25,6 +30,9 @@ public class UserNotificationController {
      */
     private final NotificationService notificationService;
 
+
+    @Autowired
+    private SimpMessagingTemplate msgtemp;
     /**
      * Instantiates a new User notification controller.
      *
@@ -46,7 +54,10 @@ public class UserNotificationController {
         return notificationService.getAllNotification(username);
     }
 
-    // TODO: 01-05-2020 Srijan Start and Stop wala endpoint configure kar dena(To register and unregister user on websocket with username)
+    @PostMapping(value = "/")
+    public void markAsRead(@RequestBody MarkAsReadDto markAsReadDto) {
+        notificationService.markAsRead(markAsReadDto.getNotificationId(), markAsReadDto.getUsername());
+    }
 
     /**
      * Send notification to all.
@@ -78,5 +89,10 @@ public class UserNotificationController {
     public void sendNotificationToAllExcept(@RequestBody SendNotificationRequestDto notificationRequest) {
         notificationService.sendNotificationToAllExcept(notificationRequest.getNotification(),
                 notificationRequest.getUsernameList());
+    }
+
+    @MessageMapping("/chat")
+    public void register(@Header("simpSessionId") String sessionId) {
+        msgtemp.convertAndSendToUser(sessionId, "/topic/messages", "SessionId: "+sessionId);
     }
 }

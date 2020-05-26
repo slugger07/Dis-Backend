@@ -1,10 +1,6 @@
 package sgsits.cse.dis.user.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
  * The type Notification participant.
  */
 @Entity
+@Table(name = "notification_participant")
 public class NotificationParticipant extends AuditInformation {
 
   @Id

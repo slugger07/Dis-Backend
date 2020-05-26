@@ -42,4 +42,12 @@ public interface NotificationService {
      * @param usernameList the username list
      */
     void sendNotificationToAllExcept(final Notification notification, final List<String> usernameList);
+
+    /**
+     * Mark as read.
+     *
+     * @param notificationId the notification id
+     * @param userId         the user id
+     */
+    void markAsRead(final String notificationId, final String username);
 }

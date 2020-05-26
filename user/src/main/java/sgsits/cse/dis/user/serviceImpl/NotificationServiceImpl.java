@@ -58,8 +58,8 @@ public class NotificationServiceImpl implements NotificationService {
      * @param template                          the template
      */
     @Autowired
-    public NotificationServiceImpl(NotificationRepository notificationRepository,
-                                   NotificationParticipantRepository notificationParticipantRepository,
+    public NotificationServiceImpl(@Qualifier("notificationServiceRepository") NotificationRepository notificationRepository,
+                                   @Qualifier("notificationParticipantRepository") NotificationParticipantRepository notificationParticipantRepository,
                                    @Qualifier("userServiceRepository") UserRepository userRepository,
                                    SimpMessagingTemplate template) {
         this.notificationRepository = notificationRepository;
@@ -79,14 +79,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendNotificationToAll(Notification notification) {
+    public void sendNotificationToAll(final Notification notification) {
         final Notification savedNotification = notificationRepository.save(notification);
         userRepository.getAllUsers().forEach(user -> saveParticipant(savedNotification, user));
         sendToAllWebsocket(savedNotification);
     }
 
     @Override
-    public void sendNotificationToParticipants(Notification notification, List<String> usernameList) {
+    public void sendNotificationToParticipants(final Notification notification, final List<String> usernameList) {
         final Notification savedNotification = notificationRepository.save(notification);
         final List<User> participants = userRepository.findAllByUsername(usernameList);
         participants.forEach(participant -> saveParticipant(savedNotification, participant));
@@ -94,11 +94,16 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendNotificationToAllExcept(Notification notification, List<String> usernameList) {
+    public void sendNotificationToAllExcept(final Notification notification, final List<String> usernameList) {
         final Notification savedNotification = notificationRepository.save(notification);
         final List<User> participants = userRepository.findAllByUsernameNotContaining(usernameList);
         participants.forEach(participant -> saveParticipant(savedNotification, participant));
         sendToUserWebsocket(savedNotification, participants);
+    }
+
+    @Override
+    public void markAsRead(final String notificationId, final String username) {
+        notificationParticipantRepository.modifyReadStatus(notificationId, username, true);
     }
 
     /**
