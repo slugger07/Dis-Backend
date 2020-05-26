@@ -54,7 +54,7 @@ public class UserNotificationController {
         return notificationService.getAllNotification(username);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/markAsRead")
     public void markAsRead(@RequestBody MarkAsReadDto markAsReadDto) {
         notificationService.markAsRead(markAsReadDto.getNotificationId(), markAsReadDto.getUsername());
     }
