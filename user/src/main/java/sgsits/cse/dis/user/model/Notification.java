@@ -40,8 +40,8 @@ public class Notification extends AuditInformation {
   @Column(name = "is_active")
   private Boolean isActive;
 
-  @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  private Set<NotificationParticipant> notificationParticipants = new HashSet<>();
+//  @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//  private Set<NotificationParticipant> notificationParticipants = new HashSet<>();
 
   /**
    * Gets id.
@@ -120,17 +120,17 @@ public class Notification extends AuditInformation {
    *
    * @return the notification participants
    */
-  public Set<NotificationParticipant> getNotificationParticipants() {
-    return notificationParticipants;
-  }
-
-  /**
-   * Sets notification participants.
-   *
-   * @param notificationParticipants the notification participants
-   */
-  public void setNotificationParticipants(
-      final Set<NotificationParticipant> notificationParticipants) {
-    this.notificationParticipants = notificationParticipants;
-  }
+//  public Set<NotificationParticipant> getNotificationParticipants() {
+//    return notificationParticipants;
+//  }
+//
+//  /**
+//   * Sets notification participants.
+//   *
+//   * @param notificationParticipants the notification participants
+//   */
+//  public void setNotificationParticipants(
+//      final Set<NotificationParticipant> notificationParticipants) {
+//    this.notificationParticipants = notificationParticipants;
+//  }
 }

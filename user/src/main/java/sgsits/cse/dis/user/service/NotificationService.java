@@ -1,5 +1,6 @@
 package sgsits.cse.dis.user.service;
 
+import sgsits.cse.dis.user.dto.NotificationDto;
 import sgsits.cse.dis.user.model.Notification;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,7 +17,7 @@ public interface NotificationService {
      * @return the all notification
      * @throws EntityNotFoundException the entity not found exception
      */
-    List<Notification> getAllNotification(final String username) throws EntityNotFoundException;
+    List<NotificationDto> getAllNotification(final String username) throws EntityNotFoundException;
 
     /**
      * Send notification notification.
@@ -47,7 +48,7 @@ public interface NotificationService {
      * Mark as read.
      *
      * @param notificationId the notification id
-     * @param userId         the user id
+     * @param username       the username
      */
     void markAsRead(final String notificationId, final String username);
 }

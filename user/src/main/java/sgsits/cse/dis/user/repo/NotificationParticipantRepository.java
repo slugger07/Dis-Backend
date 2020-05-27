@@ -26,6 +26,6 @@ public interface NotificationParticipantRepository extends JpaRepository<Notific
 
     @Transactional
     @Modifying
-    @Query("update NotificationParticipant n set n.readStatus = :readStatus where n.notification.id = :notificationId and n.user.username = :username")
-    void modifyReadStatus(@Param("notificationId") final String notificationId, @Param("username") final String username, @Param("readStatus") final boolean status);
+    @Query("update NotificationParticipant n set n.readStatus = :readStatus where n.notification.id = :notificationId and n.user.id = :userId")
+    void modifyReadStatus(@Param("notificationId") final String notificationId, @Param("userId") final String userId, @Param("readStatus") final boolean status);
 }

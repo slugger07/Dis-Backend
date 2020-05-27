@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sgsits.cse.dis.user.dto.MarkAsReadDto;
+import sgsits.cse.dis.user.dto.NotificationDto;
 import sgsits.cse.dis.user.dto.SendNotificationRequestDto;
 import sgsits.cse.dis.user.model.Notification;
 import sgsits.cse.dis.user.service.NotificationService;
@@ -50,7 +51,7 @@ public class UserNotificationController {
      * @return the all notifications
      */
     @GetMapping(value = "/getAllNotification/{username}")
-    public List<Notification> getAllNotifications(@PathVariable("username") String username) {
+    public List<NotificationDto> getAllNotifications(@PathVariable("username") String username) {
         return notificationService.getAllNotification(username);
     }
 

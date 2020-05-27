@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import sgsits.cse.dis.user.dto.NotificationDto;
 import sgsits.cse.dis.user.model.Notification;
 import sgsits.cse.dis.user.model.NotificationParticipant;
 import sgsits.cse.dis.user.model.User;
@@ -69,12 +70,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> getAllNotification(final String username) throws EntityNotFoundException {
+    public List<NotificationDto> getAllNotification(final String username) throws EntityNotFoundException {
         final User user = userRepository.findByUsername(username)
                 .orElseThrow(EntityNotFoundException::new);
         return notificationParticipantRepository.findAllByUser(user)
                 .stream()
-                .map(NotificationParticipant::getNotification)
+                .map(this::notificationDtoMapper)
                 .collect(Collectors.toList());
     }
 
@@ -82,7 +83,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void sendNotificationToAll(final Notification notification) {
         final Notification savedNotification = notificationRepository.save(notification);
         userRepository.getAllUsers().forEach(user -> saveParticipant(savedNotification, user));
-        sendToAllWebsocket(savedNotification);
+        //sendToAllWebsocket(savedNotification);
     }
 
     @Override
@@ -90,7 +91,7 @@ public class NotificationServiceImpl implements NotificationService {
         final Notification savedNotification = notificationRepository.save(notification);
         final List<User> participants = userRepository.findAllByUsername(usernameList);
         participants.forEach(participant -> saveParticipant(savedNotification, participant));
-        sendToUserWebsocket(savedNotification, participants);
+        //sendToUserWebsocket(savedNotification, participants);
     }
 
     @Override
@@ -98,12 +99,14 @@ public class NotificationServiceImpl implements NotificationService {
         final Notification savedNotification = notificationRepository.save(notification);
         final List<User> participants = userRepository.findAllByUsernameNotContaining(usernameList);
         participants.forEach(participant -> saveParticipant(savedNotification, participant));
-        sendToUserWebsocket(savedNotification, participants);
+        //sendToUserWebsocket(savedNotification, participants);
     }
 
     @Override
     public void markAsRead(final String notificationId, final String username) {
-        notificationParticipantRepository.modifyReadStatus(notificationId, username, true);
+        final User user = userRepository.findByUsername(username)
+                .orElseThrow(EntityNotFoundException::new);
+        notificationParticipantRepository.modifyReadStatus(notificationId, user.getId(), true);
     }
 
     /**
@@ -143,5 +146,18 @@ public class NotificationServiceImpl implements NotificationService {
         participation.setUser(participant);
         participation.setReadStatus(false);
         notificationParticipantRepository.save(participation);
+    }
+
+    /**
+     * Notification dto mapper notification dto.
+     *
+     * @param participant the participant
+     * @return the notification dto
+     */
+    private NotificationDto notificationDtoMapper(NotificationParticipant participant) {
+        return new NotificationDto(participant.getNotification().getId(),
+                participant.getNotification().getHeading(),
+                participant.getNotification().getDescription(),
+                participant.getReadStatus());
     }
 }
