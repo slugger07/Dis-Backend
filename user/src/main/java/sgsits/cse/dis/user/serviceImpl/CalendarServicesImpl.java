@@ -42,9 +42,11 @@ public class CalendarServicesImpl implements CalendarServices {
 	@Override
 	public Event addEvent(Event event) throws MailConnectException, UnknownHostException {
 		eventRepository.save(event);
+		ArrayList<String> mailing_list = new ArrayList<String>();
 		for(EventParticipant participant: event.getParticipants()) {
-			sendMeetingInvites(participant.getParticipantId(), "add",event);
+			mailing_list.add(participant.getParticipantId());
 		}
+		sendMeetingInvites(mailing_list, "add",event);
 		return event;
 	}
 
@@ -79,15 +81,17 @@ public class CalendarServicesImpl implements CalendarServices {
 		newParticipants.removeAll(old_participants);
 		eventRepository.deleteById(eventId);
 		eventRepository.save(event);
-		for(String participant: retainedParticipants) {
-			sendMeetingInvites(participant, "update",event);
+
+		if(!retainedParticipants.isEmpty()) {
+			sendMeetingInvites(new ArrayList<String>(retainedParticipants), "update", event);
 		}
-		for(String participant: removedParticipants) {
-			sendMeetingInvites(participant, "cancel",event);
+		if(!removedParticipants.isEmpty()) {
+			sendMeetingInvites(new ArrayList<String>(removedParticipants), "cancel", event);
 		}
-		for(String participant: newParticipants) {
-			sendMeetingInvites(participant, "add",event);
+		if(!newParticipants.isEmpty()) {
+			sendMeetingInvites(new ArrayList<String>(newParticipants), "add", event);
 		}
+
 		return event;
 	}
 
@@ -98,10 +102,12 @@ public class CalendarServicesImpl implements CalendarServices {
 		}
 		Event event = getEvent(eventId);
 		Set<EventParticipant> removedParticipants = event.getParticipants();
+		ArrayList<String> mailing_list = new ArrayList<String>();
 		eventRepository.deleteById(eventId);
 		for(EventParticipant participant: removedParticipants) {
-			sendMeetingInvites(participant.getParticipantId(), "cancel",event);
+			mailing_list.add(participant.getParticipantId());
 		}
+		sendMeetingInvites(mailing_list, "cancel", event);
 	}
 
 	@Override
@@ -120,28 +126,31 @@ public class CalendarServicesImpl implements CalendarServices {
 		return eventList;
 	}
 
-	private void sendMeetingInvites(String username, String mail_type, Event event) throws MailConnectException, UnknownHostException {
+	private void sendMeetingInvites(ArrayList<String> username_list, String mail_type, Event event) throws MailConnectException, UnknownHostException {
 		String type;
+		ArrayList<String> mailing_list = new ArrayList<String>();
 		List<Object[]> staffData = staff.getAllUsernameAndEmails();
 		for(Object[] staff_member: staffData) {
-			if(staff_member[0].equals(username)) {
-				String startLine  = "You have been invited to the following event.\n\n";
-				if(mail_type.equals("add")) {
-					type = "Invitation";
-				} else if(mail_type.equals("update")) {
-					startLine  = "Following event was updated by the organizer.\n\n";
-					type = "Updated Invitation";
-				} else {
-					startLine  = "Following event has been cancelled by the organizer.\n\n";
-					type = "Cancelled event";
-				}
-				email.sendSimpleEmail((String) staff_member[1], type + " : "+event.getTitle()+"@ "+event.getStartDate().toString(),
-						 startLine +
+			if(username_list.contains(staff_member[0])) {
+				mailing_list.add((String) staff_member[1]);
+			}
+		}
+		String startLine  = "You have been invited to the following event.\n\n";
+		if(mail_type.equals("add")) {
+			type = "Invitation";
+		} else if(mail_type.equals("update")) {
+			startLine  = "Following event was updated by the organizer.\n\n";
+			type = "Updated Invitation";
+		} else {
+			startLine  = "Following event has been cancelled by the organizer.\n\n";
+			type = "Cancelled event";
+		}
+		email.sendSimpleEmail(type + " : "+event.getTitle()+"@ "+event.getStartDate().toString(),
+				startLine +
 						"when : "+ event.getStartDate().toString() + "\n" +
 						"For : " + event.getTitle()+ "\n" +
 						"Agenda : " + event.getDescription()+ "\n" +
-						"Organizer : " + event.getEventIncharge()+ "\n");
-			}
-		}
+						"Organizer : " + event.getEventIncharge()+ "\n", mailing_list.toArray(new String[0]));
+
 	}
 }

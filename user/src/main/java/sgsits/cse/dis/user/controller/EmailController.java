@@ -15,12 +15,12 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    public void sendSimpleEmail(String to, String subject, String text) throws MailConnectException,UnknownHostException
+    public void sendSimpleEmail(String subject, String text, String... cclist) throws MailConnectException,UnknownHostException
     {
         // Create a Simple MailMessage.
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(DisConstants.DIS_EMAIL);
-        message.setTo(to);
+        message.setCc(cclist);
         message.setSubject(subject);
         message.setText(text);
         emailService.sendEmail(message);
