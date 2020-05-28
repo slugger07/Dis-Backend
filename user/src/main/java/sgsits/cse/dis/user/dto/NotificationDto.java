@@ -7,11 +7,30 @@ import java.util.Date;
  */
 public class NotificationDto {
 
-        private String id;
-        private String heading;
-        private String description;
-        private Boolean isRead;
-        private Date date;
+    /**
+     * The Id.
+     */
+    private String id;
+    /**
+     * The Heading.
+     */
+    private String heading;
+    /**
+     * The Description.
+     */
+    private String description;
+    /**
+     * The Link.
+     */
+    private String link;
+    /**
+     * The Is read.
+     */
+    private Boolean isRead;
+    /**
+     * The Date.
+     */
+    private Date date;
 
     /**
      * Instantiates a new Notification dto.
@@ -25,22 +44,33 @@ public class NotificationDto {
      * @param id          the id
      * @param heading     the heading
      * @param description the description
+     * @param link        the link
      * @param isRead      the is read
      * @param date		  the date
      */
-    public NotificationDto(String id, String heading, String description, Boolean isRead, Date date) {
+    public NotificationDto(final String id, final String heading, final String description, final String link, Boolean isRead,final Date date) {
         this.id = id;
         this.heading = heading;
         this.description = description;
+        this.link = link;
         this.isRead = isRead;
         this.date = date;
     }
 
-
+    /**
+     * Gets date.
+     *
+     * @return the date
+     */
 	public Date getDate() {
 		return date;
-	}
-
+    }
+    
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
 	public void setDate(Date date) {
 		this.date = date;
 	}
@@ -97,6 +127,24 @@ public class NotificationDto {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Gets link.
+     *
+     * @return the link
+     */
+    public String getLink() {
+        return link;
+    }
+
+    /**
+     * Sets link.
+     *
+     * @param link the link
+     */
+    public void setLink(String link) {
+        this.link = link;
     }
 
     /**

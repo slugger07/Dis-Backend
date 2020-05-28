@@ -25,15 +25,11 @@ import java.util.List;
 @RequestMapping(path = "/userNotificationController")
 public class UserNotificationController {
 
-
     /**
      * The Notification service.
      */
     private final NotificationService notificationService;
 
-
-    @Autowired
-    private SimpMessagingTemplate msgtemp;
     /**
      * Instantiates a new User notification controller.
      *
@@ -55,6 +51,11 @@ public class UserNotificationController {
         return notificationService.getAllNotification(username);
     }
 
+    /**
+     * Mark as read.
+     *
+     * @param markAsReadDto the mark as read dto
+     */
     @PostMapping(value = "/markAsRead")
     public void markAsRead(@RequestBody MarkAsReadDto markAsReadDto) {
         notificationService.markAsRead(markAsReadDto.getNotificationId(), markAsReadDto.getUsername());
@@ -86,14 +87,21 @@ public class UserNotificationController {
      *
      * @param notificationRequest the notification request
      */
-    @PostMapping(value = "/sendNotificationToAllExcept")
+    @PostMapping(value = "/sendNotificationByTypeExceptGivenUsers")
     public void sendNotificationToAllExcept(@RequestBody SendNotificationRequestDto notificationRequest) {
-        notificationService.sendNotificationToAllExcept(notificationRequest.getNotification(),
+        notificationService.sendNotificationByTypeExceptGivenUsers(notificationRequest.getNotification(),
+                notificationRequest.getTypeList(),
                 notificationRequest.getUsernameList());
     }
 
-    @MessageMapping("/chat")
-    public void register(@Header("simpSessionId") String sessionId) {
-        msgtemp.convertAndSendToUser(sessionId, "/topic/messages", "SessionId: "+sessionId);
+    /**
+     * Send notification to all except.
+     *
+     * @param notificationRequest the notification request
+     */
+    @PostMapping(value = "/sendNotificationByType")
+    public void sendNotificationByType(@RequestBody SendNotificationRequestDto notificationRequest) {
+        notificationService.sendNotificationByType(notificationRequest.getNotification(),
+                notificationRequest.getTypeList());
     }
 }

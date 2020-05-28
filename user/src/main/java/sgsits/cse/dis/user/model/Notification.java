@@ -35,13 +35,15 @@ public class Notification extends AuditInformation {
   @Column(name = "description")
   private String description;
   /**
+   * The Link.
+   */
+  @Column(name = "link")
+  private String link;
+  /**
    * The Is active.
    */
   @Column(name = "is_active")
   private Boolean isActive;
-
-//  @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//  private Set<NotificationParticipant> notificationParticipants = new HashSet<>();
 
   /**
    * Gets id.
@@ -116,21 +118,20 @@ public class Notification extends AuditInformation {
   }
 
   /**
-   * Gets notification participants.
+   * Gets link.
    *
-   * @return the notification participants
+   * @return the link
    */
-//  public Set<NotificationParticipant> getNotificationParticipants() {
-//    return notificationParticipants;
-//  }
-//
-//  /**
-//   * Sets notification participants.
-//   *
-//   * @param notificationParticipants the notification participants
-//   */
-//  public void setNotificationParticipants(
-//      final Set<NotificationParticipant> notificationParticipants) {
-//    this.notificationParticipants = notificationParticipants;
-//  }
+  public String getLink() {
+    return link;
+  }
+
+  /**
+   * Sets link.
+   *
+   * @param link the link
+   */
+  public void setLink(String link) {
+    this.link = link;
+  }
 }
