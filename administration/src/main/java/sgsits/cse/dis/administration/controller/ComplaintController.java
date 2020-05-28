@@ -23,9 +23,10 @@ import sgsits.cse.dis.administration.model.FacultyComplaint;
 import sgsits.cse.dis.administration.model.LEComplaint;
 import sgsits.cse.dis.administration.model.OtherComplaint;
 import sgsits.cse.dis.administration.model.StudentComplaint;
-import sgsits.cse.dis.administration.service.CwnComplaintService;
 import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
-import sgsits.cse.dis.administration.service.ComplaintService;
+import sgsits.cse.dis.administration.service.CwnComplaintService;
+import sgsits.cse.dis.administration.service.EccwComplaintService;
+import sgsits.cse.dis.administration.service.EmrComplaintService;
 import sgsits.cse.dis.administration.service.FacultyComplaintService;
 import sgsits.cse.dis.administration.service.LEComplaintService;
 import sgsits.cse.dis.administration.service.OtherComplaintService;
@@ -47,7 +48,7 @@ public class ComplaintController {
 	private CwnComplaintService cwnComplaintService;
 
 	@Autowired
-	private ComplaintService<EMRComplaint> emrComplaintService;
+	private EmrComplaintService emrComplaintService;
 
 	@Autowired
 	private FacultyComplaintService facultyComplaintService;
@@ -56,7 +57,7 @@ public class ComplaintController {
 	private StudentComplaintService studentComplaintService;
 
 	@Autowired
-	private ComplaintService<ECCWComplaint> eccwComplaintService;
+	private EccwComplaintService eccwComplaintService;
 	
 	@Autowired
 	private OtherComplaintService otherComplaintService;
@@ -154,7 +155,20 @@ public class ComplaintController {
 	public List<CWNComplaint> getResolvedCWNComplaints(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
 		return cwnComplaintService.getResolvedComplaints(id);
-		
+	}
+	
+	@ApiOperation(value = "Get Resolved ECCW Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_RESOLVED_ECCW_COMPLAINTS, method = RequestMethod.GET)
+	public List<ECCWComplaint> getResolvedECCWComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return eccwComplaintService.getResolvedComplaints(id);
+	}
+	
+	@ApiOperation(value = "Get Resolved EMRS Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_RESOLVED_EMRS_COMPLAINTS, method = RequestMethod.GET)
+	public List<EMRComplaint> getResolvedEMRSComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return emrComplaintService.getResolvedComplaints(id);
 	}
 
 }

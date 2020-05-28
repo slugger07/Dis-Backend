@@ -5,17 +5,16 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import sgsits.cse.dis.administration.model.TelephoneComplaints;
+import sgsits.cse.dis.administration.model.TelephoneComplaint;
 
-//Cleanliness Complaint
 
 @Repository("")
-public interface TelephoneComplaintRepository extends JpaRepository<TelephoneComplaints, Long> {
-	List<TelephoneComplaints> findByLocationAndStatus(String location, String status);
-	List<TelephoneComplaints> findByCreatedBy(Long id);
-	List<TelephoneComplaints> findByLocation(String loc);
-	List<TelephoneComplaints> findByLocationAndStatusNot(String loc, String string);
-	List<TelephoneComplaints> findByLocationInAndStatus(List<String> location, String string);
-	List<TelephoneComplaints> findByLocationInAndStatusNot(List<String> location, String string);
-	List<TelephoneComplaints> findByLocationIn(List<String> location);
+public interface TelephoneComplaintRepository extends JpaRepository<TelephoneComplaint, String> {
+//	List<TelephoneComplaint> findByLocationAndStatus(String location, String status);
+//	List<TelephoneComplaint> findByCreatedBy(Long id);
+//	List<TelephoneComplaint> findByLocation(String loc);
+//	List<TelephoneComplaint> findByLocationAndStatusNot(String loc, String string);
+	List<TelephoneComplaint> findByLocationInAndStatus(List<String> location, String string);
+//	List<TelephoneComplaint> findByLocationInAndStatusNot(List<String> location, String string);
+//	List<TelephoneComplaint> findByLocationIn(List<String> location);
 }

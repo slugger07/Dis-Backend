@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @DiscriminatorValue("TELEPHONE")
 @Table(name = "telephone_complaints")
-public class TelephoneComplaints extends Complaint {
+public class TelephoneComplaint extends Complaint {
 
 	@Column(name = "location", nullable = false)
 	private String location;

@@ -1,6 +1,7 @@
 package sgsits.cse.dis.administration.constants;
 
 public class RestAPI {
+	
 	//Library APIs
 	public static final String ADD_BOOK ="/addBook"; 
 	public static final String GET_ALL_BOOKS ="/getAllBooks";
