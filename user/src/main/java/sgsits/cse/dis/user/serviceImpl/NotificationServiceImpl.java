@@ -158,6 +158,8 @@ public class NotificationServiceImpl implements NotificationService {
         return new NotificationDto(participant.getNotification().getId(),
                 participant.getNotification().getHeading(),
                 participant.getNotification().getDescription(),
-                participant.getReadStatus());
+                participant.getReadStatus(),
+        		participant.getNotification().getCreatedDate());
+        
     }
 }

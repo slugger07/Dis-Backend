@@ -2,6 +2,8 @@ package sgsits.cse.dis.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+
 import java.util.Date;
 
 @MappedSuperclass
@@ -45,5 +47,10 @@ public class AuditInformation {
 
   public void setModifiedDate(Date modifiedDate) {
     this.modifiedDate = modifiedDate;
+  }
+  
+  @PrePersist
+  protected void prePersist() {
+      if (this.createdDate == null) createdDate = new Date();
   }
 }
