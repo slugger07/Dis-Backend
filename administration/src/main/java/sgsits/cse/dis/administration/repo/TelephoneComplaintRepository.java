@@ -1,6 +1,7 @@
 package sgsits.cse.dis.administration.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,5 @@ public interface TelephoneComplaintRepository extends JpaRepository<TelephoneCom
 	long countByLocationInAndStatusNot(List<String> loc, String string);
 	long countByLocationInAndStatus(List<String> loc, String string);
 	long countByLocationIn(List<String> loc);
+	Optional<List<TelephoneComplaint>> findByCreatedDate(String createdDate);
 }

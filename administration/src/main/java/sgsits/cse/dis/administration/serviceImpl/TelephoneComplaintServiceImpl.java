@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import sgsits.cse.dis.administration.model.TelephoneComplaint;
 import sgsits.cse.dis.administration.repo.TelephoneComplaintRepository;
+import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.request.TelephoneComplaintForm;
+import sgsits.cse.dis.administration.response.TelephoneComplaintResponse;
 import sgsits.cse.dis.administration.service.TelephoneComplaintService;
 
 @Service
@@ -77,6 +79,27 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 	@Override
 	public long countByLocationIn(List<String> loctions) {
 		return telephoneComplaintRepository.countByLocationIn(loctions);
+	}
+
+	@Override
+	public List<TelephoneComplaintResponse> getDownloadReportData(ComplaintDownloadReportForm complaintInfo) {
+		Optional<List<TelephoneComplaint>> telephones = telephoneComplaintRepository.findByCreatedDate(complaintInfo.getCreatedDate());
+		List<TelephoneComplaintResponse> complaints = new ArrayList<>();
+		if(telephones.isPresent()) {
+			int count = 1;
+			for(TelephoneComplaint telephoneComplaint : telephones.get()) {
+				TelephoneComplaintResponse complaint = new TelephoneComplaintResponse();
+				complaint.setDetails(telephoneComplaint.getDetails());
+				complaint.setLocation(telephoneComplaint.getLocation());
+				complaint.setExtensionNo(telephoneComplaint.getExtensionNo());
+				complaint.setDateOfResolution(telephoneComplaint.getDateOfResolution());
+				complaint.setCreatedDate(telephoneComplaint.getCreatedBy());
+				complaint.setSno(count);
+				complaints.add(complaint);
+				count++;
+			}
+		}
+		return complaints;
 	}
 
 }

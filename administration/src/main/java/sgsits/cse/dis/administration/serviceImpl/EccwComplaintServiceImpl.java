@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import sgsits.cse.dis.administration.model.ECCWComplaint;
 import sgsits.cse.dis.administration.repo.ECCWComplaintRepository;
+import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.ECCWComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
+import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 import sgsits.cse.dis.administration.service.ECCWComplaintService;
 
 @Service
@@ -80,6 +82,30 @@ public class EccwComplaintServiceImpl implements ECCWComplaintService {
 	@Override
 	public long countByLocationIn(List<String> loctions) {
 		return eccwComplaintRepository.countByLocationIn(loctions);
+	}
+
+	@Override
+	public List<ComplaintGeneralResponse> getDownloadReportData(ComplaintDownloadReportForm complaintInfo) {
+		Optional<List<ECCWComplaint>> eccws = null; 
+		if(complaintInfo.getLocation().equals("")) {
+			eccws = eccwComplaintRepository.findByCreatedDate(complaintInfo.getCreatedDate());	
+		}
+		else {
+			eccws = eccwComplaintRepository.findByCreatedDateAndLocation(complaintInfo.getCreatedDate(), complaintInfo.getLocation());
+		}
+		List<ComplaintGeneralResponse> complaints = new ArrayList<>();
+		if(eccws.isPresent()) {
+			int count = 1;
+			for(ECCWComplaint cwn : eccws.get()) {
+				ComplaintGeneralResponse complaint = new ComplaintGeneralResponse();
+				complaint.setDetails(cwn.getDetails());
+				complaint.setLocation(cwn.getLocation());
+				complaint.setSno(count);
+				complaints.add(complaint);
+				count++;
+			}
+		}
+		return complaints;
 	}
 
 }

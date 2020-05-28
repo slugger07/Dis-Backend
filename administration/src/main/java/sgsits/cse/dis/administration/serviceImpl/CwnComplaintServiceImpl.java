@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import sgsits.cse.dis.administration.model.CWNComplaint;
 import sgsits.cse.dis.administration.repo.CWNComplaintRepository;
 import sgsits.cse.dis.administration.request.CWNComplaintForm;
+import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
+import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 import sgsits.cse.dis.administration.service.CWNComplaintService;
 
 @Service
@@ -86,6 +88,30 @@ public class CwnComplaintServiceImpl implements CWNComplaintService {
 	@Override
 	public long countByLocationIn(List<String> loctions) {
 		return cwnComplaintRepository.countByLocationIn(loctions);
+	}
+
+	@Override
+	public List<ComplaintGeneralResponse> getDownloadReportData(ComplaintDownloadReportForm complaintInfo) {
+		Optional<List<CWNComplaint>> cwns = null;
+		if(complaintInfo.getLocation().equals("")) {
+			cwns = cwnComplaintRepository.findByCreatedDate(complaintInfo.getCreatedDate());
+		}
+		else {
+			cwns = cwnComplaintRepository.findByCreatedDateAndLocation(complaintInfo.getCreatedDate(), complaintInfo.getLocation());
+		}
+		List<ComplaintGeneralResponse> complaints = new ArrayList<>();
+		if(cwns.isPresent()) {
+			int count = 1;
+			for(CWNComplaint cwn : cwns.get()) {
+				ComplaintGeneralResponse complaint = new ComplaintGeneralResponse();
+				complaint.setDetails(cwn.getDetails());
+				complaint.setLocation(cwn.getLocation());
+				complaint.setSno(count);
+				complaints.add(complaint);
+				count++;
+			}
+		}
+		return complaints;
 	}
 
 }

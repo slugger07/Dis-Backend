@@ -1,5 +1,6 @@
 package sgsits.cse.dis.administration.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -33,6 +35,7 @@ import sgsits.cse.dis.administration.model.StudentComplaint;
 import sgsits.cse.dis.administration.model.TelephoneComplaint;
 import sgsits.cse.dis.administration.request.CWNComplaintForm;
 import sgsits.cse.dis.administration.request.CleanlinessComplaintForm;
+import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.ECCWComplaintForm;
 import sgsits.cse.dis.administration.request.EMRComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
@@ -41,7 +44,9 @@ import sgsits.cse.dis.administration.request.LEComplaintForm;
 import sgsits.cse.dis.administration.request.OtherComplaintForm;
 import sgsits.cse.dis.administration.request.StudentComplaintForm;
 import sgsits.cse.dis.administration.request.TelephoneComplaintForm;
+import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 import sgsits.cse.dis.administration.response.ResponseMessage;
+import sgsits.cse.dis.administration.response.TelephoneComplaintResponse;
 import sgsits.cse.dis.administration.service.CWNComplaintService;
 import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
 import sgsits.cse.dis.administration.service.ECCWComplaintService;
@@ -55,7 +60,7 @@ import sgsits.cse.dis.administration.service.TelephoneComplaintService;
 @CrossOrigin(origins = "*")
 @RestController
 @Api(value = "Complaints Resource")
-
+@RequestMapping(path = "/")
 public class ComplaintController {
 
 	@Autowired
@@ -606,5 +611,41 @@ public class ComplaintController {
 			return studentComplaintService.findAll();
 		}
 		return null;
+	}
+	
+	//use switch case as used in edit complaints and create an api for telephone and one api for other three
+	@ApiOperation(value = "Get CWN/ECCW/EMR complaints of a type on a particular date", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = "/getComplaintsOnDate", method= RequestMethod.GET)
+	public List<ComplaintGeneralResponse> getDownloadReportData(@RequestParam(value="complaintType") String complaintType, @RequestParam(value="createdDate") String createdDate, @RequestParam(value="location") String location ,HttpServletRequest request) {
+		//String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		ComplaintDownloadReportForm complaintInfo = new ComplaintDownloadReportForm();
+		complaintInfo.setComplaintType(complaintType);
+		complaintInfo.setCreatedDate(createdDate);
+		complaintInfo.setLocation(location);
+		List<ComplaintGeneralResponse> complaints = new ArrayList<>();
+		switch(complaintInfo.getComplaintType()) {
+		case "CWN":
+			complaints = cwnComplaintService.getDownloadReportData(complaintInfo);
+			break;
+		case "ECCW":
+			complaints = eccwComplaintService.getDownloadReportData(complaintInfo);
+			break;
+		case "EMR":
+			complaints = emrComplaintService.getDownloadReportData(complaintInfo);
+			break;	
+		}
+		return complaints;
+	}
+	
+	@ApiOperation(value = "Get Telephone complaints of a type on a particular date", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = "/getTelephoneComplaintsOnDate", method= RequestMethod.GET)
+	public List<TelephoneComplaintResponse> getDownloadReportDataForTelephone(@RequestParam(value="complaintType") String complaintType, @RequestParam(value="createdDate") String createdDate, @RequestParam(value="location") String location , HttpServletRequest request) {
+		List<TelephoneComplaintResponse> complaints = new ArrayList<>();
+		ComplaintDownloadReportForm complaintInfo = new ComplaintDownloadReportForm();
+		complaintInfo.setComplaintType(complaintType);
+		complaintInfo.setCreatedDate(createdDate);
+		complaintInfo.setLocation(location);
+		complaints = telephoneComplaintService.getDownloadReportData(complaintInfo);
+		return complaints;
 	}
 }

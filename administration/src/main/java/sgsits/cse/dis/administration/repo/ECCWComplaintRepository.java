@@ -1,6 +1,7 @@
 package sgsits.cse.dis.administration.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,6 @@ public interface ECCWComplaintRepository extends JpaRepository<ECCWComplaint, St
 	long maxOfFormId();
 	boolean existsByLocationAndDetailsAndStatusNot(String location, String details, String status);
 	long countByLocationIn(List<String> loc);
+	Optional<List<ECCWComplaint>> findByCreatedDate(String createdDate);
+	Optional<List<ECCWComplaint>> findByCreatedDateAndLocation(String createdDate, String location);
 }

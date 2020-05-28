@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import sgsits.cse.dis.administration.model.CWNComplaint;
 import sgsits.cse.dis.administration.request.CWNComplaintForm;
+import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
+import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 
 @Service
 public interface CWNComplaintService {
@@ -16,4 +18,5 @@ public interface CWNComplaintService {
 	long countByLocationInAndStatusNot(List<String> locations, String status);
 	long countByLocationInAndStatus(List<String> locations, String status);
 	long countByLocationIn(List<String> loctions);
+	List<ComplaintGeneralResponse> getDownloadReportData(ComplaintDownloadReportForm complaintInfo);
 }

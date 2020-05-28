@@ -1,6 +1,7 @@
 package sgsits.cse.dis.administration.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,6 @@ public interface CWNComplaintRepository extends JpaRepository<CWNComplaint, Stri
 	@Query(value = "select max(form_id) from cwn_maintenance_complaints", nativeQuery = true)
 	long maxOfFormId();
 	long countByLocationIn(List<String> loc);
+	Optional<List<CWNComplaint>> findByCreatedDate(String date);
+	Optional<List<CWNComplaint>> findByCreatedDateAndLocation(String createdDate, String location);
 }

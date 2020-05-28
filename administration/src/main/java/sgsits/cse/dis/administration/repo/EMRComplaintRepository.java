@@ -1,6 +1,7 @@
 package sgsits.cse.dis.administration.repo;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,4 +29,6 @@ public interface EMRComplaintRepository extends JpaRepository<EMRComplaint, Stri
 	@Query(value = "select max(form_id) from electrical_maintenance_and_repairs_section_complaints", nativeQuery = true)
 	long maxOfFormId();
 	long countByLocationIn(List<String> loc);
+	Optional<List<EMRComplaint>> findByCreatedDate(String createdDate);
+	Optional<List<EMRComplaint>> findByCreatedDateAndLocation(String createdDate, String location);
 }

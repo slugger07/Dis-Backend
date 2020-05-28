@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import sgsits.cse.dis.administration.model.EMRComplaint;
 import sgsits.cse.dis.administration.repo.EMRComplaintRepository;
+import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EMRComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
+import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 import sgsits.cse.dis.administration.service.EMRComplaintService;
 
 @Service
@@ -81,6 +83,31 @@ public class EmrComplaintServiceImpl implements EMRComplaintService {
 	@Override
 	public long countByLocationIn(List<String> loctions) {
 		return emrsComplaintRepository.countByLocationIn(loctions);
+	}
+
+	@Override
+	public List<ComplaintGeneralResponse> getDownloadReportData(ComplaintDownloadReportForm complaintInfo) {
+		Optional<List<EMRComplaint>> emrs = null;
+		
+		if(complaintInfo.getLocation().equals("")) {
+			emrs = emrsComplaintRepository.findByCreatedDate(complaintInfo.getCreatedDate());
+		}
+		else {
+			emrs = emrsComplaintRepository.findByCreatedDateAndLocation(complaintInfo.getCreatedDate(), complaintInfo.getLocation());
+		}
+		List<ComplaintGeneralResponse> complaints = new ArrayList<>();
+		if(emrs.isPresent()) {
+			int count = 1;
+			for(EMRComplaint cwn : emrs.get()) {
+				ComplaintGeneralResponse complaint = new ComplaintGeneralResponse();
+				complaint.setDetails(cwn.getDetails());
+				complaint.setLocation(cwn.getLocation());
+				complaint.setSno(count);
+				complaints.add(complaint);
+				count++;
+			}
+		}
+		return complaints;
 	}
 
 }
