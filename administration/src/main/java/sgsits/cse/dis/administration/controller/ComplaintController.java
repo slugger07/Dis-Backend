@@ -212,5 +212,27 @@ public class ComplaintController {
 		return telephoneComplaintService.getTotalComplaints(id);
 	}
 	
+	//Remaining Complaints -> Other, EMRS, Telephone
+	@ApiOperation(value = "Get Remaining Other Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_REMAINING_OTHER_COMPLAINTS, method = RequestMethod.GET)
+	public List<OtherComplaint> getRemainingOtherComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		return otherComplaintService.getRemainingComplaints(userType, id);
+	}
+	
+	@ApiOperation(value = "Get Remaining EMRS Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_REMAINING_EMRS_COMPLAINTS, method = RequestMethod.GET)
+	public List<EMRComplaint> getRemainingEMRSComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return emrComplaintService.getRemainingComplaints(id);
+	}
+	
+	@ApiOperation(value = "Get Remaining Telephone Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_REMAINING_TELEPHONE_COMPLAINTS, method = RequestMethod.GET)
+	public List<TelephoneComplaint> getRemainingTelephoneComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return telephoneComplaintService.getRemainingComplaints(id);
+	}
 
 }

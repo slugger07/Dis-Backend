@@ -34,5 +34,13 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 			return telephoneComplaintRepository.findByLocationIn(location);
 		return null;
 	}
+
+	@Override
+	public List<TelephoneComplaint> getRemainingComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return telephoneComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
+		return null;
+	}
 	
 }

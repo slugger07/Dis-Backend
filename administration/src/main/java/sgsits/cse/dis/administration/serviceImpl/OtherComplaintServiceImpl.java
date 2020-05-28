@@ -27,4 +27,12 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 		return otherComplaintRepository.findByAssignedToAndStatus(id, "Resolved");
 	}
 
+	@Override
+	public List<OtherComplaint> getRemainingComplaints(String userType, String id) {
+		if (userType.equals("head")) {
+			return otherComplaintRepository.findByStatusNot("Resolved");
+		}
+		return otherComplaintRepository.findByAssignedToAndStatusNot(id, "Resolved");
+	}
+
 }

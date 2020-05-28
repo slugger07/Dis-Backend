@@ -36,4 +36,15 @@ public class RestAPI {
 	public static final String GET_TOTAL_EMRS_COMPLAINTS = "/getTotalEMRSComplaints";
 	public static final String GET_TOTAL_TELEPHONE_COMPLAINTS = "/getTotalTelephoneComplaints";
 	
+	//Remaining Complaints
+	public static final String GET_REMAINING_CLEANLINESS_COMPLAINTS = "/getRemainingCleanlinessComplaints";
+	public static final String GET_REMAINING_LE_COMPLAINTS = "/getRemainingLEComplaints";
+	public static final String GET_REMAINING_OTHER_COMPLAINTS = "/getRemainingOtherComplaints";
+	public static final String GET_REMAINING_FACULTY_COMPLAINTS = "/getRemainingFacultyComplaints";
+	public static final String GET_REMAINING_STUDENT_COMPLAINTS = "/getRemainingStudentComplaints";
+	public static final String GET_REMAINING_CWN_COMPLAINTS = "/getRemainingCWNComplaints";
+	public static final String GET_REMAINING_ECCW_COMPLAINTS = "/getRemainingECCWComplaints";
+	public static final String GET_REMAINING_EMRS_COMPLAINTS = "/getRemainingEMRSComplaints";
+	public static final String GET_REMAINING_TELEPHONE_COMPLAINTS = "/getRemainingTelephoneComplaints";
+	
 }

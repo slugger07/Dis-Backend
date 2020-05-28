@@ -16,5 +16,5 @@ public interface OtherComplaintRepository extends JpaRepository<OtherComplaint, 
 	List<OtherComplaint> findByStatus(String status);
 	List<OtherComplaint> findByAssignedTo(String id);
 	List<OtherComplaint> findByStatusNot(String string);
-	List<OtherComplaint> findByAssignedToAndStatusNot(Long id, String string);
+	List<OtherComplaint> findByAssignedToAndStatusNot(String id, String string);
 }
