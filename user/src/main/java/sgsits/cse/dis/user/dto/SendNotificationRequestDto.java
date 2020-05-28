@@ -18,14 +18,21 @@ public class SendNotificationRequestDto {
     private List<String> usernameList;
 
     /**
+     * The Type list.
+     */
+    private List<String> typeList;
+
+    /**
      * Instantiates a new Send notification request dto.
      *
      * @param notification the notification
      * @param usernameList the participants
+     * @param typeList     the type list
      */
-    public SendNotificationRequestDto(Notification notification, List<String> usernameList) {
+    public SendNotificationRequestDto(final Notification notification, final List<String> usernameList, final List<String> typeList) {
         this.notification = notification;
         this.usernameList = usernameList;
+        this.typeList = typeList;
     }
 
     /**
@@ -62,5 +69,23 @@ public class SendNotificationRequestDto {
      */
     public void setUsernameList(List<String> usernameList) {
         this.usernameList = usernameList;
+    }
+
+    /**
+     * Gets type list.
+     *
+     * @return the type list
+     */
+    public List<String> getTypeList() {
+        return typeList;
+    }
+
+    /**
+     * Sets type list.
+     *
+     * @param typeList the type list
+     */
+    public void setTypeList(List<String> typeList) {
+        this.typeList = typeList;
     }
 }

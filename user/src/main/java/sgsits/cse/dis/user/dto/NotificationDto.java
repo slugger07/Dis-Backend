@@ -5,10 +5,26 @@ package sgsits.cse.dis.user.dto;
  */
 public class NotificationDto {
 
-        private String id;
-        private String heading;
-        private String description;
-        private Boolean isRead;
+    /**
+     * The Id.
+     */
+    private String id;
+    /**
+     * The Heading.
+     */
+    private String heading;
+    /**
+     * The Description.
+     */
+    private String description;
+    /**
+     * The Link.
+     */
+    private String link;
+    /**
+     * The Is read.
+     */
+    private Boolean isRead;
 
     /**
      * Instantiates a new Notification dto.
@@ -22,12 +38,14 @@ public class NotificationDto {
      * @param id          the id
      * @param heading     the heading
      * @param description the description
+     * @param link        the link
      * @param isRead      the is read
      */
-    public NotificationDto(String id, String heading, String description, Boolean isRead) {
+    public NotificationDto(final String id, final String heading, final String description, final String link, Boolean isRead) {
         this.id = id;
         this.heading = heading;
         this.description = description;
+        this.link = link;
         this.isRead = isRead;
     }
 
@@ -83,6 +101,24 @@ public class NotificationDto {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Gets link.
+     *
+     * @return the link
+     */
+    public String getLink() {
+        return link;
+    }
+
+    /**
+     * Sets link.
+     *
+     * @param link the link
+     */
+    public void setLink(String link) {
+        this.link = link;
     }
 
     /**

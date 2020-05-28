@@ -77,7 +77,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param usernameList the username list
      * @return the list
      */
-    List<User> findAllByUsername(final List<String> usernameList);
+    List<User> findAllByUsernameIn(final List<String> usernameList);
 
     /**
      * Find all by username not containing list.
@@ -85,5 +85,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param usernameList the username list
      * @return the list
      */
-    List<User> findAllByUsernameNotContaining(final List<String> usernameList);
+    List<User> findAllByUserTypeInAndUsernameNotIn(final List<String> typeList, final List<String> usernameList);
+
+    /**
+     * Find all by user type list.
+     *
+     * @param typeList the type list
+     * @return the list
+     */
+    List<User> findAllByUserTypeIn(final List<String> typeList);
 }
