@@ -6,4 +6,5 @@ import sgsits.cse.dis.administration.model.CWNComplaint;
 
 public interface CwnComplaintService {
 	public List<CWNComplaint> getResolvedComplaints(String id);
+	public List<CWNComplaint> getTotalComplaints(String id);
 }

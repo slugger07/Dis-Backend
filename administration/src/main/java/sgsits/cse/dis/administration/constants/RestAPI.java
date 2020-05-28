@@ -30,4 +30,10 @@ public class RestAPI {
 	public static final String GET_MY_FACULTY_COMPLAINTS = "/getMyFacultyComplaints";
 	public static final String GET_MY_STUDENT_COMPLAINTS = "/getMyStudentComplaints";
 	
+	//Total Complaints
+	public static final String GET_TOTAL_CWN_COMPLAINTS = "/getTotalCWNComplaints";
+	public static final String GET_TOTAL_ECCW_COMPLAINTS = "/getTotalECCWComplaints";
+	public static final String GET_TOTAL_EMRS_COMPLAINTS = "/getTotalEMRSComplaints";
+	public static final String GET_TOTAL_TELEPHONE_COMPLAINTS = "/getTotalTelephoneComplaints";
+	
 }

@@ -27,4 +27,12 @@ public class EmrComplaintServiceImpl implements EmrComplaintService {
 		return null;
 	}
 
+	@Override
+	public List<EMRComplaint> getTotalComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return emrsComplaintRepository.findByLocationIn(location);
+		return null;
+	}
+
 }

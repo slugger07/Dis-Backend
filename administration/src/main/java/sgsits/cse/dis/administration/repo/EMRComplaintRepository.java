@@ -17,5 +17,5 @@ public interface EMRComplaintRepository extends JpaRepository<EMRComplaint, Stri
 //	List<EMRComplaint> findByLocationAndStatusNot(String loc, String string);
 	List<EMRComplaint> findByLocationInAndStatus(List<String> location, String string);
 //	List<EMRComplaint> findByLocationInAndStatusNot(List<String> location, String string);
-//	List<EMRComplaint> findByLocationIn(List<String> location);
+	List<EMRComplaint> findByLocationIn(List<String> location);
 }

@@ -23,6 +23,7 @@ import sgsits.cse.dis.administration.model.FacultyComplaint;
 import sgsits.cse.dis.administration.model.LEComplaint;
 import sgsits.cse.dis.administration.model.OtherComplaint;
 import sgsits.cse.dis.administration.model.StudentComplaint;
+import sgsits.cse.dis.administration.model.TelephoneComplaint;
 import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
 import sgsits.cse.dis.administration.service.CwnComplaintService;
 import sgsits.cse.dis.administration.service.EccwComplaintService;
@@ -31,6 +32,7 @@ import sgsits.cse.dis.administration.service.FacultyComplaintService;
 import sgsits.cse.dis.administration.service.LEComplaintService;
 import sgsits.cse.dis.administration.service.OtherComplaintService;
 import sgsits.cse.dis.administration.service.StudentComplaintService;
+import sgsits.cse.dis.administration.service.TelephoneComplaintService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -61,6 +63,9 @@ public class ComplaintController {
 	
 	@Autowired
 	private OtherComplaintService otherComplaintService;
+	
+	@Autowired
+	private TelephoneComplaintService telephoneComplaintService; 
 
 	@Autowired
 	private GatewayClient gatewayClient;
@@ -170,5 +175,42 @@ public class ComplaintController {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
 		return emrComplaintService.getResolvedComplaints(id);
 	}
+	
+	@ApiOperation(value = "Get Resolved Telephone Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_RESOLVED_TELEPHONE_COMPLAINTS, method = RequestMethod.GET)
+	public List<TelephoneComplaint> getResolvedTelephoneComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return telephoneComplaintService.getResolvedComplaints(id);
+	}
+	
+	//Total complaints -> CWN, ECCW, EMRS, Telephone
+	@ApiOperation(value = "Get Total CWN Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_TOTAL_CWN_COMPLAINTS, method = RequestMethod.GET)
+	public List<CWNComplaint> getTotalCWNComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return cwnComplaintService.getTotalComplaints(id);
+	}
+	
+	@ApiOperation(value = "Get Total ECCW Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_TOTAL_ECCW_COMPLAINTS, method = RequestMethod.GET)
+	public List<ECCWComplaint> getTotalECCWComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return eccwComplaintService.getTotalComplaints(id);
+	}
+	
+	@ApiOperation(value = "Get Total EMRS Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_TOTAL_EMRS_COMPLAINTS, method = RequestMethod.GET)
+	public List<EMRComplaint> getTotalEMRSComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return emrComplaintService.getTotalComplaints(id);
+	}
+
+	@ApiOperation(value = "Get Total Telephone Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_TOTAL_TELEPHONE_COMPLAINTS, method = RequestMethod.GET)
+	public List<TelephoneComplaint> getTotalTelephoneComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return telephoneComplaintService.getTotalComplaints(id);
+	}
+	
 
 }

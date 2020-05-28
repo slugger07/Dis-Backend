@@ -17,5 +17,5 @@ public interface ECCWComplaintRepository extends JpaRepository<ECCWComplaint, St
 //	List<ECCWComplaint> findByLocationAndStatusNot(String loc, String string);
 	List<ECCWComplaint> findByLocationInAndStatus(List<String> location, String string);
 //	List<ECCWComplaint> findByLocationInAndStatusNot(List<String> location, String string);
-//	List<ECCWComplaint> findByLocationIn(List<String> location);
+	List<ECCWComplaint> findByLocationIn(List<String> location);
 }

@@ -27,4 +27,12 @@ public class EccwComplaintServiceImpl implements EccwComplaintService {
 		return null;
 	}
 
+	@Override
+	public List<ECCWComplaint> getTotalComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return eccwComplaintRepository.findByLocationIn(location);
+		return null;
+	}
+
 }

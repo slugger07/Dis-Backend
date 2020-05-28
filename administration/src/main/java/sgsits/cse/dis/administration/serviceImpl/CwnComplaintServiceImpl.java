@@ -28,5 +28,13 @@ public class CwnComplaintServiceImpl implements CwnComplaintService {
 			return cwnComplaintRepository.findByLocationInAndStatus(location, "Resolved");
 		return null;
 	}
+
+	@Override
+	public List<CWNComplaint> getTotalComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return cwnComplaintRepository.findByLocationIn(location);
+		return null;
+	}
 	
 }

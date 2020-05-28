@@ -6,4 +6,5 @@ import sgsits.cse.dis.administration.model.ECCWComplaint;
 
 public interface EccwComplaintService {
 	public List<ECCWComplaint> getResolvedComplaints(String id);
+	public List<ECCWComplaint> getTotalComplaints(String id);
 }

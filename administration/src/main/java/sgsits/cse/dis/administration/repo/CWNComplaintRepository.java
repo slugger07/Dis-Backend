@@ -11,4 +11,5 @@ import sgsits.cse.dis.administration.model.CWNComplaint;
 @Repository("")
 public interface CWNComplaintRepository extends JpaRepository<CWNComplaint, String> {
 	List<CWNComplaint> findByLocationInAndStatus(List<String> location, String string);
+	List<CWNComplaint> findByLocationIn(List<String> location);
 }
