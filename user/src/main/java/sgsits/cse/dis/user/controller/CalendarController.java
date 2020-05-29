@@ -42,14 +42,6 @@ public class CalendarController {
 		return eventList;
 	}
 
-//	@ApiOperation(value="Get student events", response= Event.class, httpMethod = "GET", produces="application/json")
-//	@GetMapping(path = "/getStudentEvents", produces = "application/json")
-//	@ResponseBody
-//	public List<Event> getStudentEvents(@RequestParam String id) {
-//		eventList = calenderServiceImpl.getStudentEvents(id);
-//		eventList.addAll(calenderServiceImpl.getStudentEvents("all"));
-//		return eventList;
-//	}
 	@ApiOperation(value="Get public holidays", response= Event.class, httpMethod = "GET", produces="application/json")
 	@GetMapping(path = "/getPublicHolidays", produces = "application/json")
 	@ResponseBody

@@ -68,8 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers(TaskBasedUrls.ADD_EVENT).access("hasAuthority('NBA')")
-                .antMatchers(TaskBasedUrls.GET_ALL_EVENTS).access("not(hasAuthority('student'))")
+                .antMatchers(TaskBasedUrls.ADD_EVENT, TaskBasedUrls.UPDATE_EVENT,  TaskBasedUrls.DELETE_EVENT).access("not(hasAuthority('student'))")
+                .antMatchers().access("not(hasAuthority('student'))")
                 .antMatchers("/dis/signin", "/dis/signup", "/dis/preActivation", "/dis/activation", "/dis/forgotPassword" ,"/dis/resetPassword","/dis/processResetPassword").permitAll()
                 .anyRequest().authenticated()
                 .and()
