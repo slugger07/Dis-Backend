@@ -29,6 +29,9 @@ public interface StaffBasicProfileRepository extends JpaRepository<StaffBasicPro
 	@Modifying
 	void updateUserIdByEmailId(String userId, String email);
 
+	@Query(value = "SELECT staff_basic_profile.name  FROM staff_basic_profile, user where staff_basic_profile.user_id=user.id and user.username=?1", nativeQuery = true)
+	String findNameByUsername(String username);
+
 	@Query(value = "SELECT user.username, staff_basic_profile.name  FROM staff_basic_profile, user where staff_basic_profile.user_id=user.id", nativeQuery = true)
 	List<Object[]> findAllUserIdAndUsername();
 

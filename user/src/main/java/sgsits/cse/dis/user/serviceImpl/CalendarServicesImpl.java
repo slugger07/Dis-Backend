@@ -28,7 +28,7 @@ public class CalendarServicesImpl implements CalendarServices {
 	private HolidayRepository holidayRepository;
 
 	@Autowired
-	StaffController staff;
+	private StaffBasicProfileRepository staffBasicProfileRepository;
 
 	@Autowired
 	EmailController email;
@@ -129,7 +129,7 @@ public class CalendarServicesImpl implements CalendarServices {
 	private void sendMeetingInvites(ArrayList<String> username_list, String mail_type, Event event) throws MailConnectException, UnknownHostException {
 		String type;
 		ArrayList<String> mailing_list = new ArrayList<String>();
-		List<Object[]> staffData = staff.getAllUsernameAndEmails();
+		List<Object[]> staffData = staffBasicProfileRepository.findAllUserIdAndEmails();
 		for(Object[] staff_member: staffData) {
 			if(username_list.contains(staff_member[0])) {
 				mailing_list.add((String) staff_member[1]);
@@ -145,12 +145,16 @@ public class CalendarServicesImpl implements CalendarServices {
 			startLine  = "Following event has been cancelled by the organizer.\n\n";
 			type = "Cancelled event";
 		}
+
+		String organizer = staffBasicProfileRepository.findNameByUsername(event.getEventIncharge());
+
 		email.sendSimpleEmail(type + " : "+event.getTitle()+"@ "+event.getStartDate().toString(),
 				startLine +
-						"when : "+ event.getStartDate().toString() + "\n" +
 						"For : " + event.getTitle()+ "\n" +
+						"When : "+ event.getStartDate().toString() + "\n" +
+						"Where : "+ event.getLocation() + "\n" +
 						"Agenda : " + event.getDescription()+ "\n" +
-						"Organizer : " + event.getEventIncharge()+ "\n", mailing_list.toArray(new String[0]));
+						"Organizer : " + organizer+ "\n", mailing_list.toArray(new String[0]));
 
 	}
 }

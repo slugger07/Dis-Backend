@@ -75,9 +75,4 @@ public class StaffController {
 	public ResponseEntity<List<Object[]>> getAllUserIdAndNames(HttpServletRequest request) throws NotFoundException{
 		return new ResponseEntity<>(staffServiceImpl.getAllEmployeeNamesAndUserId(), HttpStatus.OK);
 	}
-
-	// internal requirement for calender api
-	public List<Object[]> getAllUsernameAndEmails() {
-		return staffServiceImpl.getAllUsernameAndEmail();
-	}
 }
