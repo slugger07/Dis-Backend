@@ -58,8 +58,6 @@ public class CalendarServicesImpl implements CalendarServices {
 
 	@Override
 	public Event updateEvent(Event event,String eventId) throws EventDoesNotExistException, MailConnectException, UnknownHostException {
-		System.out.println(eventId);
-		System.out.println(event.getEventId());
 		if (eventId == null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 			}
@@ -86,7 +84,7 @@ public class CalendarServicesImpl implements CalendarServices {
 			sendMeetingInvites(new ArrayList<String>(retainedParticipants), "update", event);
 		}
 		if(!removedParticipants.isEmpty()) {
-			sendMeetingInvites(new ArrayList<String>(removedParticipants), "cancel", event);
+			sendMeetingInvites(new ArrayList<String>(removedParticipants), "cancel", old_event);
 		}
 		if(!newParticipants.isEmpty()) {
 			sendMeetingInvites(new ArrayList<String>(newParticipants), "add", event);
