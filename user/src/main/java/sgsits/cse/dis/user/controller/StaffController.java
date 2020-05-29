@@ -77,13 +77,6 @@ public class StaffController {
 	}
 
 
-	@ApiOperation(value="get active staff list", response = ResponseMessage.class, httpMethod = "GET", produces = "text/plain")
-	@GetMapping(path=RestAPI.GET_MY_USER_ID, produces = "application/json")
-	public ResponseEntity<ResponseMessage> getMyUserId(HttpServletRequest request) throws NotFoundException {
-
-		return new ResponseEntity<>(new ResponseMessage(
-				jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"))), HttpStatus.OK);
-	}
 
 	@ApiOperation(value="get list of all employees", response = ResponseMessage.class, httpMethod = "GET", produces = "text/plain")
 	@GetMapping(path=RestAPI.GET_ALL_USER_ID_AND_NAMES, produces = "application/json")

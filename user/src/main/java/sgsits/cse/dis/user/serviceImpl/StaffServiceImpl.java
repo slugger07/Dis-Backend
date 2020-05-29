@@ -1,93 +1,109 @@
 package sgsits.cse.dis.user.serviceImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import org.mapstruct.factory.Mappers;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-
 import sgsits.cse.dis.user.dtos.FacultyDataDto;
+import sgsits.cse.dis.user.dtos.StaffBasicProfileDto;
 import sgsits.cse.dis.user.exception.ConflictException;
+import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.mappers.StaffServiceMapper;
 import sgsits.cse.dis.user.message.request.AddNewUser;
 import sgsits.cse.dis.user.model.StaffBasicProfile;
 import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.service.StaffService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 
 @Component
 public class StaffServiceImpl implements StaffService {
 
-	private final StaffBasicProfileRepository staffBasicProfileRepository;
-	
-	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private final StaffBasicProfileRepository staffBasicProfileRepository;
 
-	private final StaffServiceMapper staffServiceMapper = Mappers.getMapper(StaffServiceMapper.class);
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-	public StaffServiceImpl(StaffBasicProfileRepository staffRepo) {
-		this.staffBasicProfileRepository = staffRepo;
-	}
+    private final StaffServiceMapper staffServiceMapper = Mappers.getMapper(StaffServiceMapper.class);
 
-	@Override
-	public List<FacultyDataDto> getFacultyData() {
+    public StaffServiceImpl(StaffBasicProfileRepository staffRepo) {
+        this.staffBasicProfileRepository = staffRepo;
+    }
 
-		List<StaffBasicProfile> staffBasicProfiles =
-				staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("I", "II");
+    @Override
+    public List<FacultyDataDto> getFacultyData() {
 
-		return staffServiceMapper.convertStaffBasicProfileListIntoFacultyDataDtoList(staffBasicProfiles);
-	}
+        List<StaffBasicProfile> staffBasicProfiles =
+                staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("I", "II");
 
-	@Override
-	public List<FacultyDataDto> getStaffData() {
+        return staffServiceMapper.convertStaffBasicProfileListIntoFacultyDataDtoList(staffBasicProfiles);
+    }
 
-		List<StaffBasicProfile> staffBasicProfiles =
-				staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("III", "IV");
+    @Override
+    public List<FacultyDataDto> getStaffData() {
 
-		return staffServiceMapper.convertStaffBasicProfileListIntoFacultyDataDtoList(staffBasicProfiles);
-	}
+        List<StaffBasicProfile> staffBasicProfiles =
+                staffBasicProfileRepository.findByClasssOrClasssOrderByCurrentDesignation("III", "IV");
 
-	@Override
-	public String addNewMember(final AddNewUser addNewUser, final String addedBy) throws
-			ConflictException, DataIntegrityViolationException {
+        return staffServiceMapper.convertStaffBasicProfileListIntoFacultyDataDtoList(staffBasicProfiles);
+    }
 
-		try{
-			StaffBasicProfile test = staffBasicProfileRepository.save(new StaffBasicProfile(addedBy, simpleDateFormat.format(new Date()),addNewUser.getEmployeeId(),
-				addNewUser.getName(), addNewUser.getCurrentDesignation(), addNewUser.getClasss(), 
-				addNewUser.getType(), addNewUser.getEmail(), addNewUser.getDob(), addNewUser.getMobileNo(),
-				addNewUser.getJoiningDate()));
-				if(test.equals(null))
-						throw new ConflictException("Unable to add member.");
-		}
-		catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityViolationException("Employee already Exists.");
-		}
-		return "Member added successfully";
-	}
+    @Override
+    public String addNewMember(final AddNewUser addNewUser, final String addedBy) throws
+            ConflictException, DataIntegrityViolationException {
 
-	@Override
-	public List<FacultyDataDto> getStaffWithName(final String name) {
+        try {
+            StaffBasicProfile test = staffBasicProfileRepository.save(new StaffBasicProfile(addedBy, simpleDateFormat.format(new Date()), addNewUser.getEmployeeId(),
+                    addNewUser.getName(), addNewUser.getCurrentDesignation(), addNewUser.getClasss(),
+                    addNewUser.getType(), addNewUser.getEmail(), addNewUser.getDob(), addNewUser.getMobileNo(),
+                    addNewUser.getJoiningDate()));
+            if (test.equals(null))
+                throw new ConflictException("Unable to add member.");
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Employee already Exists.");
+        }
+        return "Member added successfully";
+    }
 
-		List<StaffBasicProfile> staffBasicProfiles =
-				staffBasicProfileRepository.findByNameContainingIgnoreCase(name);
+    @Override
+    public List<FacultyDataDto> getStaffWithName(final String name) {
 
-		return staffServiceMapper.convertStaffBasicProfileListIntoFacultyDataDtoList(staffBasicProfiles);
-	}
+        List<StaffBasicProfile> staffBasicProfiles =
+                staffBasicProfileRepository.findByNameContainingIgnoreCase(name);
 
-	@Override
-	public void updateUserIdByEmail(String userId, String email) {
-		staffBasicProfileRepository.updateUserIdByEmailId(userId,email);
-		
-	}
+        return staffServiceMapper.convertStaffBasicProfileListIntoFacultyDataDtoList(staffBasicProfiles);
+    }
 
-	@Override
-	public List<Object[]> getAllEmployeeNamesAndUserId() {
-		return staffBasicProfileRepository.findAllUserIdAndUsername();
-	}
+    @Override
+    public void updateUserIdByEmail(String userId, String email) {
+        staffBasicProfileRepository.updateUserIdByEmailId(userId, email);
 
-	@Override
-	public List<Object[]> getAllUsernameAndEmail() {
-		return null;
-	}
+    }
+
+    @Override
+    public List<Object[]> getAllEmployeeNamesAndUserId() {
+        return staffBasicProfileRepository.findAllUserIdAndUsername();
+    }
+
+    @Override
+    public List<Object[]> getAllUsernameAndEmail() {
+        return null;
+    }
+
+    @Override
+    public StaffBasicProfileDto getStaffBasicProfile(String userId) throws InternalServerError {
+
+        final Optional<StaffBasicProfile> optionalStaffBasicProfile =
+                staffBasicProfileRepository.findByUserId(userId);
+
+        if (optionalStaffBasicProfile.isPresent()) {
+
+            return staffServiceMapper.convertStaffBasicProfileIntoStaffBasicProfileDto(
+                    optionalStaffBasicProfile.get());
+        } else {
+            throw new InternalServerError("couldn't retrieve staff basic profile");
+        }
+    }
 }

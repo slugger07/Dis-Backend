@@ -5,6 +5,7 @@ import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserResearchWorkDto;
 import sgsits.cse.dis.user.dtos.UserWorkExperienceDto;
+import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserResearchWork;
 import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
@@ -25,9 +26,9 @@ public class UserResearchWorkService implements UserProfileService {
 
 
     @Override
-    public List<UserProfileDto> getUserProfileElement(final String token) {
+    public List<UserProfileDto> getUserProfileElement(final String userId) throws InternalServerError {
 
-        final String userId = jwtResolver.getIdFromJwtToken(token);
+        LOGGER.info("Fetching research work info for user id : " + userId);
 
         final List<UserResearchWorkDto> userResearchWorkDtoList =
                 userProfileDtoMapper.convertUserResearchWorkListModelIntoDto(
@@ -37,12 +38,15 @@ public class UserResearchWorkService implements UserProfileService {
     }
 
     public void addUserProfileElement(final UserResearchWorkDto userResearchWorkDto,
-                                      final String token) {
+                                      final String token) throws InternalServerError {
 
         final UserResearchWork userResearchWork =
                 userProfileDtoMapper.convertUserResearchWorkDtoIntoModel(userResearchWorkDto);
 
-        if (Objects.isNull(userResearchWork.getId())) {
+        LOGGER.info("Adding or Updating userElement for id : " + userResearchWork.getUserId());
+
+
+        if (0 == userResearchWork.getId()) {
 
             userResearchWork.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userResearchWork.setCreatedDate(new Date(new java.util.Date().getTime()));
@@ -55,7 +59,7 @@ public class UserResearchWorkService implements UserProfileService {
     }
 
     @Override
-    public void deleteUserProfileElementById(final Long id) {
+    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
         userProfileRepo.deleteUserResearchWorkById(id);
     }
 }

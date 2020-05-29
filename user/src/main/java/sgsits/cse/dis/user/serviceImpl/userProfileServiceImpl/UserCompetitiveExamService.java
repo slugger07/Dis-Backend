@@ -1,9 +1,12 @@
 package sgsits.cse.dis.user.serviceImpl.userProfileServiceImpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserCompetitiveExamDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
+import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserCompetitiveExam;
 import sgsits.cse.dis.user.service.UserProfileService;
 
@@ -19,27 +22,32 @@ public class UserCompetitiveExamService implements UserProfileService {
     private final UserProfileRepo userProfileRepo;
 
     public UserCompetitiveExamService(final UserProfileRepo userProfileRepo) {
+
         this.userProfileRepo = userProfileRepo;
     }
 
 
     @Override
-    public List<UserProfileDto> getUserProfileElement(final String token) {
+    public List<UserProfileDto> getUserProfileElement(final String userId) throws InternalServerError {
 
-        final String userId = jwtResolver.getIdFromJwtToken(token);
+        LOGGER.info("Fetching Exams info for user id : " + userId);
 
         final List<UserCompetitiveExamDto> userCompetitiveExamDtoList =
                 userProfileDtoMapper.convertUserCompetitiveExamListModelIntoDto(
                 userProfileRepo.getUserCompetitiveExam(userId));
 
+        LOGGER.info(userCompetitiveExamDtoList.toString());
+
         return new ArrayList<>(userCompetitiveExamDtoList);
     }
 
     public void addUserProfileElement(final UserCompetitiveExamDto userCompetitiveExamDto,
-                                      final String token) {
+                                      final String token) throws InternalServerError {
 
         final UserCompetitiveExam userCompetitiveExam =
                 userProfileDtoMapper.convertUserCompetitiveExamDtoIntoModel(userCompetitiveExamDto);
+
+        LOGGER.info("Adding or Updating userElement for id : " + userCompetitiveExam.getUserId());
 
         if (Objects.isNull(userCompetitiveExam.getId())) {
 
@@ -54,7 +62,8 @@ public class UserCompetitiveExamService implements UserProfileService {
     }
 
     @Override
-    public void deleteUserProfileElementById(final Long id) {
+    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
+
         userProfileRepo.deleteUserCompetitiveExamById(id);
     }
 }

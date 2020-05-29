@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserTechnicalActivityDto;
+import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserTechnicalActivity;
 import sgsits.cse.dis.user.service.UserProfileService;
 import sgsits.cse.dis.user.utility.GenericBuilder;
@@ -25,9 +26,9 @@ public class UserTechnicalActivityService implements UserProfileService {
 
 
     @Override
-    public List<UserProfileDto> getUserProfileElement(final String token) {
+    public List<UserProfileDto> getUserProfileElement(final String userId) throws InternalServerError {
 
-        final String userId = jwtResolver.getIdFromJwtToken(token);
+        LOGGER.info("Fetching technical activities info for user id : " + userId);
 
         final List<UserTechnicalActivityDto> userTechnicalActivityDtoList =
                 userProfileDtoMapper.convertUserTechnicalActivityListModelIntoDto(
@@ -37,12 +38,14 @@ public class UserTechnicalActivityService implements UserProfileService {
     }
 
     public void addUserProfileElement(final UserTechnicalActivityDto userTechnicalActivityDto,
-                                      final String token) {
+                                      final String token) throws InternalServerError {
 
         final UserTechnicalActivity userTechnicalActivity =
                 userProfileDtoMapper.convertUserTechnicalActivityDtoIntoModel(userTechnicalActivityDto);
 
-        if (Objects.isNull(userTechnicalActivity.getId())) {
+        LOGGER.info("Adding or Updating userElement for id : " + userTechnicalActivity.getUserId());
+
+        if (0 == userTechnicalActivity.getId()) {
 
             userTechnicalActivity.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userTechnicalActivity.setCreatedDate(new Date(new java.util.Date().getTime()));
@@ -55,7 +58,8 @@ public class UserTechnicalActivityService implements UserProfileService {
     }
 
     @Override
-    public void deleteUserProfileElementById(final Long id) {
+    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
+
         userProfileRepo.deleteUserTechnicalActivityById(id);
     }
 }

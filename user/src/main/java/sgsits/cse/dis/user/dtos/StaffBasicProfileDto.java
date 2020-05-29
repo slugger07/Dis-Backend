@@ -21,6 +21,14 @@ public class StaffBasicProfileDto {
     private String permanentAddress;
     private String presentAddress;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(final String userId) {
+        this.userId = userId;
+    }
+
     public String getEmployeeId() {
         return employeeId;
     }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserWorkExperienceDto;
+import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
@@ -26,9 +27,9 @@ public class UserWorkExperienceService implements UserProfileService {
 
 
     @Override
-    public List<UserProfileDto> getUserProfileElement(final String token) {
+    public List<UserProfileDto> getUserProfileElement(final String userId) throws InternalServerError {
 
-        final String userId = jwtResolver.getIdFromJwtToken(token);
+        LOGGER.info("Fetching Work Experience info for user id : " + userId);
 
         final List<UserWorkExperienceDto> userWorkExperienceDtoList =
                 userProfileDtoMapper.convertUserWorkExperienceListModelIntoDto(
@@ -38,12 +39,14 @@ public class UserWorkExperienceService implements UserProfileService {
     }
 
     public void addUserProfileElement(final UserWorkExperienceDto userWorkExperienceDto,
-                                      final String token) {
+                                      final String token) throws InternalServerError {
 
         final UserWorkExperience userWorkExperience =
                 userProfileDtoMapper.convertUserWorkExperienceDtoIntoModel(userWorkExperienceDto);
 
-        if (Objects.isNull(userWorkExperience.getId())) {
+        LOGGER.info("Adding or Updating userElement for id : " + userWorkExperience.getUserId());
+
+        if (0 == userWorkExperience.getId()) {
 
             userWorkExperience.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userWorkExperience.setCreatedDate(new Date(new java.util.Date().getTime()));
@@ -57,7 +60,7 @@ public class UserWorkExperienceService implements UserProfileService {
     }
 
     @Override
-    public void deleteUserProfileElementById(final Long id) {
+    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
         userProfileRepo.deleteUserWorkExperienceById(id);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserInternshipDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
+import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserInternship;
 import sgsits.cse.dis.user.service.UserProfileService;
 
@@ -23,9 +24,9 @@ public class UserInternshipService implements UserProfileService {
 
 
     @Override
-    public List<UserProfileDto> getUserProfileElement(final String token) {
+    public List<UserProfileDto> getUserProfileElement(final String userId) throws InternalServerError {
 
-        final String userId = jwtResolver.getIdFromJwtToken(token);
+        LOGGER.info("Fetching Internships info for user id : " + userId);
 
         final List<UserInternshipDto> userInternshipDtoList =
                 userProfileDtoMapper.convertUserInternshipListModelIntoDto(
@@ -34,12 +35,14 @@ public class UserInternshipService implements UserProfileService {
         return new ArrayList<>(userInternshipDtoList);
     }
 
-    public void addUserProfileElement(final UserInternshipDto userInternshipDto, final String token) {
+    public void addUserProfileElement(final UserInternshipDto userInternshipDto, final String token) throws InternalServerError {
 
         final UserInternship userInternship =
                 userProfileDtoMapper.convertUserInternshipDtoIntoModel(userInternshipDto);
 
-        if (Objects.isNull(userInternship.getId())) {
+        LOGGER.info("Adding or Updating userElement for id : " + userInternship.getUserId());
+
+        if (0 == userInternship.getId()) {
 
             userInternship.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userInternship.setCreatedDate(new Date(new java.util.Date().getTime()));
@@ -53,7 +56,7 @@ public class UserInternshipService implements UserProfileService {
     }
 
     @Override
-    public void deleteUserProfileElementById(final Long id) {
+    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
         userProfileRepo.deleteUserInternshipById(id);
     }
 }

@@ -5,6 +5,7 @@ import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserProjectDto;
 import sgsits.cse.dis.user.dtos.UserQualificationDto;
+import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserProject;
 import sgsits.cse.dis.user.model.UserQualification;
 import sgsits.cse.dis.user.service.UserProfileService;
@@ -25,9 +26,9 @@ public class UserProjectService implements UserProfileService {
 
 
     @Override
-    public List<UserProfileDto> getUserProfileElement(final String token) {
+    public List<UserProfileDto> getUserProfileElement(final String userId) throws InternalServerError {
 
-        final String userId = jwtResolver.getIdFromJwtToken(token);
+        LOGGER.info("Fetching projects info for user id : " + userId);
 
         final List<UserProjectDto> userProjectDtoList =
                 userProfileDtoMapper.convertUserProjectListModelIntoDto(
@@ -36,12 +37,14 @@ public class UserProjectService implements UserProfileService {
         return new ArrayList<>(userProjectDtoList);
     }
 
-    public void addUserProfileElement(final UserProjectDto userProjectDto, final String token) {
+    public void addUserProfileElement(final UserProjectDto userProjectDto, final String token) throws InternalServerError {
 
         final UserProject userProject =
                 userProfileDtoMapper.convertUserProjectDtoIntoModel(userProjectDto);
 
-        if (Objects.isNull(userProject.getId())) {
+        LOGGER.info("Adding or Updating userElement for id : " + userProject.getUserId());
+
+        if (0 == userProject.getId()) {
 
             userProject.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userProject.setCreatedDate(new Date(new java.util.Date().getTime()));
@@ -55,7 +58,7 @@ public class UserProjectService implements UserProfileService {
     }
 
     @Override
-    public void deleteUserProfileElementById(final Long id) {
+    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
         userProfileRepo.deleteUserProjectById(id);
     }
 }
