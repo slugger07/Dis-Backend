@@ -59,4 +59,11 @@ public interface NotificationService {
      * @param username       the username
      */
     void markAsRead(final String notificationId, final String username);
+    
+    /**
+     * Mark all as read.
+     *
+     * @param username the username
+     */
+    void markAllAsRead(final String username);
 }

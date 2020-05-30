@@ -8,6 +8,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import sgsits.cse.dis.user.dto.MarkAllAsReadDto;
 import sgsits.cse.dis.user.dto.MarkAsReadDto;
 import sgsits.cse.dis.user.dto.NotificationDto;
 import sgsits.cse.dis.user.dto.SendNotificationRequestDto;
@@ -59,6 +61,16 @@ public class UserNotificationController {
     @PostMapping(value = "/markAsRead")
     public void markAsRead(@RequestBody MarkAsReadDto markAsReadDto) {
         notificationService.markAsRead(markAsReadDto.getNotificationId(), markAsReadDto.getUsername());
+    }
+    
+    /**
+     * Mark  all as read.
+     *
+     * @param markAllAsReadDto the mark all as read dto
+     */
+    @PostMapping(value = "/markAllAsRead")
+    public void markAllAsRead(@RequestBody MarkAllAsReadDto markAllAsReadDto) {
+        notificationService.markAllAsRead(markAllAsReadDto.getUsername());
     }
 
     /**
