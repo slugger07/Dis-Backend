@@ -5,16 +5,13 @@ import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserTechnicalActivityDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
-import sgsits.cse.dis.user.model.UserTechnicalActivity;
+import sgsits.cse.dis.user.exception.UnauthorizedException;
 import sgsits.cse.dis.user.model.UserTechnicalActivity;
 import sgsits.cse.dis.user.service.UserProfileService;
-import sgsits.cse.dis.user.utility.GenericBuilder;
 
-import javax.swing.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserTechnicalActivityService implements UserProfileService {
@@ -39,34 +36,55 @@ public class UserTechnicalActivityService implements UserProfileService {
     }
 
     public void addUserProfileElement(final UserTechnicalActivityDto userTechnicalActivityDto,
-                                      final String token) throws InternalServerError {
+                                      final String token) throws InternalServerError, UnauthorizedException {
 
         final UserTechnicalActivity userTechnicalActivity =
                 userProfileDtoMapper.convertUserTechnicalActivityDtoIntoModel(userTechnicalActivityDto);
 
         LOGGER.info("Adding or Updating userElement for id : " + userTechnicalActivity.getUserId());
 
+        final String userId = jwtResolver.getIdFromJwtToken(token);
+
         if (0 == userTechnicalActivity.getId()) {
 
-            userTechnicalActivity.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userTechnicalActivity.setCreatedBy(userId);
             userTechnicalActivity.setCreatedDate(new Date(new java.util.Date().getTime()));
-        } else {
+        }  else {
 
             final UserTechnicalActivity userTechnicalActivityExisting = userProfileRepo
                     .getUserTechnicalActivityById(userTechnicalActivity.getId());
+
+            if(!userTechnicalActivityExisting.getUserId().equals(userId)) {
+
+                throw new UnauthorizedException("You aren't authorized to edit this");
+            }
+
             userTechnicalActivity.setCreatedBy(userTechnicalActivityExisting.getCreatedBy());
             userTechnicalActivity.setCreatedDate(userTechnicalActivityExisting.getCreatedDate());
         }
 
-        userTechnicalActivity.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userTechnicalActivity.setModifiedBy(userId);
         userTechnicalActivity.setModifiedDate(new Date(new java.util.Date().getTime()));
 
         userProfileRepo.addOrUpdateUserTechnicalActivity(userTechnicalActivity);
     }
 
-    @Override
-    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
 
-        userProfileRepo.deleteUserTechnicalActivityById(id);
+    @Override
+    public void deleteUserProfileElementById(final Long id, final String token)
+            throws InternalServerError, UnauthorizedException {
+
+        LOGGER.info("Deleting Technical Activity for user id : " + jwtResolver.getIdFromJwtToken(token));
+
+
+        final UserTechnicalActivity userTechnicalActivity =
+                userProfileRepo.getUserTechnicalActivityById(id);
+
+        if (jwtResolver.getIdFromJwtToken(token).equals(userTechnicalActivity.getUserId())) {
+
+            userProfileRepo.deleteUserTechnicalActivityById(id);
+        } else {
+            throw new UnauthorizedException("You are not authorized to delete this");
+        }
     }
 }

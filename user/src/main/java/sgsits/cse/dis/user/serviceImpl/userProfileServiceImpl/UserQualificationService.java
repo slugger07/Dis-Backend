@@ -7,14 +7,13 @@ import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserQualificationDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
+import sgsits.cse.dis.user.exception.UnauthorizedException;
 import sgsits.cse.dis.user.model.UserQualification;
-import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserQualificationService implements UserProfileService {
@@ -40,37 +39,55 @@ public class UserQualificationService implements UserProfileService {
         return new ArrayList<>(userQualificationDtoList);
     }
 
-    public void addUserProfileElement(final UserQualificationDto userQualificationDto, final String token) throws InternalServerError {
+    public void addUserProfileElement(final UserQualificationDto userQualificationDto,
+                                      final String token) throws InternalServerError, UnauthorizedException {
 
         final UserQualification userQualification =
                 userProfileDtoMapper.convertUserQualificationDtoIntoModel(userQualificationDto);
 
         LOGGER.info("Adding or Updating userElement for id : " + userQualification.getUserId());
 
+        final String userId = jwtResolver.getIdFromJwtToken(token);
+
         if (0 == userQualification.getId()) {
 
-            userQualification.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
+            userQualification.setCreatedBy(userId);
             userQualification.setCreatedDate(new Date(new java.util.Date().getTime()));
-        } else {
+        }  else {
 
             final UserQualification userQualificationExisting = userProfileRepo
                     .getUserQualificationById(userQualification.getId());
+
+            if(!userQualificationExisting.getUserId().equals(userId)) {
+
+                throw new UnauthorizedException("You aren't authorized to edit this");
+            }
+
             userQualification.setCreatedBy(userQualificationExisting.getCreatedBy());
             userQualification.setCreatedDate(userQualificationExisting.getCreatedDate());
         }
 
-        userQualification.setModifiedBy(jwtResolver.getIdFromJwtToken(token));
+        userQualification.setModifiedBy(userId);
         userQualification.setModifiedDate(new Date(new java.util.Date().getTime()));
 
-        userQualification.setUserId(jwtResolver.getIdFromJwtToken(token));
         userProfileRepo.addOrUpdateUserQualification(userQualification);
     }
 
+
     @Override
-    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
+    public void deleteUserProfileElementById(final Long id, final String token)
+            throws InternalServerError, UnauthorizedException {
 
+        LOGGER.info("Deleting Qualification for user id : " + jwtResolver.getIdFromJwtToken(token));
 
+        final UserQualification userQualification =
+                userProfileRepo.getUserQualificationById(id);
 
-        userProfileRepo.deleteUserQualificationById(id);
+        if (jwtResolver.getIdFromJwtToken(token).equals(userQualification.getUserId())) {
+
+            userProfileRepo.deleteUserQualificationById(id);
+        } else {
+            throw new UnauthorizedException("You are not authorized to delete this");
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import sgsits.cse.dis.user.dtos.*;
 import sgsits.cse.dis.user.exception.InternalServerError;
+import sgsits.cse.dis.user.exception.UnauthorizedException;
 import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.mappers.UserProfileDtoMapper;
 import sgsits.cse.dis.user.serviceImpl.userProfileServiceImpl.UserQualificationService;
@@ -21,5 +22,5 @@ public interface UserProfileService {
 
 
     List<UserProfileDto> getUserProfileElement(final String token) throws InternalServerError;
-    void deleteUserProfileElementById(Long id) throws InternalServerError;
+    void deleteUserProfileElementById(final Long id, final String userId) throws InternalServerError, UnauthorizedException;
 }

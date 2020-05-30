@@ -7,8 +7,8 @@ import sgsits.cse.dis.user.components.UserProfileRepo;
 import sgsits.cse.dis.user.dtos.UserCulturalActivityAchievementDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
+import sgsits.cse.dis.user.exception.UnauthorizedException;
 import sgsits.cse.dis.user.model.UserCulturalActivityAchievement;
-import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
@@ -42,43 +42,55 @@ public class UserCulturalActivityAchievementService implements UserProfileServic
         return new ArrayList<>(userCulturalActivityAchievementDtoList);
     }
 
-    public void addUserProfileElement(
-            final UserCulturalActivityAchievementDto userCulturalActivityAchievementDto,
-                                      final String token) throws InternalServerError {
+    public void addUserProfileElement(final UserCulturalActivityAchievementDto userCulturalActivityAchievementDto,
+                                      final String token) throws InternalServerError, UnauthorizedException {
 
         final UserCulturalActivityAchievement userCulturalActivityAchievement =
-                userProfileDtoMapper.convertUserCulturalActivityAchievementDtoIntoModel(
-                        userCulturalActivityAchievementDto);
+                userProfileDtoMapper.convertUserCulturalActivityAchievementDtoIntoModel(userCulturalActivityAchievementDto);
 
         LOGGER.info("Adding or Updating userElement for id : " + userCulturalActivityAchievement.getUserId());
 
+        final String userId = jwtResolver.getIdFromJwtToken(token);
+
         if (0 == userCulturalActivityAchievement.getId()) {
 
-            userCulturalActivityAchievement
-                    .setCreatedBy(jwtResolver.getIdFromJwtToken(token));
-            userCulturalActivityAchievement
-                    .setCreatedDate(new Date(new java.util.Date().getTime()));
+            userCulturalActivityAchievement.setCreatedBy(userId);
+            userCulturalActivityAchievement.setCreatedDate(new Date(new java.util.Date().getTime()));
         }  else {
 
             final UserCulturalActivityAchievement userCulturalActivityAchievementExisting = userProfileRepo
                     .getUserCulturalActivityAchievementById(userCulturalActivityAchievement.getId());
+
+            if(!userCulturalActivityAchievementExisting.getUserId().equals(userId)) {
+
+                throw new UnauthorizedException("You aren't authorized to edit this");
+            }
+
             userCulturalActivityAchievement.setCreatedBy(userCulturalActivityAchievementExisting.getCreatedBy());
             userCulturalActivityAchievement.setCreatedDate(userCulturalActivityAchievementExisting.getCreatedDate());
         }
 
-        userCulturalActivityAchievement
-                .setModifiedBy(jwtResolver.getIdFromJwtToken(token));
-        userCulturalActivityAchievement
-                .setModifiedDate(new Date(new java.util.Date().getTime()));
+        userCulturalActivityAchievement.setModifiedBy(userId);
+        userCulturalActivityAchievement.setModifiedDate(new Date(new java.util.Date().getTime()));
 
-        userCulturalActivityAchievement.setUserId(jwtResolver.getIdFromJwtToken(token));
-
-        userProfileRepo.addOrUpdateUserCulturalActivityAchievement(
-                userCulturalActivityAchievement);
+        userProfileRepo.addOrUpdateUserCulturalActivityAchievement(userCulturalActivityAchievement);
     }
 
+
     @Override
-    public void deleteUserProfileElementById(final Long id) throws InternalServerError {
-        userProfileRepo.deleteUserCulturalActivityAchievementById(id);
+    public void deleteUserProfileElementById(final Long id, final String token)
+            throws InternalServerError, UnauthorizedException {
+
+        LOGGER.info("Deleting Cultural Activity for user id : " + jwtResolver.getIdFromJwtToken(token));
+
+        final UserCulturalActivityAchievement userCulturalActivityAchievement =
+                userProfileRepo.getUserCulturalActivityAchievementById(id);
+
+        if (jwtResolver.getIdFromJwtToken(token).equals(userCulturalActivityAchievement.getUserId())) {
+
+            userProfileRepo.deleteUserCulturalActivityAchievementById(id);
+        } else {
+            throw new UnauthorizedException("You are not authorized to delete this");
+        }
     }
 }
