@@ -47,12 +47,17 @@ public class FacultyRequestServiceImpl implements FacultyRequestService {
 	}
 	
 	@Override
-	public Optional<FacultyRequest> getRequest(String requestId, HttpServletRequest request) {
+	public FacultyRequest getRequest(String requestId, HttpServletRequest request) {
 		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		System.out.println(userType);
 		Optional<FacultyRequest> resourceRequest = null;
-		if (!userType.contentEquals("student")) {
+		if (!userType.equals("student")) {
 			resourceRequest = facultyRequestRepo.findById(requestId);
 			if (!resourceRequest.isPresent()) throw new ResourceRequestNotFoundException("Resource not found");
+			else {
+				FacultyRequest existingRequest = resourceRequest.get();
+				return existingRequest;
+			}
 		}
 		throw new ResourceRequestNotAccessibleException("You cannot access this resource!");
 	}

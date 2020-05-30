@@ -37,7 +37,7 @@ import sgsits.cse.dis.administration.service.TelephoneComplaintService;
 @Api(value = "Complaints Resource")
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(path = "/complaint")
+
 public class ComplaintController {
 
 	@Autowired

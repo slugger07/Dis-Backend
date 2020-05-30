@@ -28,7 +28,6 @@ import sgsits.cse.dis.administration.service.FacultyRequestService;
 @CrossOrigin(origins = "*")
 @Api(value = "methods pertaining to resource requests from faculties")
 @RestController
-@RequestMapping("/faculty-request")
 public class FacultyRequestController {
 	
 	@Autowired
@@ -49,7 +48,7 @@ public class FacultyRequestController {
 	
 	@ApiOperation(value = "Get Faculty Resource Request", response = FacultyRequest.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = RestAPI.GET_FACULTY_RESOURCE_REQUEST, method = RequestMethod.GET) 
-	public Optional<FacultyRequest> getFacultyRequest(@PathVariable String id, HttpServletRequest request) {
+	public FacultyRequest getFacultyRequest(@PathVariable String id, HttpServletRequest request) {
 		return facultyRequestService.getRequest(id, request);
 	}
 	

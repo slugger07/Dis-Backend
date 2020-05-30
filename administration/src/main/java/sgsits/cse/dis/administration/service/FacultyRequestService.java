@@ -11,6 +11,6 @@ import sgsits.cse.dis.administration.request.FacultyRequestForm;
 public interface FacultyRequestService {
 	
 	FacultyRequest addRequest(FacultyRequestForm facultyRequestForm, HttpServletRequest request);
-	Optional<FacultyRequest> getRequest(String requestId, HttpServletRequest request);
+	FacultyRequest getRequest(String requestId, HttpServletRequest request);
 	FacultyRequest updateRequest(String requestId, FacultyRequestEditForm facultyRequestEditForm, HttpServletRequest request);
 }
