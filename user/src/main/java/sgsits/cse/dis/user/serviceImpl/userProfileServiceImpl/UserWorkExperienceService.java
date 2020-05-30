@@ -50,6 +50,12 @@ public class UserWorkExperienceService implements UserProfileService {
 
             userWorkExperience.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userWorkExperience.setCreatedDate(new Date(new java.util.Date().getTime()));
+        } else {
+
+            final UserWorkExperience userWorkExperienceExisting = userProfileRepo
+                    .getUserWorkExperienceById(userWorkExperience.getId());
+            userWorkExperience.setCreatedBy(userWorkExperienceExisting.getCreatedBy());
+            userWorkExperience.setCreatedDate(userWorkExperienceExisting.getCreatedDate());
         }
 
         userWorkExperience.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

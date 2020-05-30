@@ -6,6 +6,7 @@ import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserTechnicalActivityDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserTechnicalActivity;
+import sgsits.cse.dis.user.model.UserTechnicalActivity;
 import sgsits.cse.dis.user.service.UserProfileService;
 import sgsits.cse.dis.user.utility.GenericBuilder;
 
@@ -49,6 +50,12 @@ public class UserTechnicalActivityService implements UserProfileService {
 
             userTechnicalActivity.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userTechnicalActivity.setCreatedDate(new Date(new java.util.Date().getTime()));
+        } else {
+
+            final UserTechnicalActivity userTechnicalActivityExisting = userProfileRepo
+                    .getUserTechnicalActivityById(userTechnicalActivity.getId());
+            userTechnicalActivity.setCreatedBy(userTechnicalActivityExisting.getCreatedBy());
+            userTechnicalActivity.setCreatedDate(userTechnicalActivityExisting.getCreatedDate());
         }
 
         userTechnicalActivity.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

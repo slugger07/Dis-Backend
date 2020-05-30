@@ -2,15 +2,15 @@ package sgsits.cse.dis.user.dtos;
 
 public class UserProfileDto {
 
-    private String id;
+    private Long id;
 
     private String userId;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final String id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

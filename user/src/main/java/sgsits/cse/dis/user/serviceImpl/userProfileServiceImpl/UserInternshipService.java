@@ -6,6 +6,7 @@ import sgsits.cse.dis.user.dtos.UserInternshipDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserInternship;
+import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
@@ -46,6 +47,12 @@ public class UserInternshipService implements UserProfileService {
 
             userInternship.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userInternship.setCreatedDate(new Date(new java.util.Date().getTime()));
+        } else {
+
+            final UserInternship userInternshipExisting = userProfileRepo
+                    .getUserInternshipById(userInternship.getId());
+            userInternship.setCreatedBy(userInternshipExisting.getCreatedBy());
+            userInternship.setCreatedDate(userInternshipExisting.getCreatedDate());
         }
 
         userInternship.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

@@ -8,6 +8,7 @@ import sgsits.cse.dis.user.dtos.UserCompetitiveExamDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserCompetitiveExam;
+import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
@@ -49,10 +50,16 @@ public class UserCompetitiveExamService implements UserProfileService {
 
         LOGGER.info("Adding or Updating userElement for id : " + userCompetitiveExam.getUserId());
 
-        if (Objects.isNull(userCompetitiveExam.getId())) {
+        if (0 == userCompetitiveExam.getId()) {
 
             userCompetitiveExam.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userCompetitiveExam.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }  else {
+
+            final UserCompetitiveExam userCompetitiveExamExisting = userProfileRepo
+                    .getUserCompetitiveExamById(userCompetitiveExam.getId());
+            userCompetitiveExam.setCreatedBy(userCompetitiveExamExisting.getCreatedBy());
+            userCompetitiveExam.setCreatedDate(userCompetitiveExamExisting.getCreatedDate());
         }
 
         userCompetitiveExam.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

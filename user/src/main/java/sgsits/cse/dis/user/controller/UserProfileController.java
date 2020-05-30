@@ -32,6 +32,7 @@ public class UserProfileController {
     private final UserProjectService userProjectService;
     private final UserQualificationService userQualificationService;
     private final UserTechnicalActivityService userTechnicalActivityService;
+    private final UserAddressService userAddressService;
     private final StaffServiceImpl staffService;
 
     private final JwtResolver jwtResolver = new JwtResolver();
@@ -44,7 +45,7 @@ public class UserProfileController {
                                  final UserInternshipService userInternshipService,
                                  final UserProjectService userProjectService,
                                  final UserQualificationService userQualificationService,
-                                 final UserTechnicalActivityService userTechnicalActivityService, StaffServiceImpl staffService) {
+                                 final UserTechnicalActivityService userTechnicalActivityService, final UserAddressService userAddressService, StaffServiceImpl staffService) {
         this.userWorkExperienceService = userWorkExperienceService;
         this.userResearchWorkService = userResearchWorkService;
         this.userCompetitiveExamService = userCompetitiveExamService;
@@ -53,6 +54,7 @@ public class UserProfileController {
         this.userProjectService = userProjectService;
         this.userQualificationService = userQualificationService;
         this.userTechnicalActivityService = userTechnicalActivityService;
+        this.userAddressService = userAddressService;
         this.staffService = staffService;
     }
 
@@ -160,6 +162,17 @@ public class UserProfileController {
         return new ResponseEntity<>(userProjectService.getUserProfileElement(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "User Address", response = Object.class, httpMethod = "GET", produces = "application/json")
+    @GetMapping(value = "/userAddress")
+    public ResponseEntity<List<UserProfileDto>> getUserAddress(
+            HttpServletRequest request, @RequestParam String userId) throws InternalServerError {
+
+        final String id = StringUtils.isBlank(userId) ?
+                jwtResolver.getIdFromJwtToken(request.getHeader(ControllerConstants.AUTHORIZATION)) : userId;
+
+        return new ResponseEntity<>(userAddressService.getUserProfileElement(id), HttpStatus.OK);
+    }
+
 
     @ApiOperation(value = "User Qualification", response = Object.class, httpMethod = "GET", produces = "application/json")
     @PostMapping(value = "/addUserQualification")
@@ -241,6 +254,14 @@ public class UserProfileController {
                 request.getHeader(ControllerConstants.AUTHORIZATION));
     }
 
+    @ApiOperation(value = "User Address", response = Object.class, httpMethod = "GET", produces = "application/json")
+    @PostMapping(value = "/addUserAddress")
+    public void addUserAddress(@RequestBody final UserAddressDto userAddressDto,
+                               final HttpServletRequest request) throws InternalServerError {
+
+        userAddressService.addUserProfileElement(userAddressDto,
+                request.getHeader(ControllerConstants.AUTHORIZATION));
+    }
 
     @ApiOperation(value = "Staff Basic Profile Data", response = Object.class, httpMethod = "GET", produces = "application/json")
     @GetMapping(value = "/staffBasicProfile")

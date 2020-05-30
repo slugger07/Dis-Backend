@@ -50,6 +50,12 @@ public class UserResearchWorkService implements UserProfileService {
 
             userResearchWork.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userResearchWork.setCreatedDate(new Date(new java.util.Date().getTime()));
+        } else {
+
+            final UserResearchWork userResearchWorkExisting = userProfileRepo
+                    .getUserResearchWorkById(userResearchWork.getId());
+            userResearchWork.setCreatedBy(userResearchWorkExisting.getCreatedBy());
+            userResearchWork.setCreatedDate(userResearchWorkExisting.getCreatedDate());
         }
 
         userResearchWork.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

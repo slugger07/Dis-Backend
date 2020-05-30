@@ -8,6 +8,7 @@ import sgsits.cse.dis.user.dtos.UserCulturalActivityAchievementDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserCulturalActivityAchievement;
+import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
@@ -57,6 +58,12 @@ public class UserCulturalActivityAchievementService implements UserProfileServic
                     .setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userCulturalActivityAchievement
                     .setCreatedDate(new Date(new java.util.Date().getTime()));
+        }  else {
+
+            final UserCulturalActivityAchievement userCulturalActivityAchievementExisting = userProfileRepo
+                    .getUserCulturalActivityAchievementById(userCulturalActivityAchievement.getId());
+            userCulturalActivityAchievement.setCreatedBy(userCulturalActivityAchievementExisting.getCreatedBy());
+            userCulturalActivityAchievement.setCreatedDate(userCulturalActivityAchievementExisting.getCreatedDate());
         }
 
         userCulturalActivityAchievement

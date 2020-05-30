@@ -8,6 +8,7 @@ import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.dtos.UserQualificationDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserQualification;
+import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
@@ -50,6 +51,12 @@ public class UserQualificationService implements UserProfileService {
 
             userQualification.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userQualification.setCreatedDate(new Date(new java.util.Date().getTime()));
+        } else {
+
+            final UserQualification userQualificationExisting = userProfileRepo
+                    .getUserQualificationById(userQualification.getId());
+            userQualification.setCreatedBy(userQualificationExisting.getCreatedBy());
+            userQualification.setCreatedDate(userQualificationExisting.getCreatedDate());
         }
 
         userQualification.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

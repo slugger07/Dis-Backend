@@ -8,6 +8,7 @@ import sgsits.cse.dis.user.dtos.UserAddressDto;
 import sgsits.cse.dis.user.dtos.UserProfileDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserAddress;
+import sgsits.cse.dis.user.model.UserAddress;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
@@ -55,6 +56,12 @@ public class UserAddressService implements UserProfileService {
 
             userAddress.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userAddress.setCreatedDate(new Date(new java.util.Date().getTime()));
+        } else {
+
+            final UserAddress userAddressExisting = userProfileRepo
+                    .getUserAddressById(userAddress.getId());
+            userAddress.setCreatedBy(userAddressExisting.getCreatedBy());
+            userAddress.setCreatedDate(userAddressExisting.getCreatedDate());
         }
 
         userAddress.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

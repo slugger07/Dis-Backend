@@ -8,6 +8,7 @@ import sgsits.cse.dis.user.dtos.UserQualificationDto;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.UserProject;
 import sgsits.cse.dis.user.model.UserQualification;
+import sgsits.cse.dis.user.model.UserWorkExperience;
 import sgsits.cse.dis.user.service.UserProfileService;
 
 import java.sql.Date;
@@ -48,6 +49,12 @@ public class UserProjectService implements UserProfileService {
 
             userProject.setCreatedBy(jwtResolver.getIdFromJwtToken(token));
             userProject.setCreatedDate(new Date(new java.util.Date().getTime()));
+        }  else {
+
+            final UserProject userProjectExisting = userProfileRepo
+                    .getUserProjectById(userProject.getId());
+            userProject.setCreatedBy(userProjectExisting.getCreatedBy());
+            userProject.setCreatedDate(userProjectExisting.getCreatedDate());
         }
 
         userProject.setModifiedBy(jwtResolver.getIdFromJwtToken(token));

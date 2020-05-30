@@ -7,6 +7,7 @@ import sgsits.cse.dis.user.model.*;
 import sgsits.cse.dis.user.repo.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserProfileRepo {
@@ -309,4 +310,59 @@ public class UserProfileRepo {
             throw new InternalServerError("Cannot delete user project");
         }
     }
+
+    public UserAddress getUserAddressById(final long id) {
+    
+        Optional<UserAddress> userAddressOptional = userAddressRepository.findById(id);
+        return userAddressOptional.orElse(null);
+    }
+
+    public UserCompetitiveExam getUserCompetitiveExamById(final long id) {
+
+        Optional<UserCompetitiveExam> userCompetitiveExamOptional = userCompetitiveExamRepository.findById(id);
+        return userCompetitiveExamOptional.orElse(null);
+    }
+
+    public UserCulturalActivityAchievement getUserCulturalActivityAchievementById(final long id) {
+
+        Optional<UserCulturalActivityAchievement> userCulturalActivityAchievementOptional = userCulturalActivityAchievementRepository.findById(id);
+        return userCulturalActivityAchievementOptional.orElse(null);
+    }
+
+    public UserInternship getUserInternshipById(final long id) {
+
+        Optional<UserInternship> userInternshipOptional = userInternshipRepository.findById(id);
+        return userInternshipOptional.orElse(null);
+    }
+
+    public UserProject getUserProjectById(final long id) {
+
+        Optional<UserProject> userProjectOptional = userProjectRepository.findById(id);
+        return userProjectOptional.orElse(null);
+    }
+
+    public UserQualification getUserQualificationById(final long id) {
+
+        Optional<UserQualification> userQualificationOptional = userQualificationRepository.findById(id);
+        return userQualificationOptional.orElse(null);
+    }
+
+    public UserResearchWork getUserResearchWorkById(final long id) {
+
+        Optional<UserResearchWork> userResearchWorkOptional = userResearchWorkRepository.findById(id);
+        return userResearchWorkOptional.orElse(null);
+    }
+
+    public UserTechnicalActivity getUserTechnicalActivityById(final long id) {
+
+        Optional<UserTechnicalActivity> userTechnicalActivityOptional = userTechnicalActivityRepository.findById(id);
+        return userTechnicalActivityOptional.orElse(null);
+    }
+
+    public UserWorkExperience getUserWorkExperienceById(final long id) {
+
+        Optional<UserWorkExperience> userWorkExperienceOptional = userWorkExperienceRepository.findById(id);
+        return userWorkExperienceOptional.orElse(null);
+    }
+
 }

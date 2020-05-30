@@ -11,9 +11,11 @@ public class UserCompetitiveExamDto extends UserProfileDto {
 
     private int rank;
 
-    private Date year;
+    private Short year;
 
     private byte[] scoreCard;
+
+    private String registrationNo;
 
     public String getNameOfExam() {
         return nameOfExam;
@@ -39,11 +41,11 @@ public class UserCompetitiveExamDto extends UserProfileDto {
         this.rank = rank;
     }
 
-    public Date getYear() {
+    public Short getYear() {
         return year;
     }
 
-    public void setYear(final Date year) {
+    public void setYear(final Short year) {
         this.year = year;
     }
 
@@ -53,5 +55,13 @@ public class UserCompetitiveExamDto extends UserProfileDto {
 
     public void setScoreCard(final byte[] scoreCard) {
         this.scoreCard = scoreCard;
+    }
+
+    public String getRegistrationNo() {
+        return registrationNo;
+    }
+
+    public void setRegistrationNo(final String registrationNo) {
+        this.registrationNo = registrationNo;
     }
 }
