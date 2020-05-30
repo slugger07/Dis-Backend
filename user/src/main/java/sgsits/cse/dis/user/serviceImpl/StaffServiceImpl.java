@@ -91,6 +91,6 @@ public class StaffServiceImpl implements StaffService {
 
 	@Override
 	public List<Object[]> getAllUsernameAndEmail() {
-		return null;
+		return staffBasicProfileRepository.findAllUserIdAndEmails();
 	}
 }
