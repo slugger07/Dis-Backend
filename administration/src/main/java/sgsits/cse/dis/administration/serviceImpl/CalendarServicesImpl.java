@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import org.springframework.stereotype.Service;
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
 import sgsits.cse.dis.administration.model.Event;
 import sgsits.cse.dis.administration.model.EventParticipantsStaff;
@@ -15,19 +17,17 @@ import sgsits.cse.dis.administration.repo.EventParticipantsStudentRepository;
 import sgsits.cse.dis.administration.repo.EventRepository;
 import sgsits.cse.dis.administration.service.CalendarServices;
 
-@Component
+@Service
 public class CalendarServicesImpl implements CalendarServices {
 
 	@Autowired
-	EventRepository eventRepository;
+	private EventRepository eventRepository;
 
 	@Autowired
-	EventParticipantsStaffRepository eventParticipanstStaffRepository;
+	private EventParticipantsStaffRepository eventParticipanstStaffRepository;
 
 	@Autowired
-	EventParticipantsStudentRepository eventParticipanstStudentRepository;
-
-	List<Event> eventList;
+	private EventParticipantsStudentRepository eventParticipanstStudentRepository;
 
 	@Override
 	public List<Event> getAllEvents() {
@@ -41,7 +41,7 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event getEvent(Long eventId) {
+	public Event getEvent(String eventId) {
 		Event event = eventRepository.findByEventId(eventId);
 		return event;
 	}
@@ -56,6 +56,7 @@ public class CalendarServicesImpl implements CalendarServices {
 
 	@Override
 	public void deleteEvent(Event event) throws EventDoesNotExistException {
+		
 		if (getEvent(event.getEventId()) == null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 		}

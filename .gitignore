@@ -1,3 +1,6 @@
+*.vscode/
+/.metadata/
+/.recommenders/
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 

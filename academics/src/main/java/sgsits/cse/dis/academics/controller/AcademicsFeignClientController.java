@@ -16,7 +16,6 @@ import sgsits.cse.dis.academics.serviceImpl.CoursesServiceImpl;
 import sgsits.cse.dis.academics.serviceImpl.SchemeServiceImpl;
 
 @Api(value = "Academics Feign Client Controller")
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "/academicsFeignClientController")
 public class AcademicsFeignClientController {
@@ -33,10 +32,22 @@ public class AcademicsFeignClientController {
 		return schemeServiceImpl.getAllSubjectAcronym();
 	}
 	
-	@ApiOperation(value="Get subject acronyms", response = String.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get CourseId by Name", response = String.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = "/getCourseIdByName/{name}")
 	public String getCourseIdByName(@PathVariable("name") String name){
 		return coursesServiceImpl.getCourseIdByName(name);
+	}
+	
+	@ApiOperation(value="Get Name by CourseId", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = "/getNameByCourseId/{courseId}")
+	public String getNameByCourseId(@PathVariable("courseId") String courseId){
+		return coursesServiceImpl.getNameByCourseId(courseId);
+	}
+	
+	@ApiOperation(value="Get course list", response = String.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = "/getCourseList")
+	public List<String> getCourseList(){
+		return coursesServiceImpl.getCourseList();
 	}
 	
 }

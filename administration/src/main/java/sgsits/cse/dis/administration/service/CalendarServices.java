@@ -2,6 +2,8 @@ package sgsits.cse.dis.administration.service;
 
 import java.util.List;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import sgsits.cse.dis.administration.exception.EventDoesNotExistException;
@@ -12,7 +14,7 @@ public interface CalendarServices {
 	void addEvent(Event event);
 	void updateEvent(Event event) throws EventDoesNotExistException;
 	void deleteEvent(Event event) throws EventDoesNotExistException;
-	Event getEvent(Long eventId);
+	Event getEvent(String eventId);
 	List<Event>  getAllEvents();
 	List<Event> getStaffEvents(String participantId);
 	List<Event> getStudentEvents(String participantId);
