@@ -178,7 +178,7 @@ public class UserProfileController {
     @ApiOperation(value = "User Qualification", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserQualification")
     public void addUserQualification(@RequestBody final UserQualificationDto userQualificationDto,
-                                     final HttpServletRequest request) throws InternalServerError {
+                                     final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userQualificationService.addUserProfileElement(userQualificationDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
@@ -188,7 +188,7 @@ public class UserProfileController {
     @ApiOperation(value = "User Work Experience", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserWorkExperience")
     public void addUserWorkExperience(@RequestBody final UserWorkExperienceDto userWorkExperienceDto,
-                                      final HttpServletRequest request) throws InternalServerError {
+                                      final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userWorkExperienceService.addUserProfileElement(userWorkExperienceDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
@@ -198,7 +198,7 @@ public class UserProfileController {
     @ApiOperation(value = "User Research Work", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserResearchWork")
     public void addUserResearchWork(@RequestBody final UserResearchWorkDto userResearchWorkDto,
-                                    final HttpServletRequest request) throws InternalServerError {
+                                    final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userResearchWorkService.addUserProfileElement(userResearchWorkDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
@@ -208,7 +208,7 @@ public class UserProfileController {
     @ApiOperation(value = "User Internship", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserInternship")
     public void addUserInternship(@RequestBody final UserInternshipDto userInternshipDto,
-                                  final HttpServletRequest request) throws InternalServerError {
+                                  final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userInternshipService.addUserProfileElement(userInternshipDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
@@ -218,7 +218,7 @@ public class UserProfileController {
     @ApiOperation(value = "User Technical Activity", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserTechnicalActivity")
     public void addUserTechnicalActivity(@RequestBody final UserTechnicalActivityDto userTechnicalActivityDto,
-                                         final HttpServletRequest request) throws InternalServerError {
+                                         final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userTechnicalActivityService.addUserProfileElement(userTechnicalActivityDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
@@ -229,7 +229,7 @@ public class UserProfileController {
     @PostMapping(value = "/addUserCulturalActivityAchievements")
     public void addUserCulturalActivityAchievement(
             @RequestBody final UserCulturalActivityAchievementDto userCulturalActivityAchievementDto,
-            final HttpServletRequest request) throws InternalServerError {
+            final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userCulturalActivityAchievementService.addUserProfileElement(userCulturalActivityAchievementDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
@@ -249,7 +249,7 @@ public class UserProfileController {
     @ApiOperation(value = "User Project", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserProject")
     public void addUserProject(@RequestBody final UserProjectDto userProjectDto,
-                               final HttpServletRequest request) throws InternalServerError {
+                               final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userProjectService.addUserProfileElement(userProjectDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
@@ -258,7 +258,7 @@ public class UserProfileController {
     @ApiOperation(value = "User Address", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserAddress")
     public void addUserAddress(@RequestBody final UserAddressDto userAddressDto,
-                               final HttpServletRequest request) throws InternalServerError {
+                               final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
 
         userAddressService.addUserProfileElement(userAddressDto,
                 request.getHeader(ControllerConstants.AUTHORIZATION));
