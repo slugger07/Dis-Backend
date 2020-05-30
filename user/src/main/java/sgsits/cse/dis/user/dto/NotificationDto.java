@@ -1,5 +1,7 @@
 package sgsits.cse.dis.user.dto;
 
+import java.util.Date;
+
 /**
  * The type Notification dto.
  */
@@ -25,6 +27,10 @@ public class NotificationDto {
      * The Is read.
      */
     private Boolean isRead;
+    /**
+     * The Date.
+     */
+    private Date date;
 
     /**
      * Instantiates a new Notification dto.
@@ -40,16 +46,36 @@ public class NotificationDto {
      * @param description the description
      * @param link        the link
      * @param isRead      the is read
+     * @param date		  the date
      */
-    public NotificationDto(final String id, final String heading, final String description, final String link, Boolean isRead) {
+    public NotificationDto(final String id, final String heading, final String description, final String link, Boolean isRead,final Date date) {
         this.id = id;
         this.heading = heading;
         this.description = description;
         this.link = link;
         this.isRead = isRead;
+        this.date = date;
     }
 
     /**
+     * Gets date.
+     *
+     * @return the date
+     */
+	public Date getDate() {
+		return date;
+    }
+    
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	/**
      * Gets id.
      *
      * @return the id

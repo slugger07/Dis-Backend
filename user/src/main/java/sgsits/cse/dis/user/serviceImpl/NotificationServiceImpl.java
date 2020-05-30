@@ -114,6 +114,14 @@ public class NotificationServiceImpl implements NotificationService {
                 .orElseThrow(EntityNotFoundException::new);
         notificationParticipantRepository.modifyReadStatus(notificationId, user.getId(), true);
     }
+    
+    @Override
+    public void markAllAsRead(final String username) {
+        final User user = userRepository.findByUsername(username)
+                .orElseThrow(EntityNotFoundException::new);
+        notificationParticipantRepository.modifyReadStatusOfAll(user.getId(), true);
+    }
+    
 
 //    /**
 //     * Send to all websocket notification.
@@ -165,6 +173,7 @@ public class NotificationServiceImpl implements NotificationService {
                 participant.getNotification().getHeading(),
                 participant.getNotification().getDescription(),
                 participant.getNotification().getLink(),
-                participant.getReadStatus());
+                participant.getReadStatus(),
+        		participant.getNotification().getCreatedDate());
     }
 }
