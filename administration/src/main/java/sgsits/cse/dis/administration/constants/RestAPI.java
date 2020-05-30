@@ -47,4 +47,8 @@ public class RestAPI {
 	public static final String GET_REMAINING_EMRS_COMPLAINTS = "/getRemainingEMRSComplaints";
 	public static final String GET_REMAINING_TELEPHONE_COMPLAINTS = "/getRemainingTelephoneComplaints";
 	
+	//Faculty Resources
+	public static final String ADD_FACULTY_RESOURCE_REQUEST = "/addFacultyResourceRequest";
+	public static final String GET_FACULTY_RESOURCE_REQUEST = "/getFacultyResourceRequest/{id}";
+	public static final String EDIT_FACULTY_RESOURCE_REQUEST = "/editFacultyResourceRequest/{id}";
 }
