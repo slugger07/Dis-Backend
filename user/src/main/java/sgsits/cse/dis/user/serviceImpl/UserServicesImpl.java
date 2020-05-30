@@ -1,22 +1,24 @@
 package sgsits.cse.dis.user.serviceImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javassist.NotFoundException;
-import org.springframework.web.bind.annotation.RequestBody;
 import sgsits.cse.dis.user.message.request.SignUpForm;
-import sgsits.cse.dis.user.model.StaffProfile;
+import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
+import sgsits.cse.dis.user.model.StaffBasicProfile;
 import sgsits.cse.dis.user.model.StudentProfile;
 import sgsits.cse.dis.user.model.User;
-import sgsits.cse.dis.user.repo.StaffRepository;
+import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.repo.StudentRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.service.UserServices;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
 
 @Component
 public class UserServicesImpl implements UserServices{
@@ -25,7 +27,7 @@ public class UserServicesImpl implements UserServices{
 	private UserRepository userRepository;
 
 	@Autowired
-	private StaffRepository staffRepository;
+	private StaffBasicProfileRepository staffBasicProfileRepository;
 
 	@Autowired
 	private StudentRepository studentRepository;
@@ -42,8 +44,8 @@ public class UserServicesImpl implements UserServices{
 	public boolean findUser(SignUpForm signup)
 	{
 		boolean exist = false;
-		exist = staffRepository.existsByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
-		if(exist == false)
+		exist = staffBasicProfileRepository.existsByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
+		if(!exist)
 		{
 			exist = studentRepository.existsByEnrollmentIdAndMobileNoAndDob(signup.getUsername(),signup.getMobileNo(),signup.getDob());
 		}
@@ -54,7 +56,7 @@ public class UserServicesImpl implements UserServices{
 	public String findUserType(SignUpForm signup)
 	{
 		String type = null;
-		Optional<StaffProfile> staff = staffRepository.findByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
+		Optional<StaffBasicProfile> staff = staffBasicProfileRepository.findByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
 		if(staff.isPresent()){
 			if(staff.get().getClasss().equals("I") || staff.get().getClasss().equals("II")){
 				type = "faculty";
@@ -90,14 +92,30 @@ public class UserServicesImpl implements UserServices{
 			return true;
 		}
 		else {
-			Optional<StaffProfile> staff = staffRepository.findByMobileNo(mobileNo);
+			Optional<StaffBasicProfile> staff = staffBasicProfileRepository.findByMobileNo(mobileNo);
 			staff.get().setUserId(user.get().getId());
 			staff.get().setEmail(user.get().getEmail());
 			staff.get().setModifiedBy(user.get().getId());
 			staff.get().setModifiedDate(simpleDateFormat.format(new Date()));
-			staffRepository.save(staff.get());
+			staffBasicProfileRepository.save(staff.get());
 			return true;
 		}
 	}
+
+	@Override
+	public List<ActiveStaffListResponse> getActiveStaffList() throws NotFoundException {
+		List<User> users = userRepository.findAllByEnabledAndUserTypeNot(true,"Student");
+		if(users.isEmpty())
+			throw new NotFoundException("Activated staff accounts not found");
+		List<ActiveStaffListResponse> activeStaffListResponses = new ArrayList<ActiveStaffListResponse>();
+		for(User user : users) {	
+			activeStaffListResponses.add(new ActiveStaffListResponse(user.getId(),
+					staffBasicProfileRepository.findByEmail(user.getEmail()).get().getName(),
+					user.getEmail()));
+		}
+		
+		return activeStaffListResponses;
+	}
+
 }
 

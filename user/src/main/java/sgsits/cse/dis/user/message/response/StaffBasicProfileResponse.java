@@ -1,5 +1,10 @@
 package sgsits.cse.dis.user.message.response;
-
+/**
+ * <h1>StaffBasicProfile</h1>class.
+ * This class is pojo form for return java object as a response to request over network.
+ * @author Devyani garg
+ * @since 8-DEC-2018
+ */
 import java.util.Date;
 
 public class StaffBasicProfileResponse {

@@ -2,13 +2,7 @@ package sgsits.cse.dis.user.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -83,9 +77,9 @@ public class User{
     private Date resetTokenExpiry;
     
 	@Column(name = "user_type")
-	private String userType;     
+	private String userType;
 
-    public User() {}
+	public User() {}
 
     public User(String username, String email, Date dob, long mobileNo, String password) {
         this.username = username;

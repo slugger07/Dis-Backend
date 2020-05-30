@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import sgsits.cse.dis.user.model.Event;
 import sgsits.cse.dis.user.model.User;
 
 /**
@@ -70,6 +71,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return the optional
      */
     Optional<User> findByMobileNo(final long mobileNo);
+
+    List<User> findAllByEnabledAndUserTypeNot(boolean enabled, String userType);
 
     /**
      * Find all by username list.

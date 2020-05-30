@@ -1,8 +1,12 @@
 package sgsits.cse.dis.user.service;
 
 import javassist.NotFoundException;
+
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import sgsits.cse.dis.user.message.request.SignUpForm;
+import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
 
 /**
  * The interface User services.
@@ -40,4 +44,5 @@ public interface UserServices {
 	 * @return the boolean
 	 */
 	boolean updateEmailAndUserId(@RequestParam("mobileNo") long mobileNo);
+	List<ActiveStaffListResponse> getActiveStaffList() throws NotFoundException;
 }

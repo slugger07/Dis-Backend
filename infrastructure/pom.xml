@@ -12,6 +12,7 @@
 	<artifactId>infrastructure</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>infrastructure</name>
+	<packaging>jar</packaging>
 	<description>Infrastructure Service of DIS</description>
 
 	<properties>
@@ -101,6 +102,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>DIS-infrastructure</finalName>
 	</build>
 
 	<repositories>

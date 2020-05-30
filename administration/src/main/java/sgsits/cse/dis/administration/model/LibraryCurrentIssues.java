@@ -9,6 +9,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * <h1><b>LibraryCurrentIssues</b> class.</h1>
+ * <p>This class is model for table <b>library_current_issues</b> to act as DAO.
+ * This table contains  currently issued book/thesis data.
+ * @version 1.0.
+ * @since 2-DEC-2019.
+ */
 @Entity
 @Table(name = "library_current_issues")
 public class LibraryCurrentIssues {
@@ -23,7 +30,7 @@ public class LibraryCurrentIssues {
 	private String issueId;
 	
 	@Column(name = "username", nullable = false)
-	private String userName;
+	private String username;
 	
 	@Column(name = "issue_date", nullable = false)
 	private String issueDate;
@@ -34,11 +41,26 @@ public class LibraryCurrentIssues {
 	@Column(name = "title")
 	private String title;
 	
-	@Column(name = "book_id")
-	private Long bookId;
+	@Column(name = "book_id",  unique = true)
+	private String bookId = null;
 	
-	@Column(name = "thesis_id")
-	private Long thesisId;
+	@Column(name = "thesis_id", unique = true)
+	private Long thesisId = null;
+
+	public LibraryCurrentIssues() {
+		super();
+	}
+
+	public LibraryCurrentIssues(String username, String issueDate, String expectedReturnDate,
+			String title, String bookId, Long thesisId) {
+		super();
+		this.username = username;
+		this.issueDate = issueDate;
+		this.expectedReturnDate = expectedReturnDate;
+		this.title = title;
+		this.bookId = bookId;
+		this.thesisId = thesisId;
+	}
 
 	public String getIssueId() {
 		return issueId;
@@ -49,11 +71,11 @@ public class LibraryCurrentIssues {
 	}
 
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.username = userName;
 	}
 
 	public String getIssueDate() {
@@ -80,11 +102,11 @@ public class LibraryCurrentIssues {
 		this.title = title;
 	}
 
-	public Long getBookId() {
+	public String getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(Long bookId) {
+	public void setBookId(String bookId) {
 		this.bookId = bookId;
 	}
 

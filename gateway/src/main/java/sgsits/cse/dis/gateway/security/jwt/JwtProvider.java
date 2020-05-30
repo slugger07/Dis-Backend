@@ -1,7 +1,6 @@
 package sgsits.cse.dis.gateway.security.jwt;
 
 import io.jsonwebtoken.*;
-import org.springframework.security.core.GrantedAuthority;
 import sgsits.cse.dis.gateway.service.UserPrinciple;
 
 import org.slf4j.Logger;
@@ -27,11 +26,9 @@ public class JwtProvider {
     public String generateJwtToken(Authentication authentication) {
 
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-
-        /*final String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));*/
-
+//        Claims claims = Jwts.claims();
+//        claims.put("scopes", userPrincipal.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
+//        claims.put("jti", userPrincipal.getId());
         return Jwts.builder()
         		        .setId(userPrincipal.getId())
 		                .setSubject((userPrincipal.getUsername()))
