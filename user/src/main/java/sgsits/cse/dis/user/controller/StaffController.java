@@ -84,9 +84,4 @@ public class StaffController {
 
 		return new ResponseEntity<>(staffServiceImpl.getAllEmployeeNamesAndUserId(), HttpStatus.OK);
 	}
-
-	// internal requirement for calender api
-	public List<Object[]> getAllUsernameAndEmails() {
-		return staffServiceImpl.getAllUsernameAndEmail();
-	}
 }
