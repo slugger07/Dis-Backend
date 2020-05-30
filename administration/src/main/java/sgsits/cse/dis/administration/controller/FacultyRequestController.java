@@ -20,6 +20,7 @@ import sgsits.cse.dis.administration.constants.FacultyRequestConstants;
 import sgsits.cse.dis.administration.constants.RestAPI;
 import sgsits.cse.dis.administration.jwt.JwtResolver;
 import sgsits.cse.dis.administration.model.FacultyRequest;
+import sgsits.cse.dis.administration.request.FacultyRequestEditForm;
 import sgsits.cse.dis.administration.request.FacultyRequestForm;
 import sgsits.cse.dis.administration.response.ResponseMessage;
 import sgsits.cse.dis.administration.service.FacultyRequestService;
@@ -27,6 +28,7 @@ import sgsits.cse.dis.administration.service.FacultyRequestService;
 @CrossOrigin(origins = "*")
 @Api(value = "methods pertaining to resource requests from faculties")
 @RestController
+@RequestMapping("/faculty-request")
 public class FacultyRequestController {
 	
 	@Autowired
@@ -51,6 +53,13 @@ public class FacultyRequestController {
 		return facultyRequestService.getRequest(id, request);
 	}
 	
-//	@RequestMapping(value = RestAPI.EDIT_FACULTY_RESOURCE_REQUEST, method = RequestMethod.PUT) 
-//	public ResponseEntity<?> editFacultyRequest()
+	@ApiOperation(value = "Edit Faculty Resource Request", response = ResponseMessage.class, httpMethod = "PUT", produces = "application/json")
+	@RequestMapping(value = RestAPI.EDIT_FACULTY_RESOURCE_REQUEST, method = RequestMethod.PUT) 
+	public ResponseEntity<?> editFacultyRequest(@PathVariable("id") String requestId, @RequestBody FacultyRequestEditForm facultyRequestEditForm, HttpServletRequest request) {
+		FacultyRequest resourceRequest = facultyRequestService.updateRequest(requestId, facultyRequestEditForm, request);
+		if (resourceRequest != null) {
+			return new ResponseEntity<>(new ResponseMessage(FacultyRequestConstants.EDIT_RESOURCE_REQUEST_SUCESS), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(new ResponseMessage(FacultyRequestConstants.EDIT_RESOURCE_REQUEST_BAD), HttpStatus.BAD_REQUEST);
+	}
 }

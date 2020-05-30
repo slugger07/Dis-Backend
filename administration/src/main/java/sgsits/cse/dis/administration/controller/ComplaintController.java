@@ -34,10 +34,10 @@ import sgsits.cse.dis.administration.service.OtherComplaintService;
 import sgsits.cse.dis.administration.service.StudentComplaintService;
 import sgsits.cse.dis.administration.service.TelephoneComplaintService;
 
+@Api(value = "Complaints Resource")
 @CrossOrigin(origins = "*")
 @RestController
-@Api(value = "Complaints Resource")
-
+@RequestMapping(path = "/complaint")
 public class ComplaintController {
 
 	@Autowired
@@ -67,12 +67,7 @@ public class ComplaintController {
 	@Autowired
 	private TelephoneComplaintService telephoneComplaintService; 
 
-	@Autowired
-	private GatewayClient gatewayClient;
-
 	JwtResolver jwtResolver = new JwtResolver();
-
-//	private static final Logger LOGGER = LoggerFactory.getLogger(ComplaintController.class);
 	
 	// My Complaints
 	
