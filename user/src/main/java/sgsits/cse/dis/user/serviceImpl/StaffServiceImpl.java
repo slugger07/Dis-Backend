@@ -59,8 +59,6 @@ public class StaffServiceImpl implements StaffService {
                     addNewUser.getName(), addNewUser.getCurrentDesignation(), addNewUser.getClasss(),
                     addNewUser.getType(), addNewUser.getEmail(), addNewUser.getDob(), addNewUser.getMobileNo(),
                     addNewUser.getJoiningDate()));
-            if (test.equals(null))
-                throw new ConflictException("Unable to add member.");
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Employee already Exists.");
         }
