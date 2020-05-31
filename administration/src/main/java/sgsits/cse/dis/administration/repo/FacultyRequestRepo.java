@@ -9,7 +9,7 @@ import sgsits.cse.dis.administration.model.FacultyRequest;
 
 public interface FacultyRequestRepo extends JpaRepository<FacultyRequest, String>{
 	Optional<FacultyRequest> findById(String id);
-	List<FacultyRequest> findByCreatedByAndStatusNot(String id, String status);
+	List<FacultyRequest> findByCreatedByAndStatusNotOrderByCreatedDateDesc(String id, String status);
 	List<FacultyRequest> findByStatus(String status);
 	List<FacultyRequest> findByStatusNotOrderByCreatedDateAsc(String status);
 }

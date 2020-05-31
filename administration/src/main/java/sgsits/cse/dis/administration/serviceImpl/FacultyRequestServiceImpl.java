@@ -90,7 +90,7 @@ public class FacultyRequestServiceImpl implements FacultyRequestService {
 	@Override
 	public List<FacultyRequest> getUnresolvedRequestsById(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
-		return facultyRequestRepo.findByCreatedByAndStatusNot(id, "Resolved");
+		return facultyRequestRepo.findByCreatedByAndStatusNotOrderByCreatedDateDesc(id, "Resolved");
 	}
 
 	@Override
