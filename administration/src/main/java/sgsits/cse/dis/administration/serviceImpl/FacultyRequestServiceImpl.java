@@ -108,7 +108,7 @@ public class FacultyRequestServiceImpl implements FacultyRequestService {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
 		String defaultId = userClient.getUserId(assignedToDefault);
 		if (defaultId.equals(id)) {
-			return facultyRequestRepo.findByStatusNot("Resolved");
+			return facultyRequestRepo.findByStatusNotOrderByCreatedDateAsc("Resolved");
 		}
 		throw new ResourceRequestNotAccessibleException("You cannot access this resource!");
 	}

@@ -11,5 +11,5 @@ public interface FacultyRequestRepo extends JpaRepository<FacultyRequest, String
 	Optional<FacultyRequest> findById(String id);
 	List<FacultyRequest> findByCreatedByAndStatusNot(String id, String status);
 	List<FacultyRequest> findByStatus(String status);
-	List<FacultyRequest> findByStatusNot(String status);
+	List<FacultyRequest> findByStatusNotOrderByCreatedDateAsc(String status);
 }

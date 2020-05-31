@@ -51,7 +51,7 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 			other.get().setRemarks(editComplaintForm.getRemarks());
 			other.get().setAssignedTo(editComplaintForm.getAssignedTo());
 			if (editComplaintForm.getStatus().equals("Resolved"))
-				other.get().setDateOfResolution((new SimpleDateFormat()).format(new Date()));
+				other.get().setDateOfResolution((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			test = otherComplaintRepository.save(other.get());
 		}
 		return test;
