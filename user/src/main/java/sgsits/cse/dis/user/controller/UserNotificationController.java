@@ -1,19 +1,16 @@
 package sgsits.cse.dis.user.controller;
 
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import sgsits.cse.dis.user.dto.MarkAllAsReadDto;
-import sgsits.cse.dis.user.dto.MarkAsReadDto;
+
 import sgsits.cse.dis.user.dto.NotificationDto;
 import sgsits.cse.dis.user.dto.SendNotificationRequestDto;
-import sgsits.cse.dis.user.model.Notification;
+import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.service.NotificationService;
 
 import java.util.List;
@@ -33,6 +30,11 @@ public class UserNotificationController {
     private final NotificationService notificationService;
 
     /**
+     * The constant LOG.
+     */
+    public static Logger LOG = LoggerFactory.getLogger(UserNotificationController.class);
+
+    /**
      * Instantiates a new User notification controller.
      *
      * @param notificationService the notification service
@@ -42,45 +44,60 @@ public class UserNotificationController {
         this.notificationService = notificationService;
     }
 
+//    /**
+//     * Gets all notifications.
+//     *
+//     * @param username the username
+//     * @return the all notifications
+//     */
+//    @GetMapping(value = "/getAllNotification/{username}")
+//    public List<NotificationDto> getAllNotifications(@PathVariable("username") final String username) {
+//        return notificationService.getAllNotification(username);
+//    }
+
     /**
-     * Gets all notifications.
+     * Gets user name.
      *
-     * @param username the username
-     * @return the all notifications
+     * @param authHeader the auth header
+     * @return the user name
      */
-    @GetMapping(value = "/getAllNotification/{username}")
-    public List<NotificationDto> getAllNotifications(@PathVariable("username") String username) {
+    @GetMapping(value = "/getAllNotifications")
+    public List<NotificationDto> getUserName(@RequestHeader("Authorization") final String authHeader) { //HttpServletRequest request) {
+        final String username = JwtResolver.getUsernameFromAuthHead(authHeader);//request.getHeader("Authorization"));
         return notificationService.getAllNotification(username);
     }
 
     /**
      * Mark as read.
      *
-     * @param markAsReadDto the mark as read dto
+     * @param notificationId the notification id
+     * @param authHeader     the auth header
      */
-    @PostMapping(value = "/markAsRead")
-    public void markAsRead(@RequestBody MarkAsReadDto markAsReadDto) {
-        notificationService.markAsRead(markAsReadDto.getNotificationId(), markAsReadDto.getUsername());
+    @GetMapping(value = "/markAsRead/{notificationId}")
+    public void markAsRead(@PathVariable("notificationId") final String notificationId, @RequestHeader("Authorization") final String authHeader) {
+        final String username = JwtResolver.getUsernameFromAuthHead(authHeader);
+        notificationService.markAsRead(notificationId, username);
     }
-    
+
     /**
      * Mark  all as read.
      *
-     * @param markAllAsReadDto the mark all as read dto
+     * @param authHeader the auth header
      */
-    @PostMapping(value = "/markAllAsRead")
-    public void markAllAsRead(@RequestBody MarkAllAsReadDto markAllAsReadDto) {
-        notificationService.markAllAsRead(markAllAsReadDto.getUsername());
+    @GetMapping(value = "/markAllAsRead")
+    public void markAllAsRead(@RequestHeader("Authorization") final String authHeader) {
+        final String username = JwtResolver.getUsernameFromAuthHead(authHeader);
+        notificationService.markAllAsRead(username);
     }
 
     /**
      * Send notification to all.
      *
-     * @param notification the notification
+     * @param notificationRequest the notification request
      */
     @PostMapping(value = "/sendNotificationToAll")
-    public void sendNotificationToAll(@RequestBody Notification notification) {
-        notificationService.sendNotificationToAll(notification);
+    public void sendNotificationToAll(@RequestBody final SendNotificationRequestDto notificationRequest) {
+        notificationService.sendNotificationToAll(notificationRequest.getNotification());
     }
 
     /**
@@ -89,7 +106,7 @@ public class UserNotificationController {
      * @param notificationRequest the notification request
      */
     @PostMapping(value = "/sendNotificationToParticipants")
-    public void sendNotificationToParticipants(@RequestBody SendNotificationRequestDto notificationRequest) {
+    public void sendNotificationToParticipants(@RequestBody final SendNotificationRequestDto notificationRequest) {
         notificationService.sendNotificationToParticipants(notificationRequest.getNotification(),
                 notificationRequest.getUsernameList());
     }
@@ -100,7 +117,7 @@ public class UserNotificationController {
      * @param notificationRequest the notification request
      */
     @PostMapping(value = "/sendNotificationByTypeExceptGivenUsers")
-    public void sendNotificationToAllExcept(@RequestBody SendNotificationRequestDto notificationRequest) {
+    public void sendNotificationToAllExcept(@RequestBody final SendNotificationRequestDto notificationRequest) {
         notificationService.sendNotificationByTypeExceptGivenUsers(notificationRequest.getNotification(),
                 notificationRequest.getTypeList(),
                 notificationRequest.getUsernameList());
@@ -112,7 +129,7 @@ public class UserNotificationController {
      * @param notificationRequest the notification request
      */
     @PostMapping(value = "/sendNotificationByType")
-    public void sendNotificationByType(@RequestBody SendNotificationRequestDto notificationRequest) {
+    public void sendNotificationByType(@RequestBody final SendNotificationRequestDto notificationRequest) {
         notificationService.sendNotificationByType(notificationRequest.getNotification(),
                 notificationRequest.getTypeList());
     }
