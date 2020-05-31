@@ -35,4 +35,13 @@ public class StudentProfileRepo {
         }
     }
 
+    public void addOrUpdateStudentProfile(final StudentProfile studentProfile) throws InternalServerError {
+
+        try {
+            studentProfileRepository.save(studentProfile);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot add or update student Profile");
+        }
+    }
+
 }

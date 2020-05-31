@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import sgsits.cse.dis.user.dtos.FacultyDataDto;
 import sgsits.cse.dis.user.dtos.StaffBasicProfileDto;
+import sgsits.cse.dis.user.dtos.StudentBasicProfileDto;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.mappers.StaffServiceMapper;
@@ -103,5 +104,18 @@ public class StaffServiceImpl implements StaffService {
         } else {
             throw new InternalServerError("couldn't retrieve staff basic profile");
         }
+    }
+
+    @Override
+    public void addOrUpdateStaffBasicProfile(final StaffBasicProfileDto StaffBasicProfileDto)
+            throws InternalServerError {
+
+        try {
+            staffBasicProfileRepository.save(staffServiceMapper
+                    .convertStaffBasicProfileDtoIntoStaffBasicProfile(StaffBasicProfileDto));
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot update staff basic profile");
+        }
+
     }
 }
