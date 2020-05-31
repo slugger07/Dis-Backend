@@ -1,6 +1,6 @@
 package sgsits.cse.dis.administration.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -61,4 +61,32 @@ public class FacultyRequestController {
 		}
 		return new ResponseEntity<>(new ResponseMessage(FacultyRequestConstants.EDIT_RESOURCE_REQUEST_BAD), HttpStatus.BAD_REQUEST);
 	}
+	
+	@ApiOperation(value = "Get all requests for an ID", response = FacultyRequest.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_ALL_FACULTY_REQUESTS_FOR_ID, method = RequestMethod.GET) 
+	public List<FacultyRequest> getAllFacultyRequestsForId(HttpServletRequest request) {
+		return facultyRequestService.getUnresolvedRequestsById(request);
+	}
+	
+	@ApiOperation(value = "Get all resolved requests", response = FacultyRequest.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_ALL_FACULTY_REQUESTS_RESOLVED, method = RequestMethod.GET)
+	public List<FacultyRequest> getAllResolvedFacultyRequests(HttpServletRequest request) {
+		return facultyRequestService.getAllResolvedRequests(request);
+	}
+	
+	@ApiOperation(value = "Get all unresolved requests", response = FacultyRequest.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_ALL_FACULTY_REQUESTS_UNRESOLVED, method = RequestMethod.GET)
+	public List<FacultyRequest> getAllUnrelsovedFacultyRequests(HttpServletRequest request) {
+		return facultyRequestService.getAllUnresolvedRequests(request);
+	}
+	
+	@RequestMapping(value = RestAPI.SET_FACULTY_REQUEST_RESOLVED, method = RequestMethod.PUT)
+	public ResponseEntity<?> editToResolved(@PathVariable("id") String requestId, HttpServletRequest request) {
+		FacultyRequest resourceRequest = facultyRequestService.setResolved(requestId, request);
+		if (resourceRequest != null) {
+			return new ResponseEntity<>(new ResponseMessage(FacultyRequestConstants.SET_STATUS_RESOLVED_SUCCESS), HttpStatus.OK);
+		}
+		return new ResponseEntity<>(new ResponseMessage(FacultyRequestConstants.SET_STATUS_RESOLVED_BAD), HttpStatus.BAD_REQUEST);
+	}
+	
 }

@@ -269,13 +269,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return null;
     }
     
-    @Override
-    public String getUserId(String username) throws NotFoundException {
-		Optional<User> dbUser = userRepository.findByUsername(username);
-		if (dbUser.isPresent()) {
-			User user = dbUser.get();
-			return user.getId();
-		} else 
-			throw new NotFoundException("username not found");
-    }
 }

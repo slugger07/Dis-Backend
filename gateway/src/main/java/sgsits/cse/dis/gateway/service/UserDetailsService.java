@@ -33,5 +33,4 @@ public interface UserDetailsService {
     ResponseEntity<ResponseMessage> setNewPassword(Map<String, String> requestParams, RedirectAttributes redir, HttpServletResponse response);
     String getuserType(HttpServletRequest request);
     //UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
-    String getUserId(String username) throws NotFoundException;
 }

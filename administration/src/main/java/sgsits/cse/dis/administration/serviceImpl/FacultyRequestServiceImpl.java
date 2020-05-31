@@ -2,6 +2,7 @@ package sgsits.cse.dis.administration.serviceImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +36,17 @@ public class FacultyRequestServiceImpl implements FacultyRequestService {
 	@Override
 	public FacultyRequest addRequest(FacultyRequestForm facultyRequestForm, HttpServletRequest request) {
 		String createdById = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String createdByUsername = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		FacultyRequest facultyRequest = new FacultyRequest();
 		facultyRequest.setCreatedBy(createdById);
+		facultyRequest.setUsername(createdByUsername);
 		facultyRequest.setCategory(facultyRequestForm.getCategory());
+		facultyRequest.setDetails(facultyRequestForm.getDetails());
 		facultyRequest.setCreatedDate(simpleDateFormat.format(new Date()));
 		facultyRequest.setAssignedPersonId(userClient.getUserId(assignedToDefault));
+		facultyRequest.setAssignedPersonUsername(assignedToDefault);
+		facultyRequest.setStatus("Not resolved");
 //		getting the ID of the assignedToDefault person from the feign client of user service.
 		FacultyRequest result = facultyRequestRepo.save(facultyRequest);
 		return result;
@@ -71,6 +77,51 @@ public class FacultyRequestServiceImpl implements FacultyRequestService {
 			if (facultyRequestRepo.findById(requestId).isPresent()) {
 				FacultyRequest existingRequest = facultyRequestRepo.findById(requestId).get();
 				existingRequest.setAssignedPersonId(facultyRequestEditForm.getAssignedPersonId());
+				existingRequest.setModifiedBy(id);
+				existingRequest.setModifiedDate(simpleDateFormat.format(new Date()));
+				FacultyRequest updatedRequest = facultyRequestRepo.save(existingRequest);
+				return updatedRequest;
+			}
+			throw new ResourceRequestNotFoundException("Resource not found");
+		}
+		throw new ResourceRequestNotAccessibleException("You cannot access this resource!");
+	}
+
+	@Override
+	public List<FacultyRequest> getUnresolvedRequestsById(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		return facultyRequestRepo.findByCreatedByAndStatusNot(id, "Resolved");
+	}
+
+	@Override
+	public List<FacultyRequest> getAllResolvedRequests(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String defaultId = userClient.getUserId(assignedToDefault);
+		if (defaultId.equals(id)) {
+			return facultyRequestRepo.findByStatus("Resolved");
+		}
+		throw new ResourceRequestNotAccessibleException("You cannot access this resource!");
+	}
+
+	@Override
+	public List<FacultyRequest> getAllUnresolvedRequests(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String defaultId = userClient.getUserId(assignedToDefault);
+		if (defaultId.equals(id)) {
+			return facultyRequestRepo.findByStatusNot("Resolved");
+		}
+		throw new ResourceRequestNotAccessibleException("You cannot access this resource!");
+	}
+
+	@Override
+	public FacultyRequest setResolved(String requestId, HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String defaultId = userClient.getUserId(assignedToDefault);
+		if (defaultId.equals(id)) {
+			if (facultyRequestRepo.findById(requestId).isPresent()) {
+				FacultyRequest existingRequest = facultyRequestRepo.findById(requestId).get();
+				existingRequest.setStatus("Resolved");
 				existingRequest.setModifiedBy(id);
 				existingRequest.setModifiedDate(simpleDateFormat.format(new Date()));
 				FacultyRequest updatedRequest = facultyRequestRepo.save(existingRequest);

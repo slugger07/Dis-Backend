@@ -51,4 +51,8 @@ public class RestAPI {
 	public static final String ADD_FACULTY_RESOURCE_REQUEST = "/addFacultyResourceRequest";
 	public static final String GET_FACULTY_RESOURCE_REQUEST = "/getFacultyResourceRequest/{id}";
 	public static final String EDIT_FACULTY_RESOURCE_REQUEST = "/editFacultyResourceRequest/{id}";
+	public static final String GET_ALL_FACULTY_REQUESTS_FOR_ID = "/getAllFacultyRequestsForId";
+	public static final String GET_ALL_FACULTY_REQUESTS_RESOLVED = "/getAllResolvedFacultyRequests";
+	public static final String GET_ALL_FACULTY_REQUESTS_UNRESOLVED = "/getAllUnresolvedFacultyRequests";
+	public static final String SET_FACULTY_REQUEST_RESOLVED = "/setFacultyRequestResolved/{id}";
 }

@@ -24,6 +24,9 @@ public class FacultyRequest {
 	@Column(name = "created_date", nullable = false)
 	private String createdDate;
 	
+	@Column(name = "details", nullable = false)
+	private String details;
+	
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
@@ -35,6 +38,31 @@ public class FacultyRequest {
 	
 	@Column(name = "assigned_person_id", nullable = false)
 	private String assignedPersonId;
+	
+	@Column(name = "assigned_person_username", nullable = false)
+	private String assignedPersonUsername;
+	
+	@Column(name = "status_of_request", nullable = false)
+	private String status;
+	
+	@Column(name = "username", nullable = false)
+	private String username;
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getId() {
 		return id;
@@ -90,6 +118,23 @@ public class FacultyRequest {
 
 	public void setAssignedPersonId(String assignedPersonId) {
 		this.assignedPersonId = assignedPersonId;
+	}
+	
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+	
+
+	public String getAssignedPersonUsername() {
+		return assignedPersonUsername;
+	}
+
+	public void setAssignedPersonUsername(String assignedPersonUsername) {
+		this.assignedPersonUsername = assignedPersonUsername;
 	}
 
 	@Override

@@ -93,8 +93,4 @@ public class AuthRestAPIs {
 		return UserDetails.getuserType(request);
 	}
 	
-	@GetMapping("/getUserId")
-	public String getUserId(@RequestParam("username") String username) throws NotFoundException {
-		return UserDetails.getUserId(username);
-	}
 }
