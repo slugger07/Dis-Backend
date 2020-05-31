@@ -18,10 +18,19 @@ import sgsits.cse.dis.administration.service.StudentComplaintService;
 public class StudentComplaintServiceImpl implements StudentComplaintService{
 	@Autowired
 	StudentComplaintRepository studentComplaintRepository;
-	
+
 	@Override
-	public List<StudentComplaint> getRemainingStudentComplaints() {
-		return studentComplaintRepository.findByStatusNot("Resolved");
+	public List<StudentComplaint> getMyComplaints(String userType, String userId) {
+		if (userType.contentEquals("faculty"))
+			return studentComplaintRepository.findByCreatedBy(userId);
+		return null;
+	}
+
+	@Override
+	public List<StudentComplaint> getResolvedComplaints(String userType, String id) {
+		if (userType.equals("head")) 
+			return studentComplaintRepository.findByStatus("Resolved");
+		return null;
 	}
 
 	@Override

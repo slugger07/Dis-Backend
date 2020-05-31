@@ -18,4 +18,6 @@ public interface CleanlinessComplaintService{
 	long countByLocationIn(List<String> loctions);
 	long countByCreatedBy(String userId);
 	List<CleanlinessComplaint> findByLocationIn(List<String> location);
+	List<CleanlinessComplaint> getMyComplaints(String id);
+	List<CleanlinessComplaint> getResolvedComplaints(String id);
 }

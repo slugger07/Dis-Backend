@@ -9,23 +9,38 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sgsits.cse.dis.administration.feignClient.InfrastructureClient;
 import sgsits.cse.dis.administration.model.EMRComplaint;
 import sgsits.cse.dis.administration.repo.EMRComplaintRepository;
 import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EMRComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
-import sgsits.cse.dis.administration.service.EMRComplaintService;
+import sgsits.cse.dis.administration.service.EmrComplaintService;
 
 @Service
-public class EmrComplaintServiceImpl implements EMRComplaintService {
+public class EmrComplaintServiceImpl implements EmrComplaintService {
 
 	@Autowired
 	EMRComplaintRepository emrsComplaintRepository;
+	
+	@Autowired
+	private InfrastructureClient infrastructureClient;
 
 	@Override
-	public List<EMRComplaint> findAllRemainingComplaints(List<String> location) {
-		return emrsComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
+	public List<EMRComplaint> getResolvedComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return emrsComplaintRepository.findByLocationInAndStatus(location, "Resolved");
+		return null;
+	}
+
+	@Override
+	public List<EMRComplaint> getTotalComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return emrsComplaintRepository.findByLocationIn(location);
+		return null;
 	}
 
 	@Override
@@ -108,6 +123,11 @@ public class EmrComplaintServiceImpl implements EMRComplaintService {
 			}
 		}
 		return complaints;
+	public List<EMRComplaint> getRemainingComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return emrsComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
+		return null;
 	}
 
 }

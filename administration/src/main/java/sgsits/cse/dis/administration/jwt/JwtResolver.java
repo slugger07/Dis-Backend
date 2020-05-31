@@ -16,7 +16,6 @@ public class JwtResolver {
 	public String getIdFromJwtToken(String token){
 		token = getJwt(token);
 		String id = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId();
-		System.out.println(id);
 		return id;
 	}
 
@@ -29,7 +28,11 @@ public class JwtResolver {
 	
 	public String getUserTypeFromJwtToken(String token) {
 		token = getJwt(token);
-		String type = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getAudience();
+		String type = Jwts.parser()
+						  .setSigningKey(jwtSecret)
+						  .parseClaimsJws(token)
+						  .getBody()
+						  .getAudience();
 		return type;
     }
 }

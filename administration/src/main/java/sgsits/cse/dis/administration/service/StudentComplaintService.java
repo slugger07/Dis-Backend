@@ -21,4 +21,6 @@ public interface StudentComplaintService {
 	long countByCreatedBy(String userId);
 	long countAll();
 	public List<StudentComplaint> findAll();
+	public List<StudentComplaint> getMyComplaints(String userType, String id);
+	public List<StudentComplaint> getResolvedComplaints(String userType, String id);
 }

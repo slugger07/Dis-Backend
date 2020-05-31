@@ -24,4 +24,7 @@ public interface OtherComplaintService{
 	List<OtherComplaint> findByAssignedTo(String id);
 	List<OtherComplaint> findByStatusNot(String string);
 	List<OtherComplaint> findByAssignedToAndStatusNot(String id, String string);
+	public List<OtherComplaint> getMyComplaints(String id);
+	public List<OtherComplaint> getResolvedComplaints(String userType, String id);
+	public List<OtherComplaint> getRemainingComplaints(String userType, String id);
 }

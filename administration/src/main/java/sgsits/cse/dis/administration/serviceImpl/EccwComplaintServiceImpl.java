@@ -9,22 +9,30 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sgsits.cse.dis.administration.feignClient.InfrastructureClient;
 import sgsits.cse.dis.administration.model.ECCWComplaint;
 import sgsits.cse.dis.administration.repo.ECCWComplaintRepository;
 import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.ECCWComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
-import sgsits.cse.dis.administration.service.ECCWComplaintService;
+import sgsits.cse.dis.administration.service.EccwComplaintService;
 
 @Service
-public class EccwComplaintServiceImpl implements ECCWComplaintService {
+public class EccwComplaintServiceImpl implements EccwComplaintService {
+	
 	@Autowired
 	ECCWComplaintRepository eccwComplaintRepository;
-
+	
+	@Autowired
+	private InfrastructureClient infrastructureClient;
+	
 	@Override
-	public List<ECCWComplaint> findAllRemainingComplaints(List<String> location) {
-		return eccwComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
+	public List<ECCWComplaint> getResolvedComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return eccwComplaintRepository.findByLocationInAndStatus(location, "Resolved");
+		return null;
 	}
 
 	@Override
@@ -106,6 +114,11 @@ public class EccwComplaintServiceImpl implements ECCWComplaintService {
 			}
 		}
 		return complaints;
+	public List<ECCWComplaint> getTotalComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return eccwComplaintRepository.findByLocationIn(location);
+		return null;
 	}
 
 }

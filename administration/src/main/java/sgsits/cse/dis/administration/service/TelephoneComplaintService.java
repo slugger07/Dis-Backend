@@ -19,5 +19,7 @@ public interface TelephoneComplaintService {
 	long countByLocationIn(List<String> loctions);
 	List<TelephoneComplaintResponse> getDownloadReportData(ComplaintDownloadReportForm complaintInfo);
 	List<TelephoneComplaint> findAllRemainingComplaints(List<String> location);
-	
+	public List<TelephoneComplaint> getResolvedComplaints(String id);
+	public List<TelephoneComplaint> getTotalComplaints(String id);
+	public List<TelephoneComplaint> getRemainingComplaints(String id);
 }

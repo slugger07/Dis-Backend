@@ -25,4 +25,5 @@ public interface CleanlinessComplaintRepository extends JpaRepository<Cleanlines
 	long countByCreatedBy(String id);
 	long countByLocationAndStatus(String loc, String string);
 	long countByLocationIn(List<String> loc);
+
 }

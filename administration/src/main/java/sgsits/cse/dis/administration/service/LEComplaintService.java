@@ -19,4 +19,6 @@ public interface LEComplaintService{
 	long countByLabIn(List<String> locations);
 	long countByCreatedBy(String userId);
 	List<LEComplaint> findByLabIn(List<String> location);
+	public List<LEComplaint> getMyComplaints(String id);
+	public List<LEComplaint> getResolvedComplaints(String id);
 }

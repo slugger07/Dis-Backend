@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.administration.model.TelephoneComplaint;
 
-//Cleanliness Complaint
 
 @Repository("")
 public interface TelephoneComplaintRepository extends JpaRepository<TelephoneComplaint, String> {

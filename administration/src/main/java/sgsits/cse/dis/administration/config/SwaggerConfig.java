@@ -21,22 +21,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("sgsits.cse.dis.administration"))  //packgs to scan
                 .paths(regex("/.*"))                 //rest points
                 .build()
-                .apiInfo(metaInfo());
+                .forCodeGeneration(true);
     }
 
-    private ApiInfo metaInfo() {
-
-        ApiInfo apiInfo = new ApiInfo(
-        		"Administration Service",                                                
-                "A service of Departmetal Information System ",              
-                "1.0",   
-                "Terms of Services Url",  
-                new Contact("Divyani Garg", "url", "divyanigarg09@gmail.com"),  
-                "License Information",  
-                "License URL"
-
-        );
-
-        return apiInfo;
-    }
 }

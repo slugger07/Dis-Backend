@@ -16,7 +16,6 @@ import sgsits.cse.dis.administration.service.OtherComplaintService;
 
 @Service
 public class OtherComplaintServiceImpl implements OtherComplaintService {
-
 	@Autowired
 	OtherComplaintRepository otherComplaintRepository;
 
@@ -114,5 +113,24 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 	}
 
 	
+
+	public List<OtherComplaint> getMyComplaints(String userId) {
+		return otherComplaintRepository.findByCreatedBy(userId);
+	}
+
+	@Override
+	public List<OtherComplaint> getResolvedComplaints(String userType, String id) {
+		if (userType.equals("head")) 
+			return otherComplaintRepository.findByStatus("Resolved");
+		return otherComplaintRepository.findByAssignedToAndStatus(id, "Resolved");
+	}
+
+	@Override
+	public List<OtherComplaint> getRemainingComplaints(String userType, String id) {
+		if (userType.equals("head")) {
+			return otherComplaintRepository.findByStatusNot("Resolved");
+		}
+		return otherComplaintRepository.findByAssignedToAndStatusNot(id, "Resolved");
+	}
 
 }

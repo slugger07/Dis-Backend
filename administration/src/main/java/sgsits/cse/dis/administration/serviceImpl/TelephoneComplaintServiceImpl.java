@@ -15,6 +15,7 @@ import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.request.TelephoneComplaintForm;
 import sgsits.cse.dis.administration.response.TelephoneComplaintResponse;
+import sgsits.cse.dis.administration.feignClient.InfrastructureClient;
 import sgsits.cse.dis.administration.service.TelephoneComplaintService;
 
 @Service
@@ -113,4 +114,35 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 		return telephoneComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
+	
+	@Autowired
+	private InfrastructureClient infrastructureClient;
+	
+	@Autowired
+	private TelephoneComplaintRepository telephoneComplaintRepository;
+
+	@Override
+	public List<TelephoneComplaint> getResolvedComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return telephoneComplaintRepository.findByLocationInAndStatus(location, "Resolved");
+		return null;
+	}
+
+	@Override
+	public List<TelephoneComplaint> getTotalComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return telephoneComplaintRepository.findByLocationIn(location);
+		return null;
+	}
+
+	@Override
+	public List<TelephoneComplaint> getRemainingComplaints(String id) {
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location.size() != 0)
+			return telephoneComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
+		return null;
+	}
+	
 }
