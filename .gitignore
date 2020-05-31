@@ -3,7 +3,7 @@
 /.recommenders/
 /target/
 !.mvn/wrapper/maven-wrapper.jar
-
+lib/
 ### STS ###
 .apt_generated
 .classpath
@@ -15,6 +15,7 @@
 
 ### IntelliJ IDEA ###
 .idea
+*/.idea
 *.iws
 *.iml
 *.ipr
