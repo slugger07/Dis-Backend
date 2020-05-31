@@ -16,6 +16,7 @@ import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
 import sgsits.cse.dis.user.serviceImpl.StaffServiceImpl;
 import sgsits.cse.dis.user.serviceImpl.userProfileServiceImpl.*;
+import sgsits.cse.dis.user.serviceImpl.userProfileServiceImpl.UserOtherAchievementService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -35,6 +36,7 @@ public class UserProfileController {
     private final UserTechnicalActivityService userTechnicalActivityService;
     private final UserAddressService userAddressService;
     private final StaffServiceImpl staffService;
+    private final UserOtherAchievementService userOtherAchievementService;
 
     private final JwtResolver jwtResolver = new JwtResolver();
 
@@ -46,7 +48,7 @@ public class UserProfileController {
                                  final UserInternshipService userInternshipService,
                                  final UserProjectService userProjectService,
                                  final UserQualificationService userQualificationService,
-                                 final UserTechnicalActivityService userTechnicalActivityService, final UserAddressService userAddressService, StaffServiceImpl staffService) {
+                                 final UserTechnicalActivityService userTechnicalActivityService, final UserAddressService userAddressService, StaffServiceImpl staffService, final UserOtherAchievementService userOtherAchievementService) {
         this.userWorkExperienceService = userWorkExperienceService;
         this.userResearchWorkService = userResearchWorkService;
         this.userCompetitiveExamService = userCompetitiveExamService;
@@ -57,6 +59,7 @@ public class UserProfileController {
         this.userTechnicalActivityService = userTechnicalActivityService;
         this.userAddressService = userAddressService;
         this.staffService = staffService;
+        this.userOtherAchievementService = userOtherAchievementService;
     }
 
 
@@ -173,7 +176,17 @@ public class UserProfileController {
 
         return new ResponseEntity<>(userAddressService.getUserProfileElement(id), HttpStatus.OK);
     }
+    
+    @ApiOperation(value = "User OtherAchievement", response = Object.class, httpMethod = "GET", produces = "application/json")
+    @GetMapping(value = "/userOtherAchievement")
+    public ResponseEntity<List<UserProfileDto>> getUserOtherAchievement(
+            HttpServletRequest request, @RequestParam String userId) throws InternalServerError {
 
+        final String id = StringUtils.isBlank(userId) ?
+                jwtResolver.getIdFromJwtToken(request.getHeader(ControllerConstants.AUTHORIZATION)) : userId;
+
+        return new ResponseEntity<>(userOtherAchievementService.getUserProfileElement(id), HttpStatus.OK);
+    }
 
     @ApiOperation(value = "User Qualification", response = Object.class, httpMethod = "POST", produces = "application/json")
     @PostMapping(value = "/addUserQualification")
@@ -264,7 +277,17 @@ public class UserProfileController {
                 request.getHeader(ControllerConstants.AUTHORIZATION));
     }
 
-    
+    @ApiOperation(value = "User OtherAchievement", response = Object.class, httpMethod = "POST", produces = "application/json")
+    @PostMapping(value = "/addUserOtherAchievement")
+    public void addUserOtherAchievement(@RequestBody final UserOtherAchievementDto userOtherAchievementDto,
+                               final HttpServletRequest request) throws InternalServerError, UnauthorizedException {
+
+        userOtherAchievementService.addUserProfileElement(userOtherAchievementDto,
+                request.getHeader(ControllerConstants.AUTHORIZATION));
+    }
+
+
+
     @ApiOperation(value = "delete competitive exam", response = Object.class, httpMethod = "GET", produces = "application/json")
     @GetMapping(value = "/deleteUserCompetitiveExam")
     public void deleteCompetitiveExam(@RequestParam final long id, final HttpServletRequest request)
@@ -346,6 +369,14 @@ public class UserProfileController {
                 request.getHeader(ControllerConstants.AUTHORIZATION));
     }
 
+    @ApiOperation(value = "delete other achievement ", response = Object.class, httpMethod = "GET", produces = "application/json")
+    @GetMapping(value = "/deleteUserOtherAchievement")
+    public void deleteOtherAchievement(@RequestParam final long id, final HttpServletRequest request)
+            throws InternalServerError, UnauthorizedException {
+
+        userOtherAchievementService.deleteUserProfileElementById(id,
+                request.getHeader(ControllerConstants.AUTHORIZATION));
+    }
 
 
     @ApiOperation(value = "Staff Basic Profile Data", response = Object.class, httpMethod = "GET", produces = "application/json")

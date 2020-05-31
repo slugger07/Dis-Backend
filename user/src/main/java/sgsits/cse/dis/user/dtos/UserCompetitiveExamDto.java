@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class UserCompetitiveExamDto extends UserProfileDto {
 
-
     private String nameOfExam;
 
     private double score;

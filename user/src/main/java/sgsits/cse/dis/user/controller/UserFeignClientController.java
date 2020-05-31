@@ -1,13 +1,12 @@
 package sgsits.cse.dis.user.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import sgsits.cse.dis.user.dtos.FacultyDataDto;
 import sgsits.cse.dis.user.message.request.SignUpForm;
 import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
@@ -15,6 +14,8 @@ import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.service.StaffService;
 import sgsits.cse.dis.user.service.UserServices;
+
+import java.util.List;
 
 @Api(value = "User Feign Client Controller")
 @RestController

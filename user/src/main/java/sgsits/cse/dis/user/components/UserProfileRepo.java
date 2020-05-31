@@ -30,6 +30,8 @@ public class UserProfileRepo {
 
     private final UserAddressRepository userAddressRepository;
 
+    private final UserOtherAchievementRepository userOtherAchievementRepository;
+
 
     @Autowired
     public UserProfileRepo(final UserQualificationRepository userQualificationRepository,
@@ -39,7 +41,7 @@ public class UserProfileRepo {
                            final UserTechnicalActivityRepository userTechnicalActivityRepository,
                            final UserCulturalActivityAchievementRepository userCulturalActivityAchievementRepository,
                            final UserCompetitiveExamRepository userCompetitiveExamRepository,
-                           final UserProjectRepository userProjectRepository, final UserAddressRepository userAddressRepository) {
+                           final UserProjectRepository userProjectRepository, final UserAddressRepository userAddressRepository, final UserOtherAchievementRepository userOtherAchievementRepository) {
         this.userQualificationRepository = userQualificationRepository;
         this.userWorkExperienceRepository = userWorkExperienceRepository;
         this.userResearchWorkRepository = userResearchWorkRepository;
@@ -49,6 +51,7 @@ public class UserProfileRepo {
         this.userCompetitiveExamRepository = userCompetitiveExamRepository;
         this.userProjectRepository = userProjectRepository;
         this.userAddressRepository = userAddressRepository;
+        this.userOtherAchievementRepository = userOtherAchievementRepository;
     }
 
     public void addOrUpdateUserQualification(final UserQualification userQualification)
@@ -311,10 +314,46 @@ public class UserProfileRepo {
         }
     }
 
+
+
+    public void addOrUpdateUserOtherAchievement(final UserOtherAchievement userOtherAchievement) throws InternalServerError {
+
+        try {
+            userOtherAchievementRepository.save(userOtherAchievement);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot add or update user project");
+        }
+
+    }
+
+    public List<UserOtherAchievement> getUserOtherAchievement(final String userId) throws InternalServerError {
+
+        try {
+            return userOtherAchievementRepository.findByUserId(userId);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot get user project");
+        }
+    }
+
+    public void deleteUserOtherAchievementById(final Long userOtherAchievementId) throws InternalServerError {
+        try {
+            userProjectRepository.deleteById(userOtherAchievementId);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot delete user project");
+        }
+    }
+    
+
     public UserAddress getUserAddressById(final long id) {
     
         Optional<UserAddress> userAddressOptional = userAddressRepository.findById(id);
         return userAddressOptional.orElse(null);
+    }
+
+    public UserOtherAchievement getUserOtherAchievementById(final long id) {
+
+        Optional<UserOtherAchievement> userOtherAchievementOptional = userOtherAchievementRepository.findById(id);
+        return userOtherAchievementOptional.orElse(null);
     }
 
     public UserCompetitiveExam getUserCompetitiveExamById(final long id) {

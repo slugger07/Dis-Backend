@@ -75,7 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 authorizeRequests()
                 .antMatchers().access("not(hasAuthority('student'))")
                 .antMatchers("/dis/signin", "/dis/signup", "/dis/preActivation", "/dis/activation", "/dis/forgotPassword" ,"/dis/resetPassword","/dis/processResetPassword").permitAll()
-                .antMatchers(Urls.ADD_EVENT).access("hasAuthority('NBA')")
                 .antMatchers("/dis/signin", "/dis/signup", "/preActivation", "/activation", "/forgotPassword" ,"/resetPassword","/dis/user/chat/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
