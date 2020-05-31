@@ -56,9 +56,10 @@ public class Event implements Serializable {
 	
 	@Column(name = "event_incharge")
 	private String eventIncharge;
-	
-	@Column(name = "agenda")
-	private Blob agenda;
+
+	@Lob
+	@Column(name = "attachment")
+	private Blob attachment;
 
 	@OneToMany(targetEntity = EventParticipant.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
@@ -66,7 +67,7 @@ public class Event implements Serializable {
 
 	public Event() {}
 
-	public Event(String eventId, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants, String location, Blob agenda) {
+	public Event(String eventId, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants, String location, Blob attachment) {
 		super();
 		this.eventId = eventId;
 		this.createdBy = createdBy;
@@ -81,7 +82,7 @@ public class Event implements Serializable {
 		this.eventIncharge = eventIncharge;
 		this.participants = participants;
 		this.location = location;
-		this.agenda = agenda;
+		this.attachment = attachment;
 	}
 
 	public String getCreatedBy() {
@@ -123,13 +124,13 @@ public class Event implements Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	
+
 	public Blob getBlob() {
-		return agenda;
+		return attachment;
 	}
 
-	public void setBlob() {
-		this.agenda = agenda;
+	public void setBlob(Blob attachment) {
+		this.attachment = attachment;
 	}
 
 
