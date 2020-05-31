@@ -16,6 +16,9 @@ import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.service.StaffService;
 import sgsits.cse.dis.user.service.UserServices;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 @Api(value = "User Feign Client Controller")
 @RestController
 @RequestMapping(path = "/userFeignClientController")
