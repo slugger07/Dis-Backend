@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import sgsits.cse.dis.user.dto.NotificationDto;
 import sgsits.cse.dis.user.dto.SendNotificationRequestDto;
+import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.service.NotificationService;
-import sgsits.cse.dis.user.utils.JwtUtils;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class UserNotificationController {
      */
     @GetMapping(value = "/getAllNotifications")
     public List<NotificationDto> getUserName(@RequestHeader("Authorization") final String authHeader) { //HttpServletRequest request) {
-        final String username = JwtUtils.getUsernameFromAuthHead(authHeader);//request.getHeader("Authorization"));
+        final String username = JwtResolver.getUsernameFromAuthHead(authHeader);//request.getHeader("Authorization"));
         return notificationService.getAllNotification(username);
     }
 
@@ -75,7 +75,7 @@ public class UserNotificationController {
      */
     @GetMapping(value = "/markAsRead/{notificationId}")
     public void markAsRead(@PathVariable("notificationId") final String notificationId, @RequestHeader("Authorization") final String authHeader) {
-        final String username = JwtUtils.getUsernameFromAuthHead(authHeader);
+        final String username = JwtResolver.getUsernameFromAuthHead(authHeader);
         notificationService.markAsRead(notificationId, username);
     }
 
@@ -86,7 +86,7 @@ public class UserNotificationController {
      */
     @GetMapping(value = "/markAllAsRead")
     public void markAllAsRead(@RequestHeader("Authorization") final String authHeader) {
-        final String username = JwtUtils.getUsernameFromAuthHead(authHeader);
+        final String username = JwtResolver.getUsernameFromAuthHead(authHeader);
         notificationService.markAllAsRead(username);
     }
 
