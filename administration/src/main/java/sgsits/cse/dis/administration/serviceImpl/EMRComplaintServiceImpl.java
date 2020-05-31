@@ -19,7 +19,7 @@ import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 import sgsits.cse.dis.administration.service.EMRComplaintService;
 
 @Service
-public class EmrComplaintServiceImpl implements EMRComplaintService {
+public class EMRComplaintServiceImpl implements EMRComplaintService {
 
 	@Autowired
 	EMRComplaintRepository emrsComplaintRepository;

@@ -19,7 +19,7 @@ import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 import sgsits.cse.dis.administration.service.ECCWComplaintService;
 
 @Service
-public class EccwComplaintServiceImpl implements ECCWComplaintService {
+public class ECCWComplaintServiceImpl implements ECCWComplaintService {
 	
 	@Autowired
 	ECCWComplaintRepository eccwComplaintRepository;

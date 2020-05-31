@@ -246,18 +246,17 @@ public class ComplaintController {
 		return emrComplaintService.getRemainingComplaints(id);
 	}
 	
-//	@ApiOperation(value = "Get Remaining Telephone Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
-//	@RequestMapping(value = RestAPI.GET_REMAINING_TELEPHONE_COMPLAINTS, method = RequestMethod.GET)
-//	public List<TelephoneComplaint> getRemainingTelephoneComplaints(HttpServletRequest request) {
-//		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
-//		List<String> locations = infrastructureClient.findInchargeOf(id);
-//		if (locations != null) {
-//			return cleanlinessComplaintService.findAllRemainingComplaints(locations);
-//		} else {
-//			return null;
-//		}
-//
-//	}
+	@ApiOperation(value = "Get Remaining Cleanliness Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_REMAINING_CLEANLINESS_COMPLAINTS, method = RequestMethod.GET)
+	public List<CleanlinessComplaint> getRemainingCleanlinessComplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		List<String> locations = infrastructureClient.findInchargeOf(id);
+		if (locations != null) {
+			return cleanlinessComplaintService.findAllRemainingComplaints(locations);
+		}
+		return null;
+	}
+	
 
 	@ApiOperation(value = "Get Remaining LE Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = "/getRemainingLEComplaints", method = RequestMethod.GET)
@@ -279,18 +278,6 @@ public class ComplaintController {
 		List<String> location = infrastructureClient.findInchargeOf(id);
 		if (location != null) {
 			return cwnComplaintService.findAllRemainingComplaints(location);
-		} else {
-			return null;
-		}
-	}
-
-	@ApiOperation(value = "Get Remaining CWN Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
-	@RequestMapping(value = "/getRemainingEMRSComplaints", method = RequestMethod.GET)
-	public List<EMRComplaint> getRemainingEMRomplaints(HttpServletRequest request) {
-		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
-		List<String> location = infrastructureClient.findInchargeOf(id);
-		if (location != null) {
-			return emrComplaintService.findAllRemainingComplaints(location);
 		} else {
 			return null;
 		}
@@ -330,16 +317,6 @@ public class ComplaintController {
 		return null;
 	}
 	
-//	@ApiOperation(value = "Get Remaining Other Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
-//	@RequestMapping(value = "/getRemainingOtherComplaints", method = RequestMethod.GET)
-//	public List<OtherComplaint> getRemainingOtherComplaints(HttpServletRequest request) {
-//		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
-//		String user_name = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
-//		if (user_type.equals("head")) {
-//			return otherComplaintService.findByStatusNot("Resolved");
-//		}
-//		return otherComplaintService.findByAssignedToAndStatusNot(user_name, "Resolved");
-//	}
 	
 	@ApiOperation(value = "Get Remaining Telephone Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = "/getRemainingTelephoneComplaints", method = RequestMethod.GET)
