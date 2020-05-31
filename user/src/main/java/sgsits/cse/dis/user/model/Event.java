@@ -1,6 +1,7 @@
 package sgsits.cse.dis.user.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,6 +56,9 @@ public class Event implements Serializable {
 	
 	@Column(name = "event_incharge")
 	private String eventIncharge;
+	
+	@Column(name = "agenda")
+	private Blob agenda;
 
 	@OneToMany(targetEntity = EventParticipant.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
@@ -62,7 +66,7 @@ public class Event implements Serializable {
 
 	public Event() {}
 
-	public Event(String eventId, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants) {
+	public Event(String eventId, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants, String location, Blob agenda) {
 		super();
 		this.eventId = eventId;
 		this.createdBy = createdBy;
@@ -77,6 +81,7 @@ public class Event implements Serializable {
 		this.eventIncharge = eventIncharge;
 		this.participants = participants;
 		this.location = location;
+		this.agenda = agenda;
 	}
 
 	public String getCreatedBy() {
@@ -118,6 +123,15 @@ public class Event implements Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
+	public Blob getBlob() {
+		return agenda;
+	}
+
+	public void setBlob() {
+		this.agenda = agenda;
+	}
+
 
 	public Set<EventParticipant> getParticipants() {
 		return participants;

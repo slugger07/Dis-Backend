@@ -1,7 +1,7 @@
 package sgsits.cse.dis.user.service;
 
-import org.springframework.mail.SimpleMailMessage;
+import javax.mail.internet.MimeMessage;
 
 public interface EmailService {
-    public void sendEmail(SimpleMailMessage email);
+    public void sendEmail(MimeMessage email);
 }

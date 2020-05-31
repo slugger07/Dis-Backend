@@ -2,7 +2,10 @@ package sgsits.cse.dis.user.controller;
 
 import com.sun.mail.util.MailConnectException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,11 @@ import sgsits.cse.dis.user.constants.DisConstants;
 import sgsits.cse.dis.user.service.EmailService;
 
 import java.rmi.UnknownHostException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Controller
 @EnableAsync
@@ -17,16 +25,23 @@ public class EmailController {
 
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Async
-    public void sendSimpleEmail(String subject, String text, String... cclist) throws MailConnectException,UnknownHostException
+    public void sendSimpleEmail(String subject, String text, Blob agenda , String... cclist) throws MessagingException,MailConnectException,UnknownHostException, SQLException
     {
         // Create a Simple MailMessage.
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(DisConstants.DIS_EMAIL);
-        message.setCc(cclist);
-        message.setSubject(subject);
-        message.setText(text);
+    	MimeMessage message = mailSender.createMimeMessage();
+    	MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom(DisConstants.DIS_EMAIL);
+        helper.setCc(cclist);
+        helper.setSubject(subject);
+        helper.setText(text);
+        if(agenda != null) {
+        helper.addAttachment("agenda.pdf",new InputStreamResource(agenda.getBinaryStream()));
+        }
         emailService.sendEmail(message);
     }
 

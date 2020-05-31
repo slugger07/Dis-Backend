@@ -1,6 +1,7 @@
 package sgsits.cse.dis.user.serviceImpl;
 
 import java.rmi.UnknownHostException;
+import java.sql.SQLException;
 import java.util.*;
 
 import com.sun.mail.util.MailConnectException;
@@ -16,6 +17,7 @@ import sgsits.cse.dis.user.model.Holiday;
 import sgsits.cse.dis.user.repo.*;
 import sgsits.cse.dis.user.service.CalendarServices;
 
+import javax.mail.MessagingException;
 import javax.swing.text.html.HTMLDocument;
 
 @Service
@@ -40,7 +42,7 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event addEvent(Event event) throws MailConnectException, UnknownHostException {
+	public Event addEvent(Event event) throws UnknownHostException, MessagingException, SQLException {
 		eventRepository.save(event);
 		ArrayList<String> mailing_list = new ArrayList<String>();
 		for(EventParticipant participant: event.getParticipants()) {
@@ -57,7 +59,7 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event updateEvent(Event event,String eventId) throws EventDoesNotExistException, MailConnectException, UnknownHostException {
+	public Event updateEvent(Event event,String eventId) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
 		if (eventId == null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 			}
@@ -94,7 +96,7 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public void deleteEvent(String eventId) throws EventDoesNotExistException, MailConnectException, UnknownHostException {
+	public void deleteEvent(String eventId) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
 		if (eventId==null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 		}
@@ -124,7 +126,7 @@ public class CalendarServicesImpl implements CalendarServices {
 		return eventList;
 	}
 
-	private void sendMeetingInvites(ArrayList<String> username_list, String mail_type, Event event) throws MailConnectException, UnknownHostException {
+	private void sendMeetingInvites(ArrayList<String> username_list, String mail_type, Event event) throws UnknownHostException, MessagingException, SQLException {
 		String type;
 		ArrayList<String> mailing_list = new ArrayList<String>();
 		List<Object[]> staffData = staffBasicProfileRepository.findAllUserIdAndEmails();
@@ -152,7 +154,7 @@ public class CalendarServicesImpl implements CalendarServices {
 						"When : "+ event.getStartDate().toString() + "\n" +
 						"Where : "+ event.getLocation() + "\n" +
 						"Agenda : " + event.getDescription()+ "\n" +
-						"Organizer : " + organizer+ "\n", mailing_list.toArray(new String[0]));
+						"Organizer : " + organizer+ "\n", event.getBlob(), mailing_list.toArray(new String[0]));
 
 	}
 }

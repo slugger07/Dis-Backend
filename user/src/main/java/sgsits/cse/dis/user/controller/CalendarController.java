@@ -1,7 +1,10 @@
 package sgsits.cse.dis.user.controller;
 
 import java.rmi.UnknownHostException;
+import java.sql.SQLException;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import com.sun.mail.util.MailConnectException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,20 +55,20 @@ public class CalendarController {
 	
 	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/addEvent", produces = "application/json")
-	public Event addEvent(@RequestBody Event event) throws MailConnectException, UnknownHostException {
+	public Event addEvent(@RequestBody Event event) throws UnknownHostException, MessagingException, SQLException {
 		return calenderServiceImpl.addEvent(event);
 	}
 	
 	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "DELETE", produces="application/json")
 	@DeleteMapping(path = "/deleteEvent", produces="application/json")
-	public void deleteEvent(@RequestParam(value="eventId")  String eventId) throws EventDoesNotExistException, MailConnectException, UnknownHostException {
+	public void deleteEvent(@RequestParam(value="eventId")  String eventId) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
 		System.out.println(eventId);
 		calenderServiceImpl.deleteEvent(eventId);
 	}
 	
 	@ApiOperation(value="Update an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/updateEvent", produces = "application/json")
-	public Event updateEvent(@RequestParam(value="eventId") String eventId,@RequestBody Event event) throws EventDoesNotExistException, MailConnectException, UnknownHostException {
+	public Event updateEvent(@RequestParam(value="eventId") String eventId,@RequestBody Event event) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
 		return calenderServiceImpl.updateEvent(event,eventId);
 	}
 	
