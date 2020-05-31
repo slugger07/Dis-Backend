@@ -116,5 +116,10 @@ public class StudentComplaintServiceImpl implements StudentComplaintService{
 	public List<StudentComplaint> findAll() {
 		return studentComplaintRepository.findAll();
 	}
+
+	@Override
+	public List<StudentComplaint> getRemainingStudentComplaints() {
+		return studentComplaintRepository.findByStatusNot("Resolved");
+	}
 	
 }

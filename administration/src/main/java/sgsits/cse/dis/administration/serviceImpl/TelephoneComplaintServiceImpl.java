@@ -23,7 +23,10 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 
 	@Autowired
 	TelephoneComplaintRepository telephoneComplaintRepository;
-
+	
+	@Autowired
+	private InfrastructureClient infrastructureClient;
+	
 	@Override
 	public List<TelephoneComplaint> addMultipleComplaint(List<TelephoneComplaintForm> complaintList, String userId) {
 		/*
@@ -114,12 +117,6 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 		return telephoneComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
-	
-	@Autowired
-	private InfrastructureClient infrastructureClient;
-	
-	@Autowired
-	private TelephoneComplaintRepository telephoneComplaintRepository;
 
 	@Override
 	public List<TelephoneComplaint> getResolvedComplaints(String id) {

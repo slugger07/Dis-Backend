@@ -16,10 +16,10 @@ import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EMRComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
-import sgsits.cse.dis.administration.service.EmrComplaintService;
+import sgsits.cse.dis.administration.service.EMRComplaintService;
 
 @Service
-public class EmrComplaintServiceImpl implements EmrComplaintService {
+public class EmrComplaintServiceImpl implements EMRComplaintService {
 
 	@Autowired
 	EMRComplaintRepository emrsComplaintRepository;
@@ -123,6 +123,9 @@ public class EmrComplaintServiceImpl implements EmrComplaintService {
 			}
 		}
 		return complaints;
+	}
+	
+	@Override
 	public List<EMRComplaint> getRemainingComplaints(String id) {
 		List<String> location = infrastructureClient.findInchargeOf(id);
 		if (location.size() != 0)
@@ -130,4 +133,8 @@ public class EmrComplaintServiceImpl implements EmrComplaintService {
 		return null;
 	}
 
+	@Override
+	public List<EMRComplaint> findAllRemainingComplaints(List<String> location) {
+		return emrsComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
+	}
 }

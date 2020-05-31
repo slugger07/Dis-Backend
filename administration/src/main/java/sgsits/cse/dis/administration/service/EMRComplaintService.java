@@ -8,7 +8,7 @@ import sgsits.cse.dis.administration.request.EMRComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 
-public interface EmrComplaintService {
+public interface EMRComplaintService {
 	public List<EMRComplaint> getResolvedComplaints(String id);
 	public List<EMRComplaint> getTotalComplaints(String id);
 	public List<EMRComplaint> getRemainingComplaints(String id);

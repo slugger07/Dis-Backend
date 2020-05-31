@@ -22,7 +22,7 @@ public class FacultyServiceImpl implements FacultyComplaintService {
 	@Override
 	public List<FacultyComplaint> getRemainingFacultyComplaints() {
 		return facultyComplaintRepository.findByStatusNot("Resolved");
-
+	}
 	
 	@Override
 	public List<FacultyComplaint> getMyComplaints(String userType, String userId) {

@@ -46,9 +46,9 @@ import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 import sgsits.cse.dis.administration.response.ResponseMessage;
 import sgsits.cse.dis.administration.response.TelephoneComplaintResponse;
 import sgsits.cse.dis.administration.service.CleanlinessComplaintService;
-import sgsits.cse.dis.administration.service.CwnComplaintService;
-import sgsits.cse.dis.administration.service.EccwComplaintService;
-import sgsits.cse.dis.administration.service.EmrComplaintService;
+import sgsits.cse.dis.administration.service.CWNComplaintService;
+import sgsits.cse.dis.administration.service.ECCWComplaintService;
+import sgsits.cse.dis.administration.service.EMRComplaintService;
 import sgsits.cse.dis.administration.service.FacultyComplaintService;
 import sgsits.cse.dis.administration.service.LEComplaintService;
 import sgsits.cse.dis.administration.service.OtherComplaintService;
@@ -67,10 +67,10 @@ public class ComplaintController {
 	private LEComplaintService leComplaintService;
 
 	@Autowired
-	private CwnComplaintService cwnComplaintService;
+	private CWNComplaintService cwnComplaintService;
 
 	@Autowired
-	private EmrComplaintService emrComplaintService;
+	private EMRComplaintService emrComplaintService;
 
 	@Autowired
 	private FacultyComplaintService facultyComplaintService;
@@ -79,7 +79,7 @@ public class ComplaintController {
 	private StudentComplaintService studentComplaintService;
 
 	@Autowired
-	private EccwComplaintService eccwComplaintService;
+	private ECCWComplaintService eccwComplaintService;
 	
 	@Autowired
 	private OtherComplaintService otherComplaintService;

@@ -17,10 +17,10 @@ import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
 
-import sgsits.cse.dis.administration.service.CwnComplaintService;
+import sgsits.cse.dis.administration.service.CWNComplaintService;
 
 @Service
-public class CwnComplaintServiceImpl implements CwnComplaintService {
+public class CwnComplaintServiceImpl implements CWNComplaintService {
 
 	@Autowired
 	CWNComplaintRepository cwnComplaintRepository;

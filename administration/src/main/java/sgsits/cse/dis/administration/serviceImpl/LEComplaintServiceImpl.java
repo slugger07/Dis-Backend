@@ -16,7 +16,7 @@ import sgsits.cse.dis.administration.request.LEComplaintForm;
 import sgsits.cse.dis.administration.service.LEComplaintService;
 
 @Service
-public class LeComplaintServiceImpl implements LEComplaintService{
+public class LEComplaintServiceImpl implements LEComplaintService{
 
 	@Autowired
 	LEComplaintRepository leComplaintRepository;
@@ -94,12 +94,17 @@ public class LeComplaintServiceImpl implements LEComplaintService{
 	public List<LEComplaint> findByLabIn(List<String> location) {
 		return leComplaintRepository.findByLabIn(location);
 	}
-}
+
 	public List<LEComplaint> getResolvedComplaints(String id) {
 		List<String> location = infrastructureClient.findInchargeOf(id);
 		if (location.size() != 0)
 			return leComplaintRepository.findByLabInAndStatus(location, "Resolved");
 		return null;
+	}
+
+	@Override
+	public List<LEComplaint> findAllRemainingComplaints(List<String> location) {
+		return leComplaintRepository.findByLabInAndStatusNot(location, "Resolved");
 	}
 	
 	

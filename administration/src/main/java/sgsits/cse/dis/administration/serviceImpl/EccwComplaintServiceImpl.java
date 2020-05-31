@@ -16,10 +16,10 @@ import sgsits.cse.dis.administration.request.ComplaintDownloadReportForm;
 import sgsits.cse.dis.administration.request.ECCWComplaintForm;
 import sgsits.cse.dis.administration.request.EditComplaintForm;
 import sgsits.cse.dis.administration.response.ComplaintGeneralResponse;
-import sgsits.cse.dis.administration.service.EccwComplaintService;
+import sgsits.cse.dis.administration.service.ECCWComplaintService;
 
 @Service
-public class EccwComplaintServiceImpl implements EccwComplaintService {
+public class EccwComplaintServiceImpl implements ECCWComplaintService {
 	
 	@Autowired
 	ECCWComplaintRepository eccwComplaintRepository;
@@ -114,11 +114,19 @@ public class EccwComplaintServiceImpl implements EccwComplaintService {
 			}
 		}
 		return complaints;
+	}
+	
+	@Override
 	public List<ECCWComplaint> getTotalComplaints(String id) {
 		List<String> location = infrastructureClient.findInchargeOf(id);
 		if (location.size() != 0)
 			return eccwComplaintRepository.findByLocationIn(location);
 		return null;
+	}
+
+	@Override
+	public List<ECCWComplaint> findAllRemainingComplaints(List<String> location) {
+		return eccwComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
 }
