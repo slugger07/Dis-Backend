@@ -59,7 +59,7 @@ public class EccwComplaintServiceImpl implements ECCWComplaintService {
 		Optional<ECCWComplaint> eccw = eccwComplaintRepository.findById(editComplaintForm.getId());
 		if (eccw.isPresent()) {
 			eccw.get().setModifiedBy(userId);
-			eccw.get().setModifiedDate((new SimpleDateFormat()).format(new Date()));
+			eccw.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			eccw.get().setStatus(editComplaintForm.getStatus());
 			eccw.get().setRemarks(editComplaintForm.getRemarks());
 			if (editComplaintForm.getStatus().equals("Resolved"))

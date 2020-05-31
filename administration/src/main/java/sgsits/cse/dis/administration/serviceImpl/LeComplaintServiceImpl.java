@@ -28,8 +28,9 @@ public class LeComplaintServiceImpl implements LEComplaintService {
 	@Override
 	public LEComplaint addComplaint(LEComplaintForm complaintForm, String userId) {
 		LEComplaint leComplaint = new LEComplaint();
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		leComplaint.setCreatedBy(userId);
-		leComplaint.setCreatedDate((new SimpleDateFormat()).format(new Date()));
+		leComplaint.setCreatedDate(simpleDateFormat.format(new Date()));
 		leComplaint.setStatus("Not Assigned");
 		leComplaint.setLab(complaintForm.getLab());
 		leComplaint.setSystemNo(complaintForm.getSystemNo());
@@ -55,7 +56,7 @@ public class LeComplaintServiceImpl implements LEComplaintService {
 		Optional<LEComplaint> lec = leComplaintRepository.findById(editComplaintForm.getId());
 		if (lec.isPresent()) {
 			lec.get().setModifiedBy(userId);
-			lec.get().setModifiedDate((new SimpleDateFormat()).format(new Date()));
+			lec.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			lec.get().setStatus(editComplaintForm.getStatus());
 			lec.get().setRemarks(editComplaintForm.getRemarks());
 			if(editComplaintForm.getStatus().equals("Resolved"))

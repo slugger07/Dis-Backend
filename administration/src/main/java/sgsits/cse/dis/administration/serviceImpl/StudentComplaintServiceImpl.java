@@ -53,14 +53,16 @@ public class StudentComplaintServiceImpl implements StudentComplaintService{
 
 	@Override
 	public StudentComplaint addComplaint(StudentComplaintForm complaintForm, String userId) {
-		StudentComplaint studentComplaint = new StudentComplaint(complaintForm.getStudentRollNo(),
-																 complaintForm.getStudentName(),
-																 complaintForm.getYear(),
-																 complaintForm.getCourse());
+		StudentComplaint studentComplaint = new StudentComplaint();
 		studentComplaint.setCreatedBy(userId);
+		studentComplaint.setYear(complaintForm.getYear());
+		studentComplaint.setName(complaintForm.getStudentName());
+		studentComplaint.setCourse(complaintForm.getCourse());
+		studentComplaint.setRollNo(complaintForm.getStudentRollNo());
 		studentComplaint.setCreatedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 		studentComplaint.setStatus("Not Assigned");
 		studentComplaint.setType("STUDENT");
+		studentComplaint.setDetails(complaintForm.getDetails());
 		StudentComplaint test = studentComplaintRepository.save(studentComplaint);
 		return test;
 	}

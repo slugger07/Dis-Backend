@@ -55,7 +55,7 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 		TelephoneComplaint test = null;
 		if (tc.isPresent()) {
 			tc.get().setModifiedBy(userId);
-			tc.get().setModifiedDate((new SimpleDateFormat()).format(new Date()));
+			tc.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			tc.get().setStatus(editComplaintForm.getStatus());
 			tc.get().setRemarks(editComplaintForm.getRemarks());
 			if (editComplaintForm.getStatus().equals("Resolved"))
@@ -83,8 +83,14 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 
 	@Override
 	public List<TelephoneComplaintResponse> getDownloadReportData(ComplaintDownloadReportForm complaintInfo) {
-		Optional<List<TelephoneComplaint>> telephones = telephoneComplaintRepository.findByCreatedDate(complaintInfo.getCreatedDate());
+		Optional<List<TelephoneComplaint>> telephones = null;
 		List<TelephoneComplaintResponse> complaints = new ArrayList<>();
+		if(complaintInfo.getLocation().equals("")) {
+			telephones = telephoneComplaintRepository.findByCreatedDate(complaintInfo.getCreatedDate());
+		}
+		else {
+			telephones = telephoneComplaintRepository.findByCreatedDateAndLocation(complaintInfo.getCreatedDate(), complaintInfo.getLocation());
+		}
 		if(telephones.isPresent()) {
 			int count = 1;
 			for(TelephoneComplaint telephoneComplaint : telephones.get()) {
@@ -93,13 +99,18 @@ public class TelephoneComplaintServiceImpl implements TelephoneComplaintService 
 				complaint.setLocation(telephoneComplaint.getLocation());
 				complaint.setExtensionNo(telephoneComplaint.getExtensionNo());
 				complaint.setDateOfResolution(telephoneComplaint.getDateOfResolution());
-				complaint.setCreatedDate(telephoneComplaint.getCreatedBy());
+				complaint.setCreatedDate(telephoneComplaint.getCreatedDate());
 				complaint.setSno(count);
 				complaints.add(complaint);
 				count++;
 			}
 		}
 		return complaints;
+	}
+
+	@Override
+	public List<TelephoneComplaint> findAllRemainingComplaints(List<String> location) {
+		return telephoneComplaintRepository.findByLocationInAndStatusNot(location, "Resolved");
 	}
 
 }

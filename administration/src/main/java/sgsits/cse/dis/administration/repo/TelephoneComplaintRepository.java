@@ -31,4 +31,5 @@ public interface TelephoneComplaintRepository extends JpaRepository<TelephoneCom
 	long countByLocationInAndStatus(List<String> loc, String string);
 	long countByLocationIn(List<String> loc);
 	Optional<List<TelephoneComplaint>> findByCreatedDate(String createdDate);
+	Optional<List<TelephoneComplaint>> findByCreatedDateAndLocation(String createdDate, String location);
 }

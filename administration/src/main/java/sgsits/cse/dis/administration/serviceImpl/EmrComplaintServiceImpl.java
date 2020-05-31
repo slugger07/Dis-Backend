@@ -60,11 +60,11 @@ public class EmrComplaintServiceImpl implements EMRComplaintService {
 		EMRComplaint test = null;
 		if (emrs.isPresent()) {
 			emrs.get().setModifiedBy(userId);
-			emrs.get().setModifiedDate((new SimpleDateFormat()).format(new Date()));
+			emrs.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			emrs.get().setStatus(editComplaintForm.getStatus());
 			emrs.get().setRemarks(editComplaintForm.getRemarks());
 			if (editComplaintForm.getStatus().equals("Resolved"))
-				emrs.get().setDateOfResolution((new SimpleDateFormat()).format(new Date()));
+				emrs.get().setDateOfResolution((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			test = emrsComplaintRepository.save(emrs.get());
 		}
 		return test;

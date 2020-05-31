@@ -21,18 +21,13 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 	OtherComplaintRepository otherComplaintRepository;
 
 	@Override
-	public List<OtherComplaint> findAllRemainingComplaints(List<String> location) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public OtherComplaint addComplaint(OtherComplaintForm complaintForm, String userId) {
 		OtherComplaint otherComplaint = new OtherComplaint();
 		otherComplaint.setDetails(complaintForm.getDetails());
 		otherComplaint.setCreatedBy(userId);
 		otherComplaint.setCreatedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
-		otherComplaint.setStatus("Not Assigned");
+		otherComplaint.setAssignedTo(complaintForm.getAssignedTo());
+		otherComplaint.setStatus("Not Resolved");
 		otherComplaint.setType("OTHER");
 		OtherComplaint test = otherComplaintRepository.save(otherComplaint);
 		return test;
@@ -52,7 +47,7 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 		OtherComplaint test = null;
 		if (other.isPresent()) {
 			other.get().setModifiedBy(userId);
-			other.get().setModifiedDate((new SimpleDateFormat()).format(new Date()));
+			other.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			other.get().setStatus(editComplaintForm.getStatus());
 			other.get().setRemarks(editComplaintForm.getRemarks());
 			other.get().setAssignedTo(editComplaintForm.getAssignedTo());
@@ -107,5 +102,17 @@ public class OtherComplaintServiceImpl implements OtherComplaintService {
 	public List<OtherComplaint> findByAssignedTo(String id) {
 		return otherComplaintRepository.findByAssignedTo(id);
 	}
+
+	@Override
+	public List<OtherComplaint> findByStatusNot(String string) {
+		return otherComplaintRepository.findByStatusNot(string);
+	}
+
+	@Override
+	public List<OtherComplaint> findByAssignedToAndStatusNot(String id, String string) {
+		return otherComplaintRepository.findByAssignedToAndStatusNot(id,string);
+	}
+
+	
 
 }

@@ -92,7 +92,7 @@ public class ComplaintController {
 
 	@Autowired
 	private InfrastructureClient infrastructureClient;
-
+	
 	JwtResolver jwtResolver = new JwtResolver();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ComplaintController.class);
@@ -182,6 +182,28 @@ public class ComplaintController {
 		}
 		return null;
 	}
+	
+	@ApiOperation(value = "Get Remaining Other Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = "/getRemainingOtherComplaints", method = RequestMethod.GET)
+	public List<OtherComplaint> getRemainingOtherComplaints(HttpServletRequest request) {
+		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		String user_name = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
+		if (user_type.equals("head")) {
+			return otherComplaintService.findByStatusNot("Resolved");
+		}
+		return otherComplaintService.findByAssignedToAndStatusNot(user_name, "Resolved");
+	}
+	
+	@ApiOperation(value = "Get Remaining Telephone Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = "/getRemainingTelephoneComplaints", method = RequestMethod.GET)
+	public List<TelephoneComplaint> getRemainingTelephoneomplaints(HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		List<String> location = infrastructureClient.findInchargeOf(id);
+		if (location != null) {
+			return telephoneComplaintService.findAllRemainingComplaints(location);
+		}
+		return null;
+	}
 
 	@ApiOperation(value = "Add Cleanliness Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
 	@RequestMapping(value = "/addCleanlinessComplaint", method = RequestMethod.POST)
@@ -203,7 +225,7 @@ public class ComplaintController {
 
 	// not adding form id and pdf id
 	@ApiOperation(value = "Add CWN Maintenance Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
-	@RequestMapping(value = "/addCWN", method = RequestMethod.POST)
+	@RequestMapping(value = "/addCWNComplaint", method = RequestMethod.POST)
 	public ResponseEntity<?> addCWNComplaint(@RequestBody List<CWNComplaintForm> cwnComplaints,
 			HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
@@ -221,7 +243,7 @@ public class ComplaintController {
 	}
 
 	@ApiOperation(value = "Add Engineering Cell / Central Workshop Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
-	@RequestMapping(value = "/addECCW", method = RequestMethod.POST)
+	@RequestMapping(value = "/addECCWComplaint", method = RequestMethod.POST)
 	public ResponseEntity<?> addECCWComplaint(@RequestBody List<ECCWComplaintForm> eccwComplaint,
 			HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
@@ -240,7 +262,7 @@ public class ComplaintController {
 	}
 
 	@ApiOperation(value = "Add Electrical Maintenance and Repairs Section Complaint", response = Object.class, httpMethod = "POST", produces = "application/json")
-	@RequestMapping(value = "/addEMRS", method = RequestMethod.POST)
+	@RequestMapping(value = "/addEMRSComplaint", method = RequestMethod.POST)
 	public ResponseEntity<?> addEMRSComplaint(@RequestBody List<EMRComplaintForm> emrComplaints,
 			HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
@@ -439,7 +461,7 @@ public class ComplaintController {
 						HttpStatus.BAD_REQUEST);
 			}
 
-		case "EMRS":
+		case "EMR":
 			EMRComplaint emrComplaint = emrComplaintService.editComplaint(editComplaintForm, id);
 			if (emrComplaint != null) {
 				return new ResponseEntity<>(new ResponseMessage(ComplaintConstants.SUCCESSFULLY_UPDATED),
@@ -648,4 +670,6 @@ public class ComplaintController {
 		complaints = telephoneComplaintService.getDownloadReportData(complaintInfo);
 		return complaints;
 	}
+	
+		
 }

@@ -3,6 +3,7 @@ package sgsits.cse.dis.gateway.controller;
 import java.rmi.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import sgsits.cse.dis.gateway.message.request.LoginForm;
 import sgsits.cse.dis.gateway.message.request.SignUpForm;
 import sgsits.cse.dis.gateway.message.response.JwtResponse;
 import sgsits.cse.dis.gateway.message.response.ResponseMessage;
+import sgsits.cse.dis.gateway.message.response.StaffFacultyInfo;
 import sgsits.cse.dis.gateway.serviceImpl.UserDetailsServiceImpl;
 
 
@@ -90,5 +92,11 @@ public class AuthRestAPIs {
 	@GetMapping("/getUserType")
 	public String getuserType(HttpServletRequest request) {
 		return UserDetails.getuserType(request);
+	}
+	
+	@ApiOperation(value="Get staff and faculty list", response= String.class, httpMethod = "GET", produces="application/json")
+	@GetMapping("/getStaffFacultyList")
+	public List<StaffFacultyInfo> getStaffFacultyInfo(HttpServletRequest request) {
+		return UserDetails.getList();
 	}
 }

@@ -4,7 +4,9 @@ import java.rmi.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,6 +37,7 @@ import sgsits.cse.dis.gateway.message.request.LoginForm;
 import sgsits.cse.dis.gateway.message.request.SignUpForm;
 import sgsits.cse.dis.gateway.message.response.JwtResponse;
 import sgsits.cse.dis.gateway.message.response.ResponseMessage;
+import sgsits.cse.dis.gateway.message.response.StaffFacultyInfo;
 import sgsits.cse.dis.gateway.model.User;
 import sgsits.cse.dis.gateway.repo.TaskRepository;
 import sgsits.cse.dis.gateway.repo.UserRepository;
@@ -268,4 +271,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return null;
     }
+
+	public List<StaffFacultyInfo> getList() {
+		List<StaffFacultyInfo> list = new ArrayList<>();
+		List<User> staff = userRepository.findByUserType("staff");
+		List<User> faculty = userRepository.findByUserType("faculty");
+		for(User user : staff) {
+			StaffFacultyInfo c= new StaffFacultyInfo();
+			c.setId(user.getId());
+			c.setType(user.getUserType());
+			c.setUserName(user.getUsername());
+			
+			list.add(c);
+		}
+		for(User user : faculty) {
+			StaffFacultyInfo c= new StaffFacultyInfo();
+			c.setId(user.getId());
+			c.setType(user.getUserType());
+			c.setUserName(user.getUsername());
+			
+			list.add(c);
+		}
+		return list;
+	}
 }

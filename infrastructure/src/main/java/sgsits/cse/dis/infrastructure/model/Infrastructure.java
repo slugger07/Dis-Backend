@@ -21,13 +21,13 @@ public class Infrastructure {
 	private String createdBy;
 	
 	@Column(name = "created_date")
-	private Instant createdDate;
+	private String createdDate;
 	
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
 	@Column(name = "modified_date")
-	private Instant modifiedDate;
+	private String modifiedDate;
 	
 	@Column(name = "name")
 	private String name;
@@ -47,6 +47,18 @@ public class Infrastructure {
 	@Column(name = "incharge")
 	private String incharge;
 	
+	@Column(name = "incharge_name")
+	private String inchargeName; 
+	
+	
+	public String getInchargeName() {
+		return inchargeName;
+	}
+
+	public void setInchargeName(String inchargeName) {
+		this.inchargeName = inchargeName;
+	}
+
 	@Column(name = "associate_incharge")
 	private String associateIncharge;
 	
@@ -87,13 +99,6 @@ public class Infrastructure {
 		this.createdBy = createdBy;
 	}
 
-	public Instant getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Instant createdDate) {
-		this.createdDate = createdDate;
-	}
 
 	public String getModifiedBy() {
 		return modifiedBy;
@@ -103,12 +108,21 @@ public class Infrastructure {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Instant getModifiedDate() {
+	
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Instant modifiedDate) {
-		this.modifiedDate = modifiedDate;
+	public void setModifiedDate(String string) {
+		this.modifiedDate = string;
 	}
 
 	public String getName() {

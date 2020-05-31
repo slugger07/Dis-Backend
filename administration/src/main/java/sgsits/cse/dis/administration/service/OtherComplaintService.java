@@ -11,7 +11,6 @@ import sgsits.cse.dis.administration.request.OtherComplaintForm;
 @Service
 public interface OtherComplaintService{
 	boolean checkIfComplaintExist(String id, String details, String status);
-	List<OtherComplaint> findAllRemainingComplaints(List<String> location);
 	OtherComplaint addComplaint(OtherComplaintForm complaintForm, String userId);
 	OtherComplaint editComplaint(EditComplaintForm complaintForm, String userId);
 	long countByStatusNot(String status);
@@ -23,4 +22,6 @@ public interface OtherComplaintService{
 	long countAll();
 	List<OtherComplaint> findAll();
 	List<OtherComplaint> findByAssignedTo(String id);
+	List<OtherComplaint> findByStatusNot(String string);
+	List<OtherComplaint> findByAssignedToAndStatusNot(String id, String string);
 }

@@ -1,5 +1,6 @@
 package sgsits.cse.dis.gateway.repo;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Optional<User> findUserByResetToken(String token);
     Optional<User> findUserByActivationToken(String token);
+	List<User> findByUserType(String string);
 }

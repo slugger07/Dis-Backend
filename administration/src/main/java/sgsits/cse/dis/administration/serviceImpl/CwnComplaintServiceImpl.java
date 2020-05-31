@@ -65,7 +65,7 @@ public class CwnComplaintServiceImpl implements CWNComplaintService {
 		CWNComplaint test = null;
 		if (cwn.isPresent()) {
 			cwn.get().setModifiedBy(userId);
-			cwn.get().setModifiedDate((new SimpleDateFormat()).format(new Date()));
+			cwn.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 			cwn.get().setStatus(editComplaintForm.getStatus());
 			cwn.get().setRemarks(editComplaintForm.getRemarks());
 			if (editComplaintForm.getStatus().equals("Resolved"))
