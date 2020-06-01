@@ -113,6 +113,7 @@ public class ComplaintController {
 	@RequestMapping(value = RestAPI.GET_MY_OTHER_COMPLAINTS, method = RequestMethod.GET)
 	public List<OtherComplaint> getMyOtherComplaints(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+//		String userName = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		return otherComplaintService.getMyComplaints(id);
 	}
 	
@@ -152,9 +153,9 @@ public class ComplaintController {
 	@ApiOperation(value = "Get Resolved Other Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = RestAPI.GET_RESOLVED_OTHER_COMPLAINTS, method = RequestMethod.GET)
 	public List<OtherComplaint> getResolvedOtherComplaints(HttpServletRequest request) {
-		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userName = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
-		return otherComplaintService.getResolvedComplaints(userType, id);
+		return otherComplaintService.getResolvedComplaints(userType, userName);
 	}
 	
 	@ApiOperation(value = "Get Resolved Faculty Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
@@ -234,9 +235,9 @@ public class ComplaintController {
 	@ApiOperation(value = "Get Remaining Other Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = RestAPI.GET_REMAINING_OTHER_COMPLAINTS, method = RequestMethod.GET)
 	public List<OtherComplaint> getRemainingOtherComplaints(HttpServletRequest request) {
-		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userName = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
-		return otherComplaintService.getRemainingComplaints(userType, id);
+		return otherComplaintService.getRemainingComplaints(userType, userName);
 	}
 	
 	@ApiOperation(value = "Get Remaining EMRS Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
@@ -612,6 +613,7 @@ public class ComplaintController {
 	@RequestMapping(value = RestAPI.GET_REMAINING_COMPLAINTS_COUNT, method = RequestMethod.GET)
 	public long getRemainingComplaintsCount(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userName = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
 		long count = 0;
 		if (user_type.equals("head")) {
@@ -626,7 +628,7 @@ public class ComplaintController {
 			count = count + emrComplaintService.countByLocationInAndStatusNot(location, "Resolved");
 			count = count + leComplaintService.countByLabInAndStatusNot(location, "Resolved");
 			count = count + telephoneComplaintService.countByLocationInAndStatusNot(location, "Resolved");
-			count = count + otherComplaintService.countByAssignedToAndStatusNot(id, "Resolved");
+			count = count + otherComplaintService.countByAssignedToAndStatusNot(userName, "Resolved");
 		}
 		return count;
 	}
@@ -645,6 +647,7 @@ public class ComplaintController {
 	@RequestMapping(value = RestAPI.GET_RESOLVED_COMPLAINTS_COUNT, method = RequestMethod.GET)
 	public long getResolvedComplaintsCount(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userName = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
 		long count = 0;
 		if (user_type.equals("head")) {
@@ -659,7 +662,7 @@ public class ComplaintController {
 			count = count + emrComplaintService.countByLocationInAndStatus(loc, "Resolved");
 			count = count + leComplaintService.countByLabInAndStatus(loc, "Resolved");
 			count = count + telephoneComplaintService.countByLocationInAndStatus(loc, "Resolved");
-			count = count + otherComplaintService.countByAssignedToAndStatus(id, "Resolved");
+			count = count + otherComplaintService.countByAssignedToAndStatus(userName, "Resolved");
 
 		}
 		return count;
@@ -669,6 +672,7 @@ public class ComplaintController {
 	@RequestMapping(value = RestAPI.GET_TOTAL_COMPLAINTS_COUNT, method = RequestMethod.GET)
 	public long getTotalComplaintsCount(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userName = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
 		long count = 0;
 		if (user_type.equals("head")) {
@@ -683,7 +687,7 @@ public class ComplaintController {
 			count = count + emrComplaintService.countByLocationIn(loc);
 			count = count + leComplaintService.countByLabIn(loc);
 			count = count + telephoneComplaintService.countByLocationIn(loc);
-			count = count + otherComplaintService.countByAssignedTo(id);
+			count = count + otherComplaintService.countByAssignedTo(userName);
 		}
 		return count;
 	}
@@ -731,12 +735,12 @@ public class ComplaintController {
 	@ApiOperation(value = "Get Total Other Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
 	@RequestMapping(value = RestAPI.GET_TOTAL_OTHER_COMPLAINTS, method = RequestMethod.GET)
 	public List<OtherComplaint> getTotalOtherComplaints(HttpServletRequest request) {
-		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userName = jwtResolver.getUserNameFromJwtToken(request.getHeader("Authorization"));
 		String user_type = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
 		if (user_type.equals("head")) {
 			return otherComplaintService.findAll();
 		}
-		return otherComplaintService.findByAssignedTo(id);
+		return otherComplaintService.findByAssignedTo(userName);
 	}
 
 	@ApiOperation(value = "Get Total Faculty Complaints", response = Object.class, httpMethod = "GET", produces = "application/json")
