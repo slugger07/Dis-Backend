@@ -67,12 +67,14 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 			.map(infrastructureBriefMapper)
 			.collect(Collectors.toList());
 	}
+	
 	@Override
 	public List<String> getInfrastructureTypeList() {
 		
 		return infrastructureTypeRepository.findAll().stream()
 				.map(temp -> temp.getType()).collect(Collectors.toList());
 	}
+	
 	@Override
 	public String addNewInfrastructureLocation(String location) throws ConflictException {
 	    try{

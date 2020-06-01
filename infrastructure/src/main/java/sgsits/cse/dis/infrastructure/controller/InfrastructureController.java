@@ -127,4 +127,29 @@ public class InfrastructureController {
 	public List<RoomAssociationData> getRoomsAndAssociation(){
 		return infrastructureService.getRooms();
 	}
+	
+	@ApiOperation(value = "findIncharge", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_INCHARGES, method = RequestMethod.GET)
+	public List<String> findInchargeOf(@RequestParam("id") String id){
+		return infrastructureService.findInchargeOf(id);
+	}
+	
+	@ApiOperation(value = "getInfraInchargeDetails", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_INFRA_INCHARGE_DETAILS, method = RequestMethod.GET)
+	public List<InfrastructureInchargeResponse> getInfraInchargeDetails(){
+		return infrastructureService.getInfraInchargeDetails();
+	}
+	
+	@ApiOperation(value = "updateInfraInchargeDetails", response = Object.class, httpMethod = "POST", produces = "application/json")
+	@RequestMapping(value = RestAPI.UPDATE_INFRA_INCHARGE_DETAILS, method = RequestMethod.POST)
+	public ResponseEntity<?> updateIncharge(@RequestBody UpdateInfraInchargeDetail details, HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		Infrastructure test = infrastructureService.updateIncharge(details, id);
+		if (test != null)
+			return new ResponseEntity<>(new ResponseMessage("Successfully updated."),
+					HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new ResponseMessage("Error occured. Try again later."),
+					HttpStatus.BAD_REQUEST);
+	}
 }

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "infrastructure")
 public interface InfrastructureClient {
 	
-	@RequestMapping(value = "/infra/findIncharge", method= RequestMethod.GET)
+	@RequestMapping(value = "/infrastructure/findIncharge", method= RequestMethod.GET)
 	List<String> findInchargeOf(@RequestParam("id") String id);
 }
