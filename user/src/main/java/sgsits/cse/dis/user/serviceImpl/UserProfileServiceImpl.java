@@ -21,7 +21,7 @@ class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public void deleteUserProfileElementById(final Long id) {
+    public void deleteUserProfileElementById(final Long id, final String userId) {
 
     }
 

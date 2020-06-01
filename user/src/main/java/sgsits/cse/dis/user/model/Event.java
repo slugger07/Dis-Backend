@@ -8,12 +8,13 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.sun.xml.internal.ws.api.message.Attachment;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "event")
 public class Event implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(
@@ -57,17 +58,17 @@ public class Event implements Serializable {
 	@Column(name = "event_incharge")
 	private String eventIncharge;
 
-	@Lob
-	@Column(name = "attachment")
-	private Blob attachment;
-
 	@OneToMany(targetEntity = EventParticipant.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
 	private Set<EventParticipant> participants;
 
+	@OneToMany(targetEntity = EventAttachment.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "event_id", referencedColumnName = "event_id")
+	private Set<EventAttachment> attachments;
+
 	public Event() {}
 
-	public Event(String eventId, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants, String location, Blob attachment) {
+	public Event(String eventId, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate, String title, String description, Date startDate, Date endDate, String eventType, String eventIncharge, Set<EventParticipant> participants, String location, Set<EventAttachment> attachments) {
 		super();
 		this.eventId = eventId;
 		this.createdBy = createdBy;
@@ -82,7 +83,7 @@ public class Event implements Serializable {
 		this.eventIncharge = eventIncharge;
 		this.participants = participants;
 		this.location = location;
-		this.attachment = attachment;
+		this.attachments = attachments;
 	}
 
 	public String getCreatedBy() {
@@ -124,15 +125,6 @@ public class Event implements Serializable {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-	public Blob getBlob() {
-		return attachment;
-	}
-
-	public void setBlob(Blob attachment) {
-		this.attachment = attachment;
-	}
-
 
 	public Set<EventParticipant> getParticipants() {
 		return participants;
@@ -197,6 +189,15 @@ public class Event implements Serializable {
 	public void setEventIncharge(String eventIncharge) {
 		this.eventIncharge = eventIncharge;
 	}
+
+	public Set<EventAttachment> getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(Set<EventAttachment> attachments) {
+		this.attachments = attachments;
+	}
+
 }
 
 

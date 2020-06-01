@@ -1,5 +1,6 @@
 package sgsits.cse.dis.user.controller;
 
+import java.io.IOException;
 import java.rmi.UnknownHostException;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.multipart.MultipartFile;
+import sgsits.cse.dis.user.dtos.EventDto;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
 import sgsits.cse.dis.user.model.Holiday;
@@ -53,10 +56,11 @@ public class CalendarController {
 		return holidayList;
 	}
 	
-	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
-	@PostMapping(path = "/addEvent", produces = "application/json")
-	public Event addEvent(@RequestBody Event event) throws UnknownHostException, MessagingException, SQLException {
-		return calenderServiceImpl.addEvent(event);
+	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json", consumes = "multipart/form-data")
+	@PostMapping(path = "/addEvent", produces = "application/json", consumes = "multipart/form-data")
+	public Event addEvent(@RequestPart("event") EventDto event,
+						  @RequestPart("file") MultipartFile[] files) throws IOException, MessagingException, SQLException {
+		return calenderServiceImpl.addEvent(event, files);
 	}
 	
 	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "DELETE", produces="application/json")

@@ -33,11 +33,14 @@ public class UserCompetitiveExam {
     @Column(name ="score")
     private double score;
 
-    @Column(name = "rank")
+    @Column(name = "rank_achieved")
     private int rank;
 
+    @Column(name = "registration_no")
+    private String registrationNo;
+
     @Column(name = "year")
-    private Date year;
+    private Short year;
 
     @Column(name ="upload_score_card")
     private byte[] scoreCard;
@@ -114,11 +117,11 @@ public class UserCompetitiveExam {
         this.rank = rank;
     }
 
-    public Date getYear() {
+    public Short getYear() {
         return year;
     }
 
-    public void setYear(final Date year) {
+    public void setYear(final Short year) {
         this.year = year;
     }
 
@@ -128,5 +131,13 @@ public class UserCompetitiveExam {
 
     public void setScoreCard(final byte[] scoreCard) {
         this.scoreCard = scoreCard;
+    }
+
+    public String getRegistrationNo() {
+        return registrationNo;
+    }
+
+    public void setRegistrationNo(final String registrationNo) {
+        this.registrationNo = registrationNo;
     }
 }

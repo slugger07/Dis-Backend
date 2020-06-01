@@ -118,4 +118,18 @@ public interface UserProfileDtoMapper {
 
     List<UserCompetitiveExam> convertUserCompetitiveExamListDtoIntoModel(
             final List<UserCompetitiveExamDto> userCompetitiveExamDtoList);
+    
+    
+
+    UserAddressDto convertUserAddressModelIntoDto(
+            final UserAddress userAddress);
+
+    UserAddress convertUserAddressDtoIntoModel(
+            final UserAddressDto userAddressDto);
+
+    List<UserAddressDto>  convertUserAddressListModelIntoDto(
+            final List<UserAddress> userAddressList);
+
+    List<UserAddress> convertUserAddressListDtoIntoModel(
+            final List<UserAddressDto> userAddressDtoList);
 }

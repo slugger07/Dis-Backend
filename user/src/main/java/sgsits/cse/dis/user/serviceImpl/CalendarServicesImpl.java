@@ -1,24 +1,26 @@
 package sgsits.cse.dis.user.serviceImpl;
 
+import java.io.IOException;
 import java.rmi.UnknownHostException;
 import java.sql.SQLException;
 import java.util.*;
 
-import com.sun.mail.util.MailConnectException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import sgsits.cse.dis.user.controller.EmailController;
-import sgsits.cse.dis.user.controller.StaffController;
+import sgsits.cse.dis.user.dtos.EventDto;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
+import sgsits.cse.dis.user.model.EventAttachment;
 import sgsits.cse.dis.user.model.EventParticipant;
 import sgsits.cse.dis.user.model.Holiday;
 import sgsits.cse.dis.user.repo.*;
 import sgsits.cse.dis.user.service.CalendarServices;
 
 import javax.mail.MessagingException;
-import javax.swing.text.html.HTMLDocument;
 
 @Service
 public class CalendarServicesImpl implements CalendarServices {
@@ -42,14 +44,15 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event addEvent(Event event) throws UnknownHostException, MessagingException, SQLException {
-		eventRepository.save(event);
+	public Event addEvent(EventDto event, MultipartFile[] files) throws IOException, MessagingException, SQLException {
+		Event conv_event = convertDtoToEventModel(event, files);
+		eventRepository.save(conv_event);
 		ArrayList<String> mailing_list = new ArrayList<String>();
 		for(EventParticipant participant: event.getParticipants()) {
 			mailing_list.add(participant.getParticipantId());
 		}
-		sendMeetingInvites(mailing_list, "add",event);
-		return event;
+		sendMeetingInvites(mailing_list, "add",conv_event);
+		return conv_event;
 	}
 
 	@Override
@@ -154,7 +157,38 @@ public class CalendarServicesImpl implements CalendarServices {
 						"When : "+ event.getStartDate().toString() + "\n" +
 						"Where : "+ event.getLocation() + "\n" +
 						"Agenda : " + event.getDescription()+ "\n" +
-						"Organizer : " + organizer+ "\n", event.getBlob(), mailing_list.toArray(new String[0]));
+						"Organizer : " + organizer+
+						"\n", event.getAttachments(), mailing_list.toArray(new String[0]));
 
+	}
+
+	private Event convertDtoToEventModel(EventDto event, MultipartFile[] files) throws IOException {
+		Event eventModel = new Event();
+		eventModel.setEventId(event.getEventId());
+		eventModel.	setCreatedBy(event.getCreatedBy());
+		eventModel.setCreatedDate(event.getCreatedDate());
+		eventModel.setTitle(event.getTitle());
+		eventModel.setDescription(event.getDescription());
+		eventModel.setStartDate(event.getStartDate());
+		eventModel.setEndDate(event.getEndDate());
+		eventModel.setEventIncharge(event.getEventIncharge());
+		eventModel.setParticipants(event.getParticipants());
+		eventModel.setLocation(event.getLocation());
+
+		Set<EventAttachment> eventAttachmentSet = new HashSet<EventAttachment>();
+		MultipartFile[] fileUpload = files;
+		if (fileUpload != null && fileUpload.length > 0) {
+			for (MultipartFile aFile : fileUpload){
+
+				System.out.println("Saving file: " + aFile.getOriginalFilename());
+
+				EventAttachment attach = new EventAttachment();
+				attach.setFileName(aFile.getOriginalFilename());
+				attach.setFileData(aFile.getBytes());
+				eventAttachmentSet.add(attach);
+			}
+		}
+		eventModel.setAttachments(eventAttachmentSet);
+		return eventModel;
 	}
 }
