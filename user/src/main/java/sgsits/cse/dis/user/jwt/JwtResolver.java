@@ -22,4 +22,12 @@ public class JwtResolver {
 		}
 		return null;
 	}
+	public static String getUsernameFromAuthHead(final String authHeader){
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return Jwts.parser().setSigningKey("jwtDisSecretKey")
+                    .parseClaimsJws(authHeader.replace("Bearer ", ""))
+                    .getBody().getSubject();
+        }
+        return null;
+    }
 }

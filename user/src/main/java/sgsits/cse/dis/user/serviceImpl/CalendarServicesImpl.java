@@ -89,6 +89,7 @@ public class CalendarServicesImpl implements CalendarServices {
 			sendMeetingInvites(new ArrayList<String>(retainedParticipants), "update", conv_event);
 		}
 		if(!removedParticipants.isEmpty()) {
+			old_event.setAttachments(null);
 			sendMeetingInvites(new ArrayList<String>(removedParticipants), "cancel", old_event);
 		}
 		if(!newParticipants.isEmpty()) {

@@ -1,19 +1,5 @@
 package sgsits.cse.dis.user.controller;
 
-/**
- * <h1>UserFeignController.</h1>
- * <p>This controller exposes user services as REST end points at default path <b>/userFeignCliemntController</b>.
- * These servies are meant to be consumed only by feignClient in any other microservice.
- *
- * @author Arjit Mishra,Devyani garg.
- * @version 1.0.
- * @since 2-DEC-2019.
- */
-
-import java.util.List;
-
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +15,9 @@ import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.service.StaffService;
 import sgsits.cse.dis.user.service.UserServices;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Api(value = "User Feign Client Controller")
 @RestController
