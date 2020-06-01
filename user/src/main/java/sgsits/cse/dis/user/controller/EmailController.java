@@ -42,9 +42,11 @@ public class EmailController {
         helper.setCc(cclist);
         helper.setSubject(subject);
         helper.setText(text);
-        if(!attachments.isEmpty()) {
-            for (EventAttachment attachment: attachments) {
-                helper.addAttachment(attachment.getFileName() ,new ByteArrayResource(attachment.getFileData()));
+        if(attachments!=null) {
+            if(!attachments.isEmpty()) {
+                for (EventAttachment attachment : attachments) {
+                    helper.addAttachment(attachment.getFileName(), new ByteArrayResource(attachment.getFileData()));
+                }
             }
         }
         emailService.sendEmail(message);

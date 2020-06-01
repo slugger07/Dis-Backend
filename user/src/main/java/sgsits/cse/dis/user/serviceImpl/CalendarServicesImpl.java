@@ -110,6 +110,7 @@ public class CalendarServicesImpl implements CalendarServices {
 		for(EventParticipant participant: removedParticipants) {
 			mailing_list.add(participant.getParticipantId());
 		}
+		event.setAttachments(null);
 		sendMeetingInvites(mailing_list, "cancel", event);
 	}
 
@@ -150,7 +151,6 @@ public class CalendarServicesImpl implements CalendarServices {
 		}
 
 		String organizer = staffBasicProfileRepository.findNameByUsername(event.getEventIncharge());
-
 		email.sendSimpleEmail(type + " : "+event.getTitle()+"@ "+event.getStartDate().toString(),
 				startLine +
 						"For : " + event.getTitle()+ "\n" +
@@ -175,18 +175,20 @@ public class CalendarServicesImpl implements CalendarServices {
 		eventModel.setParticipants(event.getParticipants());
 		eventModel.setLocation(event.getLocation());
 
-		if (files != null && files.length > 0) {
-			Set<EventAttachment> eventAttachmentSet = new HashSet<EventAttachment>();
-			for (MultipartFile aFile : files){
+		if (files != null) {
+			if(files.length > 0) {
+				Set<EventAttachment> eventAttachmentSet = new HashSet<EventAttachment>();
+				for (MultipartFile aFile : files) {
 
-				System.out.println("Saving file: " + aFile.getOriginalFilename());
+					System.out.println("Saving file: " + aFile.getOriginalFilename());
 
-				EventAttachment attach = new EventAttachment();
-				attach.setFileName(aFile.getOriginalFilename());
-				attach.setFileData(aFile.getBytes());
-				eventAttachmentSet.add(attach);
+					EventAttachment attach = new EventAttachment();
+					attach.setFileName(aFile.getOriginalFilename());
+					attach.setFileData(aFile.getBytes());
+					eventAttachmentSet.add(attach);
+				}
+				eventModel.setAttachments(eventAttachmentSet);
 			}
-			eventModel.setAttachments(eventAttachmentSet);
 		}
 		return eventModel;
 	}
