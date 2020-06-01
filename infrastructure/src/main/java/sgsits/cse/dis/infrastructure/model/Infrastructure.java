@@ -1,20 +1,24 @@
 package sgsits.cse.dis.infrastructure.model;
 
-import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "infrastructure")
 public class Infrastructure {
-	
+   
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
 	private String id;
 	
 	@Column(name = "created_by")
@@ -29,12 +33,14 @@ public class Infrastructure {
 	@Column(name = "modified_date")
 	private String modifiedDate;
 	
+	@NotBlank(message = "Name cannot be null/empty")
 	@Column(name = "name")
 	private String name;
 	
 	@Column(name = "name_acronym")
 	private String nameAcronym;
 	
+	@NotBlank(message = "Type cannot be null/empty")
 	@Column(name = "type")
 	private String type;
 	
@@ -69,16 +75,16 @@ public class Infrastructure {
 	private String attendant;
 	
 	@Column(name = "no_of_tables")
-	private int noofTables;
+	private Integer noofTables;
 	
 	@Column(name = "no_of_computer_tables")
-	private int noofComputerTables;
+	private Integer noofComputerTables;
 	
 	@Column(name = "no_of_chairs")
-	private int noofChairs;
+	private Integer noofChairs;
 	
 	@Column(name = "no_of_almirah")
-	private int noofAlmirah;
+	private Integer noofAlmirah;
 	
 	@Column(name = "description")
 	private String description;
@@ -197,35 +203,36 @@ public class Infrastructure {
 		this.attendant = attendant;
 	}
 
-	public int getNoofTables() {
+	public Integer getNoofTables() {
 		return noofTables;
 	}
-
-	public void setNoofTables(int noofTables) {
+	
+	
+	public void setNoofTables(Integer noofTables) {
 		this.noofTables = noofTables;
 	}
 
-	public int getNoofComputerTables() {
+	public Integer getNoofComputerTables() {
 		return noofComputerTables;
 	}
 
-	public void setNoofComputerTables(int noofComputerTables) {
+	public void setNoofComputerTables(Integer noofComputerTables) {
 		this.noofComputerTables = noofComputerTables;
 	}
 
-	public int getNoofChairs() {
+	public Integer getNoofChairs() {
 		return noofChairs;
 	}
 
-	public void setNoofChairs(int noofChairs) {
+	public void setNoofChairs(Integer noofChairs) {
 		this.noofChairs = noofChairs;
 	}
 
-	public int getNoofAlmirah() {
+	public Integer getNoofAlmirah() {
 		return noofAlmirah;
 	}
 
-	public void setNoofAlmirah(int noofAlmirah) {
+	public void setNoofAlmirah(Integer noofAlmirah) {
 		this.noofAlmirah = noofAlmirah;
 	}
 

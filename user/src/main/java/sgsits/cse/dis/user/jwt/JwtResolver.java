@@ -4,19 +4,16 @@ import io.jsonwebtoken.Jwts;
 
 public class JwtResolver {
 
-	// @Value("${dis.app.jwtSecret}")
 	private static final String jwtSecret = "jwtDisSecretKey";
 
 	public String getUserNameFromJwtToken(String token) {
 		token = getJwt(token);
-		String username = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-		return username;
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
-	
-	public long getIdFromJwtToken(String token){
+
+	public String getIdFromJwtToken(String token){
 		token = getJwt(token);
-		String id = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId();
-		return Integer.parseInt(id);
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId();
 	}
 
 	private String getJwt(String authHeader) {
@@ -25,4 +22,12 @@ public class JwtResolver {
 		}
 		return null;
 	}
+	public static String getUsernameFromAuthHead(final String authHeader){
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return Jwts.parser().setSigningKey("jwtDisSecretKey")
+                    .parseClaimsJws(authHeader.replace("Bearer ", ""))
+                    .getBody().getSubject();
+        }
+        return null;
+    }
 }

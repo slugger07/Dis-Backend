@@ -10,14 +10,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * <h1><b>StockServicingRepairing</b> class.</h1>
+ * <p>This class is model for table <b>stock_servicing_repairing</b> to act as DAO.
+ * This table contains stock's service and repair related details.
+ * @author Arjit Mishra,Devyani garg.
+ * @version 1.0.
+ * @since 25-JAN-2020.
+ */
+
 @Entity
 @Table(name = "stock_servicing_repairing_details")
 public class StockServicingRepairing {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
-	private long id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+	private String id;
 	
 	@Column(name = "created_by")
 	private String createdBy;
@@ -58,11 +72,11 @@ public class StockServicingRepairing {
 	@Column(name = "bill_pdf")
 	private String billPdf;
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

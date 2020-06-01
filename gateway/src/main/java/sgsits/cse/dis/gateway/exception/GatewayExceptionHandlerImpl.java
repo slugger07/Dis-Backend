@@ -3,7 +3,6 @@ package sgsits.cse.dis.gateway.exception;
 
 import java.net.UnknownHostException;
 
-import org.apache.http.HttpMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -18,12 +17,7 @@ import com.sun.mail.util.MailConnectException;
 import javassist.NotFoundException;
 import sgsits.cse.dis.gateway.message.response.ResponseMessage;
 
-/**
- * <h1>GatewayExceptionHandler</h1> class.
- * This class is exception handler containing handler for different exceptions.
- * @author Arjit Mishra
- * @since 2-DEC-2019
- */
+
 @RestControllerAdvice
 public class GatewayExceptionHandlerImpl {
 
@@ -35,7 +29,8 @@ public class GatewayExceptionHandlerImpl {
 	
 	@ExceptionHandler({AuthenticationException.class})
 	@ResponseBody
-	public ResponseEntity<ResponseMessage> authenticationException() {
+	
+	public ResponseEntity<ResponseMessage> atuthenticationException() {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Wrong username or password OR user doesn't exist"), HttpStatus.NOT_FOUND);
 	}
 	

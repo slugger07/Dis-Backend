@@ -82,9 +82,9 @@ public class User{
     private Date resetTokenExpiry;
     
 	@Column(name = "user_type")
-	private String userType;     
+	private String userType;
 
-    public User() {}
+	public User() {}
 
     public User(String username, String email, Date dob, long mobileNo, String password) {
         this.username = username;

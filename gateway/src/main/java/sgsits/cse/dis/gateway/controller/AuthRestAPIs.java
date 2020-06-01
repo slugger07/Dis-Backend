@@ -99,4 +99,6 @@ public class AuthRestAPIs {
 	public List<StaffFacultyInfo> getStaffFacultyInfo(HttpServletRequest request) {
 		return UserDetails.getList();
 	}
+
+
 }

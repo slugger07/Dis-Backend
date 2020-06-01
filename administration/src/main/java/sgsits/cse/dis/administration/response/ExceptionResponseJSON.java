@@ -1,7 +1,12 @@
 package sgsits.cse.dis.administration.response;
 
 import org.springframework.http.HttpStatus;
-
+/**
+ * <h1>ExceptionResponse</h1>class.
+ * This class is pojo form for return java object as a response to request over network.
+ * @author Arjit Mishra
+ * @since 27-JAN-2020
+ */
 public class ExceptionResponseJSON {
 
 		private String url;

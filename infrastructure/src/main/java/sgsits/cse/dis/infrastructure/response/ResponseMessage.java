@@ -1,5 +1,4 @@
 package sgsits.cse.dis.infrastructure.response;
-
 public class ResponseMessage {
 	private String message;
 

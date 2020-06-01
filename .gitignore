@@ -1,6 +1,9 @@
+*.vscode/
+/.metadata/
+/.recommenders/
 /target/
 !.mvn/wrapper/maven-wrapper.jar
-
+lib/
 ### STS ###
 .apt_generated
 .classpath
@@ -12,6 +15,7 @@
 
 ### IntelliJ IDEA ###
 .idea
+*/.idea
 *.iws
 *.iml
 *.ipr
@@ -23,4 +27,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+<<<<<<< HEAD
 /.metadata/
+=======
+>>>>>>> f304c7f947232b0563074ade3215d63f8ab63b4a
