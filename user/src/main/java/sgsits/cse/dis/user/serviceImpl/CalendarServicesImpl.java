@@ -8,6 +8,8 @@ import com.sun.mail.util.MailConnectException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import sgsits.cse.dis.user.controller.EmailController;
 import sgsits.cse.dis.user.controller.StaffController;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
@@ -42,13 +44,13 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event addEvent(Event event) throws UnknownHostException, MessagingException, SQLException {
+	public Event addEvent(MultipartFile attachment,Event event) throws UnknownHostException, MessagingException, SQLException {
 		eventRepository.save(event);
 		ArrayList<String> mailing_list = new ArrayList<String>();
 		for(EventParticipant participant: event.getParticipants()) {
 			mailing_list.add(participant.getParticipantId());
 		}
-		sendMeetingInvites(mailing_list, "add",event);
+		sendMeetingInvites(mailing_list, "add",event,attachment);
 		return event;
 	}
 
@@ -83,13 +85,13 @@ public class CalendarServicesImpl implements CalendarServices {
 		eventRepository.save(event);
 
 		if(!retainedParticipants.isEmpty()) {
-			sendMeetingInvites(new ArrayList<String>(retainedParticipants), "update", event);
+			sendMeetingInvites(new ArrayList<String>(retainedParticipants), "update", event, null);
 		}
 		if(!removedParticipants.isEmpty()) {
-			sendMeetingInvites(new ArrayList<String>(removedParticipants), "cancel", old_event);
+			sendMeetingInvites(new ArrayList<String>(removedParticipants), "cancel", old_event, null);
 		}
 		if(!newParticipants.isEmpty()) {
-			sendMeetingInvites(new ArrayList<String>(newParticipants), "add", event);
+			sendMeetingInvites(new ArrayList<String>(newParticipants), "add", event, null);
 		}
 
 		return event;
@@ -107,7 +109,7 @@ public class CalendarServicesImpl implements CalendarServices {
 		for(EventParticipant participant: removedParticipants) {
 			mailing_list.add(participant.getParticipantId());
 		}
-		sendMeetingInvites(mailing_list, "cancel", event);
+		sendMeetingInvites(mailing_list, "cancel", event, null);
 	}
 
 	@Override
@@ -126,7 +128,7 @@ public class CalendarServicesImpl implements CalendarServices {
 		return eventList;
 	}
 
-	private void sendMeetingInvites(ArrayList<String> username_list, String mail_type, Event event) throws UnknownHostException, MessagingException, SQLException {
+	private void sendMeetingInvites(ArrayList<String> username_list, String mail_type, Event event,MultipartFile attachment) throws UnknownHostException, MessagingException, SQLException {
 		String type;
 		ArrayList<String> mailing_list = new ArrayList<String>();
 		List<Object[]> staffData = staffBasicProfileRepository.findAllUserIdAndEmails();
@@ -154,7 +156,7 @@ public class CalendarServicesImpl implements CalendarServices {
 						"When : "+ event.getStartDate().toString() + "\n" +
 						"Where : "+ event.getLocation() + "\n" +
 						"Agenda : " + event.getDescription()+ "\n" +
-						"Organizer : " + organizer+ "\n", event.getBlob(), mailing_list.toArray(new String[0]));
+						"Organizer : " + organizer+ "\n", attachment, mailing_list.toArray(new String[0]));
 
 	}
 }

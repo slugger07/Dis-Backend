@@ -9,6 +9,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
+
 import sgsits.cse.dis.user.constants.DisConstants;
 import sgsits.cse.dis.user.service.EmailService;
 
@@ -30,7 +32,7 @@ public class EmailController {
     private JavaMailSender mailSender;
 
     @Async
-    public void sendSimpleEmail(String subject, String text, Blob agenda , String... cclist) throws MessagingException,MailConnectException,UnknownHostException, SQLException
+    public void sendSimpleEmail(String subject, String text, MultipartFile attachment , String... cclist) throws MessagingException,MailConnectException,UnknownHostException, SQLException
     {
         // Create a Simple MailMessage.
     	MimeMessage message = mailSender.createMimeMessage();
@@ -39,8 +41,9 @@ public class EmailController {
         helper.setCc(cclist);
         helper.setSubject(subject);
         helper.setText(text);
-        if(agenda != null) {
-        helper.addAttachment("agenda.pdf",new InputStreamResource(agenda.getBinaryStream()));
+        if(attachment!= null) {
+        	System.out.println(attachment);
+        	helper.addAttachment("agenda", attachment);
         }
         emailService.sendEmail(message);
     }

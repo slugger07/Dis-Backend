@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import com.sun.mail.util.MailConnectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +18,7 @@ import sgsits.cse.dis.user.model.Event;
 import sgsits.cse.dis.user.model.Holiday;
 import sgsits.cse.dis.user.serviceImpl.CalendarServicesImpl;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*" ,allowedHeaders = "*")
 @Api(value = "Calendar services controller")
 @RestController
 @RequestMapping(path = "/calendar")
@@ -55,8 +56,9 @@ public class CalendarController {
 	
 	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/addEvent", produces = "application/json")
-	public Event addEvent(@RequestBody Event event) throws UnknownHostException, MessagingException, SQLException {
-		return calenderServiceImpl.addEvent(event);
+	public Event addEvent(MultipartFile attachment, @RequestBody Event event) throws UnknownHostException, MessagingException, SQLException {
+		System.out.println("hello");
+		return calenderServiceImpl.addEvent(attachment, event);
 	}
 	
 	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "DELETE", produces="application/json")
