@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import sgsits.cse.dis.user.controller.EmailController;
 import sgsits.cse.dis.user.dtos.EventDto;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
@@ -62,10 +61,11 @@ public class CalendarServicesImpl implements CalendarServices {
 	}
 
 	@Override
-	public Event updateEvent(Event event,String eventId) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
+	public Event updateEvent(EventDto event,String eventId, MultipartFile[] files) throws EventDoesNotExistException, IOException, MessagingException, SQLException {
 		if (eventId == null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 			}
+		Event conv_event = convertDtoToEventModel(event, files);
 		Event old_event = eventRepository.findByEventId(eventId);
 		Set<String> old_participants = new HashSet<>();
 		Set<String> new_participants = new HashSet<>();
@@ -83,23 +83,23 @@ public class CalendarServicesImpl implements CalendarServices {
 		Set<String> newParticipants = new HashSet<>(new_participants);
 		newParticipants.removeAll(old_participants);
 		eventRepository.deleteById(eventId);
-		eventRepository.save(event);
+		eventRepository.save(conv_event);
 
 		if(!retainedParticipants.isEmpty()) {
-			sendMeetingInvites(new ArrayList<String>(retainedParticipants), "update", event);
+			sendMeetingInvites(new ArrayList<String>(retainedParticipants), "update", conv_event);
 		}
 		if(!removedParticipants.isEmpty()) {
 			sendMeetingInvites(new ArrayList<String>(removedParticipants), "cancel", old_event);
 		}
 		if(!newParticipants.isEmpty()) {
-			sendMeetingInvites(new ArrayList<String>(newParticipants), "add", event);
+			sendMeetingInvites(new ArrayList<String>(newParticipants), "add", conv_event);
 		}
 
-		return event;
+		return conv_event;
 	}
 
 	@Override
-	public void deleteEvent(String eventId) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
+	public void deleteEvent(String eventId) throws EventDoesNotExistException, IOException, MessagingException, SQLException {
 		if (eventId==null) {
 			throw new EventDoesNotExistException("Event doesn't Exist");
 		}
@@ -175,10 +175,9 @@ public class CalendarServicesImpl implements CalendarServices {
 		eventModel.setParticipants(event.getParticipants());
 		eventModel.setLocation(event.getLocation());
 
-		Set<EventAttachment> eventAttachmentSet = new HashSet<EventAttachment>();
-		MultipartFile[] fileUpload = files;
-		if (fileUpload != null && fileUpload.length > 0) {
-			for (MultipartFile aFile : fileUpload){
+		if (files != null && files.length > 0) {
+			Set<EventAttachment> eventAttachmentSet = new HashSet<EventAttachment>();
+			for (MultipartFile aFile : files){
 
 				System.out.println("Saving file: " + aFile.getOriginalFilename());
 
@@ -187,8 +186,8 @@ public class CalendarServicesImpl implements CalendarServices {
 				attach.setFileData(aFile.getBytes());
 				eventAttachmentSet.add(attach);
 			}
+			eventModel.setAttachments(eventAttachmentSet);
 		}
-		eventModel.setAttachments(eventAttachmentSet);
 		return eventModel;
 	}
 }

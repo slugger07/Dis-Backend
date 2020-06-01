@@ -20,8 +20,8 @@ import sgsits.cse.dis.user.model.Holiday;
 @Component
 public interface CalendarServices {
 	Event addEvent(EventDto event, MultipartFile[] files) throws SQLException, MessagingException, MailConnectException, IOException;
-	Event updateEvent(Event event,String eventId) throws SQLException, MessagingException, EventDoesNotExistException, MailConnectException, UnknownHostException;
-	void deleteEvent(String eventId) throws SQLException, MessagingException,EventDoesNotExistException, MailConnectException, UnknownHostException;
+	Event updateEvent(EventDto event,String eventId, MultipartFile[] files) throws SQLException, MessagingException, EventDoesNotExistException, MailConnectException, UnknownHostException, IOException;
+	void deleteEvent(String eventId) throws SQLException, MessagingException, EventDoesNotExistException, MailConnectException, IOException;
 	Event getEvent(String eventId);
 	List<Event>  getAllEvents();
 	List<Event> getMyEvents(String participantId);

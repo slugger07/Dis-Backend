@@ -65,15 +65,16 @@ public class CalendarController {
 	
 	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "DELETE", produces="application/json")
 	@DeleteMapping(path = "/deleteEvent", produces="application/json")
-	public void deleteEvent(@RequestParam(value="eventId")  String eventId) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
+	public void deleteEvent(@RequestParam(value="eventId")  String eventId) throws EventDoesNotExistException, IOException, MessagingException, SQLException {
 		System.out.println(eventId);
 		calenderServiceImpl.deleteEvent(eventId);
 	}
 	
 	@ApiOperation(value="Update an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/updateEvent", produces = "application/json")
-	public Event updateEvent(@RequestParam(value="eventId") String eventId,@RequestBody Event event) throws EventDoesNotExistException, UnknownHostException, MessagingException, SQLException {
-		return calenderServiceImpl.updateEvent(event,eventId);
+	public Event updateEvent(@RequestParam(value="eventId") String eventId,@RequestPart("event") EventDto event,
+							 @RequestPart("file") MultipartFile[] files) throws EventDoesNotExistException, IOException, MessagingException, SQLException {
+		return calenderServiceImpl.updateEvent(event,eventId, files);
 	}
 	
 }
