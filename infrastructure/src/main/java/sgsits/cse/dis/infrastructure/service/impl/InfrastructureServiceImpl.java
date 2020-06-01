@@ -50,7 +50,7 @@ public class InfrastructureServiceImpl implements InfrastructureService	 {
 		Optional<Infrastructure> cc = infrastructureRepository.findById(details.getLocationId());
 		if(cc.isPresent()) {
 			cc.get().setInchargeName(details.getInchargeName());
-			cc.get().setIncharge(details.getInchargeId());
+			cc.get().setIncharge(details.getNewIncharge());
 			cc.get().setModifiedBy(id);
 			cc.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
 		}

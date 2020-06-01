@@ -2,7 +2,7 @@ package sgsits.cse.dis.infrastructure.request;
 
 public class UpdateInfraInchargeDetail {
 	private String locationId;
-	private String inchargeId;
+	private String newIncharge;
 	private String inchargeName;
 	public String getLocationId() {
 		return locationId;
@@ -10,11 +10,12 @@ public class UpdateInfraInchargeDetail {
 	public void setLocationId(String locationId) {
 		this.locationId = locationId;
 	}
-	public String getInchargeId() {
-		return inchargeId;
+	
+	public String getNewIncharge() {
+		return newIncharge;
 	}
-	public void setInchargeId(String inchargeId) {
-		this.inchargeId = inchargeId;
+	public void setNewIncharge(String newIncharge) {
+		this.newIncharge = newIncharge;
 	}
 	public String getInchargeName() {
 		return inchargeName;
