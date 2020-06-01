@@ -6,7 +6,7 @@ public class StudentBasicProfileDto {
 
     private String userId;
     private String enrollmentId;
-//    private String profilePicture;
+    private String profilePicture;
     private String fullName;
     private int admissionYear;
     private String courseId;
