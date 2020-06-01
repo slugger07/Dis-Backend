@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class StaffBasicProfileDto {
 
+    private String id;
     private String userId;
     private String employeeId;
     private String name;
@@ -20,6 +21,14 @@ public class StaffBasicProfileDto {
     private String areaOfSpecialization;
     private String permanentAddress;
     private String presentAddress;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
+    }
 
     public String getUserId() {
         return userId;

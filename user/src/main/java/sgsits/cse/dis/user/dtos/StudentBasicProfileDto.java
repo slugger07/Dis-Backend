@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class StudentBasicProfileDto {
 
+    private String id;
     private String userId;
     private String enrollmentId;
     private String profilePicture;

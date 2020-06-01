@@ -5,7 +5,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import sgsits.cse.dis.user.dtos.FacultyDataDto;
 import sgsits.cse.dis.user.dtos.StaffBasicProfileDto;
-import sgsits.cse.dis.user.dtos.StudentBasicProfileDto;
 import sgsits.cse.dis.user.exception.ConflictException;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.mappers.StaffServiceMapper;

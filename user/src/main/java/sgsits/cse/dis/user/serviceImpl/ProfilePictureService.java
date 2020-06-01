@@ -50,12 +50,10 @@ public class ProfilePictureService {
     }
 
 
-    public ProfilePictureDto getUserProfilePicture(final String jwtToken, final float compressionFactor)
+    public ProfilePictureDto getUserProfilePicture(final String userId, final float compressionFactor)
             throws InternalServerError, NotFoundException {
 
         ProfilePicture profilePicture;
-
-        final String userId = jwtResolver.getIdFromJwtToken(jwtToken);
 
         try{
             LOGGER.info("Getting Profile Pictures for user Id : " + userId);
