@@ -21,4 +21,8 @@ public interface StaffServiceMapper {
     StaffBasicProfileDto convertStaffBasicProfileIntoStaffBasicProfileDto(
             final StaffBasicProfile staffBasicProfile);
 
+    StaffBasicProfile convertStaffBasicProfileDtoIntoStaffBasicProfile(
+            final StaffBasicProfileDto staffBasicProfileDto);
+
+
 }

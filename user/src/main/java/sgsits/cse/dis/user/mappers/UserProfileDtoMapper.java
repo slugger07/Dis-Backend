@@ -132,4 +132,20 @@ public interface UserProfileDtoMapper {
 
     List<UserAddress> convertUserAddressListDtoIntoModel(
             final List<UserAddressDto> userAddressDtoList);
+
+
+
+    UserOtherAchievementDto convertUserOtherAchievementModelIntoDto(
+            final UserOtherAchievement userOtherAchievement);
+
+    UserOtherAchievement convertUserOtherAchievementDtoIntoModel(
+            final UserOtherAchievementDto userOtherAchievementDto);
+
+    List<UserOtherAchievementDto>  convertUserOtherAchievementListModelIntoDto(
+            final List<UserOtherAchievement> userOtherAchievementList);
+
+    List<UserOtherAchievement> convertUserOtherAchievementListDtoIntoModel(
+            final List<UserOtherAchievementDto> userOtherAchievementDtoList);
+
+
 }

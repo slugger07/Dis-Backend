@@ -20,6 +20,8 @@ public interface StaffService {
 
 	StaffBasicProfileDto getStaffBasicProfile(final String userId) throws InternalServerError;
 
+	void addOrUpdateStaffBasicProfile(final StaffBasicProfileDto StaffBasicProfileDto) throws InternalServerError;
+
 	String addNewMember(AddNewUser addNewUser,String addedBy) throws ConflictException,DataIntegrityViolationException;
 
 	List<FacultyDataDto> getStaffWithName(String name);

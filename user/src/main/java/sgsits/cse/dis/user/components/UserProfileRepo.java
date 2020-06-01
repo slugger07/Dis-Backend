@@ -1,11 +1,15 @@
 package sgsits.cse.dis.user.components;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sgsits.cse.dis.user.exception.InternalServerError;
 import sgsits.cse.dis.user.model.*;
 import sgsits.cse.dis.user.repo.*;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +34,12 @@ public class UserProfileRepo {
 
     private final UserAddressRepository userAddressRepository;
 
+    private final UserOtherAchievementRepository userOtherAchievementRepository;
+
+    private final ProfilePictureRepository profilePictureRepository;
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(UserProfileRepo.class);
+
 
     @Autowired
     public UserProfileRepo(final UserQualificationRepository userQualificationRepository,
@@ -39,7 +49,10 @@ public class UserProfileRepo {
                            final UserTechnicalActivityRepository userTechnicalActivityRepository,
                            final UserCulturalActivityAchievementRepository userCulturalActivityAchievementRepository,
                            final UserCompetitiveExamRepository userCompetitiveExamRepository,
-                           final UserProjectRepository userProjectRepository, final UserAddressRepository userAddressRepository) {
+                           final UserProjectRepository userProjectRepository,
+                           final UserAddressRepository userAddressRepository,
+                           final UserOtherAchievementRepository userOtherAchievementRepository,
+                           final ProfilePictureRepository profilePictureRepository) {
         this.userQualificationRepository = userQualificationRepository;
         this.userWorkExperienceRepository = userWorkExperienceRepository;
         this.userResearchWorkRepository = userResearchWorkRepository;
@@ -49,6 +62,8 @@ public class UserProfileRepo {
         this.userCompetitiveExamRepository = userCompetitiveExamRepository;
         this.userProjectRepository = userProjectRepository;
         this.userAddressRepository = userAddressRepository;
+        this.userOtherAchievementRepository = userOtherAchievementRepository;
+        this.profilePictureRepository = profilePictureRepository;
     }
 
     public void addOrUpdateUserQualification(final UserQualification userQualification)
@@ -311,10 +326,46 @@ public class UserProfileRepo {
         }
     }
 
+
+
+    public void addOrUpdateUserOtherAchievement(final UserOtherAchievement userOtherAchievement) throws InternalServerError {
+
+        try {
+            userOtherAchievementRepository.save(userOtherAchievement);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot add or update user project");
+        }
+
+    }
+
+    public List<UserOtherAchievement> getUserOtherAchievement(final String userId) throws InternalServerError {
+
+        try {
+            return userOtherAchievementRepository.findByUserId(userId);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot get user project");
+        }
+    }
+
+    public void deleteUserOtherAchievementById(final Long userOtherAchievementId) throws InternalServerError {
+        try {
+            userProjectRepository.deleteById(userOtherAchievementId);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot delete user project");
+        }
+    }
+    
+
     public UserAddress getUserAddressById(final long id) {
     
         Optional<UserAddress> userAddressOptional = userAddressRepository.findById(id);
         return userAddressOptional.orElse(null);
+    }
+
+    public UserOtherAchievement getUserOtherAchievementById(final long id) {
+
+        Optional<UserOtherAchievement> userOtherAchievementOptional = userOtherAchievementRepository.findById(id);
+        return userOtherAchievementOptional.orElse(null);
     }
 
     public UserCompetitiveExam getUserCompetitiveExamById(final long id) {
@@ -364,5 +415,29 @@ public class UserProfileRepo {
         Optional<UserWorkExperience> userWorkExperienceOptional = userWorkExperienceRepository.findById(id);
         return userWorkExperienceOptional.orElse(null);
     }
+
+    public void addOrUpdateUserProfilePicture(final ProfilePicture profilePicture)
+            throws InternalServerError {
+
+        try {
+            profilePictureRepository.save(profilePicture);
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot add or update profile picture");
+        }
+    }
+
+    public List<ProfilePicture> getActiveProfilePictureByUserId(final String userId)
+            throws InternalServerError {
+
+        try {
+            List<ProfilePicture> profilePictures =
+                    profilePictureRepository.findByUserIdAndStatus(userId, 1);
+            LOGGER.info("ProfilePicture  --- " + Collections.singletonList(profilePictures));
+            return profilePictures;
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot add or update profile picture");
+        }
+    }
+
 
 }
