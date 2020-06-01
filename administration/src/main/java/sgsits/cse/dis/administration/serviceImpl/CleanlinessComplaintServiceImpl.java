@@ -109,6 +109,8 @@ public class CleanlinessComplaintServiceImpl implements CleanlinessComplaintServ
 	public List<CleanlinessComplaint> findByLocationIn(List<String> location) {
 		return cleanlinessComplaintRepository.findByLocationIn(location);
 	}	
+	
+	@Override
 	public List<CleanlinessComplaint> getMyComplaints(String userId) {
 		return cleanlinessComplaintRepository.findByCreatedBy(userId);
 	}

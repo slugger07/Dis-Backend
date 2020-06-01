@@ -106,8 +106,9 @@ public class FacultyRequestServiceImpl implements FacultyRequestService {
 	@Override
 	public List<FacultyRequest> getAllUnresolvedRequests(HttpServletRequest request) {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
 		String defaultId = userClient.getUserId(assignedToDefault);
-		if (defaultId.equals(id)) {
+		if (defaultId.equals(id) || userType.equals("head")) {
 			return facultyRequestRepo.findByStatusNotOrderByCreatedDateAsc("Resolved");
 		}
 		throw new ResourceRequestNotAccessibleException("You cannot access this resource!");
@@ -118,7 +119,8 @@ public class FacultyRequestServiceImpl implements FacultyRequestService {
 		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String defaultId = userClient.getUserId(assignedToDefault);
-		if (defaultId.equals(id)) {
+		String userType = jwtResolver.getUserTypeFromJwtToken(request.getHeader("Authorization"));
+		if (defaultId.equals(id) || userType.equals("head")) {
 			if (facultyRequestRepo.findById(requestId).isPresent()) {
 				FacultyRequest existingRequest = facultyRequestRepo.findById(requestId).get();
 				existingRequest.setStatus("Resolved");
