@@ -12,5 +12,5 @@ public interface StudentServiceMapper {
 
     StudentProfile convertStudentBasicProfileDtoIntoModel(
             final StudentBasicProfileDto studentBasicProfileDto);
-
 }
+

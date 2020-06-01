@@ -32,3 +32,11 @@ dis:
     appPrefix: /app
     notificationEndpoint: /chat
     notificationBucket: ${dis.notification.topic}/messages
+
+  spring:
+    servlet:
+      multipart:
+        enabled: true
+        file-size-threshold: 2000KB
+        max-file-size: 15MB
+        max-request-size: 25MB

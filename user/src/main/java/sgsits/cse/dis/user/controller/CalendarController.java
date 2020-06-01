@@ -1,7 +1,11 @@
 package sgsits.cse.dis.user.controller;
 
+import java.io.IOException;
 import java.rmi.UnknownHostException;
+import java.sql.SQLException;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import com.sun.mail.util.MailConnectException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.multipart.MultipartFile;
+import sgsits.cse.dis.user.dtos.EventDto;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
 import sgsits.cse.dis.user.model.Holiday;
@@ -50,23 +56,25 @@ public class CalendarController {
 		return holidayList;
 	}
 	
-	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json")
-	@PostMapping(path = "/addEvent", produces = "application/json")
-	public Event addEvent(@RequestBody Event event) throws MailConnectException, UnknownHostException {
-		return calenderServiceImpl.addEvent(event);
+	@ApiOperation(value="Add an event", response= Event.class, httpMethod = "POST", produces="application/json", consumes = "multipart/form-data")
+	@PostMapping(path = "/addEvent", produces = "application/json", consumes = "multipart/form-data")
+	public Event addEvent(@RequestPart("event") EventDto event,
+						  @RequestPart("file") MultipartFile[] files) throws IOException, MessagingException, SQLException {
+		return calenderServiceImpl.addEvent(event, files);
 	}
 	
 	@ApiOperation(value="Delete an event", response= Event.class, httpMethod = "DELETE", produces="application/json")
 	@DeleteMapping(path = "/deleteEvent", produces="application/json")
-	public void deleteEvent(@RequestParam(value="eventId")  String eventId) throws EventDoesNotExistException, MailConnectException, UnknownHostException {
+	public void deleteEvent(@RequestParam(value="eventId")  String eventId) throws EventDoesNotExistException, IOException, MessagingException, SQLException {
 		System.out.println(eventId);
 		calenderServiceImpl.deleteEvent(eventId);
 	}
 	
 	@ApiOperation(value="Update an event", response= Event.class, httpMethod = "POST", produces="application/json")
 	@PostMapping(path = "/updateEvent", produces = "application/json")
-	public Event updateEvent(@RequestParam(value="eventId") String eventId,@RequestBody Event event) throws EventDoesNotExistException, MailConnectException, UnknownHostException {
-		return calenderServiceImpl.updateEvent(event,eventId);
+	public Event updateEvent(@RequestParam(value="eventId") String eventId,@RequestPart("event") EventDto event,
+							 @RequestPart("file") MultipartFile[] files) throws EventDoesNotExistException, IOException, MessagingException, SQLException {
+		return calenderServiceImpl.updateEvent(event,eventId, files);
 	}
 	
 }
