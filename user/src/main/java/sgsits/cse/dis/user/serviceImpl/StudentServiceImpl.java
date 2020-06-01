@@ -32,6 +32,14 @@ public class StudentServiceImpl implements StudentService {
                 studentProfileRepo.getStudentProfileUsingUserId(userId));
     }
 
+    @Override
+    public void addOrUpdateStudentBasicProfile(final StudentBasicProfileDto studentBasicProfileDto)
+            throws InternalServerError {
+
+        studentProfileRepo.addOrUpdateStudentProfile(
+                studentServiceMapper.convertStudentBasicProfileDtoIntoModel(studentBasicProfileDto));
+    }
+
 
     @Override
     public List<PgProjectDetailDto> getPgProjectDetails(final String userId) {

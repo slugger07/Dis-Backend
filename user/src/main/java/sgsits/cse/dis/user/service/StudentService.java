@@ -12,6 +12,8 @@ public interface StudentService {
 
     StudentBasicProfileDto getStudentBasicProfile(final String userId) throws InternalServerError;
 
+    void addOrUpdateStudentBasicProfile(final StudentBasicProfileDto studentBasicProfileDto) throws InternalServerError;
+
     List<PgProjectDetailDto> getPgProjectDetails(final String userId);
 
     List<StudentAttendanceDto> getStudentAttendanceRecord(final String userId);

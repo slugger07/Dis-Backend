@@ -104,4 +104,17 @@ public class StaffServiceImpl implements StaffService {
             throw new InternalServerError("couldn't retrieve staff basic profile");
         }
     }
+
+    @Override
+    public void addOrUpdateStaffBasicProfile(final StaffBasicProfileDto StaffBasicProfileDto)
+            throws InternalServerError {
+
+        try {
+            staffBasicProfileRepository.save(staffServiceMapper
+                    .convertStaffBasicProfileDtoIntoStaffBasicProfile(StaffBasicProfileDto));
+        } catch (Exception e) {
+            throw new InternalServerError("Cannot update staff basic profile");
+        }
+
+    }
 }
