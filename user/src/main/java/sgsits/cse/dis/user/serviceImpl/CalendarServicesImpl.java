@@ -28,6 +28,9 @@ public class CalendarServicesImpl implements CalendarServices {
 	private EventRepository eventRepository;
 
 	@Autowired
+	private GroupRepository groupRepository;
+
+	@Autowired
 	private HolidayRepository holidayRepository;
 
 	@Autowired
@@ -128,6 +131,18 @@ public class CalendarServicesImpl implements CalendarServices {
 		List<Holiday> holiday = holidayRepository.findAll();
 		return holiday;
 	}
+
+	@Override
+	public Group addGroup(Group group) {
+		groupRepository.save(group);
+		return group;
+	}
+
+	@Override
+	public List<Group> getMyGroups(String username) {
+		return groupRepository.findByCreatedBy(username);
+	}
+
 
 	@Override
 	public List<Event> getMyEvents(String participantId) {

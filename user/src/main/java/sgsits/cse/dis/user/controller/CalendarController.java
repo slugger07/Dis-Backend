@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sgsits.cse.dis.user.dtos.EventDto;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
+import sgsits.cse.dis.user.model.Group;
 import sgsits.cse.dis.user.model.Holiday;
 import sgsits.cse.dis.user.serviceImpl.CalendarServicesImpl;
 
@@ -76,5 +77,17 @@ public class CalendarController {
 							 @RequestPart("file") MultipartFile[] files) throws EventDoesNotExistException, IOException, MessagingException, SQLException {
 		return calenderServiceImpl.updateEvent(event,eventId, files);
 	}
-	
+
+	@ApiOperation(value="Adding a group", response= Event.class, httpMethod = "POST", produces="application/json")
+	@PostMapping(path = "/addGroup", produces = "application/json")
+	public Group addGroup(@RequestBody Group group){
+		calenderServiceImpl.addGroup(group);
+		return group;
+	}
+
+	@ApiOperation(value="Get all my groups", response= Event.class, httpMethod = "GET", produces="application/json")
+	@PostMapping(path = "/getMyGroup", produces = "application/json")
+	public List<Group> getMyGroup(@RequestParam(value="userName") String userName){
+		return calenderServiceImpl.getMyGroups(userName);
+	}
 }

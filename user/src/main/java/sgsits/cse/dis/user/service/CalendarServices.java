@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sgsits.cse.dis.user.dtos.EventDto;
 import sgsits.cse.dis.user.exception.EventDoesNotExistException;
 import sgsits.cse.dis.user.model.Event;
+import sgsits.cse.dis.user.model.Group;
 import sgsits.cse.dis.user.model.Holiday;
 
 @Component
@@ -26,4 +27,6 @@ public interface CalendarServices {
 	List<Event>  getAllEvents();
 	List<Event> getMyEvents(String participantId);
 	List<Holiday> getPublicHolidays();
+	Group addGroup(Group group);
+	List<Group> getMyGroups(String username);
 }
