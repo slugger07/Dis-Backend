@@ -24,6 +24,7 @@ import sgsits.cse.dis.user.jwt.JwtResolver;
 import sgsits.cse.dis.user.message.request.CreateBatch;
 import sgsits.cse.dis.user.message.response.BatchData;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
+import sgsits.cse.dis.user.model.StudentProfile;
 import sgsits.cse.dis.user.service.GuideAllotmentService;
 
 @CrossOrigin(origins = "*")
@@ -52,5 +53,11 @@ public class GuideAllotmentController {
 	@PutMapping(value = RestAPI.UPDATE_BATCH, produces = "application/json")
 	public ResponseEntity<ResponseMessage> updateBatch(@RequestBody BatchData updatedBatch,HttpServletRequest request) throws ConflictException {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(guideServiceImpl.updateBatch(updatedBatch,jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),HttpStatus.OK);
-	}	
+	}
+	
+	@ApiOperation(value = "Get Remaining Students", response = BatchData.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = RestAPI.GET_REMAINING_STUDENTS, produces = "application/json")
+	public ResponseEntity<List<StudentProfile>> getRemainingStudents(@PathVariable("session") String session,@PathVariable("ugOrPg") String ugOrPg) {
+		return new ResponseEntity<List<StudentProfile>>(guideServiceImpl.getRemainingStudents(session, ugOrPg),HttpStatus.OK);
+	}
 }

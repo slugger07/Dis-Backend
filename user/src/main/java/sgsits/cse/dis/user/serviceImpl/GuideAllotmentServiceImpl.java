@@ -3,8 +3,10 @@ package sgsits.cse.dis.user.serviceImpl;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -94,6 +96,43 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 		return batches;
 	}
 
+	@Override
+	public List<StudentProfile> getRemainingStudents(String session,String ugOrPg) {
+		String courseId = "";
+		int admissionYear;
+		if (ugOrPg.equals("UG"))
+			courseId = "C1";
+		else if (ugOrPg.equals("PG"))
+			courseId = "C2";
+		String[] sessionYears = session.split("-");
+		admissionYear = Integer.parseInt(sessionYears[0]);
+		List<StudentProfile> allStudents = new ArrayList<StudentProfile>();
+		allStudents = studRepo.findByCourseIdAndAdmissionYear(courseId, admissionYear);
+		
+		List<StudentProfile> allSelectedStudents = new ArrayList<StudentProfile>();
+
+		List<BatchData> batches = getAllBatches(session, ugOrPg);
+		for(BatchData batch : batches)
+		{
+			allSelectedStudents.addAll(batch.getStudents());
+		}
+		Set<StudentProfile> allSelectedStudentsSet = new HashSet<StudentProfile>(allSelectedStudents);
+		allSelectedStudents = new ArrayList<StudentProfile>(allSelectedStudentsSet);
+		
+		if (allSelectedStudents.isEmpty())
+		{
+			return allStudents;
+		}
+		else
+		{
+			List<StudentProfile> allRemainingStudents = allStudents;
+			allRemainingStudents.removeAll(allSelectedStudents);
+			return allRemainingStudents;
+		}
+	}
+	
+	
+	
 	
 	@Override
 	public String createBatch(CreateBatch createBatch,String createdBy) throws ConflictException,DataIntegrityViolationException{

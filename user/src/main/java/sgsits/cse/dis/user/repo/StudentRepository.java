@@ -22,4 +22,5 @@ public interface StudentRepository extends JpaRepository<StudentProfile, String>
 	Optional<StudentProfile> findByEnrollmentIdAndMobileNoAndDob(String username, long mobileNo, Date dob);
 	Optional<StudentProfile> findByMobileNo(long mobileNo);
 	List<StudentProfile> findAllById(Iterable<String> ids);
+	List<StudentProfile> findByCourseIdAndAdmissionYear(String courseId, int admissionYear);
 }
