@@ -11,6 +11,10 @@ public class BatchData {
 	private StaffProfile guide,coguide;
 	private String session,ugOrPg,batchId;
 	
+	public BatchData() {
+		
+	}
+	
 	public BatchData(List<StudentProfile> students, StaffProfile guide, StaffProfile coguide, String session,String ugOrPg,String batchId) {
 		super();
 		this.students = students;

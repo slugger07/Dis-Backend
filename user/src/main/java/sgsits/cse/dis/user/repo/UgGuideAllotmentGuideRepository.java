@@ -11,6 +11,9 @@ import sgsits.cse.dis.user.model.UgGuideAllotmentGuide;
 public interface UgGuideAllotmentGuideRepository extends JpaRepository<UgGuideAllotmentGuide, String> {
 	List<UgGuideAllotmentGuide> findBySession(String session);
 	List<UgGuideAllotmentGuide> findByBatchIdAndSession(String batchId, String session);
+	List<UgGuideAllotmentGuide> findByGuideId(String guideId);
+	List<UgGuideAllotmentGuide> findByCoGuideId(String coGuideId);
+	
 	
 	@Query(value = "UPDATE ug_guide_allotment_guide_details SET guide_id = ?1 where session = ?2 and batch_id = ?3 ",nativeQuery = true)
 	@Modifying

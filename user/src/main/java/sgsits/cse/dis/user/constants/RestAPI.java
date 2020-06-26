@@ -25,4 +25,6 @@ public class RestAPI {
 	public static final String CREATE_BATCH = "/createBatch";
 	public static final String UPDATE_BATCH = "/updateBatch";
 	public static final String GET_REMAINING_STUDENTS = "/getRemainingStudents/{session}/{ugOrPg}";
+	public static final String GET_STUDENTS_BATCH = "/getStudentsBatch/{studentId}/{ugOrPg}";
+	public static final String GET_GUIDES_BATCH = "/getGuidesBatch/{guideId}/{ugOrPg}";
 }

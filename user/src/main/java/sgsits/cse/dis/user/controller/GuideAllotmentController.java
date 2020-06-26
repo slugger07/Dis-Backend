@@ -60,4 +60,16 @@ public class GuideAllotmentController {
 	public ResponseEntity<List<StudentProfile>> getRemainingStudents(@PathVariable("session") String session,@PathVariable("ugOrPg") String ugOrPg) {
 		return new ResponseEntity<List<StudentProfile>>(guideServiceImpl.getRemainingStudents(session, ugOrPg),HttpStatus.OK);
 	}
+	
+	@ApiOperation(value = "Get Student's Batch", response = BatchData.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = RestAPI.GET_STUDENTS_BATCH, produces = "application/json")
+	public ResponseEntity<BatchData> getStudentsBatch(@PathVariable("studentId") String studentId,@PathVariable("ugOrPg") String ugOrPg) {
+		return new ResponseEntity<BatchData>(guideServiceImpl.getStudentsBatch(studentId, ugOrPg),HttpStatus.OK);
+	}	
+	
+	@ApiOperation(value = "Get Guide's Batch", response = BatchData.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(value = RestAPI.GET_GUIDES_BATCH, produces = "application/json")
+	public ResponseEntity<List<BatchData>> getGuidesBatch(@PathVariable("guideId") String guideId,@PathVariable("ugOrPg") String ugOrPg) {
+		return new ResponseEntity<List<BatchData>>(guideServiceImpl.getGuidesBatch(guideId, ugOrPg),HttpStatus.OK);
+	}	
 }

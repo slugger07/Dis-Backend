@@ -56,20 +56,21 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			List<UgGuideAllotmentGuide> guides = ugGuideRepo.findBySession(session);
 			for(UgGuideAllotmentGuide guide : guides)
 			{
-				List<UgGuideAllotmentStudent> currStudents = ugStudentRepo.findByBatchDetailsId(guide.getId());
-				String guideId = guide.getGuideId();
-				String coGuideId = guide.getCoGuideId();
-				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
-				if (guideId != null)
-					currGuide = staffRepo.findById(guideId);
-				if (coGuideId != null)
-					currCoGuide = staffRepo.findById(coGuideId);
-				List<String> ids = new ArrayList<String>();
-				for(UgGuideAllotmentStudent stud : currStudents)
-				{
-					ids.add(stud.getStudentId());
-				}
-				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
+//				List<UgGuideAllotmentStudent> currStudents = ugStudentRepo.findByBatchDetailsId(guide.getId());
+//				String guideId = guide.getGuideId();
+//				String coGuideId = guide.getCoGuideId();
+//				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
+//				if (guideId != null)
+//					currGuide = staffRepo.findById(guideId);
+//				if (coGuideId != null)
+//					currCoGuide = staffRepo.findById(coGuideId);
+//				List<String> ids = new ArrayList<String>();
+//				for(UgGuideAllotmentStudent stud : currStudents)
+//				{
+//					ids.add(stud.getStudentId());
+//				}
+//				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
+				batches.add(formBatchFromUgGuide(guide));
 			}
 		}
 		else if(ugOrPg.equals("PG"))
@@ -77,21 +78,21 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			List<PgGuideAllotmentGuide> guides = pgGuideRepo.findBySession(session);
 			for(PgGuideAllotmentGuide guide : guides)
 			{
-				List<PgGuideAllotmentStudent> currStudents = pgStudentRepo.findByBatchDetailsId(guide.getId());
-				String guideId = guide.getGuideId();
-				String coGuideId = guide.getCoGuideId();
-				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
-				if (guideId != null)
-					currGuide = staffRepo.findById(guideId);
-				if (coGuideId != null)
-					currCoGuide = staffRepo.findById(coGuideId);
-				List<String> ids = new ArrayList<String>();
-				for(PgGuideAllotmentStudent stud : currStudents)
-				{
-					ids.add(stud.getStudentId());
-				}
-				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
-			}			
+//				List<PgGuideAllotmentStudent> currStudents = pgStudentRepo.findByBatchDetailsId(guide.getId());
+//				String guideId = guide.getGuideId();
+//				String coGuideId = guide.getCoGuideId();
+//				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
+//				if (guideId != null)
+//					currGuide = staffRepo.findById(guideId);
+//				if (coGuideId != null)
+//					currCoGuide = staffRepo.findById(coGuideId);
+//				List<String> ids = new ArrayList<String>();
+//				for(PgGuideAllotmentStudent stud : currStudents)
+//				{
+//					ids.add(stud.getStudentId());
+//				}
+//				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
+				batches.add(formBatchFromPgGuide(guide));			}			
 		}
 		return batches;
 	}
@@ -299,5 +300,112 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 		{
 			pgStudentRepo.delete(stud);
 		}
+	}
+
+	// doubt : what to throw in case no batch is found
+	@Override
+	public BatchData getStudentsBatch(String studentId,String ugOrPg) {
+		String batchDetailsId;
+		BatchData batch = null;
+		
+		if(ugOrPg.equals("UG"))
+		{
+			List<UgGuideAllotmentStudent> studs = ugStudentRepo.findByStudentId(studentId);
+			if(studs.isEmpty())
+			{
+				throw new DataIntegrityViolationException("no batch found");
+			}
+			
+			batchDetailsId = studs.get(0).getBatchDetailsId();
+			
+			Optional<UgGuideAllotmentGuide> batchDetails  = ugGuideRepo.findById(batchDetailsId);
+			batch = formBatchFromUgGuide(batchDetails.get());
+		}
+		else if(ugOrPg.equals("PG"))
+		{
+			List<PgGuideAllotmentStudent> studs = pgStudentRepo.findByStudentId(studentId);
+			if(studs.isEmpty())
+			{
+				throw new DataIntegrityViolationException("no batch found");
+			}
+			
+			batchDetailsId = studs.get(0).getBatchDetailsId();
+			
+			Optional<PgGuideAllotmentGuide> batchDetails  = pgGuideRepo.findById(batchDetailsId);
+			batch = formBatchFromPgGuide(batchDetails.get());
+		}
+		return batch;
+	}
+
+	@Override
+	public List<BatchData> getGuidesBatch(String guideId,String ugOrPg) {
+		List<BatchData> batch = new ArrayList<BatchData>();
+		if(ugOrPg.equals("UG"))
+		{
+			List<UgGuideAllotmentGuide> guides = ugGuideRepo.findByGuideId(guideId);
+			List<UgGuideAllotmentGuide> coGuides = ugGuideRepo.findByCoGuideId(guideId);
+			for(UgGuideAllotmentGuide g : guides)
+			{
+				batch.add(formBatchFromUgGuide(g));
+			}
+			for(UgGuideAllotmentGuide g : coGuides)
+			{
+				if(g.getCoGuideId().equals(g.getGuideId())) // handling duplicate insertion
+					continue;
+				batch.add(formBatchFromUgGuide(g));
+			}
+		}
+		else if(ugOrPg.equals("PG"))
+		{
+			List<PgGuideAllotmentGuide> guides = pgGuideRepo.findByGuideId(guideId);
+			List<PgGuideAllotmentGuide> coGuides = pgGuideRepo.findByCoGuideId(guideId);
+			for(PgGuideAllotmentGuide g : guides)
+			{
+				batch.add(formBatchFromPgGuide(g));
+			}
+			for(PgGuideAllotmentGuide g : coGuides)
+			{
+				if(g.getCoGuideId().equals(g.getGuideId())) // handling duplicate insertion
+					continue;
+				batch.add(formBatchFromPgGuide(g));
+			}			
+		}
+		return batch;
+	}
+	
+	BatchData formBatchFromUgGuide(UgGuideAllotmentGuide guide)
+	{
+		List<UgGuideAllotmentStudent> currStudents = ugStudentRepo.findByBatchDetailsId(guide.getId());
+		String guideId = guide.getGuideId();
+		String coGuideId = guide.getCoGuideId();
+		Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
+		if (guideId != null)
+			currGuide = staffRepo.findById(guideId);
+		if (coGuideId != null)
+			currCoGuide = staffRepo.findById(coGuideId);
+		List<String> ids = new ArrayList<String>();
+		for(UgGuideAllotmentStudent stud : currStudents)
+		{
+			ids.add(stud.getStudentId());
+		}
+		return new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),guide.getSession(),"UG",guide.getBatchId());		
+	}
+	
+	BatchData formBatchFromPgGuide(PgGuideAllotmentGuide guide)
+	{
+		List<PgGuideAllotmentStudent> currStudents = pgStudentRepo.findByBatchDetailsId(guide.getId());
+		String guideId = guide.getGuideId();
+		String coGuideId = guide.getCoGuideId();
+		Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
+		if (guideId != null)
+			currGuide = staffRepo.findById(guideId);
+		if (coGuideId != null)
+			currCoGuide = staffRepo.findById(coGuideId);
+		List<String> ids = new ArrayList<String>();
+		for(PgGuideAllotmentStudent stud : currStudents)
+		{
+			ids.add(stud.getStudentId());
+		}
+		return new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),guide.getSession(),"PG",guide.getBatchId());				
 	}
 }

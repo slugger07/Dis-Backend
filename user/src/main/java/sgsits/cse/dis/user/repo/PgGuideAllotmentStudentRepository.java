@@ -9,4 +9,5 @@ import sgsits.cse.dis.user.model.UgGuideAllotmentStudent;
 
 public interface PgGuideAllotmentStudentRepository extends JpaRepository<PgGuideAllotmentStudent, String> {
 	List<PgGuideAllotmentStudent> findByBatchDetailsId(String batchDetailsId);	
+	List<PgGuideAllotmentStudent> findByStudentId(String studentId);
 }
