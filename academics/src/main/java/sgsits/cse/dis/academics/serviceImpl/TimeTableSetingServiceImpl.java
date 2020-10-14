@@ -18,7 +18,7 @@ import sgsits.cse.dis.academics.service.TimeTableSettingServices;
  * @author Arjit Mishra.
  * @version 1.0.
  * @since 25-FEB-2020
- * @throws ConflictException.
+ * @throws ConflictException
  * @inheritDoc
  */
 @Service

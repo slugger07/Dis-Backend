@@ -2,6 +2,7 @@ package sgsits.cse.dis.infrastructure.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javassist.NotFoundException;
@@ -26,6 +27,8 @@ import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
  * @see DataIntegrityViolationException
  * @see MethodArgumentNotValidException
  */
+
+
 public interface InfrastructureService {
 	/**
 	 * @return

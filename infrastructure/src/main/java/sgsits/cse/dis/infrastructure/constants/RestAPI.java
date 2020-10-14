@@ -15,5 +15,20 @@ public class RestAPI {
 	public static final String GET_INFRASTRUCTURE_BY_NAME = "/findInfrastructure/{name}";
 	public static final String GET_FACULTY_ROOMS = "/getRooms";
 	public static final String GET_INFRASTRUCTURE_BY_ID = "/getInfrastructurebyId/{id}";
+	
+	public static final String ADD_NEW_EQUIPMENT_TYPE = "/addNewEquipmentType/{type}";
+	public static final String GET_EQUIPMENT_TYPE_LIST = "/getEquipmentTypeList";
+	public static final String ADD_EQUIPMENT_DETAIL = "/addEquipmentDetail";
+	public static final String DELETE_EQUIPMENT_DETAIL = "/deleteEquipmentDetail/{id}";
+	public static final String GET_EQUIPMENTS_BY_TYPE = "/getEquipmentsByType/{type}";
+	public static final String GET_EQUIPMENTS_BY_LAB = "/getEquipmentsByLab/{lab}";
+	public static final String GET_EQUIPMENTS_BY_LAB_AND_TYPE = "/getEquipmentsByLab/{lab}/{type}";
+	
+	public static final String ADD_STOCK_BILL ="/addStockBill" ;
+	public static final String DELETE_BILL_DETAIL = "/deleteBillDetail/{id}";
+	public static final String GET_STOCK_BILLS = "/getStockBills";
+	public static final String GET_STOCK_BILLS_BY_SUPPLIER_NAME = "/getStockBillsBySupplierName/{name}";
+	public static final String GET_STOCK_BILLS_BY_DATE_OF_PURCHASE = "/getStockBillsByDate/{dateOfPurchase}";
+	public static final String GET_STOCK_BILLS_BETWEEN_DATE_OF_PURCHASE = "/getStockBillsByDate/{dateOfPurchaseStart}/{dateOfPurchaseEnd}";
 
 }

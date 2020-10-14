@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException.Forbidden;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,10 +69,21 @@ public class StaffController {
 		return new ResponseEntity<List<FacultyData>>(staffServiceImpl.getFacultyData(),HttpStatus.OK);
 	}
 	
+//	@ApiOperation(value = "Faculty Data", response = FacultyData.class, httpMethod = "GET", produces = "application/json")
+//	@GetMapping(value = RestAPI.GET_FACULTY_DATA, produces = "application/json")
+//	public ResponseEntity<?> getFacultyData() {
+//		if(false)
+//			return new ResponseEntity<List<FacultyData>>(staffServiceImpl.getFacultyData(),HttpStatus.OK);
+//		else
+//			return new ResponseEntity<ResponseMessage>(new ResponseMessage("Non Working hours "),HttpStatus.FORBIDDEN);
+//	}
+	
 	@ApiOperation(value = "add new member", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(value = RestAPI.ADD_NEW_MEMBER, produces = "application/json")
 	public ResponseEntity<ResponseMessage> addNewStaff(@RequestBody AddNewUser addNewUser,HttpServletRequest request) throws ConflictException {
-		return new ResponseEntity<ResponseMessage>(new ResponseMessage(staffServiceImpl.addNewMember(addNewUser, jwtResolver.getIdFromJwtToken(request.getHeader("Authorization")))),HttpStatus.OK);
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(staffServiceImpl.addNewMember(addNewUser
+																									, jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"))))
+													,HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Find Staff with name", response = FacultyData.class, httpMethod = "GET", produces = "application/json")
