@@ -19,6 +19,7 @@ public interface UserServices {
 	 * @return the boolean
 	 * @throws NotFoundException the not found exception
 	 */
+	String getUserId(String username);
 	boolean existsByUsername(String userName) throws NotFoundException;
 
 	/**

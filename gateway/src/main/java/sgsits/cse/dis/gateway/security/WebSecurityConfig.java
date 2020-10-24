@@ -1,6 +1,5 @@
 package sgsits.cse.dis.gateway.security;
 
-import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -22,10 +21,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.google.common.collect.ImmutableList;
 
 import sgsits.cse.dis.gateway.constants.TaskBasedUrls;
 import sgsits.cse.dis.gateway.security.jwt.JwtAuthEntryPoint;
@@ -84,7 +82,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

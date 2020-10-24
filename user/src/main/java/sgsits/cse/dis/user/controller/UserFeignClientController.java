@@ -1,9 +1,20 @@
 package sgsits.cse.dis.user.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,9 +26,6 @@ import sgsits.cse.dis.user.message.response.FacultyData;
 import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.service.StaffService;
 import sgsits.cse.dis.user.service.UserServices;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 @Api(value = "User Feign Client Controller")
 @RestController
@@ -38,7 +46,13 @@ public class UserFeignClientController {
         this.staffService = staffService;
         this.staffBasicProfileRepository = staffBasicProfileRepository;
     }
-
+    
+	
+	@ApiOperation(value = "get ID for given username", response = String.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = "/getUserId", method = RequestMethod.GET)
+	public String getUserId(@RequestParam("username") String username) {
+		return userServicesImpl.getUserId(username);
+	}
 
     @ApiOperation(value = "Verify username", response = boolean.class, httpMethod = "GET", produces = "application/json")
     @GetMapping(value = "/existsByUsername/{username}")

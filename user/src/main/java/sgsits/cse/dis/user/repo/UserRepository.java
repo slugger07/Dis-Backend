@@ -14,7 +14,7 @@ import sgsits.cse.dis.user.model.User;
  * The interface User repository.
  */
 @Repository("userServiceRepository")
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     /**
      * Gets all users.

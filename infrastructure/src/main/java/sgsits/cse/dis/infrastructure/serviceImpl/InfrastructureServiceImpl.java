@@ -1,6 +1,8 @@
 package sgsits.cse.dis.infrastructure.serviceImpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -23,25 +25,12 @@ import sgsits.cse.dis.infrastructure.repo.FacultyRoomAssociationRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureLocationRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureRepository;
 import sgsits.cse.dis.infrastructure.repo.InfrastructureTypeRepository;
+import sgsits.cse.dis.infrastructure.request.UpdateInfraInchargeDetail;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
+import sgsits.cse.dis.infrastructure.response.InfrastructureInchargeResponse;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
 import sgsits.cse.dis.infrastructure.service.InfrastructureService;
-/**
- * <h1><b>InfrastructureServiceImpl</b> class.</h1>
- * <p>This class contains implementation of all the library services which are defined in the <b>InfrastructureService</b> interface.
- * 
- * @author Arjit Mishra.
- * @version 1.0.
- * @since 2-DEC-2019.
- * @throws ConflictException.
- * @throws NotFoundException.
- * @throws EventDoesNotExistException.
- * @throws DataIntegrityViolationException
- * @throws MethodArgumentNotValidException
- * @see NotFoundException.
- * @see DataIntegrityViolationException
- * @see MethodArgumentNotValidException
- */
+
 @Service("infrastructureService")
 public class InfrastructureServiceImpl implements InfrastructureService {
 	
@@ -78,12 +67,14 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 			.map(infrastructureBriefMapper)
 			.collect(Collectors.toList());
 	}
+	
 	@Override
 	public List<String> getInfrastructureTypeList() {
 		
 		return infrastructureTypeRepository.findAll().stream()
 				.map(temp -> temp.getType()).collect(Collectors.toList());
 	}
+	
 	@Override
 	public String addNewInfrastructureLocation(String location) throws ConflictException {
 	    try{
@@ -133,7 +124,7 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 	
 	@Override
 	public String addNewInfrastructure(Infrastructure infrastructure,String addedBy) throws ConflictException {
-		infrastructure.setCreatedDate(java.time.Clock.systemUTC().instant());
+		infrastructure.setCreatedDate(java.time.Clock.systemUTC().instant().toString());
 		infrastructure.setCreatedBy(addedBy);
 		try{
 			if(infrastructureRepository.save(infrastructure).equals(null)) {
@@ -158,8 +149,8 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 	}
 	
 	@Override
-	public String updateInfrastructure(Infrastructure infrastructure,String addedBy) throws ConflictException {
-		infrastructure.setModifiedDate(java.time.Clock.systemUTC().instant());
+	public String updateInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException {
+		infrastructure.setModifiedDate(java.time.Clock.systemUTC().instant().toString());
 		infrastructure.setModifiedBy(addedBy);
 		try{
 			if(infrastructureRepository.save(infrastructure).equals(null)) {
@@ -183,5 +174,44 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 		return temp;
 		
 	}
+	
+
+	@Override
+	public List<String> findInchargeOf(String id) {
+		List<Infrastructure> infrastructure = infrastructureRepository.findByInchargeOrAssociateInchargeOrStaff(id,id,id);
+		List<String> incharge = new ArrayList<String>();
+		for(Infrastructure infra : infrastructure)
+			incharge.add(infra.getName());
+		return incharge;
+	}
+
+	@Override
+	public List<InfrastructureInchargeResponse> getInfraInchargeDetails() {
+		List<InfrastructureInchargeResponse> details = new ArrayList<>();
+		List<Infrastructure> allInfras = infrastructureRepository.findAll();
+		for(Infrastructure infra : allInfras) {
+			InfrastructureInchargeResponse res = new InfrastructureInchargeResponse();
+			res.setId(infra.getId());
+			res.setLocation(infra.getName());
+			res.setPreviousIncharge(infra.getInchargeName());
+			res.setPreviousInchargeId(infra.getIncharge());
+			details.add(res);
+		}
+		return details;
+	}
+
+	@Override
+	public Infrastructure updateIncharge(UpdateInfraInchargeDetail details, String id) {
+		Optional<Infrastructure> cc = infrastructureRepository.findById(details.getLocationId());
+		if(cc.isPresent()) {
+			cc.get().setInchargeName(details.getInchargeName());
+			cc.get().setIncharge(details.getNewIncharge());
+			cc.get().setModifiedBy(id);
+			cc.get().setModifiedDate((new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")).format(new Date()));
+		}
+		Infrastructure test = infrastructureRepository.save(cc.get());
+		return test;
+	}
+
 	
 }

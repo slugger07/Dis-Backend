@@ -27,3 +27,7 @@ lib/
 /dist/
 /nbdist/
 /.nb-gradle/
+<<<<<<< HEAD
+/.metadata/
+=======
+>>>>>>> f304c7f947232b0563074ade3215d63f8ab63b4a

@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -29,26 +29,13 @@ import sgsits.cse.dis.infrastructure.exception.ConflictException;
 import sgsits.cse.dis.infrastructure.feignClient.UserClient;
 import sgsits.cse.dis.infrastructure.jwt.JwtResolver;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
+import sgsits.cse.dis.infrastructure.request.UpdateInfraInchargeDetail;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
+import sgsits.cse.dis.infrastructure.response.InfrastructureInchargeResponse;
 import sgsits.cse.dis.infrastructure.response.ResponseMessage;
 import sgsits.cse.dis.infrastructure.response.RoomAssociationData;
 import sgsits.cse.dis.infrastructure.service.InfrastructureService;
 
-/**
- * <h1>InfrastructureController</h1> class.
- * <p>This controller exposes infrastructure services as REST end points at default path <b>/infrastucture</b>.
- * @author Arjit Mishra.
- * @version 1.0.
- * @since 27-JAN-2020.
- * @throws ConflictException.
- * @throws NotFoundException.
- * @throws EventDoesNotExistException.
- * @throws DataIntegrityViolationException
- * @throws MethodArgumentNotValidException
- * @see NotFoundException.
- * @see DataIntegrityViolationException
- * @see MethodArgumentNotValidException
- */
 @CrossOrigin(origins = "*")
 @Api(value = "Infrastructure resource controller")
 @RestController
@@ -139,5 +126,30 @@ public class InfrastructureController {
 	@GetMapping(value = RestAPI.GET_FACULTY_ROOMS)
 	public List<RoomAssociationData> getRoomsAndAssociation(){
 		return infrastructureService.getRooms();
+	}
+	
+	@ApiOperation(value = "findIncharge", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_INCHARGES, method = RequestMethod.GET)
+	public List<String> findInchargeOf(@RequestParam("id") String id){
+		return infrastructureService.findInchargeOf(id);
+	}
+	
+	@ApiOperation(value = "getInfraInchargeDetails", response = Object.class, httpMethod = "GET", produces = "application/json")
+	@RequestMapping(value = RestAPI.GET_INFRA_INCHARGE_DETAILS, method = RequestMethod.GET)
+	public List<InfrastructureInchargeResponse> getInfraInchargeDetails(){
+		return infrastructureService.getInfraInchargeDetails();
+	}
+	
+	@ApiOperation(value = "updateInfraInchargeDetails", response = Object.class, httpMethod = "POST", produces = "application/json")
+	@RequestMapping(value = RestAPI.UPDATE_INFRA_INCHARGE_DETAILS, method = RequestMethod.POST)
+	public ResponseEntity<?> updateIncharge(@RequestBody UpdateInfraInchargeDetail details, HttpServletRequest request) {
+		String id = jwtResolver.getIdFromJwtToken(request.getHeader("Authorization"));
+		Infrastructure test = infrastructureService.updateIncharge(details, id);
+		if (test != null)
+			return new ResponseEntity<>(new ResponseMessage("Successfully updated."),
+					HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new ResponseMessage("Error occured. Try again later."),
+					HttpStatus.BAD_REQUEST);
 	}
 }

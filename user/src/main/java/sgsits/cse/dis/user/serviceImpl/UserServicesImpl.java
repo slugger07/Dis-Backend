@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sgsits.cse.dis.user.model.User;
 
 import javassist.NotFoundException;
 import sgsits.cse.dis.user.message.request.SignUpForm;
@@ -22,9 +23,10 @@ import sgsits.cse.dis.user.service.UserServices;
 
 @Component
 public class UserServicesImpl implements UserServices{
-
+	
 	@Autowired
 	private UserRepository userRepository;
+	
 
 	@Autowired
 	private StaffBasicProfileRepository staffBasicProfileRepository;
@@ -116,6 +118,17 @@ public class UserServicesImpl implements UserServices{
 		
 		return activeStaffListResponses;
 	}
+	
+	@Override
+	public String getUserId(String username) {
+		Optional<User> dbUser = userRepository.findByUsername(username);
+		if (dbUser.isPresent()) {
+			User user = dbUser.get();
+			return user.getId();
+		} 
+		return null;
+	}
+
 
 }
 

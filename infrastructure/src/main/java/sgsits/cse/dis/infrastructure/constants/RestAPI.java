@@ -14,5 +14,8 @@ public class RestAPI {
 	public static final String GET_FACULTY_NAME_LIST = "/getFacultyNameList";
 	public static final String GET_INFRASTRUCTURE_BY_NAME = "/findInfrastructure/{name}";
 	public static final String GET_FACULTY_ROOMS = "/getRooms";
+	public static final String GET_INCHARGES = "/findIncharge";
+	public static final String GET_INFRA_INCHARGE_DETAILS = "/getInfraInchargeDetails";
+	public static final String UPDATE_INFRA_INCHARGE_DETAILS = "/updateInfraInchargeDetails";
 
 }
