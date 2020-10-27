@@ -29,21 +29,45 @@ public class ProfilePicture {
 
 	@Column(name = "modified_date")
 	private Date modifiedDate;
-	
+
+	@Column(name = "user_id")
+	private String userId;
+
 	@Column(name = "file_name")
 	private String fileName;
 	
-	@Column(name = "image_path")
-	private String imagePath;
-	
 	@Column(name = "file_type")
 	private String fileType;
-	
-	public ProfilePicture(String fileName, String imagePath, String fileType) {
-		super();
-		this.fileName = fileName;
-		this.imagePath = imagePath;
-		this.fileType = fileType;
+
+	@Column(name = "status")
+	private int status;
+
+	@Column(name = "picByte", length = 1000)
+	private byte[] picByte;
+
+
+	public byte[] getPicByte() {
+		return picByte;
+	}
+
+	public void setPicByte(final byte[] picByte) {
+		this.picByte = picByte;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(final String userId) {
+		this.userId = userId;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(final int status) {
+		this.status = status;
 	}
 
 	public long getId() {
@@ -92,14 +116,6 @@ public class ProfilePicture {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
-
-	public String getImagePath() {
-		return imagePath;
-	}
-
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
 	}
 
 	public String getFileType() {

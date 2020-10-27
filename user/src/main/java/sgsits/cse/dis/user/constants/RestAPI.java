@@ -19,4 +19,5 @@ public class RestAPI {
 	public static final String GET_ASSIGN_TASKS_INFO = "/getAssignTasksInfo";
 	public static final String UPDATE_TASK_STATUS = "/updateTaskStatus/{status}/{id}";
 	public static final String GET_MY_USER_ID = "/getMyUserID";
+	public static final String GET_ALL_USER_ID_AND_NAMES = "/getAllEmployeeNames";
 }

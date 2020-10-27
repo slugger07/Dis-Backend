@@ -1,25 +1,14 @@
 package sgsits.cse.dis.infrastructure.model;
 
-import java.time.Instant;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
-/**
- * <h1><b>Infrastructure</b> class.</h1>
- * <p>This class is model for table <b>infrastructure</b> to act as DAO.
- * This table contains details of infrastructure in the department.
- * @author Arjit Mishra,Devyani Garg.
- * @version 1.0.
- * @since 25-JAN-2020.
- */
 @Entity
 @Table(name = "infrastructure")
 public class Infrastructure {
@@ -36,13 +25,13 @@ public class Infrastructure {
 	private String createdBy;
 	
 	@Column(name = "created_date")
-	private Instant createdDate;
+	private String createdDate;
 	
 	@Column(name = "modified_by")
 	private String modifiedBy;
 	
 	@Column(name = "modified_date")
-	private Instant modifiedDate;
+	private String modifiedDate;
 	
 	@NotBlank(message = "Name cannot be null/empty")
 	@Column(name = "name")
@@ -64,13 +53,25 @@ public class Infrastructure {
 	@Column(name = "incharge")
 	private String incharge;
 	
+	@Column(name = "incharge_name")
+	private String inchargeName; 
+	
+	
+	public String getInchargeName() {
+		return inchargeName;
+	}
+
+	public void setInchargeName(String inchargeName) {
+		this.inchargeName = inchargeName;
+	}
+
 	@Column(name = "associate_incharge")
 	private String associateIncharge;
 	
 	@Column(name = "staff")
 	private String staff;
 	
-	@Column(name = "attendent")
+	@Column(name = "attendant")
 	private String attendant;
 	
 	@Column(name = "no_of_tables")
@@ -104,13 +105,6 @@ public class Infrastructure {
 		this.createdBy = createdBy;
 	}
 
-	public Instant getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Instant createdDate) {
-		this.createdDate = createdDate;
-	}
 
 	public String getModifiedBy() {
 		return modifiedBy;
@@ -120,12 +114,21 @@ public class Infrastructure {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Instant getModifiedDate() {
+	
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Instant modifiedDate) {
-		this.modifiedDate = modifiedDate;
+	public void setModifiedDate(String string) {
+		this.modifiedDate = string;
 	}
 
 	public String getName() {
@@ -240,8 +243,7 @@ public class Infrastructure {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
-		
+	
+	
 
 }

@@ -1,5 +1,6 @@
 package sgsits.cse.dis.academics.controller;
 
+<<<<<<< HEAD
 /**
  * <h1>AcademicsFeignController.</h1>
  * <p>This controller exposes academics services as REST end points at default path <b>/academicsFeignCliemntController</b>.
@@ -8,14 +9,13 @@ package sgsits.cse.dis.academics.controller;
  * @version 1.0.
  * @since 2-DEC-2019.
  */
+=======
+>>>>>>> d3423a0cbc4e05a04761275cd028759f25971a5a
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

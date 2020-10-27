@@ -17,28 +17,27 @@ import sgsits.cse.dis.infrastructure.response.FacultyData;
 
 /**
  * <h1><b>AcademicsClient</b> interface.</h1>
- * <p>This interface contains reference to controller "userFeignClientController" to 
- * ensure communication with <b>user</b> microservice.
+ * <p>
+ * This interface contains reference to controller "userFeignClientController"
+ * to ensure communication with <b>user</b> microservice.
+ * 
  * @author Arjit Mishra.
  * @version 1.0.
  * @since 2-DEC-2019.
  */
 @FeignClient(name = "user")
 public interface UserClient {
-	
-	@RequestMapping(value = "/userFeignClientController/getUserNameById/{userId}", method = RequestMethod.GET)
-	String getUserNameById(@PathVariable String userId);
-	
-	@RequestMapping(value = "/userFeignClientController/getUserNameByIdOptional", method = RequestMethod.POST)
-	String getUserNameByIdOptional(@RequestBody Optional<String> userId);
 
-	@RequestMapping(value = "/userFeignClientController/getUserType", method = RequestMethod.GET)
+	@RequestMapping(value = "/userFeignClientController/getUserNameById/{userId}")
+	String getUserNameById(@PathVariable String userId);
+
+	@RequestMapping(value = "/userFeignClientController/getUserType")
 	String getUserType(String id);
-	
+
 	@ApiOperation(value = "Staff name list", response = FacultyData.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = "/userFeignClientController/getStaffNameList", produces = "application/json")
 	List<FacultyData> getStaffNameList();
-	
+
 	@ApiOperation(value = "Faculty name list", response = FacultyData.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(value = "/userFeignClientController/getFacultyNameList", produces = "application/json")
 	List<FacultyData> getFacultyNameList();
