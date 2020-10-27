@@ -87,6 +87,12 @@ public class InventoryController {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(inventoryService.deleteEquipmentDetailsWithId(id)), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Get all equipment", response = EquipmentDetails.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_ALL_EQUIPMENTS, produces = "application/json")
+	public ResponseEntity<List<EquipmentDetails>> getAllEquipments() throws ConflictException{
+		return new ResponseEntity<List<EquipmentDetails>>(inventoryService.getAllEquipment(), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "Get equipment by type", response = EquipmentDetails.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path = RestAPI.GET_EQUIPMENTS_BY_TYPE, produces = "application/json")
 	public ResponseEntity<List<EquipmentDetails>> getEquipmentsByType(@PathVariable("type") String type) throws ConflictException{

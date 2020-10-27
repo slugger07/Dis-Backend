@@ -35,6 +35,7 @@ public interface InventoryService {
 	public String addEquipmentDetails(EquipmentDetails equipmentDetails, String addedBy) throws ConflictException;
 	public String deleteEquipmentDetailsWithId(String id) throws ConflictException;
 	public List<EquipmentDetails> getEquipmentByType(String type);
+	public List<EquipmentDetails> getAllEquipment();
 	public List<EquipmentDetails> getEquipmentByLab(String lab);
 	public List<EquipmentDetails> getEquipmentByLabAndType(String lab, String type);
 	

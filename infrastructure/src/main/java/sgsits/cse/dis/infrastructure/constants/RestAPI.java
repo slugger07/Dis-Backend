@@ -20,6 +20,7 @@ public class RestAPI {
 	public static final String GET_EQUIPMENT_TYPE_LIST = "/getEquipmentTypeList";
 	public static final String ADD_EQUIPMENT_DETAIL = "/addEquipmentDetail";
 	public static final String DELETE_EQUIPMENT_DETAIL = "/deleteEquipmentDetail/{id}";
+	public static final String GET_ALL_EQUIPMENTS ="/getAllEquipments";
 	public static final String GET_EQUIPMENTS_BY_TYPE = "/getEquipmentsByType/{type}";
 	public static final String GET_EQUIPMENTS_BY_LAB = "/getEquipmentsByLab/{lab}";
 	public static final String GET_EQUIPMENTS_BY_LAB_AND_TYPE = "/getEquipmentsByLab/{lab}/{type}";
@@ -30,5 +31,6 @@ public class RestAPI {
 	public static final String GET_STOCK_BILLS_BY_SUPPLIER_NAME = "/getStockBillsBySupplierName/{name}";
 	public static final String GET_STOCK_BILLS_BY_DATE_OF_PURCHASE = "/getStockBillsByDate/{dateOfPurchase}";
 	public static final String GET_STOCK_BILLS_BETWEEN_DATE_OF_PURCHASE = "/getStockBillsByDate/{dateOfPurchaseStart}/{dateOfPurchaseEnd}";
+
 
 }

@@ -61,6 +61,11 @@ public class InventoryServiceImpl implements InventoryService {
 				throw new ConflictException("Unable to delete equipment");
 			return "Deleted Successfully";
 	}
+	
+	@Override
+	public List<EquipmentDetails> getAllEquipment() {
+		return equipmentDetailsRepository.findAll();
+	}
 
 	@Override
 	public List<EquipmentDetails> getEquipmentByType(String type) {
@@ -114,5 +119,6 @@ public class InventoryServiceImpl implements InventoryService {
 	public List<BillDetails> getStockBillByBetweenDateOfPurchase(Date date1, Date date2) {
 		return billDetailsRepository.findByDateOfPurchaseBetween(date1, date2);
 	}
+
 
 }
