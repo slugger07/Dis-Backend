@@ -75,6 +75,20 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 				.collect(Collectors.toList());
 
 	}
+	
+
+	@Override
+	public List<InfrastructureBrief> getAllInfrastructure() {
+		Function<? super Infrastructure, ? extends InfrastructureBrief> infrastructureBriefMapper = temp -> new InfrastructureBrief(
+				temp.getId(), temp.getName(), temp.getArea(), temp.getNameAcronym(), temp.getLocation(),
+				userClient.getUserNameByIdOptional(Optional.ofNullable(temp.getIncharge())),
+				userClient.getUserNameByIdOptional(Optional.ofNullable(temp.getAssociateIncharge())),
+				userClient.getUserNameByIdOptional(Optional.ofNullable(temp.getStaff())), temp.getAttendant());
+
+		return infrastructureRepository.findAll()
+				.stream().map(infrastructureBriefMapper)
+				.collect(Collectors.toList());
+	}
 
 	@Override
 	public List<InfrastructureBrief> getInfrastructureByType(String type) {
@@ -253,5 +267,6 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 		Infrastructure test = infrastructureRepository.save(cc.get());
 		return test;
 	}
+
 
 }

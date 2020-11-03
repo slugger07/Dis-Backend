@@ -31,7 +31,10 @@ public interface UserClient {
 	@RequestMapping(value = "/userFeignClientController/getUserNameById/{userId}")
 	String getUserNameById(@PathVariable String userId);
 
-	@RequestMapping(value = "/userFeignClientController/getUserType")
+	@RequestMapping(value = "/userFeignClientController/getUserNameByIdOptional", method = RequestMethod.POST)
+	String getUserNameByIdOptional(@RequestBody Optional<String> userId);
+
+	@RequestMapping(value = "/userFeignClientController/getUserType", method = RequestMethod.GET)
 	String getUserType(String id);
 
 	@ApiOperation(value = "Staff name list", response = FacultyData.class, httpMethod = "GET", produces = "application/json")

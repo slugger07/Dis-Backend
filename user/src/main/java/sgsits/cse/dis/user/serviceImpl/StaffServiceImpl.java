@@ -89,6 +89,19 @@ public class StaffServiceImpl implements StaffService {
     public List<Object[]> getAllUsernameAndEmail() {
         return null;
     }
+    
+    @Override
+	public String getNameByIdOptional(Optional<String> userId) {
+		System.out.println("Inside getNameByIdOptional : "+userId.get());	
+		if (!userId.get().equals("null")) {
+			Optional<StaffBasicProfile> temp = staffBasicProfileRepository.findByUserId(userId.get().replace("\"", ""));
+			if(temp.isPresent())
+				return temp.get().getName();
+			return "Not Found";
+			
+		}
+		return "userId is null";
+	}
 
     @Override
     public StaffBasicProfileDto getStaffBasicProfile(String userId) throws InternalServerError {

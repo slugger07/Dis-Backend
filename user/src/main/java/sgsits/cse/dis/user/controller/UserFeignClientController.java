@@ -100,6 +100,12 @@ public class UserFeignClientController {
 
         return new ResponseEntity<>(staffService.getFacultyData(), HttpStatus.OK);
     }
+    
+	@ApiOperation(value = "get user name by id", response = String.class, httpMethod = "POST", produces = "application/json")
+	@RequestMapping(value = "/getUserNameByIdOptional", method = RequestMethod.POST)
+	public ResponseEntity<String> getUserNameByIdOptinal(@RequestBody Optional<String> userId){
+		return  new ResponseEntity<String>(staffService.getNameByIdOptional(userId),HttpStatus.OK);
+	}
 
     @ApiOperation(value = "get user name by id", response = String.class, httpMethod = "GET", produces = "application/json")
     @RequestMapping(value = "/getUserNameById/{userId}")

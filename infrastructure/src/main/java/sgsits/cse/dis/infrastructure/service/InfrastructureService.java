@@ -50,6 +50,12 @@ public interface InfrastructureService {
 	 * @return
 	 */
 	List<InfrastructureBrief> getInfrastructureByType(String type);
+	
+	/**
+	 * @param type
+	 * @return
+	 */
+	List<InfrastructureBrief> getAllInfrastructure();
 
 	/**
 	 * @param type

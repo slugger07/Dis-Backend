@@ -18,8 +18,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "bill_details")
-@Data
-@NoArgsConstructor
 public class BillDetails {
 	@Id
     @GeneratedValue(generator = "UUID")
@@ -83,4 +81,159 @@ public class BillDetails {
 	
 	@Column(name = "status")
 	private String status;
+	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Instant getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Instant createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Instant getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Instant modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public String getNameOfSupplier() {
+		return nameOfSupplier;
+	}
+
+	public void setNameOfSupplier(String nameOfSupplier) {
+		this.nameOfSupplier = nameOfSupplier;
+	}
+
+	public String getAddressOfSupplier() {
+		return addressOfSupplier;
+	}
+
+	public void setAddressOfSupplier(String addressOfSupplier) {
+		this.addressOfSupplier = addressOfSupplier;
+	}
+
+	public String getBillNo() {
+		return billNo;
+	}
+
+	public void setBillNo(String billNo) {
+		this.billNo = billNo;
+	}
+
+	public Date getDateOfPurchase() {
+		return dateOfPurchase;
+	}
+
+	public void setDateOfPurchase(Date dateOfPurchase) {
+		this.dateOfPurchase = dateOfPurchase;
+	}
+
+	public String getItmeName() {
+		return itmeName;
+	}
+
+	public void setItmeName(String itmeName) {
+		this.itmeName = itmeName;
+	}
+
+	public String getSpecifications() {
+		return specifications;
+	}
+
+	public void setSpecifications(String specifications) {
+		this.specifications = specifications;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Double getCgst() {
+		return cgst;
+	}
+
+	public void setCgst(Double cgst) {
+		this.cgst = cgst;
+	}
+
+	public Double getSgst() {
+		return sgst;
+	}
+
+	public void setSgst(Double sgst) {
+		this.sgst = sgst;
+	}
+
+	public Double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Integer getWarrantyPeriod() {
+		return warrantyPeriod;
+	}
+
+	public void setWarrantyPeriod(Integer warrantyPeriod) {
+		this.warrantyPeriod = warrantyPeriod;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
 }

@@ -31,6 +31,7 @@ import sgsits.cse.dis.infrastructure.feignClient.UserClient;
 import sgsits.cse.dis.infrastructure.jwt.JwtResolver;
 import sgsits.cse.dis.infrastructure.model.Infrastructure;
 import sgsits.cse.dis.infrastructure.request.UpdateInfraInchargeDetail;
+import sgsits.cse.dis.infrastructure.response.FacultyNameListResponse;
 import sgsits.cse.dis.infrastructure.response.InfrastructureBrief;
 import sgsits.cse.dis.infrastructure.response.InfrastructureInchargeResponse;
 import sgsits.cse.dis.infrastructure.response.ResponseMessage;
@@ -62,6 +63,13 @@ public class InfrastructureController {
 	@GetMapping(path = RestAPI.GET_INFRASTRUCTURE_BY_TYPE, produces = "application/json")
 	public ResponseEntity<List<InfrastructureBrief>> getInfrastructureByType(@PathVariable("type") String type) {
 		return new ResponseEntity<List<InfrastructureBrief>>(infrastructureService.getInfrastructureByType(type),
+				HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Get All Infrastructure", response = InfrastructureBrief.class, httpMethod = "GET", produces = "application/json")
+	@GetMapping(path = RestAPI.GET_ALL_INFRASTRUCTURE, produces = "application/json")
+	public ResponseEntity<List<InfrastructureBrief>> getAllInfrastructure() {
+		return new ResponseEntity<List<InfrastructureBrief>>(infrastructureService.getAllInfrastructure(),
 				HttpStatus.OK);
 	}
 

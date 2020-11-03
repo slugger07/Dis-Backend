@@ -3,6 +3,7 @@ package sgsits.cse.dis.infrastructure.constants;
 public class RestAPI {
 
 	public static final String GET_LIST_OF_INFRASTRUCTURE_LOCATIONS = "/getListOfInfrastructureLocations";
+	public static final String GET_ALL_INFRASTRUCTURE = "/getAllInfrastructure";
 	public static final String GET_INFRASTRUCTURE_BY_TYPE = "/getInfrastructureByType/{type}";
 	public static final String GET_INFRASTRUCTURE_TYPE = "/getInfrastructureTypeList";
 	public static final String ADD_NEW_INFRASTRUCTURE_LOCATION = "/addNewInfrastructureLocation/{location}";
@@ -35,5 +36,6 @@ public class RestAPI {
 	public static final String GET_INCHARGES = "/findIncharge";
 	public static final String GET_INFRA_INCHARGE_DETAILS = "/getInfraInchargeDetails";
 	public static final String UPDATE_INFRA_INCHARGE_DETAILS = "/updateInfraInchargeDetails";
+
 
 }
