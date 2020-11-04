@@ -53,6 +53,8 @@ import sgsits.cse.dis.infrastructure.service.InfrastructureService;
 
 @Service("infrastructureService")
 public class InfrastructureServiceImpl implements InfrastructureService {
+	
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 	@Autowired
 	private InfrastructureRepository infrastructureRepository;
@@ -158,7 +160,7 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 
 	@Override
 	public String addNewInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException {
-		infrastructure.setCreatedDate(java.time.Clock.systemUTC().instant().toString());
+		infrastructure.setCreatedDate(simpleDateFormat.format(new Date()));
 		infrastructure.setCreatedBy(addedBy);
 		try {
 			if (infrastructureRepository.save(infrastructure).equals(null)) {
