@@ -108,7 +108,7 @@ public class InfrastructureController {
 				HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get new infrastructure", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
+	@ApiOperation(value = "Add new infrastructure", response = ResponseMessage.class, httpMethod = "POST", produces = "application/json")
 	@PostMapping(path = RestAPI.ADD_NEW_INFRASTRUCTURE, produces = "application/json")
 	public ResponseEntity<ResponseMessage> addNewInfrastructure(@RequestBody @Valid Infrastructure infrastructure,
 			HttpServletRequest request) throws ConflictException {

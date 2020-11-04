@@ -31,6 +31,8 @@ public interface StaffService {
 
 	String getNameByIdOptional(Optional<String> userId);
 	
+	public String getNameById(String userId);
+	
 	List<Object[]> getAllEmployeeNamesAndUserId();
 
 	List<Object[]> getAllUsernameAndEmail();

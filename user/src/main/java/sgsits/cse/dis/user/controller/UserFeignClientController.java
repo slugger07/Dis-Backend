@@ -101,7 +101,7 @@ public class UserFeignClientController {
         return new ResponseEntity<>(staffService.getFacultyData(), HttpStatus.OK);
     }
     
-	@ApiOperation(value = "get user name by id", response = String.class, httpMethod = "POST", produces = "application/json")
+	@ApiOperation(value = "get user name by id optional", response = String.class, httpMethod = "POST", produces = "application/json")
 	@RequestMapping(value = "/getUserNameByIdOptional", method = RequestMethod.POST)
 	public ResponseEntity<String> getUserNameByIdOptinal(@RequestBody Optional<String> userId){
 		return  new ResponseEntity<String>(staffService.getNameByIdOptional(userId),HttpStatus.OK);
@@ -110,8 +110,7 @@ public class UserFeignClientController {
     @ApiOperation(value = "get user name by id", response = String.class, httpMethod = "GET", produces = "application/json")
     @RequestMapping(value = "/getUserNameById/{userId}")
     public ResponseEntity<String> getUserNameById(@PathVariable String userId) {
-
-        return new ResponseEntity<>(staffBasicProfileRepository.findByUserId(userId).get().getName(), HttpStatus.OK);
+        return new ResponseEntity<>(staffService.getNameById(userId), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Update user id with email", response = String.class, httpMethod = "PUT", produces = "application/json")

@@ -31,6 +31,17 @@ public class StaffServiceImpl implements StaffService {
     public StaffServiceImpl(StaffBasicProfileRepository staffRepo) {
         this.staffBasicProfileRepository = staffRepo;
     }
+    
+	@Override
+	public String getNameById(String userId) {
+		if (userId.equals(null)) {
+			return "userId is null";
+		}
+		Optional<StaffBasicProfile> temp = staffBasicProfileRepository.findByUserId(userId);
+		if(temp.isPresent())
+			return temp.get().getName();
+		return "Not Found";
+	}
 
     @Override
     public List<FacultyDataDto> getFacultyData() {
