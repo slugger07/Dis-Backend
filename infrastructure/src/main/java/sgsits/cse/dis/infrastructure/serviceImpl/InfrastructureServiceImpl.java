@@ -185,7 +185,7 @@ public class InfrastructureServiceImpl implements InfrastructureService {
 
 	@Override
 	public String updateInfrastructure(Infrastructure infrastructure, String addedBy) throws ConflictException {
-		infrastructure.setModifiedDate(java.time.Clock.systemUTC().instant().toString());
+		infrastructure.setModifiedDate(simpleDateFormat.format(new Date()));
 		infrastructure.setModifiedBy(addedBy);
 		try {
 			if (infrastructureRepository.save(infrastructure).equals(null)) {
