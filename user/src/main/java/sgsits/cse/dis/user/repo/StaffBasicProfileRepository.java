@@ -17,6 +17,7 @@ public interface StaffBasicProfileRepository extends JpaRepository<StaffBasicPro
 	Optional<StaffBasicProfile> findByEmail(String email);
 	Optional<StaffBasicProfile> findByEmployeeId(String employeeId);
 	Optional<StaffBasicProfile> findByUserId(String userId);
+	Optional<StaffBasicProfile> findById(String userId);
 	//@Query(value="SELECT s.name, s.email from staff_basic_profile s where class = 'I' or class = 'II' order by current_designation", nativeQuery=true)
 	List<StaffBasicProfile> findByClasssOrClasssOrderByCurrentDesignation(String classs1, String classs2);
 	boolean existsByEmailAndMobileNoAndDob(String email, long mobileNo, Date dob);

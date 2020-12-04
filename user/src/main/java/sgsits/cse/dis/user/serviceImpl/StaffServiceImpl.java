@@ -105,7 +105,7 @@ public class StaffServiceImpl implements StaffService {
 	public String getNameByIdOptional(Optional<String> userId) {
 		System.out.println("Inside getNameByIdOptional : "+userId.get());	
 		if (!userId.get().equals("null")) {
-			Optional<StaffBasicProfile> temp = staffBasicProfileRepository.findByUserId(userId.get().replace("\"", ""));
+			Optional<StaffBasicProfile> temp = staffBasicProfileRepository.findById(userId.get().replace("\"", ""));
 			if(temp.isPresent())
 				return temp.get().getName();
 			return "Not Found";
