@@ -11,6 +11,7 @@
 	<groupId>sgsits.cse.dis</groupId>
 	<artifactId>academics</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>academics</name>
 	<description>Acdemics Service of DIS</description>
 
@@ -96,6 +97,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>DIS-academics</finalName>
 	</build>
 
 	<repositories>

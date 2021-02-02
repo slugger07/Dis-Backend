@@ -2,6 +2,7 @@ package sgsits.cse.dis.administration.jwt;
 
 import io.jsonwebtoken.Jwts;
 
+
 public class JwtResolver {
 
 	// @Value("${dis.app.jwtSecret}")
@@ -13,16 +14,26 @@ public class JwtResolver {
 		return username;
 	}
 	
-	public long getIdFromJwtToken(String token){
+	public String getIdFromJwtToken(String token){
 		token = getJwt(token);
 		String id = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId();
-		return Integer.parseInt(id);
+		return id;
 	}
 
-	private String getJwt(String authHeader) {
+	public String getJwt(String authHeader) {
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
 			return authHeader.replace("Bearer ", "");
 		}
 		return null;
 	}
+	
+	public String getUserTypeFromJwtToken(String token) {
+		token = getJwt(token);
+		String type = Jwts.parser()
+						  .setSigningKey(jwtSecret)
+						  .parseClaimsJws(token)
+						  .getBody()
+						  .getAudience();
+		return type;
+    }
 }

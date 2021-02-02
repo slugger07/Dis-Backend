@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.model.StudentAttendance;
 
-@Repository("studentAttendanceRepository")
+@Repository()
 public interface StudentAttendanceRepository extends JpaRepository<StudentAttendance, Long>{
 	List<StudentAttendance> findByEnrollmentIdAndSubjectCode(String enrollmentId, String subjectCode);
 	int countByEnrollmentIdAndSubjectCodeAndClassType(String enrollmentId, String subjectCode, char classType);
