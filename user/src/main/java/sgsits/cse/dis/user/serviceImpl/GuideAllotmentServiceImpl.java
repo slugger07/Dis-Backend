@@ -56,20 +56,6 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			List<UgGuideAllotmentGuide> guides = ugGuideRepo.findBySession(session);
 			for(UgGuideAllotmentGuide guide : guides)
 			{
-//				List<UgGuideAllotmentStudent> currStudents = ugStudentRepo.findByBatchDetailsId(guide.getId());
-//				String guideId = guide.getGuideId();
-//				String coGuideId = guide.getCoGuideId();
-//				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
-//				if (guideId != null)
-//					currGuide = staffRepo.findById(guideId);
-//				if (coGuideId != null)
-//					currCoGuide = staffRepo.findById(coGuideId);
-//				List<String> ids = new ArrayList<String>();
-//				for(UgGuideAllotmentStudent stud : currStudents)
-//				{
-//					ids.add(stud.getStudentId());
-//				}
-//				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
 				batches.add(formBatchFromUgGuide(guide));
 			}
 		}
@@ -78,20 +64,6 @@ public class GuideAllotmentServiceImpl implements GuideAllotmentService {
 			List<PgGuideAllotmentGuide> guides = pgGuideRepo.findBySession(session);
 			for(PgGuideAllotmentGuide guide : guides)
 			{
-//				List<PgGuideAllotmentStudent> currStudents = pgStudentRepo.findByBatchDetailsId(guide.getId());
-//				String guideId = guide.getGuideId();
-//				String coGuideId = guide.getCoGuideId();
-//				Optional<StaffProfile> currGuide = Optional.empty(), currCoGuide = Optional.empty();
-//				if (guideId != null)
-//					currGuide = staffRepo.findById(guideId);
-//				if (coGuideId != null)
-//					currCoGuide = staffRepo.findById(coGuideId);
-//				List<String> ids = new ArrayList<String>();
-//				for(PgGuideAllotmentStudent stud : currStudents)
-//				{
-//					ids.add(stud.getStudentId());
-//				}
-//				batches.add(new BatchData(studRepo.findAllById(ids),currGuide.orElse(null),currCoGuide.orElse(null),session,ugOrPg,guide.getBatchId()));
 				batches.add(formBatchFromPgGuide(guide));			}			
 		}
 		return batches;
