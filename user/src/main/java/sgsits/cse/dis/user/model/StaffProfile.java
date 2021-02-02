@@ -9,29 +9,43 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * <h1><b>StaffBasicProfile</b> class.</h1>
+ * <p>This class is model for table <b>staff_basic_profile</b> to act as DAO.
+ * This table contains basic profile for newly added member in the DIS and now can successfully signup on the system.
+ * @author Arjit Mishra.
+ * @version 1.0.
+ * @since 4-JAN-2020.
+ */
 @Entity
 @Table(name = "staff_basic_profile")
 public class StaffProfile {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
-	private long id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", nullable = false, unique = true)
+    private String id;
 
 	@Column(name = "created_by")
-	private Long createdBy;
+	private String createdBy;
 
 	@Column(name = "created_date")
-	private Date createdDate;
+	private String createdDate;
 
 	@Column(name = "modified_by")
-	private Long modifiedBy;
+	private String modifiedBy;
 
 	@Column(name = "modified_date")
-	private Date modifiedDate;
+	private String modifiedDate;
 	
 	@Column(name = "user_id")
-	private Long userId;
+	private String userId;
 	
 	@Column(name = "employee_id", unique = true)
 	private String employeeId;
@@ -55,7 +69,7 @@ public class StaffProfile {
 	private String email;
 	
 	@Column(name = "dob")
-	private Date dob;
+	private String dob;
 	
 	@Column(name = "pan_number")
 	private String panNumber;
@@ -82,56 +96,81 @@ public class StaffProfile {
 	private Long alternateMobileNo;
 	
 	@Column(name = "joining_date")
-	private Date joiningDate;
+	private String joiningDate;
 	
 	@Column(name = "area_of_specialization")
 	private String areaOfSpecialization;
+	
+	
 
-	public long getId() {
+	public StaffProfile() {
+		super();
+	}
+
+
+
+	public StaffProfile(String createdBy, String createdDate,String employeeId,String name, String currentDesignation, String classs,
+			String type, String email, String dob, Long mobileNo, String joiningDate) {
+		super();
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+		this.employeeId = employeeId;
+		this.name = name;
+		this.currentDesignation = currentDesignation;
+		this.classs = classs;
+		this.type = type;
+		this.email = email;
+		this.dob = dob;
+		this.mobileNo = mobileNo;
+		this.joiningDate = joiningDate;
+	}
+
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Long getCreatedBy() {
+	public String getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public Date getCreatedDate() {
+	public String getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(String createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public Long getModifiedBy() {
+	public String getModifiedBy() {
 		return modifiedBy;
 	}
 
-	public void setModifiedBy(Long modifiedBy) {
+	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
-	public Date getModifiedDate() {
+	public String getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(Date modifiedDate) {
+	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -191,11 +230,11 @@ public class StaffProfile {
 		this.email = email;
 	}
 
-	public Date getDob() {
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
 	}
 
@@ -263,11 +302,11 @@ public class StaffProfile {
 		this.alternateMobileNo = alternateMobileNo;
 	}
 
-	public Date getJoiningDate() {
+	public String getJoiningDate() {
 		return joiningDate;
 	}
 
-	public void setJoiningDate(Date joiningDate) {
+	public void setJoiningDate(String joiningDate) {
 		this.joiningDate = joiningDate;
 	}
 

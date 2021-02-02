@@ -1,102 +1,89 @@
 package sgsits.cse.dis.gateway.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.sun.mail.util.MailConnectException;
 
 import sgsits.cse.dis.gateway.message.request.LoginForm;
 import sgsits.cse.dis.gateway.message.request.SignUpForm;
 import sgsits.cse.dis.gateway.message.response.JwtResponse;
 import sgsits.cse.dis.gateway.message.response.ResponseMessage;
-import sgsits.cse.dis.gateway.model.User;
-import sgsits.cse.dis.gateway.repo.TaskRepository;
-import sgsits.cse.dis.gateway.repo.UserRepository;
-import sgsits.cse.dis.gateway.security.jwt.JwtProvider;
-import sgsits.cse.dis.gateway.service.UserPrinciple;
+import sgsits.cse.dis.gateway.serviceImpl.UserDetailsServiceImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+import java.rmi.UnknownHostException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Map;
+
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/dis")
 public class AuthRestAPIs {
 
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private UserDetailsServiceImpl UserDetails;
 
-	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	TaskRepository taskRepository;
-
-	@Autowired
-	PasswordEncoder encoder;
-
-	@Autowired
-	JwtProvider jwtProvider;
-
-	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
-
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		String jwt = jwtProvider.generateJwtToken(authentication);
-		//UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-		return ResponseEntity.ok(new JwtResponse(jwt, userPrincipal.getUsername(), userPrincipal.getAuthorities()));
+	@ApiOperation(value="Sign in", response= JwtResponse.class, httpMethod = "POST", produces="application/json")
+	@PostMapping(path = "/signin", produces = "application/json")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) throws NotFoundException {
+		return UserDetails.authenticateUser(loginRequest);
 	}
 
+	@ApiOperation(value="Sign Up", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return new ResponseEntity<>(new ResponseMessage("Fail -> Username is already taken!"),
-					HttpStatus.BAD_REQUEST);
-		}
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return new ResponseEntity<>(new ResponseMessage("Fail -> Email is already in use!"),
-					HttpStatus.BAD_REQUEST);
-		}
-		if (userRepository.existsByMobileNo(signUpRequest.getMobileNo())) {
-			return new ResponseEntity<>(new ResponseMessage("Fail -> Mobile Number is already in use!"),
-					HttpStatus.BAD_REQUEST);
-		}
-
-		// Creating user's account
-		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),signUpRequest.getDob(),signUpRequest.getMobileNo(),
-				encoder.encode(signUpRequest.getPassword()));
-
-		user.setCreatedBy(signUpRequest.getUsername());
-		//user.setCreatedDate();
-		//user.setUserType("student");
-		
-		userRepository.save(user);
-
-		return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
+	public ResponseEntity<ResponseMessage> registerUser(@Valid @RequestBody SignUpForm signUpRequest, HttpServletRequest request,Errors error) throws SQLException, MailConnectException, UnknownHostException {
+//		if (error.hasErrors())
+//			throw 
+		return UserDetails.registerUser(signUpRequest, request);
 	}
-	
+
+	@ApiOperation(value="pre activation", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
+	@RequestMapping(value = "/preActivation", method = RequestMethod.POST)
+	public ResponseEntity<ResponseMessage> preActivation(@RequestParam("email") String recepientemail, HttpServletRequest request) throws MailConnectException, UnknownHostException {
+		return UserDetails.preActivation(recepientemail, request);
+	}
+
+	@ApiOperation(value="activation", response= ModelAndView.class, httpMethod = "GET", produces="application/json")
+	@RequestMapping(value = "/activation", method = RequestMethod.GET)
+	public ModelAndView activateAccount(@RequestParam("token") String token) throws ParseException {
+		return UserDetails.activateAccount(token);
+	}
+
+	@ApiOperation(value="Forget password", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
+	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+	public ResponseEntity<ResponseMessage> forgotPassword(@RequestParam("email") String recepientemail, HttpServletRequest request) throws MailConnectException, UnknownHostException {
+		return UserDetails.forgotPassword(recepientemail,request);
+	}
+
+	@ApiOperation(value="Reset password", response= ModelAndView.class, httpMethod = "GET", produces="application/json")
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+	public ModelAndView displayResetPasswordPage(@RequestParam("resetToken") String token) throws ParseException {
+		return UserDetails.displayResetPasswordPage(token);
+	}
+
+	@ApiOperation(value="processing reset password", response= ResponseMessage.class, httpMethod = "POST", produces="application/json")
+	@RequestMapping(value = "/processResetPassword", method = RequestMethod.POST)
+	public ResponseEntity<ResponseMessage> setNewPassword(@RequestBody Map<String, String> requestParams, RedirectAttributes redir, HttpServletResponse response) {
+		return UserDetails.setNewPassword(requestParams, redir, response);
+	}
+
+	@ApiOperation(value="Get user type", response= String.class, httpMethod = "GET", produces="application/json")
 	@GetMapping("/getUserType")
-	public String getuserType(HttpServletRequest request)
-	{
-		String authHeader = request.getHeader("Authorization");
-		if (authHeader != null && authHeader.startsWith("Bearer ")) {
-			return jwtProvider.getUserTypeFromJwtToken(authHeader.replace("Bearer ", ""));
-		}
-		return null;
+	public String getuserType(HttpServletRequest request) {
+		return UserDetails.getuserType(request);
 	}
 }

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class UserPrinciple implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 
     private String username;
 
@@ -34,7 +34,7 @@ public class UserPrinciple implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrinciple(Long id, String username, String email, Date dob, long mobileNo, String userType, String password, 
+    public UserPrinciple(String id, String username, String email, Date dob, long mobileNo, String userType, String password, 
 			    		Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -50,7 +50,7 @@ public class UserPrinciple implements UserDetails {
         List<GrantedAuthority> authorities = user.getTasks().stream().map(task ->
                 new SimpleGrantedAuthority(task.getName())
         ).collect(Collectors.toList());
-
+        authorities.add(new SimpleGrantedAuthority(user.getUserType()));
         return new UserPrinciple(
                 user.getId(),              
                 user.getUsername(),

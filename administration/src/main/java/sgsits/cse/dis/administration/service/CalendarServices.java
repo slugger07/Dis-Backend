@@ -12,7 +12,7 @@ public interface CalendarServices {
 	void addEvent(Event event);
 	void updateEvent(Event event) throws EventDoesNotExistException;
 	void deleteEvent(Event event) throws EventDoesNotExistException;
-	Event getEvent(Long eventId);
+	Event getEvent(String eventId);
 	List<Event>  getAllEvents();
 	List<Event> getStaffEvents(String participantId);
 	List<Event> getStudentEvents(String participantId);

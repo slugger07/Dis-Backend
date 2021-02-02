@@ -5,18 +5,23 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "event")
 public class Event {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
-	private long id;
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(
+			name="UUID",
+			strategy="org.hibernate.id.UUIDGenerator"
+		)
+	@Column(name = "event_id", nullable = false, unique = true)
+	private String eventId;
 	
 	@Column(name = "created_by", nullable = false)
 	private Long createdBy;
@@ -30,11 +35,10 @@ public class Event {
 	@Column(name = "modified_date")
 	private String modifiedDate;
 	
-	@Column(name = "event_id", nullable = false, unique = true)
-	private Long eventId;
 	
 	@Column(name = "title", nullable = false)
 	private String title;
+	
 	
 	@Column(name = "description")
 	private String description;
@@ -53,14 +57,6 @@ public class Event {
 	
 	
 	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public Long getCreatedBy() {
 		return createdBy;
 	}
@@ -93,11 +89,11 @@ public class Event {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Long getEventId() {
+	public String getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(Long eventId) {
+	public void setEventId(String eventId) {
 		this.eventId = eventId;
 	}
 

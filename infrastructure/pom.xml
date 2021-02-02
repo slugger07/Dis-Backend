@@ -12,6 +12,7 @@
 	<artifactId>infrastructure</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>infrastructure</name>
+	<packaging>jar</packaging>
 	<description>Infrastructure Service of DIS</description>
 
 	<properties>
@@ -75,7 +76,12 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.0</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+            <version>2.1.0.RC2</version>
+        </dependency>
+    </dependencies>
 
 	<dependencyManagement>
 		<dependencies>
@@ -96,6 +102,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>DIS-infrastructure</finalName>
 	</build>
 
 	<repositories>
