@@ -2,19 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/gateway/src/main/main.iml" filepath="$PROJECT_DIR$/gateway/src/main/main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/academics/src/main/main1.iml" filepath="$PROJECT_DIR$/academics/src/main/main1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/infrastructure/src/main/main2.iml" filepath="$PROJECT_DIR$/infrastructure/src/main/main2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/eureka-server/src/main/main3.iml" filepath="$PROJECT_DIR$/eureka-server/src/main/main3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/user/src/main/main4.iml" filepath="$PROJECT_DIR$/user/src/main/main4.iml" />
-      <module fileurl="file://$PROJECT_DIR$/administration/src/main/main5.iml" filepath="$PROJECT_DIR$/administration/src/main/main5.iml" />
-      <module fileurl="file://$PROJECT_DIR$/moodle/moodle.iml" filepath="$PROJECT_DIR$/moodle/moodle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/academics/src/test/test.iml" filepath="$PROJECT_DIR$/academics/src/test/test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/user/src/test/test1.iml" filepath="$PROJECT_DIR$/user/src/test/test1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/infrastructure/src/test/test2.iml" filepath="$PROJECT_DIR$/infrastructure/src/test/test2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/administration/src/test/test3.iml" filepath="$PROJECT_DIR$/administration/src/test/test3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gateway/src/test/test4.iml" filepath="$PROJECT_DIR$/gateway/src/test/test4.iml" />
-      <module fileurl="file://$PROJECT_DIR$/eureka-server/src/test/test5.iml" filepath="$PROJECT_DIR$/eureka-server/src/test/test5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/academics/academics.iml" filepath="$PROJECT_DIR$/academics/academics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/administration/administration.iml" filepath="$PROJECT_DIR$/administration/administration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/infrastructure/infrastructure.iml" filepath="$PROJECT_DIR$/infrastructure/infrastructure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />
     </modules>
   </component>
 </project>

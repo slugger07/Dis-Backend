@@ -1,10 +1,15 @@
 package sgsits.cse.dis.user.message.request;
+
+import java.sql.Date;
+
+
 /**
  * <h1>AddNewUser</h1>class.
  * This class is pojo form for converting json and mapping into this java object
  * @author Arjit Mishra
  * @since 27-JAN-2020
  */
+
 public class AddNewUser {
 	private String employeeId;
 	private String name;
@@ -13,7 +18,7 @@ public class AddNewUser {
 	private String type;
 	private String joiningDate;
 	private String email;
-	private String dob;
+	private Date dob;
 	private Long mobileNo;
 	
 	
@@ -59,10 +64,10 @@ public class AddNewUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getDob() {
+	public Date getDob() {
 		return dob;
 	}
-	public void setDob(String dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 	public Long getMobileNo() {

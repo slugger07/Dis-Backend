@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.model.UserQualification;
 
-@Repository("userQualificationRepository")
+@Repository()
 public interface UserQualificationRepository extends JpaRepository<UserQualification, Long>{
 	
-	List<UserQualification> findByUserId(Long id); 
+	List<UserQualification> findByUserId(String id);
 
 }

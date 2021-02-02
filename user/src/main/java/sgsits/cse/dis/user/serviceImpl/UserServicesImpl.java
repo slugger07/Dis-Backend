@@ -7,44 +7,29 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import sgsits.cse.dis.user.model.User;
 
 import javassist.NotFoundException;
 import sgsits.cse.dis.user.message.request.SignUpForm;
 import sgsits.cse.dis.user.message.response.ActiveStaffListResponse;
-import sgsits.cse.dis.user.model.StaffProfile;
+import sgsits.cse.dis.user.model.StaffBasicProfile;
 import sgsits.cse.dis.user.model.StudentProfile;
 import sgsits.cse.dis.user.model.User;
-import sgsits.cse.dis.user.repo.StaffRepository;
+import sgsits.cse.dis.user.repo.StaffBasicProfileRepository;
 import sgsits.cse.dis.user.repo.StudentRepository;
 import sgsits.cse.dis.user.repo.UserRepository;
 import sgsits.cse.dis.user.service.UserServices;
-/**
- * <h1><b>UserServicesImpl</b> class.</h1>
- * <p>This class contains implementation of all the library services which are defined in the <b>UserServices</b> interface.
- * 
- * @author Arjit Mishra.
- * @version 1.0.
- * @since 2-DEC-2019.
- * @throws ConflictException.
- * @throws NotFoundException.
- * @throws EventDoesNotExistException.
- * @throws DataIntegrityViolationException
- * @throws MethodArgumentNotValidException
- * @see NotFoundException.
- * @see DataIntegrityViolationException
- * @see MethodArgumentNotValidException
- */
+
 @Component
 public class UserServicesImpl implements UserServices{
-
+	
 	@Autowired
 	private UserRepository userRepository;
+	
 
 	@Autowired
-	private StaffRepository staffRepository;
+	private StaffBasicProfileRepository staffBasicProfileRepository;
 
 	@Autowired
 	private StudentRepository studentRepository;
@@ -61,8 +46,8 @@ public class UserServicesImpl implements UserServices{
 	public boolean findUser(SignUpForm signup)
 	{
 		boolean exist = false;
-		exist = staffRepository.existsByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
-		if(exist == false)
+		exist = staffBasicProfileRepository.existsByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
+		if(!exist)
 		{
 			exist = studentRepository.existsByEnrollmentIdAndMobileNoAndDob(signup.getUsername(),signup.getMobileNo(),signup.getDob());
 		}
@@ -73,7 +58,7 @@ public class UserServicesImpl implements UserServices{
 	public String findUserType(SignUpForm signup)
 	{
 		String type = null;
-		Optional<StaffProfile> staff = staffRepository.findByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
+		Optional<StaffBasicProfile> staff = staffBasicProfileRepository.findByEmailAndMobileNoAndDob(signup.getEmail(),signup.getMobileNo(),signup.getDob());
 		if(staff.isPresent()){
 			if(staff.get().getClasss().equals("I") || staff.get().getClasss().equals("II")){
 				type = "faculty";
@@ -109,12 +94,12 @@ public class UserServicesImpl implements UserServices{
 			return true;
 		}
 		else {
-			Optional<StaffProfile> staff = staffRepository.findByMobileNo(mobileNo);
+			Optional<StaffBasicProfile> staff = staffBasicProfileRepository.findByMobileNo(mobileNo);
 			staff.get().setUserId(user.get().getId());
 			staff.get().setEmail(user.get().getEmail());
 			staff.get().setModifiedBy(user.get().getId());
 			staff.get().setModifiedDate(simpleDateFormat.format(new Date()));
-			staffRepository.save(staff.get());
+			staffBasicProfileRepository.save(staff.get());
 			return true;
 		}
 	}
@@ -127,12 +112,23 @@ public class UserServicesImpl implements UserServices{
 		List<ActiveStaffListResponse> activeStaffListResponses = new ArrayList<ActiveStaffListResponse>();
 		for(User user : users) {	
 			activeStaffListResponses.add(new ActiveStaffListResponse(user.getId(),
-					staffRepository.findByEmail(user.getEmail()).get().getName(),
+					staffBasicProfileRepository.findByEmail(user.getEmail()).get().getName(),
 					user.getEmail()));
 		}
 		
 		return activeStaffListResponses;
 	}
+	
+	@Override
+	public String getUserId(String username) {
+		Optional<User> dbUser = userRepository.findByUsername(username);
+		if (dbUser.isPresent()) {
+			User user = dbUser.get();
+			return user.getId();
+		} 
+		return null;
+	}
+
 
 }
 

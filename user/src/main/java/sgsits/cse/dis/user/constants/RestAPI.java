@@ -19,6 +19,7 @@ public class RestAPI {
 	public static final String GET_ASSIGN_TASKS_INFO = "/getAssignTasksInfo";
 	public static final String UPDATE_TASK_STATUS = "/updateTaskStatus/{status}/{id}";
 	public static final String GET_MY_USER_ID = "/getMyUserID";
+<<<<<<< HEAD
 	
 	//Guide Allotment data
 	public static final String GET_ALL_BATCHES = "/getAllBatches/{session}/{ugOrPg}";
@@ -27,4 +28,7 @@ public class RestAPI {
 	public static final String GET_REMAINING_STUDENTS = "/getRemainingStudents/{session}/{ugOrPg}";
 	public static final String GET_STUDENTS_BATCH = "/getStudentsBatch/{studentId}/{ugOrPg}";
 	public static final String GET_GUIDES_BATCH = "/getGuidesBatch/{guideId}/{ugOrPg}";
+=======
+	public static final String GET_ALL_USER_ID_AND_NAMES = "/getAllEmployeeNames";
+>>>>>>> bb50d08a61b08900356dc6fdc8e27fce296f2185
 }

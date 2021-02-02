@@ -5,19 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,21 +25,7 @@ import sgsits.cse.dis.user.message.response.TaskCategoryResponse;
 import sgsits.cse.dis.user.service.TaskService;
 import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 
-/**
- * <h1>TaskController</h1> class
- * <p>This controller exposes task services as REST end points at default path <b>/task</b>.
- * @author Arjit Mishra.
- * @version 1.0.
- * @since 2-DEC-2019.
- * @throws ConflictException.
- * @throws NotFoundException.
- * @throws EventDoesNotExistException.
- * @throws DataIntegrityViolationException
- * @throws MethodArgumentNotValidException
- * @see NotFoundException.
- * @see DataIntegrityViolationException
- * @see MethodArgumentNotValidException
- */
+
 @CrossOrigin(origins = "*")
 @Api(value = "Task controller")
 @RestController
@@ -56,13 +33,17 @@ import sgsits.cse.dis.user.serviceImpl.UserServicesImpl;
 public class TaskController {
 	
 	private JwtResolver jwtResolver = new JwtResolver();
-	
+
+	private final TaskService taskServiceImpl;
+
+	private final UserServicesImpl userServicesImpl;
+
 	@Autowired
-	private TaskService taskServiceImpl;
-	
-	@Autowired
-	private UserServicesImpl userServicesImpl;
-	
+	public TaskController(TaskService taskServiceImpl, UserServicesImpl userServicesImpl) {
+		this.taskServiceImpl = taskServiceImpl;
+		this.userServicesImpl = userServicesImpl;
+	}
+
 	@ApiOperation(value="Get Tasks list from category id", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_TASKS_FROM_CATEGORY_ID, produces = "application/json")
 	public ResponseEntity<List<CategorySpecificTaskResponse>> getTasksFromCategoryId(@PathVariable("categoryId") String categoryId) throws NotFoundException{
@@ -81,7 +62,7 @@ public class TaskController {
 		return new ResponseEntity<List<ActiveStaffListResponse>>(userServicesImpl.getActiveStaffList(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="get active staff list", response = ResponseMessage.class, httpMethod = "POST", produces = "text/plain")
+	@ApiOperation(value="Assign task", response = ResponseMessage.class, httpMethod = "POST", produces = "text/plain")
 	@PostMapping(path=RestAPI.ASSIGN_TASK, produces = "application/json")
 	public ResponseEntity<ResponseMessage> assignTask(@RequestBody AssignTaskForm assignTaskForm,HttpServletRequest request) throws ConflictException{
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(taskServiceImpl.assignTask(assignTaskForm,
@@ -108,19 +89,13 @@ public class TaskController {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage("Tasks deleted successfully. "),HttpStatus.OK);
 	}
 	
-//	@ApiOperation(value="Get all assign task info", response = CategorySpecificTaskResponse.class, httpMethod = "GET", produces = "application/json")
-//	@GetMapping(path=RestAPI.GET_ASSIGN_TASKS_INFO, produces = "application/json")
-//	public ResponseEntity<List<Object[]>> getAssignTasksInfo() throws NotFoundException{
-//		return new ResponseEntity<List<Object[]>>(taskServiceImpl.getAssignTasksInfo(),HttpStatus.OK);
-//	}
-	
-	@ApiOperation(value="Get all assign task info", response = SearchTaskResponse.class, httpMethod = "GET", produces = "application/json")
+	@ApiOperation(value="Get all assigned task info", response = SearchTaskResponse.class, httpMethod = "GET", produces = "application/json")
 	@GetMapping(path=RestAPI.GET_ASSIGN_TASKS_INFO, produces = "application/json")
 	public ResponseEntity<List<SearchTaskResponse>> getAssignTasksInfo() throws NotFoundException{
 		return new ResponseEntity<List<SearchTaskResponse>>(taskServiceImpl.getAssignTasksInfo(),HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Update task status", response = ResponseMessage.class, httpMethod = "PUT", produces = "text/plain")
+	@ApiOperation(value="Update a task's status", response = ResponseMessage.class, httpMethod = "PUT", produces = "text/plain")
 	@PutMapping(path=RestAPI.UPDATE_TASK_STATUS, produces = "application/json")
 	public ResponseEntity<ResponseMessage> updateTaskStatus(@PathVariable("status") String status,@PathVariable("id")String id ){
 		taskServiceImpl.updateStatus(status, id);

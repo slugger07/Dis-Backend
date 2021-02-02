@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import sgsits.cse.dis.user.model.StudentProfile;
+<<<<<<< HEAD
 /**
  * <h1>StudentRepository</h1> interface.
  * this repository contains Jpafunciton to perform crud operation.
@@ -15,6 +16,11 @@ import sgsits.cse.dis.user.model.StudentProfile;
  */
 @Repository("studentRepository")
 public interface StudentRepository extends JpaRepository<StudentProfile, String>{
+=======
+
+@Repository
+public interface StudentRepository extends JpaRepository<StudentProfile, Long>{
+>>>>>>> bb50d08a61b08900356dc6fdc8e27fce296f2185
 	Optional<StudentProfile> findByEmail(String email);
 	Optional<StudentProfile> findByEnrollmentId(String enrollmentId);
 	Optional<StudentProfile> findByUserId(String id);

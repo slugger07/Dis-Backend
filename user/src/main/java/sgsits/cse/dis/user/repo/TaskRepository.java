@@ -8,13 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import sgsits.cse.dis.user.model.Task;
-/**
- * <h1>TaskRepository</h1> interface.
- * this repository contains Jpafunciton to perform crud operation.
- * @author Arjit Mishra
- * @since 25-JAN-2020
- */
-@Repository("taskRepository")
+
+@Repository
 public interface TaskRepository extends JpaRepository<Task, String>{
 	
 	Task findIdByName(String name);

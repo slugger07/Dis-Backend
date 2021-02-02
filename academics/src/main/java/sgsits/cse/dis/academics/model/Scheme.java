@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * <h1><b>Scheme</b> class.</h1>
  * <p>This class is model for table <b>scheme</b> to act as DAO.
@@ -20,9 +22,12 @@ import javax.persistence.Table;
 public class Scheme {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false, unique = true)
-	private long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name="UUID",
+            strategy="org.hibernate.id.UUIDGenerator"
+    )
+	private String id;
 	
 	@Column(name = "created_by", nullable = false)
 	private String createdBy;
@@ -120,11 +125,11 @@ public class Scheme {
 		this.syllabusPdf = syllabusPdf;
 	}
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

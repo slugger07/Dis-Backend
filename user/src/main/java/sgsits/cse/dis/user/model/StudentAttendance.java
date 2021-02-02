@@ -31,6 +31,9 @@ public class StudentAttendance {
 	@Column(name = "modified_date")
 	private Date modifiedDate;
 
+	@Column(name = "session")
+	private String session;
+
 	@Column(name = "enrollment_id", nullable = false)
 	private String enrollmentId;
 
@@ -43,14 +46,17 @@ public class StudentAttendance {
 	@Column(name = "class_date", nullable = false)
 	private Date classDate;
 	
-	@Column(name = "from", nullable = false)
+	@Column(name = "from_time", nullable = false)
 	private Time from;
 	
-	@Column(name = "to", nullable = false)
+	@Column(name = "to_time", nullable = false)
 	private Time to;
 	
 	@Column(name = "attendance", nullable = false)
-	private char attendance;
+	private Byte attendance;
+
+	@Column(name = "lecture_count", nullable = false)
+	private Byte lectureCount;
 
 	public long getId() {
 		return id;
@@ -140,11 +146,27 @@ public class StudentAttendance {
 		this.to = to;
 	}
 
-	public char getAttendance() {
+	public String getSession() {
+		return session;
+	}
+
+	public void setSession(final String session) {
+		this.session = session;
+	}
+
+	public Byte getAttendance() {
 		return attendance;
 	}
 
-	public void setAttendance(char attendance) {
+	public void setAttendance(final Byte attendance) {
 		this.attendance = attendance;
+	}
+
+	public Byte getLectureCount() {
+		return lectureCount;
+	}
+
+	public void setLectureCount(final Byte lectureCount) {
+		this.lectureCount = lectureCount;
 	}
 }

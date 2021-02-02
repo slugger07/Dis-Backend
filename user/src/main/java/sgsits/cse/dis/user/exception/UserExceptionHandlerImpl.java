@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javassist.NotFoundException;
 import sgsits.cse.dis.user.message.response.ResponseMessage;
+
+import java.util.NoSuchElementException;
+
 /**
  * <h1>UserExceptionHandler</h1> class.
  * This class is exception handler containing handler for different exceptions.
@@ -22,23 +25,39 @@ import sgsits.cse.dis.user.message.response.ResponseMessage;
 @RestControllerAdvice
 public class UserExceptionHandlerImpl {
 
+
 	@ExceptionHandler({NotFoundException.class})
 	@ResponseBody
 	public ResponseEntity<ResponseMessage> eventDoesNotExistException(HttpServletRequest request,Exception e) {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.NOT_FOUND);
 	}
-	
+
+
 	@ExceptionHandler({ConstraintViolationException.class,DataIntegrityViolationException.class})
 	@ResponseBody
 	public ResponseEntity<ResponseMessage> integrityConstraintViolationExistException(HttpServletRequest request,Exception e) {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.BAD_REQUEST);
 	}
-	
+
+
 	@ExceptionHandler({ConflictException.class})
 	@ResponseBody
 	public ResponseEntity<ResponseMessage> conflictException(HttpServletRequest request,Exception e) {
 		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.BAD_REQUEST);
 	}
 
+
+	@ExceptionHandler({InternalServerError.class})
+	@ResponseBody
+	public ResponseEntity<ResponseMessage> internalServerErrorException(HttpServletRequest request,Exception e) {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+
+	@ExceptionHandler({NoSuchElementException.class})
+	@ResponseBody
+	public ResponseEntity<ResponseMessage> noSuchElementException(HttpServletRequest request,Exception e) {
+		return new ResponseEntity<ResponseMessage>(new ResponseMessage(e.getMessage()),HttpStatus.NOT_FOUND);
+	}
 }
 
