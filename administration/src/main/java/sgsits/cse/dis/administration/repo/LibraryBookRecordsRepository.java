@@ -30,7 +30,7 @@ public interface LibraryBookRecordsRepository extends JpaRepository<LibraryBookR
 
 	boolean existsByBookId(String bookId);
 	
-	List<LibraryBookRecords> findByBookIdContaining(String subjectCategory);
+	List<LibraryBookRecords> findByBookIdContaining(String subjectCatedgory);
 	
 	@Query(value = "UPDATE library_book_records SET status =?1 WHERE book_id = ?2", nativeQuery = true)
 	@Modifying

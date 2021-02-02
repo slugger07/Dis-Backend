@@ -47,6 +47,7 @@ public class RestAPI {
 	public static final String GET_PREVIOUS_ISSUES_BY_USERNAME ="/getPreviousIssuesByUsername/{username}";
 	public static final String GET_PREVIOUS_ISSUES_BY_BOOKID ="/getPreviousIssuesByBookId/{bookId}";
 	public static final String GET_PREVIOUS_ISSUES_BY_THESISID ="/getPreviousIssuesByThesisId/{thesisId}";
+
 	
 	public static final String GET_TOTAL_CLEANLINESS_COMPLAINTS = "/getTotalClenalinessComplaints";
 	public static final String GET_TOTAL_LE_COMPLAINTS = "/getTotalLEComplaints";
@@ -64,14 +65,6 @@ public class RestAPI {
 	public static final String GET_RESOLVED_EMRS_COMPLAINTS = "/getResolvedEMRSComplaints";
 	public static final String GET_RESOLVED_TELEPHONE_COMPLAINTS = "/getResolvedTelephoneComplaints";
 	
-<<<<<<< HEAD
-//	RESOURCE REQUEST APIs
-	public static final String ADD_FACULTY_RESOURCE_REQUEST = "/addFacultyResourceRequest";
-	public static final String SHOW_FACULTY_RESOURCE_REQUEST = "/showFacultyResourceRequest/{status}";
-	public static final String SEARCH_FACULTY_RESOURCE_REQUEST_BY_PRIORITY = "/searchFacultyResourceRequestByPriority/{priority}";
-	
-
-=======
 	//My Complaints
 	public static final String GET_MY_CLEANLINESS_COMPLAINTS = "/getMyCleanlinessComplaints";
 	public static final String GET_MY_LE_COMPLAINTS = "/getMyLEComplaints";
@@ -123,5 +116,4 @@ public class RestAPI {
 	public static final String GET_ALL_FACULTY_REQUESTS_RESOLVED = "/getAllResolvedFacultyRequests";
 	public static final String GET_ALL_FACULTY_REQUESTS_UNRESOLVED = "/getAllUnresolvedFacultyRequests";
 	public static final String SET_FACULTY_REQUEST_RESOLVED = "/setFacultyRequestResolved/{id}";
->>>>>>> bb50d08a61b08900356dc6fdc8e27fce296f2185
 }
